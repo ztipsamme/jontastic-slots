@@ -7,8 +7,9 @@
     components: {
       CitiesList,
       CounterButton,
-      HelloWorld
-    }
+      HelloWorld,
+    },
+    data() {},
   }
 </script>
 
