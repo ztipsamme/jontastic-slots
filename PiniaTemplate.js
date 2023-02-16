@@ -1,4 +1,5 @@
-export const useTokenStore = defineStore("tokens", {
+import { defineStore } from 'pinia'
+export const useTokenStore = defineStore('tokens', {
   strict: true,
   state: () => ({
     tokens: 0,
@@ -8,10 +9,10 @@ export const useTokenStore = defineStore("tokens", {
   },
   actions: {
     addTokens(amount) {
-      this.token += amount;
+      this.token += amount
     },
   },
-});
+})
 
 /*
 // För att använda i ViewComponent:
