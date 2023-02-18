@@ -50,13 +50,22 @@
 </script>
 
 <template>
-  <spinner
-    :numbers="checkNumbers()"
-    :play="startGame"
-    :count="count"
-    @stoped="setTo"
-  />
+  <div class="cont">
+    <spinner
+      :numbers="checkNumbers()"
+      :play="startGame"
+      :count="count"
+      @stoped="setTo"
+    />
+  </div>
+
   <button @click="startGame = true">SPELA</button>
 </template>
 
-<style></style>
+<style>
+  .cont {
+    height: 80vh;
+    width: 80vw;
+    display: flex;
+  }
+</style>
