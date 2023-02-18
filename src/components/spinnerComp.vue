@@ -1,5 +1,5 @@
 <script>
-  import { useTokenStore } from '../stores/tokenStore.js'
+  import { useTokenStore } from "../stores/tokenStore.js"
   export default {
     props: {
       numbers: {
@@ -37,7 +37,7 @@
     computed: {
       ang() {
         let c = this.count
-        return (x) => (360 / c + 1) * x + 'deg'
+        return (x) => (360 / c + 1) * x + "deg"
       },
       rad() {
         return Math.round(this.height / 2 / Math.tan(Math.PI / this.count))
@@ -45,16 +45,16 @@
       opt() {
         return (i) => ({
           duration: 5000,
-          fill: 'forwards',
-          easing: 'cubic-bezier(0.42, 0, 0.58, 1)',
+          fill: "forwards",
+          easing: "cubic-bezier(0.42, 0, 0.58, 1)",
           delay: 100 * i,
         })
       },
       rotation() {
         return (from, to) => {
           return [
-            { transform: 'rotateX(' + from + 'deg)' },
-            { transform: 'rotateX(' + to + 'deg)' },
+            { transform: "rotateX(" + from + "deg)" },
+            { transform: "rotateX(" + to + "deg)" },
           ]
         }
       },
@@ -68,7 +68,7 @@
         let refs = [this.$refs.c0, this.$refs.c1, this.$refs.c2]
         refs.forEach(function (e, i) {
           let startAngle =
-            Number(e.getAttribute('data-rot')) * (360 / this.count) * -1
+            Number(e.getAttribute("data-rot")) * (360 / this.count) * -1
           let newNumber = arr[i]
 
           let deg = 1080 + newNumber * (360 / this.count)
@@ -81,7 +81,7 @@
             this.opt(i),
           )
           ani[i] = new Animation(rotani, document.timeline)
-          e.setAttribute('data-rot', arr[i])
+          e.setAttribute("data-rot", arr[i])
         })
         let p = []
         for (let a of ani) {
@@ -159,7 +159,7 @@
     min-height: 100vh;
   }
 
-  div[class*='scene'] {
+  div[class*="scene"] {
     position: relative;
     width: 150px;
     height: 500px;

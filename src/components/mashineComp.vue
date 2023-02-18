@@ -1,5 +1,5 @@
 <script>
-  import { useTokenStore } from '../stores/tokenStore.js'
+  import { useTokenStore } from "../stores/tokenStore.js"
   export default {
     setup() {
       const tokens = useTokenStore()
@@ -24,7 +24,5 @@
 </script>
 
 <template>
-  <div>hejsan</div>
+  <div>Maschine component</div>
 </template>
-
-<style></style>

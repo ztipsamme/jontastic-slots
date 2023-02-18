@@ -1,23 +1,18 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from "vue-router"
 
-import AboutView from '../views/AboutView.vue'
-import StartView from './views/ContactView.vue'
-import GameView from './views/HomeView.vue'
+import StartView from "../views/StartView.vue"
+import GameView from "../views/GameView.vue"
 
 export default createRouter({
   history: createWebHashHistory(),
   routes: [
     {
-      component: AboutView,
-      path: '/about',
-    },
-    {
       component: GameView,
-      path: '/game',
+      path: "/game",
     },
     {
       component: StartView,
-      path: '/',
+      path: "/",
     },
   ],
 })

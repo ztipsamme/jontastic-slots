@@ -2,18 +2,9 @@
 
 ## Bra att ha länkar
 
-### Git-Wiki
-
-[Github-Wiki](https://github.com/ztipsamme/grupprojekt/wiki)
-  - [Product Backlog](https://github.com/ztipsamme/grupprojekt/wiki/Product-Backlog)
-
----
-
-### Git-Project
-
-[Git-Projekt](https://github.com/users/ztipsamme/projects/1)
-
-
+### Git
+  - [Product backlog](https://github.com/ztipsamme/grupprojekt/wiki/Product-Backlog)
+  - [Sprint backlog](https://github.com/users/ztipsamme/projects/1)
 
 ---
 
