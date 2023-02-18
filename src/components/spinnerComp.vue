@@ -1,5 +1,5 @@
 <script>
-  import { useTokenStore } from '../stores/tokenStore.js'
+  import { useTokenStore } from "../stores/tokenStore.js"
   export default {
     emits: { stop: null },
     setup() {
@@ -12,7 +12,7 @@
     computed: {},
     methods: {
       end(val) {
-        this.$emit('stop', val)
+        this.$emit("stop", val)
 
         let size = {
           w: 200,
@@ -25,34 +25,34 @@
           let ang = 360 / count
           return ang * i
         }
-        let card = document.querySelectorAll('.carousel__cell')
-        let cellHeight = document.querySelector('.cells-height')
-        let cellWidth = document.querySelector('.cells-width')
-        let cellRange = document.querySelector('.cells-range')
-        let carousel = document.querySelector('.carousel')
+        let card = document.querySelectorAll(".carousel__cell")
+        let cellHeight = document.querySelector(".cells-height")
+        let cellWidth = document.querySelector(".cells-width")
+        let cellRange = document.querySelector(".cells-range")
+        let carousel = document.querySelector(".carousel")
 
         size = {
           w: cellWidth.value,
           h: cellHeight.value,
         }
 
-        cellRange.addEventListener('input', (e) => {
+        cellRange.addEventListener("input", (e) => {
           count = e.target.value
           setCards()
         })
 
-        cellWidth.addEventListener('input', (e) => {
+        cellWidth.addEventListener("input", (e) => {
           size.w = e.target.value
           card.forEach((e) => {
-            e.style.width = size.w + 'px'
+            e.style.width = size.w + "px"
           })
           setCards()
         })
 
-        cellHeight.addEventListener('input', (e) => {
+        cellHeight.addEventListener("input", (e) => {
           size.h = e.target.value
           card.forEach((e) => {
-            e.style.height = size.h + 'px'
+            e.style.height = size.h + "px"
           })
           setCards()
         })
@@ -64,7 +64,7 @@
           let loop = () => {
             rot = (rot + 45) % 360
             carousel.style.transform =
-              'translateZ(' + -1 * (r / 2) + 'px) rotateY(' + rot + 'deg)'
+              "translateZ(" + -1 * (r / 2) + "px) rotateY(" + rot + "deg)"
             if (stop) {
               return
             }
@@ -77,35 +77,35 @@
           let r
           card.forEach((e, i) => {
             if (i > count) {
-              e.style.display = 'none'
+              e.style.display = "none"
             } else {
-              e.style.display = ''
+              e.style.display = ""
             }
             let a = getAng(count, i)
             r = Math.round(size.w / 2 / Math.tan(Math.PI / count))
 
             e.style.transform = ` rotateY(${a}deg) translateZ(${r}px)`
           })
-          carousel.style.transform = 'translateZ(' + -1 * (r / 2) + 'px)'
+          carousel.style.transform = "translateZ(" + -1 * (r / 2) + "px)"
         }
         setCards()
         let selected = 1
         rotate()
 
         document
-          .querySelector('.previous-button')
-          .addEventListener('click', () => {
+          .querySelector(".previous-button")
+          .addEventListener("click", () => {
             stop = true
           })
 
-        document.querySelector('.next-button').addEventListener('click', () => {
+        document.querySelector(".next-button").addEventListener("click", () => {
           rot =
             (360 / count) * Math.floor(Math.random() * count) +
             360 * Math.floor(Math.random() * 10) +
             10
 
           carousel.style.transform =
-            'translateZ(' + -1 * (r / 2) + 'px) rotateY(' + rot + 'deg)'
+            "translateZ(" + -1 * (r / 2) + "px) rotateY(" + rot + "deg)"
         })
       },
     },

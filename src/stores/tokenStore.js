@@ -1,24 +1,23 @@
 import { defineStore } from "pinia"
-export const useBetStore = defineStore("tokens", {
+export const useTokenStore = defineStore("tokens", {
   strict: true,
-  state: () => {
-    return {
-      enhancements: [], // börja med tom lista av köpfunktioner
-      enhancementTypes: [
-        // vilka typer av köpfunktioner
-        { name: "New Skin", cost: 50 },
-        { name: "Extra Spin", cost: 100 },
-        { name: "Extra Row", cost: 150 },
-      ],
-    }
+  state: () => ({
+    tokens: 100, // börja med 100
+    bestWin: 0, // börja med noll vinster
+    enhancements: [], // börja med tom lista av köpfunktioner
+    enhancementTypes: [
+      // vilka typer av köpfunktioner
+      { name: "New Skin", cost: 50 },
+      { name: "Extra Spin", cost: 100 },
+      { name: "Extra Row", cost: 150 },
+    ],
+  }),
+  getters: {
+    getTokensPlusOne: (state) => state.tokens + 1,
   },
-  getters: {},
   actions: {
-    add(amount) {
-      this.current += amount
-    },
-    remove(amount) {
-      this.current -= amount
+    addTokens(amount) {
+      this.token += amount
     },
   },
 })
@@ -31,7 +30,7 @@ export const useBetStore = defineStore("tokens", {
 
 import {useTokenStore} from .......PiniaTemplate.js
 
-export default {
+default export{
   setup(){
     const tokens = useTokenStore()
     return {tokens}

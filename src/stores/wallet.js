@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
-export const useWalletStore = defineStore('wallet', {
+import { defineStore } from "pinia"
+export const useWalletStore = defineStore("wallet", {
   strict: true,
   state: () => ({
     balance: 100, // börja med 100

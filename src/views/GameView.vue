@@ -1,10 +1,9 @@
-<template><h1>Hem</h1></template>
 <template>
-  <h1>Kontakt</h1>
+  <h1>Game View</h1>
 </template>
 
 <script>
-  import { useTokenStore } from '../stores/tokenStore'
+  import { useTokenStore } from "../stores/tokenStore"
   export default {
     setup() {
       const tokenStore = useTokenStore()

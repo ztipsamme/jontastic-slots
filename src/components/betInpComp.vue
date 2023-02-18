@@ -1,5 +1,6 @@
 <script>
-  import { useTokenStore } from '../stores/tokenStore.js'
+  import { useTokenStore } from "../stores/tokenStore.js"
+
   export default {
     setup() {
       const tokens = useTokenStore()
@@ -13,13 +14,11 @@
       increase(amount) {
         this.tokens.tokens += amount
       },
-      decrease()
+      decrease() {},
     },
   }
 </script>
 
 <template>
-  <div>hejsan</div>
+  <div>Bet input component</div>
 </template>
-
-<style></style>
