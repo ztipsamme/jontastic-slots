@@ -1,111 +1,102 @@
 <script>
   import { useTokenStore } from '../stores/tokenStore.js'
   export default {
+    props: {
+      numbers: {
+        type: Array,
+        default: () => [1, 2, 3],
+      },
+      count: {
+        type: Number,
+        default: () => 5,
+      },
+      play: {
+        type: Boolean,
+        default: () => false,
+      },
+    },
     emits: { stop: null },
     setup() {
       const tokens = useTokenStore()
       return { tokens }
     },
     data() {
-      return {}
+      return {
+        width: 150,
+        height: 225,
+        win: false,
+      }
     },
-    computed: {},
+    watch: {
+      play(oldVal, newVal) {
+        if (newVal) {
+          this.start()
+        }
+      },
+    },
+    computed: {
+      ang() {
+        let c = this.count
+        return (x) => (360 / c + 1) * x + 'deg'
+      },
+      rad() {
+        return Math.round(this.height / 2 / Math.tan(Math.PI / this.count))
+      },
+      opt() {
+        return (i) => ({
+          duration: 5000,
+          fill: 'forwards',
+          easing: 'cubic-bezier(0.42, 0, 0.58, 1)',
+          delay: 100 * i,
+        })
+      },
+      rotation() {
+        return (from, to) => {
+          return [
+            { transform: 'rotateX(' + from + 'deg)' },
+            { transform: 'rotateX(' + to + 'deg)' },
+          ]
+        }
+      },
+      winner() {
+        return this.win
+      },
+    },
     methods: {
-      end(val) {
-        this.$emit('stop', val)
+      spin(arr) {
+        let ani = []
+        let refs = [this.$refs.c0, this.$refs.c1, this.$refs.c2]
+        refs.forEach(function (e, i) {
+          let startAngle =
+            Number(e.getAttribute('data-rot')) * (360 / this.count) * -1
+          let newNumber = arr[i]
 
-        let size = {
-          w: 200,
-          h: 130,
-        }
+          let deg = 1080 + newNumber * (360 / this.count)
 
-        let count
+          console.log(arr[i])
 
-        function getAng(count, i) {
-          let ang = 360 / count
-          return ang * i
-        }
-        let card = document.querySelectorAll('.carousel__cell')
-        let cellHeight = document.querySelector('.cells-height')
-        let cellWidth = document.querySelector('.cells-width')
-        let cellRange = document.querySelector('.cells-range')
-        let carousel = document.querySelector('.carousel')
-
-        size = {
-          w: cellWidth.value,
-          h: cellHeight.value,
-        }
-
-        cellRange.addEventListener('input', (e) => {
-          count = e.target.value
-          setCards()
+          let rotani = new KeyframeEffect(
+            e,
+            this.rotation(startAngle, -deg),
+            this.opt(i),
+          )
+          ani[i] = new Animation(rotani, document.timeline)
+          e.setAttribute('data-rot', arr[i])
         })
-
-        cellWidth.addEventListener('input', (e) => {
-          size.w = e.target.value
-          card.forEach((e) => {
-            e.style.width = size.w + 'px'
-          })
-          setCards()
-        })
-
-        cellHeight.addEventListener('input', (e) => {
-          size.h = e.target.value
-          card.forEach((e) => {
-            e.style.height = size.h + 'px'
-          })
-          setCards()
-        })
-        stop = false
-        count = cellRange.value
-        function rotate() {
-          r = Math.round((size.w / 2 + 10) / Math.tan(Math.PI / count))
-          let rot = 0
-          let loop = () => {
-            rot = (rot + 45) % 360
-            carousel.style.transform =
-              'translateZ(' + -1 * (r / 2) + 'px) rotateY(' + rot + 'deg)'
-            if (stop) {
-              return
-            }
-            setTimeout(loop, 50)
+        let p = []
+        for (let a of ani) {
+          a.play()
+          p.push(a.finished)
+        }
+        return Promise.all(p)
+      },
+      start() {
+        this.win = false
+        this.spin(this.numbers).then((data) => {
+          if (this.numbers.every((e) => e == this.numbers[0])) {
+            console.log(data)
+            this.win = true
           }
-          loop()
-        }
-
-        function setCards() {
-          let r
-          card.forEach((e, i) => {
-            if (i > count) {
-              e.style.display = 'none'
-            } else {
-              e.style.display = ''
-            }
-            let a = getAng(count, i)
-            r = Math.round(size.w / 2 / Math.tan(Math.PI / count))
-
-            e.style.transform = ` rotateY(${a}deg) translateZ(${r}px)`
-          })
-          carousel.style.transform = 'translateZ(' + -1 * (r / 2) + 'px)'
-        }
-        setCards()
-        let selected = 1
-        rotate()
-
-        document
-          .querySelector('.previous-button')
-          .addEventListener('click', () => {
-            stop = true
-          })
-
-        document.querySelector('.next-button').addEventListener('click', () => {
-          rot =
-            (360 / count) * Math.floor(Math.random() * count) +
-            360 * Math.floor(Math.random() * 10) +
-            10
-
-          carousel.style.transform =
-            'translateZ(' + -1 * (r / 2) + 'px) rotateY(' + rot + 'deg)'
         })
       },
     },
@@ -113,89 +104,65 @@
 </script>
 
 <template>
-  <div class="scene">
-    <div class="carousel">
-      <div class="carousel__cell">1</div>
-      <div class="carousel__cell">2</div>
-      <div class="carousel__cell">3</div>
-      <div class="carousel__cell">4</div>
-      <div class="carousel__cell">5</div>
-      <div class="carousel__cell">6</div>
-      <div class="carousel__cell">7</div>
-      <div class="carousel__cell">8</div>
-      <div class="carousel__cell">9</div>
-      <div class="carousel__cell">10</div>
-      <div class="carousel__cell">11</div>
-      <div class="carousel__cell">12</div>
-      <div class="carousel__cell">13</div>
-      <div class="carousel__cell">14</div>
-      <div class="carousel__cell">15</div>
+  <h1 v-if="this.winner">WINNER!!</h1>
+  <div class="scene-0">
+    <div class="carousel" :ref="'c0'">
+      <div
+        class="carousel__cell"
+        v-for="(van, ind) in new Array(count).fill(null)"
+        :key="ind"
+        :style="{
+          width: width + 'px',
+          height: height + 'px',
+          transform: `rotateX(${ang(Number(ind))}) translateZ(${rad}px ) `,
+        }"
+      >
+        {{ ind }}
+      </div>
     </div>
   </div>
 
-  <div class="carousel-options">
-    <p>
-      <label>
-        Width
-        <input
-          class="cells-width"
-          type="range"
-          min="50"
-          max="250"
-          value="125"
-        />
-      </label>
-    </p>
-    <p>
-      <label>
-        Height
-        <input
-          class="cells-height"
-          type="range"
-          min="50"
-          max="150"
-          value="100"
-        />
-      </label>
-    </p>
-    <p>
-      <label>
-        Cells
-        <input class="cells-range" type="range" min="3" max="15" value="9" />
-      </label>
-    </p>
-    <p>
-      <button class="previous-button">Previous</button>
-      <button class="next-button">Next</button>
-    </p>
-    <p>
-      Orientation:
-      <label>
-        <input type="radio" name="orientation" value="horizontal" checked />
-        horizontal
-      </label>
-      <label>
-        <input type="radio" name="orientation" value="vertical" />
-        vertical
-      </label>
-    </p>
+  <div class="scene-1">
+    <div class="carousel" :ref="'c1'">
+      <div
+        class="carousel__cell"
+        v-for="(van, ind) in new Array(count).fill(null)"
+        :key="ind"
+      >
+        {{ ind }}
+      </div>
+    </div>
+  </div>
+
+  <div class="scene-2">
+    <div class="carousel" :ref="'c2'">
+      <div
+        class="carousel__cell"
+        v-for="(van, ind) in new Array(count).fill(null)"
+        :key="ind"
+      >
+        {{ ind }}
+      </div>
+    </div>
   </div>
 </template>
 
 <style>
   body {
     display: flex;
-    flex-flow: column;
+    flex-flow: row;
     justify-content: center;
     align-items: center;
+    gap: 10px;
     margin: 0;
     padding: 0;
     min-height: 100vh;
   }
-  .scene {
+
+  div[class*='scene'] {
     position: relative;
-    width: 500px;
-    height: 130px;
+    width: 150px;
+    height: 500px;
     border: 1px solid black;
     perspective: 2000px;
     overflow: hidden;
@@ -209,20 +176,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 2s ease-in-out;
   }
+
   .carousel__cell {
+    backface-visibility: hidden;
     position: absolute;
-    width: 95%;
-    height: 95%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: hsla(180deg, 50%, 100%, 1);
     font-size: 100px;
-  }
-
-  .carousel__cell:nth-child(1) {
-    transform: rotateY(20deg) translateZ(500px);
   }
 </style>
