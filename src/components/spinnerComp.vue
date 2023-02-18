@@ -25,6 +25,7 @@
         width: 150,
         height: 225,
         win: false,
+        current: [0, 0, 0],
       }
     },
     watch: {
@@ -37,7 +38,7 @@
     computed: {
       ang() {
         let c = this.count
-        return (x) => (360 / c + 1) * x + "deg"
+        return (x) => (360 / c) * x + "deg"
       },
       rad() {
         return Math.round(this.height / 2 / Math.tan(Math.PI / this.count))
@@ -66,22 +67,19 @@
       spin(arr) {
         let ani = []
         let refs = [this.$refs.c0, this.$refs.c1, this.$refs.c2]
-        refs.forEach(function (e, i) {
-          let startAngle =
-            Number(e.getAttribute("data-rot")) * (360 / this.count) * -1
+        refs.forEach((e, i) => {
+          let startAngle = this.current[i] * (360 / this.count) * -1
+
           let newNumber = arr[i]
 
           let deg = 1080 + newNumber * (360 / this.count)
 
           console.log(arr[i])
-
-          let rotani = new KeyframeEffect(
-            e,
-            this.rotation(startAngle, -deg),
-            this.opt(i),
-          )
+          let x = this.rotation(startAngle, -deg)
+          console.log(x)
+          let rotani = new KeyframeEffect(e, x, this.opt(i))
           ani[i] = new Animation(rotani, document.timeline)
-          e.setAttribute("data-rot", arr[i])
+          this.current[i] = arr[i]
         })
         let p = []
         for (let a of ani) {
@@ -90,10 +88,10 @@
         }
         return Promise.all(p)
       },
-      start() {
+      start(num = this.numbers) {
         this.win = false
-        this.spin(this.numbers).then((data) => {
-          if (this.numbers.every((e) => e == this.numbers[0])) {
+        this.spin(num).then((data) => {
+          if (num.every((e) => e == num[0])) {
             console.log(data)
             this.win = true
           }
@@ -106,7 +104,7 @@
 <template>
   <h1 v-if="this.winner">WINNER!!</h1>
   <div class="scene-0">
-    <div class="carousel" :ref="'c0'">
+    <div class="carousel" :ref="'c0'" data-rot="0">
       <div
         class="carousel__cell"
         v-for="(van, ind) in new Array(count).fill(null)"
@@ -123,11 +121,16 @@
   </div>
 
   <div class="scene-1">
-    <div class="carousel" :ref="'c1'">
+    <div class="carousel" :ref="'c1'" data-rot="0">
       <div
         class="carousel__cell"
         v-for="(van, ind) in new Array(count).fill(null)"
         :key="ind"
+        :style="{
+          width: width + 'px',
+          height: height + 'px',
+          transform: `rotateX(${ang(Number(ind))}) translateZ(${rad}px ) `,
+        }"
       >
         {{ ind }}
       </div>
@@ -135,11 +138,16 @@
   </div>
 
   <div class="scene-2">
-    <div class="carousel" :ref="'c2'">
+    <div class="carousel" :ref="'c2'" data-rot="0">
       <div
         class="carousel__cell"
         v-for="(van, ind) in new Array(count).fill(null)"
         :key="ind"
+        :style="{
+          width: width + 'px',
+          height: height + 'px',
+          transform: `rotateX(${ang(Number(ind))}) translateZ(${rad}px ) `,
+        }"
       >
         {{ ind }}
       </div>
@@ -148,6 +156,10 @@
 </template>
 
 <style>
+  *,
+  * * {
+    box-sizing: border-box;
+  }
   body {
     display: flex;
     flex-flow: row;
@@ -186,5 +198,6 @@
     justify-content: center;
     background-color: hsla(180deg, 50%, 100%, 1);
     font-size: 100px;
+    border: 1px solid black;
   }
 </style>

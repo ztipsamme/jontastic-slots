@@ -6,20 +6,26 @@
       spinner: spinnerComp,
     },
     emits: { stop: null },
+    created() {
+      this.num = this.getNumbers()
+    },
     setup() {
       const tokens = useTokenStore()
       return { tokens }
     },
     data() {
       return {
-        count: 5,
+        count: 9,
         num: [],
         winner: false,
+        startGame: false,
       }
     },
-    computed: {
+    computed: {},
+    methods: {
       getNumbers() {
         let num = []
+        console.log(num)
         num[0] = Math.floor(Math.random() * this.count)
 
         num[1] = Math.floor(Math.random() * 2) + num[0] - 1
@@ -34,10 +40,8 @@
         }
         return num
       },
-    },
-    methods: {
       checkNumbers() {
-        this.num = this.getNumbers
+        this.num = this.getNumbers()
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
         } else {
@@ -45,21 +49,20 @@
         }
         return this.num
       },
+      gameStart() {
+        this.checkNumbers()
+        this.$refs.child.start(this.num)
+      },
     },
   }
 </script>
 
 <template>
   <div class="cont">
-    <spinner
-      :numbers="checkNumbers()"
-      :play="startGame"
-      :count="count"
-      @stoped="setTo"
-    />
+    <spinner :ref="'child'" :numbers="num" :count="count" />
   </div>
 
-  <button @click="startGame = true">SPELA</button>
+  <button @click="gameStart">SPELA</button>
 </template>
 
 <style>
@@ -67,5 +70,6 @@
     height: 80vh;
     width: 80vw;
     display: flex;
+    gap: 10px;
   }
 </style>
