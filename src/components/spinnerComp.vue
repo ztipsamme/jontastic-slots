@@ -95,6 +95,7 @@
             console.log(data)
             this.win = true
           }
+          this.$emit("done", this.win)
         })
       },
     },
