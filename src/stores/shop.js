@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-export const useBetStore = defineStore("tokens", {
+export const useShopStore = defineStore("shop", {
   strict: true,
   state: () => {
     return {
