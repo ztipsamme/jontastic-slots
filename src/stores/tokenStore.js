@@ -3,13 +3,15 @@ export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
     tokens: 100, // börja med 100
-    bestWin: 0, // börja med noll vinster
-    enhancements: [], // börja med tom lista av köpfunktioner
-    enhancementTypes: [
-      // vilka typer av köpfunktioner
-      { name: "New Skin", cost: 50 },
-      { name: "Extra Spin", cost: 100 },
-      { name: "Extra Row", cost: 150 },
+    bonusList: [],
+    bonusTypes: [
+      //Teman
+      { name: "Cat Theme", cost: 150 },
+      { name: "Night Theme", cost: 100 },
+      { name: "Forest Theme", cost: 100 },
+      //Bonusar:
+      { name: "Extra Spin", cost: 200 },
+      { name: "Extra Row", cost: 250 },
     ],
   }),
   getters: {
