@@ -80,6 +80,7 @@
         console.log("DONE", this.num)
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
+          this.reward()
         } else {
           console.log(this.num)
           this.winnner = false
@@ -88,6 +89,11 @@
       gameStart() {
         this.checkNumbers()
         this.$refs.child.start(this.n)
+      },
+      reward() {
+        this.tokens.tokens = this.tokens.tokens + 25
+        this.getState()
+        console.log("tokens", this.tokens.tokens)
       },
     },
   }
