@@ -100,7 +100,7 @@
       :ref="'child'"
       :spinners="spinnerArr"
       :numbers="n"
-      :count="10"
+      :count="count"
       @done="done"
     />
   </div>

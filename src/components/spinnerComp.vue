@@ -118,7 +118,7 @@
         this.win = false
         this.test(num).then((data) => {
           console.log(this)
-          this.$emit("BAJS")
+          this.$emit("done")
           console.log("spinner done")
           if (num.every((e) => e == num[0])) {
             console.log(data)
