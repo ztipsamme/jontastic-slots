@@ -27,7 +27,6 @@
         spinnerArr: [],
       }
     },
-    computed: {},
     methods: {
       generateSpinner() {
         let arr = []
@@ -60,13 +59,13 @@
         num[1] = this.spinnerArr[1][n[1]]
         num[2] = this.spinnerArr[2][n[2]]
         /*      num[2] =
-          num[0] == num[1] ? num[0] : Math.floor(Math.random() * this.count)
+            num[0] == num[1] ? num[0] : Math.floor(Math.random() * this.count)
 
-        if (!num.every((e) => e == num[0])) {
-          for (let i = 0; i < 3; i++) {
-            num[i] = Math.floor(Math.random() * this.count)
-          }
-        } */
+          if (!num.every((e) => e == num[0])) {
+            for (let i = 0; i < 3; i++) {
+              num[i] = Math.floor(Math.random() * this.count)
+            }
+          } */
         return { num: num, n: n }
       },
       checkNumbers() {
@@ -77,30 +76,54 @@
         return this.n
       },
       done() {
-        console.log("DONE", this.num)
+        // console.log("DONE", this.num)
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
-          this.reward()
         } else {
-          console.log(this.num)
           this.winnner = false
         }
+
+        //  this.reward()
       },
       gameStart() {
         this.checkNumbers()
         this.$refs.child.start(this.n)
+        //The player pays 10 tokens for each spinn.
+        this.tokens.tokens = this.tokens.tokens - 10
+        this.winnerOrLooser()
       },
-      reward() {
-        this.tokens.tokens = this.tokens.tokens + 25
-        this.getState()
-        console.log("tokens", this.tokens.tokens)
+      winnerOrLooser() {
+        if (this.winner === true) {
+          this.tokens.tokens = this.tokens.tokens + 100
+          console.log("Yay, you won 100 toekns! =D")
+        } else if (this.winner === false && this.tokens.tokens > 0) {
+          console.log("Haha, loser. :P")
+        } else if (this.winner === false && this.tokens.tokens <= 0) {
+          console.log("GAME OVER")
+        }
       },
+    },
+    watch: {
+      //Looks for changes in this.winner. When won, the player receves X tokens.
+      // winner() {
+      //   // if (this.winner === true) {
+      //   //   this.tokens.tokens = this.tokens.tokens + 100
+      //   //   console.log("winner:", this.winner)
+      //   //   console.log("tokens", this.tokens.tokens)
+      //   // }
+      //   if (this.tokens.tokens === 0) {
+      //     console.log("LOOSER!")
+      //   }
+      // },
     },
   }
 </script>
 
 <template>
-  <h1 v-if="winner">WOOOHKOOOO</h1>
+  <p>You have {{ this.tokens.tokens }} tokens left</p>
+  <h1 v-if="winner">Congratulations, you won 100 tokens!</h1>
+  <h1 v-if="this.tokens.tokens === 0">GAME OVER</h1>
+
   <div class="cont">
     <spinner
       :ref="'child'"
@@ -111,7 +134,13 @@
     />
   </div>
 
-  <button @click="gameStart">SPELA</button>
+  <!--If player doesn't have tokens, button is disabeld-->
+  <button
+    @click="gameStart"
+    :disabled="this.tokens.tokens === 0 ? true : false"
+  >
+    SPELA
+  </button>
 </template>
 
 <style>
