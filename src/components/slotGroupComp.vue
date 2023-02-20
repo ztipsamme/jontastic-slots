@@ -99,29 +99,28 @@
         return this.n
       },
       done() {
-        // console.log("DONE", this.num)
+      console.log("DONE", this.num)
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
         } else {
-          this.winnner = false
+          this.winner = false
         }
-
+      this.winnerOrLooser()
         //  this.reward()
       },
       gameStart() {
+        this.num = [1,2,3,4,5,3,6,9]
         if (this.tokens.tokens - 5 < 0) {
           alert("GameOver")
           this.tokens.tokens = 100
           return
         }
-        this.winnner = false
+        this.winner = false
         this.tokens.tokens -= 5
         this.checkNumbers()
 
         this.$refs.child.start(this.n)
-        //The player pays 10 tokens for each spinn.
-        this.tokens.tokens = this.tokens.tokens - 10
-        this.winnerOrLooser()
+
       },
 
       reward() {
