@@ -14,8 +14,12 @@
         type: Boolean,
         default: () => false,
       },
+      spinners: {
+        type: Array,
+        default: () => null,
+      },
     },
-    emits: { stop: null },
+    emits: { stop: null, done: null },
     setup() {
       const tokens = useTokenStore()
       return { tokens }
@@ -23,7 +27,7 @@
     data() {
       return {
         width: 150,
-        height: 225,
+        height: 150,
         win: false,
         current: [0, 0, 0],
       }
@@ -38,7 +42,7 @@
     computed: {
       ang() {
         let c = this.count
-        return (x) => (360 / c) * x + "deg"
+        return (x) => (360 / c) * x
       },
       rad() {
         return Math.round(this.height / 2 / Math.tan(Math.PI / this.count))
@@ -57,6 +61,12 @@
             { transform: "rotateX(" + from + "deg)" },
             { transform: "rotateX(" + to + "deg)" },
           ]
+        }
+      },
+      icoRotation() {
+        return (ind) => {
+          let str = `rotateX(${this.ang(Number(ind))}) translateZ(${this.rad}px`
+          return str
         }
       },
       winner() {
@@ -90,13 +100,58 @@
       },
       start(num = this.numbers) {
         this.win = false
-        this.spin(num).then((data) => {
+        this.test(num).then((data) => {
+          console.log(this)
+          this.$emit("BAJS")
+          console.log("spinner done")
           if (num.every((e) => e == num[0])) {
             console.log(data)
             this.win = true
           }
-          this.$emit("done", this.win)
         })
+      },
+      test(arr) {
+        console.log(arr)
+        this.startTime = Date.now()
+
+        let loop = (element, from, to, resolve) => {
+          this.time = Date.now()
+          this.elapsed = this.time - this.startTime
+          let x = Math.min(1, this.elapsed / 2000)
+          let len = (to - from) * x
+          let ang = from + len
+          element.style.transform = "rotateX(" + ang + "deg)"
+          element.querySelectorAll(".carousel__cell").forEach((e, i) => {
+            e.style.transform = `rotateX(${this.ang(
+              Number(i),
+            )}deg) translateZ(${this.rad}px) rotateX(${
+              ((-1 * ang) % 360) - this.ang(i)
+            }deg) `
+          })
+          if (x < 1) {
+            requestAnimationFrame(loop.bind(this, element, from, to, resolve))
+          } else {
+            console.log("test")
+            this.$emit("BAJS")
+            resolve("done")
+          }
+        }
+        let p = []
+        let refs = [this.$refs.c0, this.$refs.c1, this.$refs.c2]
+        refs.forEach((e, i) => {
+          let startAngle = this.current[i] * (360 / this.count) * -1
+          let newNumber = arr[i]
+          let deg = 1080 + newNumber * (360 / this.count)
+          let from = startAngle
+          let to = -deg
+          console.log("hej")
+          p.push(
+            new Promise((resolve) => {
+              requestAnimationFrame(loop.bind(this, e, from, to, resolve))
+            }),
+          )
+        })
+        return Promise.all(p)
       },
     },
   }
@@ -108,15 +163,16 @@
     <div class="carousel" :ref="'c0'" data-rot="0">
       <div
         class="carousel__cell"
-        v-for="(van, ind) in new Array(count).fill(null)"
+        v-for="(val, ind) in spinners[0]"
         :key="ind"
+        :data-val="val"
         :style="{
           width: width + 'px',
           height: height + 'px',
-          transform: `rotateX(${ang(Number(ind))}) translateZ(${rad}px ) `,
+          transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
         }"
       >
-        {{ ind }}
+        {{ val }}
       </div>
     </div>
   </div>
@@ -125,15 +181,16 @@
     <div class="carousel" :ref="'c1'" data-rot="0">
       <div
         class="carousel__cell"
-        v-for="(van, ind) in new Array(count).fill(null)"
+        v-for="(val, ind) in spinners[1]"
         :key="ind"
+        :data-val="val"
         :style="{
           width: width + 'px',
           height: height + 'px',
-          transform: `rotateX(${ang(Number(ind))}) translateZ(${rad}px ) `,
+          transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
         }"
       >
-        {{ ind }}
+        {{ val }}
       </div>
     </div>
   </div>
@@ -142,15 +199,16 @@
     <div class="carousel" :ref="'c2'" data-rot="0">
       <div
         class="carousel__cell"
-        v-for="(van, ind) in new Array(count).fill(null)"
+        v-for="(val, ind) in spinners[2]"
         :key="ind"
+        :data-val="val"
         :style="{
           width: width + 'px',
           height: height + 'px',
-          transform: `rotateX(${ang(Number(ind))}) translateZ(${rad}px ) `,
+          transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
         }"
       >
-        {{ ind }}
+        {{ val }}
       </div>
     </div>
   </div>
