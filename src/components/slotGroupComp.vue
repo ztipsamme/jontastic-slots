@@ -7,7 +7,6 @@
     },
     emits: { stop: null },
     created() {
-      this.num = this.getNumbers()
       this.spinnerArr = [
         this.generateSpinner(),
         this.generateSpinner(),
@@ -32,7 +31,7 @@
     methods: {
       generateSpinner() {
         let arr = []
-        for (var i = 0; i <= 6; i++) {
+        for (var i = 1; i <= 6; i++) {
           arr = new Array(i).fill(i).concat(arr)
         }
 
@@ -45,16 +44,18 @@
         }
 
         arr = shuffleArray(arr)
+        window.arr = arr
         return arr
       },
       getNumbers() {
-        this.spinnerArr = new Array(3).fill(this.generateSpinner())
+        // this.spinnerArr = new Array(3).fill(this.generateSpinner())
         let num = [],
           n = []
-        console.log(num)
-        n[0] = Math.floor(Math.random() * this.count) + 1
-        n[1] = Math.floor(Math.random() * this.count) + 1
-        n[2] = Math.floor(Math.random() * this.count) + 1
+
+        n[0] = Math.floor(Math.random() * this.count)
+        n[1] = Math.floor(Math.random() * this.count)
+        n[2] = Math.floor(Math.random() * this.count)
+
         num[0] = this.spinnerArr[0][n[0]]
         num[1] = this.spinnerArr[1][n[1]]
         num[2] = this.spinnerArr[2][n[2]]
@@ -66,18 +67,13 @@
             num[i] = Math.floor(Math.random() * this.count)
           }
         } */
-        return { num: num, n }
+        return { num: num, n: n }
       },
       checkNumbers() {
         let val = this.getNumbers()
         this.num = val.num
         this.n = val.n
-        if (this.num.every((e) => e == this.num[0])) {
-          this.winner = true
-        } else {
-          console.log(this.num)
-          this.winnner = false
-        }
+
         return this.n
       },
       done() {
@@ -91,7 +87,6 @@
       },
       gameStart() {
         this.checkNumbers()
-        console.log(this.spinnerArr)
         this.$refs.child.start(this.n)
       },
     },
@@ -105,8 +100,8 @@
       :ref="'child'"
       :spinners="spinnerArr"
       :numbers="n"
-      :count="count"
-      @BAJS="done"
+      :count="10"
+      @done="done"
     />
   </div>
 

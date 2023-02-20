@@ -19,7 +19,7 @@
         default: () => null,
       },
     },
-    emits: { stop: null, done: null },
+    emits: { done: null },
     setup() {
       const tokens = useTokenStore()
       return { tokens }
@@ -40,6 +40,22 @@
       },
     },
     computed: {
+      curve() {
+        return {
+          linear: (x) => x,
+          ease: (x, pow = 1) =>
+            Number(
+              (
+                0.5 * Math.cos(Math.PI * Math.pow(x, pow) - Math.PI) +
+                0.5
+              ).toFixed(4),
+            ),
+          easeIn: (x, pow = 1) =>
+            Number(Math.pow(-1 * Math.pow(x - 1, 2) + 1, pow).toFixed(4)),
+          easeOut: (x, pow = 1) =>
+            Number(Math.pow(Math.pow(x, 2), pow).toFixed(4)),
+        }
+      },
       ang() {
         let c = this.count
         return (x) => (360 / c) * x
@@ -118,7 +134,7 @@
           this.time = Date.now()
           this.elapsed = this.time - this.startTime
           let x = Math.min(1, this.elapsed / 2000)
-          let len = (to - from) * x
+          let len = (to - from) * this.curve.ease(x)
           let ang = from + len
           element.style.transform = "rotateX(" + ang + "deg)"
           element.querySelectorAll(".carousel__cell").forEach((e, i) => {
@@ -132,7 +148,7 @@
             requestAnimationFrame(loop.bind(this, element, from, to, resolve))
           } else {
             console.log("test")
-            this.$emit("BAJS")
+            this.$emit("done")
             resolve("done")
           }
         }
