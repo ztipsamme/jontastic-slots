@@ -26,10 +26,10 @@
     },
     data() {
       return {
-        width: 150,
+        width: 250,
         height: 150,
         win: false,
-        current: [0, 0, 0],
+        current: new Array(this.spinners.length).fill(0),
       }
     },
     watch: {
@@ -54,6 +54,7 @@
             Number(Math.pow(-1 * Math.pow(x - 1, 2) + 1, pow).toFixed(4)),
           easeOut: (x, pow = 1) =>
             Number(Math.pow(Math.pow(x, 2), pow).toFixed(4)),
+          easeInOut: (x) => Number((Math.tanh(6 * x - 3) / 2 + 0.5).toFixed(3)),
         }
       },
       ang() {
@@ -92,7 +93,9 @@
     methods: {
       spin(arr) {
         let ani = []
-        let refs = [this.$refs.c0, this.$refs.c1, this.$refs.c2]
+        let refs = this.spinners.map((e, i) => {
+          return this.$refs["c" + i]
+        })
         refs.forEach((e, i) => {
           let startAngle = this.current[i] * (360 / this.count) * -1
 
@@ -121,46 +124,49 @@
           this.$emit("done")
           console.log("spinner done")
           if (num.every((e) => e == num[0])) {
-            console.log(data)
             this.win = true
           }
         })
       },
       test(arr) {
-        console.log(arr)
         this.startTime = Date.now()
 
         let loop = (element, from, to, resolve) => {
           this.time = Date.now()
           this.elapsed = this.time - this.startTime
-          let x = Math.min(1, this.elapsed / 2000)
+          let x = Math.min(1, this.elapsed / 5000)
           let len = (to - from) * this.curve.ease(x)
           let ang = from + len
-          element.style.transform = "rotateX(" + ang + "deg)"
+
+          element.style.transform = ` translateZ(${
+            -this.rad + 25
+          }px) rotateX(${ang}deg)`
           element.querySelectorAll(".carousel__cell").forEach((e, i) => {
             e.style.transform = `rotateX(${this.ang(
               Number(i),
-            )}deg) translateZ(${this.rad}px) rotateX(${
+            )}deg) translateZ(${this.rad}px) rotacteX(${
               ((-1 * ang) % 360) - this.ang(i)
             }deg) `
           })
           if (x < 1) {
             requestAnimationFrame(loop.bind(this, element, from, to, resolve))
           } else {
-            console.log("test")
-            this.$emit("done")
             resolve("done")
           }
         }
         let p = []
-        let refs = [this.$refs.c0, this.$refs.c1, this.$refs.c2]
+        let refs = this.spinners.map((e, i) => {
+          return this.$refs["c" + i][0]
+        })
+        console.log(this.$refs, refs)
         refs.forEach((e, i) => {
           let startAngle = this.current[i] * (360 / this.count) * -1
+          console.log("SA", startAngle)
           let newNumber = arr[i]
           let deg = 1080 + newNumber * (360 / this.count)
           let from = startAngle
           let to = -deg
-          console.log("hej")
+          this.current[i] = arr[i]
           p.push(
             new Promise((resolve) => {
               requestAnimationFrame(loop.bind(this, e, from, to, resolve))
@@ -175,8 +181,50 @@
 
 <template>
   <h1 v-if="this.winner">WINNER!!</h1>
+
+  <template v-for="(spinner, i) in spinners">
+    <div :class="'scene-' + i">
+      <div
+        class="carousel"
+        :ref="'c' + i"
+        data-rot="0"
+        :style="{ transform: `translateZ(${-rad}px)` }"
+      >
+        <div
+          class="carousel__cell"
+          v-for="(val, ind) in spinner"
+          :key="ind"
+          :data-val="val"
+          :style="{
+            width: width + 'px',
+            height: height + 'px',
+            transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
+            backgroundColor: `hsla(${0 + 16 * Number(ind)}deg,75%,50%)`,
+            backgroundImage: `linear-gradient(
+              45deg,
+              hsla(${0 + 16 * (Number(ind) - 1)}deg,75%,50%),
+              hsla(${0 + 16 * Number(ind)}deg,75%,50%),
+              hsla(${0 + 16 * Number(ind)}deg,75%,50%))`,
+            boxShadow: `inset 0 0 18px 10px hsla(${
+              0 + 16 * (Number(ind) + 1)
+            }deg,100%,65%,0.4)`,
+          }"
+        >
+          {{ val }}
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!--
+
   <div class="scene-0">
-    <div class="carousel" :ref="'c0'" data-rot="0">
+    <div
+      class="carousel"
+      :ref="'c0'"
+      data-rot="0"
+      :style="{ transform: `translateZ(${-rad}px)` }"
+    >
       <div
         class="carousel__cell"
         v-for="(val, ind) in spinners[0]"
@@ -186,6 +234,7 @@
           width: width + 'px',
           height: height + 'px',
           transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
+          backgroundColor: `hsla(${0 + 16 * Number(ind)}deg,75%,50%)`,
         }"
       >
         {{ val }}
@@ -194,7 +243,12 @@
   </div>
 
   <div class="scene-1">
-    <div class="carousel" :ref="'c1'" data-rot="0">
+    <div
+      class="carousel"
+      :ref="'c1'"
+      data-rot="0"
+      :style="{ transform: `translateZ(${-rad}px)` }"
+    >
       <div
         class="carousel__cell"
         v-for="(val, ind) in spinners[1]"
@@ -204,6 +258,7 @@
           width: width + 'px',
           height: height + 'px',
           transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
+          backgroundColor: `hsla(${16 * Number(ind)}deg,75%,50%)`,
         }"
       >
         {{ val }}
@@ -212,7 +267,12 @@
   </div>
 
   <div class="scene-2">
-    <div class="carousel" :ref="'c2'" data-rot="0">
+    <div
+      class="carousel"
+      :ref="'c2'"
+      data-rot="0"
+      :style="{ transform: `translateZ(${-rad}px)` }"
+    >
       <div
         class="carousel__cell"
         v-for="(val, ind) in spinners[2]"
@@ -222,12 +282,14 @@
           width: width + 'px',
           height: height + 'px',
           transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
+          backgroundColor: `hsla(${16 * Number(ind)}deg,75%,50%)`,
         }"
       >
         {{ val }}
       </div>
     </div>
   </div>
+  -->
 </template>
 
 <style>
@@ -240,7 +302,6 @@
     flex-flow: row;
     justify-content: center;
     align-items: center;
-    gap: 10px;
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -248,12 +309,23 @@
 
   div[class*="scene"] {
     position: relative;
-    width: 150px;
-    height: 500px;
-    border: 1px solid black;
+    width: 250px;
+    height: 480px;
     perspective: 2000px;
     overflow: hidden;
+    border-radius: 33px;
   }
+
+  div[class*="scene"]::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    box-shadow: inset 0 0 17px 1px black;
+    border-radius: 33px;
+  }
+
   .carousel {
     width: 100%;
     height: 100%;
@@ -273,6 +345,7 @@
     justify-content: center;
     background-color: hsla(180deg, 50%, 100%, 1);
     font-size: 100px;
-    border: 1px solid black;
+    font-weight: bold;
+    color: hsla(180deg, 50%, 100%, 0.8);
   }
 </style>

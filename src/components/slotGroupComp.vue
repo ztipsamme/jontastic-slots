@@ -7,11 +7,14 @@
     },
     emits: { stop: null },
     created() {
-      this.spinnerArr = [
+      this.spinnerArr = new Array(this.reels)
+        .fill(null)
+        .map((e) => this.generateSpinner())
+      /*       this.spinnerArr = [
         this.generateSpinner(),
         this.generateSpinner(),
         this.generateSpinner(),
-      ]
+      ] */
     },
     setup() {
       const tokens = useTokenStore()
@@ -25,9 +28,14 @@
         winner: false,
         startGame: false,
         spinnerArr: [],
+        reels: 4,
       }
     },
-    computed: {},
+    computed: {
+      mytokens() {
+        return this.tokens.tokens
+      },
+    },
     methods: {
       generateSpinner() {
         let arr = []
@@ -54,11 +62,25 @@
 
         n[0] = Math.floor(Math.random() * this.count)
         n[1] = Math.floor(Math.random() * this.count)
-        n[2] = Math.floor(Math.random() * this.count)
 
         num[0] = this.spinnerArr[0][n[0]]
         num[1] = this.spinnerArr[1][n[1]]
-        num[2] = this.spinnerArr[2][n[2]]
+
+        if (num[0] == num[1]) {
+          for (let i = 2; i < this.spinnerArr.length; i++) {
+            n[i] = this.spinnerArr[i].indexOf(num[0])
+            num[i] = this.spinnerArr[i][n[i]]
+          }
+        } else {
+          for (let i = 2; i < this.spinnerArr.length; i++) {
+            n[i] = Math.floor(Math.random() * this.count)
+            num[i] = this.spinnerArr[i][n[i]]
+          }
+
+          /*   n[2] = Math.floor(Math.random() * this.count)
+          num[2] = this.spinnerArr[2][n[2]] */
+        }
+
         /*      num[2] =
           num[0] == num[1] ? num[0] : Math.floor(Math.random() * this.count)
 
@@ -87,12 +109,19 @@
         }
       },
       gameStart() {
+        if (this.tokens.tokens - 5 < 0) {
+          alert("GameOver")
+          this.tokens.tokens = 100
+          return
+        }
+        this.winnner = false
+        this.tokens.tokens -= 5
         this.checkNumbers()
+
         this.$refs.child.start(this.n)
       },
       reward() {
         this.tokens.tokens = this.tokens.tokens + 25
-        this.getState()
         console.log("tokens", this.tokens.tokens)
       },
     },
@@ -101,24 +130,30 @@
 
 <template>
   <h1 v-if="winner">WOOOHKOOOO</h1>
+  <h2>{{ mytokens }}</h2>
   <div class="cont">
     <spinner
       :ref="'child'"
       :spinners="spinnerArr"
       :numbers="n"
       :count="count"
+      :reels="reels"
       @done="done"
     />
   </div>
 
-  <button @click="gameStart">SPELA</button>
+  <button
+    class="slot-btn red"
+    style="min-height: 200px; min-width: 200px"
+    @click="gameStart"
+  >
+    SPELA
+  </button>
 </template>
 
 <style>
   .cont {
-    height: 80vh;
     width: 80vw;
     display: flex;
-    gap: 10px;
   }
 </style>
