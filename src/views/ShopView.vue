@@ -1,7 +1,7 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
-  import overlayPopUp from "../components/overlayPopUp.vue"
-  import PopUp from "../components/PopUp.vue"
+  /*   import overlayPopUp from "../components/overlayPopUp.vue"
+   */ import PopUp from "../components/PopUp.vue"
 
   // Importera tokenStore
   export default {
