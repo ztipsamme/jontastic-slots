@@ -12,6 +12,7 @@
     data() {
       return {
         errorMessage: false,
+        verification: false,
       }
     },
 
@@ -45,8 +46,12 @@
           this.tokenStore.tokens -= theme.cost
         }
         if (bonus && this.tokenStore.tokens >= bonus.cost) {
-          /*
-          this.tokenStore.bonusList.bonus.extraSpin += 1 */
+          if (bonus.name === "Extra Spin") {
+            this.tokenStore.bonusList.bonus.extraSpin += 1
+          }
+          if (bonus.name === "Extra Row") {
+            this.tokenStore.bonusList.bonus.extraRow += 1
+          }
           this.tokenStore.tokens -= bonus.cost
         } else {
           this.errorMessage = true
