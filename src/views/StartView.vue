@@ -1,23 +1,19 @@
 <template>
   <h1>Start View</h1>
   <slotgroup />
-  <i class="info-icon" @click="showSymbolPopup = true" />
-  <SymbolPopup
-    v-if="showSymbolPopup"
-    :symbols="symbols"
-    @close="showSymbolPopup = false"
-  />
+  <i class="info-icon" @click="Popup = true" />
+  <overlayPopUp v-if="Popup" :symbols="symbols" @close="Popup = false" />
 </template>
 
 <script>
   import slotgroup from "../components/slotGroupComp.vue"
-  import SymbolPopup from "../components/SymbolValue.vue"
+  import overlayPopUp from "../components/overlayPopUp.vue"
   import { useTokenStore } from "../stores/tokenStore"
 
   export default {
     components: {
       slotgroup,
-      SymbolPopup,
+      overlayPopUp,
     },
     setup() {
       const tokenStore = useTokenStore()
@@ -25,7 +21,7 @@
     },
     data() {
       return {
-        showSymbolPopup: false,
+        Popup: false,
       }
     },
     computed: {
