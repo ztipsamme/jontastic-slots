@@ -36,7 +36,7 @@
       reels() {
         this.spinnerArr = new Array(this.reels)
           .fill(null)
-          .map((e) => this.generateSpinner())
+          .map(() => this.generateSpinner())
       },
     },
     computed: {
