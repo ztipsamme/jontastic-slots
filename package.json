@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@vueuse/core": "^9.13.0",
     "bootstrap": "^5.2.3",
     "bootstrap-vue": "^2.23.1",
     "pinia": "^2.0.30",
