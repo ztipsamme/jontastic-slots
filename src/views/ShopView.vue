@@ -1,6 +1,5 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
-  import overlayPopUp from "../components/overlayPopUp.vue"
   import PopUp from "../components/PopUp.vue"
 
   // Importera tokenStore
@@ -61,8 +60,6 @@
 <template>
   <header>
     <h1 class="first-heading">Butik</h1>
-    <h2 class="tokens">Antal tokens: {{ tokens }}</h2>
-    <h1>Butik</h1>
     <h2 class="tokens">Antal tokens: {{ tokens.sum }}</h2>
   </header>
   <main class="shop">
