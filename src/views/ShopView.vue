@@ -48,7 +48,6 @@
           theme.owned = true
           this.tokenStore.tokens -= theme.cost
         }
-
         if (bonus && this.tokenStore.tokens >= bonus.cost) {
           bonus.amount += 1
           this.tokenStore.tokens -= bonus.cost
@@ -93,6 +92,19 @@
   <h1 class="error" v-if="errorMessage">
     Du har inte tillräckligt med tokens. Spela igen för att få fler!
   </h1>
+  <div class="item-bag">
+    <h1>Din väska</h1>
+    <h2>Bonusar:</h2>
+    <ul>
+      <li :key="bonus" v-for="bonus in bonusTypes">
+        {{ bonus.amount }}: {{ bonus.name }}
+      </li>
+    </ul>
+    <h2>Teman:</h2>
+    <ul>
+      <li :key="theme" v-for="theme in themeTypes">{{ theme.name }}</li>
+    </ul>
+  </div>
 </template>
 
 <style>
@@ -137,6 +149,24 @@
     margin-bottom: 20px;
   }
 </style>
+
+<!--
+
+  Välkommen till din butik!
+
+  Här kan du använda dina tokens för att köpa bonusar som bättrar dina vinstchanser eller välja ett tema som passar dig.
+
+  Du behöver bara köpa ett tema en gång och kan byta bland dina favoriter när du känner för det.
+
+  ----
+
+  Är du säker på att du vill köpa {{ name }}? Ja / Nej
+
+  ----
+
+  Du har inte tillräckligt många tokens. Spela och vinn fler!
+
+ -->
 
 <!--
 
