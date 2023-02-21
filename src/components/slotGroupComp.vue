@@ -9,7 +9,7 @@
     created() {
       this.spinnerArr = new Array(this.reels)
         .fill(null)
-        .map((e) => this.generateSpinner())
+        .map(() => this.generateSpinner())
       /*       this.spinnerArr = [
         this.generateSpinner(),
         this.generateSpinner(),
@@ -99,17 +99,17 @@
         return this.n
       },
       done() {
-      console.log("DONE", this.num)
+        console.log("DONE", this.num)
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
         } else {
           this.winner = false
         }
-      this.winnerOrLooser()
+        this.winnerOrLooser()
         //  this.reward()
       },
       gameStart() {
-        this.num = [1,2,3,4,5,3,6,9]
+        this.num = [1, 2, 3, 4, 5, 3, 6, 9]
         if (this.tokens.tokens - 5 < 0) {
           alert("GameOver")
           this.tokens.tokens = 100
@@ -120,7 +120,6 @@
         this.checkNumbers()
 
         this.$refs.child.start(this.n)
-
       },
 
       reward() {
@@ -137,7 +136,6 @@
         } else if (this.winner === false && this.tokens.tokens <= 0) {
           console.log("GAME OVER")
         }
-
       },
     },
     watch: {
@@ -175,14 +173,13 @@
     />
   </div>
 
-
   <!--If player doesn't have tokens, button is disabeld-->
   <button
     class="slot-btn red"
     style="min-height: 200px; min-width: 200px"
     @click="gameStart"
     :disabled="this.tokens.tokens === 0 ? true : false"
- >
+  >
     SPELA
   </button>
 </template>
