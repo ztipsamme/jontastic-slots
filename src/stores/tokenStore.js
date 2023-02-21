@@ -4,15 +4,15 @@ import { useStorage } from "@vueuse/core"
 export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
-    tokens: useStorage("tokens", 100),
+    tokens: useStorage("tokens", 100000),
     bonusTypes: useStorage("bonusTypes", [
       { name: "Extra Spin", cost: 200, amount: 0 },
       { name: "Extra Row", cost: 250, amount: 0 },
     ]),
     themeTypes: useStorage("themeTypes", [
-      { name: "Cat Theme", cost: 150 },
-      { name: "Night Theme", cost: 100 },
-      { name: "Forest Theme", cost: 100 },
+      { name: "Cat Theme", cost: 150, owned: false },
+      { name: "Night Theme", cost: 100, owned: false },
+      { name: "Forest Theme", cost: 100, owned: false },
     ]),
   }),
   getters: {

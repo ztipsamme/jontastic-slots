@@ -21,7 +21,10 @@
         return this.tokenStore.tokens // Hämta tokens
       },
       bonusTypes() {
-        return this.tokenStore.bonusTypes // Hämta typ av köpfunktioner
+        return this.tokenStore.bonusTypes
+      },
+      themeTypes() {
+        return this.tokenStore
       },
     },
 
@@ -40,22 +43,18 @@
         if (
           theme &&
           this.tokenStore.tokens >= theme.cost &&
-          this.tokenStore.bonusList.themes != theme.name
+          theme.owned != true
         ) {
-          this.tokenStore.bonusList.themes = theme.name
+          theme.owned = true
           this.tokenStore.tokens -= theme.cost
         }
+
         if (bonus && this.tokenStore.tokens >= bonus.cost) {
-          if (bonus.name === "Extra Spin") {
-            this.tokenStore.bonusList.bonus.extraSpin += 1
-          }
-          if (bonus.name === "Extra Row") {
-            this.tokenStore.bonusList.bonus.extraRow += 1
-          }
+          bonus.amount += 1
           this.tokenStore.tokens -= bonus.cost
-        } else {
+        } /* else {
           this.errorMessage = true
-        }
+        } */
       },
     },
     goBack() {
