@@ -1,5 +1,6 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
+  import overlayPopUp from "../components/overlayPopUp.vue"
 
   // Importera tokenStore
   export default {
@@ -8,7 +9,9 @@
       window.content = tokenStore
       return { tokenStore }
     },
-
+    components: {
+      overlayPopUp,
+    },
     data() {
       return {
         errorMessage: false,
@@ -93,6 +96,7 @@
   <h1 class="error" v-if="errorMessage">
     Du har inte tillräckligt med tokens. Spela igen för att få fler!
   </h1>
+  <overlayPopUp />
 </template>
 
 <style>
