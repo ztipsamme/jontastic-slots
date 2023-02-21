@@ -95,7 +95,6 @@
   <h1 class="error" v-if="errorMessage">
     Du har inte tillräckligt med tokens. Spela igen för att få fler!
   </h1>
-<<<<<<< HEAD
   <div class="item-bag">
     <h1>Din väska</h1>
     <h2>Bonusar:</h2>
@@ -109,9 +108,8 @@
       <li :key="theme" v-for="theme in themeTypes">{{ theme.name }}</li>
     </ul>
   </div>
-=======
+
   <overlayPopUp />
->>>>>>> 4db152c537eb01f960aadc163883e6dcf9ad59e3
 </template>
 
 <style>
