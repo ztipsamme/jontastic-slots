@@ -4,25 +4,16 @@ import { useStorage } from "@vueuse/core"
 export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
-    tokens: useStorage("tokens", 100000),
-    bonusList: useStorage("bonusList", {
-      themes: {
-        theme: null,
-      },
-      bonus: {
-        extraSpin: 0,
-        extraRow: 0,
-      },
-    }),
-    bonusTypes: [
+    tokens: useStorage("tokens", 100),
+    bonusTypes: useStorage("bonusTypes", [
       { name: "Extra Spin", cost: 200, amount: 0 },
       { name: "Extra Row", cost: 250, amount: 0 },
-    ],
-    themeTypes: [
+    ]),
+    themeTypes: useStorage("themeTypes", [
       { name: "Cat Theme", cost: 150 },
       { name: "Night Theme", cost: 100 },
       { name: "Forest Theme", cost: 100 },
-    ],
+    ]),
   }),
   getters: {
     getTokensPlusOne: (state) => state.tokens + 1,
