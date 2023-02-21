@@ -1,6 +1,6 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
-  import overlayPopUp from "../components/overlayPopUp.vue"
+  import PopUp from "../components/PopUp.vue"
 
   // Importera tokenStore
   export default {
@@ -10,7 +10,7 @@
       return { tokenStore }
     },
     components: {
-      overlayPopUp,
+      PopUp,
     },
     data() {
       return {
@@ -65,7 +65,7 @@
 <template>
   <header>
     <h1>Butik</h1>
-    <h2 class="tokens">Antal tokens: {{ tokens }}</h2>
+    <h2 class="tokens">Antal tokens: {{ tokens.sum }}</h2>
   </header>
 
   <main class="shop">
@@ -98,18 +98,16 @@
   <div class="item-bag">
     <h1>Din väska</h1>
     <h2>Bonusar:</h2>
-    <ul>
-      <li :key="bonus" v-for="bonus in bonusTypes">
-        {{ bonus.amount }}: {{ bonus.name }}
-      </li>
+    <ul :key="bonus" v-for="bonus in bonusTypes">
+      <li>{{ bonus.amount }}: {{ bonus.name }}</li>
     </ul>
     <h2>Teman:</h2>
-    <ul>
-      <li :key="theme" v-for="theme in themeTypes">{{ theme.name }}</li>
+    <ul :key="theme" v-for="theme in themeTypes">
+      <li>{{ theme.name }}</li>
     </ul>
   </div>
 
-  <overlayPopUp />
+  <PopUp />
 </template>
 
 <style>

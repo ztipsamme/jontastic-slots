@@ -1,18 +1,18 @@
 <template>
   <h1>Start View</h1>
   <slotgroup />
-  <overlayPopUp />
+  <PopUp />
 </template>
 
 <script>
   import slotgroup from "../components/slotGroupComp.vue"
-  import overlayPopUp from "../components/overlayPopUp.vue"
+  import PopUp from "../components/PopUp.vue"
   import { useTokenStore } from "../stores/tokenStore"
 
   export default {
     components: {
       slotgroup,
-      overlayPopUp,
+      PopUp,
     },
     setup() {
       const tokenStore = useTokenStore()

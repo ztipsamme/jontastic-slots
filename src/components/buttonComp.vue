@@ -13,7 +13,7 @@
     computed: {},
     methods: {
       increase(amount) {
-        this.tokens.tokens += amount
+        this.tokens.tokens.sum += amount
       },
       decrease() {},
     },
