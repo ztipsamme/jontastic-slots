@@ -3,7 +3,15 @@ export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
     tokens: 100000,
-    bonusList: [],
+    bonusList: {
+      themes: {
+        theme: null,
+      },
+      bonus: {
+        extraSpin: 0,
+        extraRow: 0,
+      },
+    },
     bonusTypes: [
       { name: "Extra Spin", cost: 200, amount: 0 },
       { name: "Extra Row", cost: 250, amount: 0 },

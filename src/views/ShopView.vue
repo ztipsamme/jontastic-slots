@@ -35,20 +35,18 @@
         )
 
         // Kolla om du har nog med tokens som räcker för cost och att du inte redan äger temat
+
         if (
           theme &&
           this.tokenStore.tokens >= theme.cost &&
-          !this.tokenStore.bonusList.includes(theme)
+          this.tokenStore.bonusList.themes != theme.name
         ) {
-          this.tokenStore.bonusList.push(theme)
+          this.tokenStore.bonusList.themes = theme.name
           this.tokenStore.tokens -= theme.cost
         }
-
-        /* Öka antal istället för att lägga in flera objekt
-         */
         if (bonus && this.tokenStore.tokens >= bonus.cost) {
-          bonus.amount = bonus.amount + 1
-          this.tokenStore.bonusList.push(bonus)
+          /*
+          this.tokenStore.bonusList.bonus.extraSpin += 1 */
           this.tokenStore.tokens -= bonus.cost
         } else {
           this.errorMessage = true
