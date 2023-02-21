@@ -2,16 +2,16 @@ import { defineStore } from "pinia"
 export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
-    tokens: 100, // börja med 100
+    tokens: 100000,
     bonusList: [],
     bonusTypes: [
-      //Teman
+      { name: "Extra Spin", cost: 200, amount: 0 },
+      { name: "Extra Row", cost: 250, amount: 0 },
+    ],
+    themeTypes: [
       { name: "Cat Theme", cost: 150 },
       { name: "Night Theme", cost: 100 },
       { name: "Forest Theme", cost: 100 },
-      //Bonusar:
-      { name: "Extra Spin", cost: 200 },
-      { name: "Extra Row", cost: 250 },
     ],
   }),
   getters: {
