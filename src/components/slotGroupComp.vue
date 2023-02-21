@@ -99,17 +99,18 @@
         return this.n
       },
       done() {
-      console.log("DONE", this.num)
+        console.log("DONE", this.num)
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
+          this.tokens.tokens = this.tokens.tokens + 100
+          console.log("Yay, you won 100 toekns! =D")
         } else {
           this.winner = false
+          console.log("Haha, loser. :P")
         }
-      this.winnerOrLooser()
-        //  this.reward()
       },
       gameStart() {
-        this.num = [1,2,3,4,5,3,6,9]
+        this.num = [1, 2, 3, 4, 5, 3, 6, 9]
         if (this.tokens.tokens - 5 < 0) {
           alert("GameOver")
           this.tokens.tokens = 100
@@ -120,49 +121,16 @@
         this.checkNumbers()
 
         this.$refs.child.start(this.n)
-
       },
-
-      reward() {
-        this.tokens.tokens = this.tokens.tokens + 25
-        console.log("tokens", this.tokens.tokens)
-      },
-
-      winnerOrLooser() {
-        if (this.winner === true) {
-          this.tokens.tokens = this.tokens.tokens + 100
-          console.log("Yay, you won 100 toekns! =D")
-        } else if (this.winner === false && this.tokens.tokens > 0) {
-          console.log("Haha, loser. :P")
-        } else if (this.winner === false && this.tokens.tokens <= 0) {
-          console.log("GAME OVER")
-        }
-
-      },
-    },
-    watch: {
-      //Looks for changes in this.winner. When won, the player receves X tokens.
-      // winner() {
-      //   // if (this.winner === true) {
-      //   //   this.tokens.tokens = this.tokens.tokens + 100
-      //   //   console.log("winner:", this.winner)
-      //   //   console.log("tokens", this.tokens.tokens)
-      //   // }
-      //   if (this.tokens.tokens === 0) {
-      //     console.log("LOOSER!")
-      //   }
-      // },
     },
   }
 </script>
 
 <template>
   <h1 v-if="winner">WOOOHKOOOO</h1>
-  <h2>{{ mytokens }}</h2>
-
   <p>You have {{ tokens.tokens }} tokens left</p>
   <h1 v-if="winner">Congratulations, you won 100 tokens!</h1>
-  <h1 v-if="tokens.tokens === 0">GAME OVER</h1>
+  <h1 v-if="this.tokens.tokens === 0">GAME OVER</h1>
 
   <div class="cont">
     <spinner
@@ -175,14 +143,13 @@
     />
   </div>
 
-
   <!--If player doesn't have tokens, button is disabeld-->
   <button
     class="slot-btn red"
     style="min-height: 200px; min-width: 200px"
     @click="gameStart"
     :disabled="this.tokens.tokens === 0 ? true : false"
- >
+  >
     SPELA
   </button>
 </template>
