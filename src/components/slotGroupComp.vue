@@ -20,6 +20,7 @@
       const tokens = useTokenStore()
       return { tokens }
     },
+
     data() {
       return {
         count: 21,
@@ -30,6 +31,13 @@
         spinnerArr: [],
         reels: 4,
       }
+    },
+    watch: {
+      reels() {
+        this.spinnerArr = new Array(this.reels)
+          .fill(null)
+          .map((e) => this.generateSpinner())
+      },
     },
     computed: {
       mytokens() {
@@ -50,36 +58,61 @@
           }
           return array
         }
-
         arr = shuffleArray(arr)
         window.arr = arr
         return arr
       },
+
       getNumbers() {
         // this.spinnerArr = new Array(3).fill(this.generateSpinner())
-        let num = [],
-          n = []
+        let num = []
+        let n = []
 
-        n[0] = Math.floor(Math.random() * this.count)
-        n[1] = Math.floor(Math.random() * this.count)
-
-        num[0] = this.spinnerArr[0][n[0]]
-        num[1] = this.spinnerArr[1][n[1]]
-
-        if (num[0] == num[1]) {
-          for (let i = 2; i < this.spinnerArr.length; i++) {
-            n[i] = this.spinnerArr[i].indexOf(num[0])
-            num[i] = this.spinnerArr[i][n[i]]
+        this.spinnerArr.forEach((e, i) => {
+          n[i] = Math.floor(Math.random() * this.count)
+          num[i] = e[n[i]]
+        })
+        if (this.reels == 3) {
+          if (num[0] == num[1]) {
+            for (let i = 2; i < this.spinnerArr.length; i++) {
+              n[i] = this.spinnerArr[i].indexOf(num[0])
+              num[i] = this.spinnerArr[i][n[i]]
+            }
+          } else {
+            for (let i = 2; i < this.spinnerArr.length; i++) {
+              n[i] = Math.floor(Math.random() * this.count)
+              num[i] = this.spinnerArr[i][n[i]]
+            }
           }
-        } else {
-          for (let i = 2; i < this.spinnerArr.length; i++) {
-            n[i] = Math.floor(Math.random() * this.count)
-            num[i] = this.spinnerArr[i][n[i]]
-          }
-
-          /*   n[2] = Math.floor(Math.random() * this.count)
-          num[2] = this.spinnerArr[2][n[2]] */
         }
+        if (this.reels == 4){
+          let same = false
+        for (let n in num) {
+          let i = Number(n)
+          if (num.filter((e) => e == num[i]).length >2) {
+            same = num[i]
+            break
+          }
+        }
+        if(same){
+          let i  = num.findIndex(e=>e!=same)
+          let arr = []
+          this.spinnerArr[i].forEach((e, i) => {
+            if (e == same) {
+              arr.push(i)
+            }
+          })
+          n[i] = arr[Math.floor(Math.random() * arr.length)]
+          num[i] = this.spinnerArr[i][n[i]]
+        }
+
+        }
+
+        // Sortera så att stösrt sannorlikhet kommerförsts
+
+
+        /*   n[2] = Math.floor(Math.random() * this.count)
+          num[2] = this.spinnerArr[2][n[2]] */
 
         /*      num[2] =
             num[0] == num[1] ? num[0] : Math.floor(Math.random() * this.count)
@@ -89,6 +122,9 @@
               num[i] = Math.floor(Math.random() * this.count)
             }
           } */
+
+        console.log("ountN", { num, n })
+
         return { num: num, n: n }
       },
       checkNumbers() {
@@ -99,17 +135,21 @@
         return this.n
       },
       done() {
-      console.log("DONE", this.num)
+        this.startGame = false
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
         } else {
           this.winner = false
         }
-      this.winnerOrLooser()
+        this.winnerOrLooser()
         //  this.reward()
       },
       gameStart() {
-        this.num = [1,2,3,4,5,3,6,9]
+        if (this.startGame) {
+          return
+        }
+        this.startGame = true
+        this.num = [1, 2, 3, 4, 5, 3, 6, 9]
         if (this.tokens.tokens - 5 < 0) {
           alert("GameOver")
           this.tokens.tokens = 100
@@ -120,7 +160,6 @@
         this.checkNumbers()
 
         this.$refs.child.start(this.n)
-
       },
 
       reward() {
@@ -137,21 +176,7 @@
         } else if (this.winner === false && this.tokens.tokens <= 0) {
           console.log("GAME OVER")
         }
-
       },
-    },
-    watch: {
-      //Looks for changes in this.winner. When won, the player receves X tokens.
-      // winner() {
-      //   // if (this.winner === true) {
-      //   //   this.tokens.tokens = this.tokens.tokens + 100
-      //   //   console.log("winner:", this.winner)
-      //   //   console.log("tokens", this.tokens.tokens)
-      //   // }
-      //   if (this.tokens.tokens === 0) {
-      //     console.log("LOOSER!")
-      //   }
-      // },
     },
   }
 </script>
@@ -170,11 +195,9 @@
       :spinners="spinnerArr"
       :numbers="n"
       :count="count"
-      :reels="reels"
       @done="done"
     />
   </div>
-
 
   <!--If player doesn't have tokens, button is disabeld-->
   <button
@@ -182,7 +205,7 @@
     style="min-height: 200px; min-width: 200px"
     @click="gameStart"
     :disabled="this.tokens.tokens === 0 ? true : false"
- >
+  >
     SPELA
   </button>
 </template>
