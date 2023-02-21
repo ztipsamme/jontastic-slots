@@ -29,5 +29,6 @@
   "editor.tabSize": 2,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
-  "files.trimTrailingWhitespace": true
+  "files.trimTrailingWhitespace": true,
+  "vue3snippets.enable-compile-vue-file-on-did-save-code": false
 }
