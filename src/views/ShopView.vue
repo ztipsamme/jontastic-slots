@@ -52,36 +52,33 @@
         if (bonus && this.tokenStore.tokens >= bonus.cost) {
           bonus.amount += 1
           this.tokenStore.tokens -= bonus.cost
-        } /* else {
+        } else {
           this.errorMessage = true
-        } */
+        }
       },
-    },
-    goBack() {
-      // Kod för tillbaka-knapp
     },
   }
 </script>
 
 <template>
   <header>
-    <h1>Shop</h1>
-    <button @click="goBack()">Tillbaka</button>
+    <h1>Butik</h1>
     <h2 class="tokens">Antal tokens: {{ tokens }}</h2>
   </header>
 
   <main class="shop">
+    <h2 class="first-heading">Bonus</h2>
     <div class="bonus">
-      <h2 class="first-heading">Bonus</h2>
       <button class="bonus-btn" @click="buyBonus('Extra Spin')">
         Extra Spin
       </button>
       <button class="bonus-btn" @click="buyBonus('Extra Row')">
         Extra Row
       </button>
+      <button class="bonus-btn">Någon Bonus</button>
     </div>
+    <h2 class="first-heading">Tema</h2>
     <div class="bonus">
-      <h2 class="first-heading">Teman</h2>
       <button class="night-theme" @click="buyBonus('Night Theme')">
         Night Theme
       </button>
@@ -92,26 +89,41 @@
         Cat Theme
       </button>
     </div>
-    <h1 v-if="errorMessage">Du saknar tokens</h1>
   </main>
+  <h1 class="error" v-if="errorMessage">
+    Du har inte tillräckligt med tokens. Spela igen för att få fler!
+  </h1>
 </template>
 
 <style>
   header {
     padding: 15px;
     text-align: center;
+    margin-bottom: 30px;
   }
   .shop {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    /*  gap: 20px; */
   }
 
   .bonus {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    justify-content: space-evenly;
+    gap: 15px;
     align-items: center;
+  }
+
+  .first-heading,
+  .error {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .tokens {
+    font-size: 13px;
   }
 
   .night-theme,
@@ -120,7 +132,9 @@
   .bonus-btn {
     height: 150px;
     width: 150px;
-    border-radius: 40px;
+    border-radius: 60px;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 </style>
 
