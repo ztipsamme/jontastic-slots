@@ -11,13 +11,13 @@
     computed: {},
     methods: {
       getState() {
-        console.log(this.tokens.tokens)
+        console.log(this.tokens.tokens.sum)
 
-        this.tokens.tokens = 10
-        console.log(this.tokens.tokens)
+        this.tokens.tokens.sum = 10
+        console.log(this.tokens.tokens.sum)
 
         this.tokens.tokens(15)
-        console.log(this.tokens.tokens)
+        console.log(this.tokens.tokens.sum)
       },
     },
   }
