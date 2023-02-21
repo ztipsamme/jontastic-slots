@@ -42,15 +42,15 @@
         // Kolla om du har nog med tokens som räcker för cost och att du inte redan äger temat
         if (
           theme &&
-          this.tokenStore.tokens >= theme.cost &&
+          this.tokenStore.tokens.sum >= theme.cost &&
           theme.owned != true
         ) {
           theme.owned = true
-          this.tokenStore.tokens -= theme.cost
+          this.tokenStore.tokens.sum -= theme.cost
         }
-        if (bonus && this.tokenStore.tokens >= bonus.cost) {
+        if (bonus && this.tokenStore.tokens.sum >= bonus.cost) {
           bonus.amount += 1
-          this.tokenStore.tokens -= bonus.cost
+          this.tokenStore.tokens.sum -= bonus.cost
         } else {
           this.errorMessage = true
         }
@@ -107,15 +107,22 @@
         {{ theme.name }} {{ theme.amount }}
       </button>
     </div>
-    <h1>Din väska</h1>
-    <h2>Bonusar:</h2>
-    <ul :key="bonus" v-for="bonus in bonusTypes">
+    <h1 class="first-heading">Din väska</h1>
+    <h2 class="second-heading">Bonusar:</h2>
+    <div class="bonus">
+      <button class="bonus-btn" :key="bonus" v-for="bonus in bonusTypes">
+        {{ bonus.amount }}: {{ bonus.name }}
+      </button>
+    </div>
+    <!-- <ul :key="bonus" v-for="bonus in bonusTypes">
       <li>{{ bonus.amount }}: {{ bonus.name }}</li>
-    </ul>
-    <h2>Teman:</h2>
-    <ul :key="theme" v-for="theme in themeTypes">
-      <li>{{ theme.name }}</li>
-    </ul>
+    </ul> -->
+    <h2 class="first-heading">Teman:</h2>
+    <div class="bonus">
+      <button class="bonus-btn" :key="theme" v-for="theme in themeTypes">
+        {{ theme.name }}
+      </button>
+    </div>
   </div>
 
   <PopUp />
