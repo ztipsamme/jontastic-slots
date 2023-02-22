@@ -1,11 +1,13 @@
-import _default from "./default"
-import NightTheme from "./NightTheme"
-import CatTheme from "./CatTheme"
-import ForestTheme from "./ForestTheme"
+import _default from "./Default"
+//import NightTheme from "./NightTheme"
+//import CatTheme from "./CatTheme"
+//import ForestTheme from "./ForestTheme"
 
-const themes = {
+const Themes = {
   default: _default,
-  NightTheme,
-  CatTheme,
-  ForestTheme,
+  //nightTheme: NightTheme,
+  //catTheme: CatTheme,
+  //forestTheme: ForestTheme,
 }
+
+export default { Themes }
