@@ -1,3 +1,11 @@
+<script>
+  import PopUp from "./components/PopUp.vue"
+  export default {
+    components: {
+      PopUp,
+    },
+  }
+</script>
 <template>
   <nav>
     <ul>
@@ -10,6 +18,7 @@
   <main>
     <RouterView />
   </main>
+  <PopUp />
 </template>
 
 <style>
