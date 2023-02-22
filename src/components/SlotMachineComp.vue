@@ -170,7 +170,6 @@
     <div class="row">
       <div class="col">
         <h1 v-if="winner">WOOOHKOOOO</h1>
-        <p>You have {{ tokens.tokens.sum }} tokens left</p>
       </div>
       <div class="col">
         <button
