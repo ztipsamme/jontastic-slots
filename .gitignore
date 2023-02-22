@@ -27,4 +27,4 @@ coverage
 *.sw?
 
 # private workfiles
-.ai
+*.ai
