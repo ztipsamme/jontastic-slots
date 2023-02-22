@@ -1,6 +1,7 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
-  import spinnerComp from "./ReelsComp.vue.js"
+  import { useThemeStore } from "../stores/themes.js"
+  import spinnerComp from "./ReelsComp.vue"
   export default {
     components: {
       spinner: spinnerComp,
@@ -18,7 +19,8 @@
     },
     setup() {
       const tokens = useTokenStore()
-      return { tokens }
+      const theme = useThemeStore()
+      return { tokens, theme }
     },
 
     data() {
@@ -134,7 +136,7 @@
 
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
-          this.tokens.sum = this.tokens.sum + 100
+          this.tokens.tokens.sum = this.tokens.tokens.sum + 100
           console.log("Yay, you won 100 toekns! =D")
         } else {
           this.winner = false
@@ -154,7 +156,7 @@
           return
         }
         this.winner = false
-        this.tokens.sum -= 5
+        this.tokens.tokens.sum -= 5
         this.checkNumbers()
 
         this.$refs.child.start(this.n)
@@ -164,35 +166,52 @@
 </script>
 
 <template>
-  <h1 v-if="winner">WOOOHKOOOO</h1>
-  <p>You have {{ tokens.sum }} tokens left</p>
-  <h1 v-if="winner">Congratulations, you won 100 tokens!</h1>
-  <h1 v-if="this.tokens.sum === 0">GAME OVER</h1>
+  <div class="main-mashine cont">
+    <div class="row">
+      <div class="col">
+        <h1 v-if="winner">WOOOHKOOOO</h1>
+        <p>You have {{ tokens.tokens.sum }} tokens left</p>
+      </div>
+      <div class="col">
+        <button @click="theme.currentTheme = 'catTheme'">Cat Theme</button>
+        <button @click="theme.currentTheme = 'default'">Default</button>
+      </div>
+    </div>
+    <div class="row">
+      <h1 v-if="winner">Congratulations, you won 100 tokens!</h1>
+      <h1 v-if="tokens.tokens.sum === 0">GAME OVER</h1>
+    </div>
+    <div class="row">
+      <div class="reel-cont">
+        <spinner
+          :ref="'child'"
+          :spinners="spinnerArr"
+          :numbers="n"
+          :count="count"
+          @done="done"
+        />
+      </div>
+    </div>
 
-  <div class="cont">
-    <spinner
-      :ref="'child'"
-      :spinners="spinnerArr"
-      :numbers="n"
-      :count="count"
-      @done="done"
-    />
+    <!--If player doesn't have tokens, button is disabeld-->
+    <button
+      class="slot-btn red"
+      style="min-height: 200px; min-width: 200px"
+      @click="gameStart"
+      :disabled="tokens.tokens.sum === 0 ? true : false"
+    >
+      SPELA
+    </button>
   </div>
-
-  <!--If player doesn't have tokens, button is disabeld-->
-  <button
-    class="slot-btn red"
-    style="min-height: 200px; min-width: 200px"
-    @click="gameStart"
-    :disabled="tokens.sum === 0 ? true : false"
-  >
-    SPELA
-  </button>
 </template>
 
-<style>
+<style lang="scss">
+  .reel-cont {
+    display: flex;
+  }
   .cont {
     width: 80vw;
     display: flex;
+    flex-direction: column;
   }
 </style>

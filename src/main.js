@@ -4,4 +4,7 @@ import router from "./router/router.js"
 import { createPinia } from "pinia"
 import "../assets/main.scss"
 
-createApp(App).use(router).use(createPinia()).mount("#app")
+let x = createApp(App).use(router).use(createPinia())
+window.main = x
+
+x.mount("#app")
