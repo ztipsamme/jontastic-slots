@@ -63,7 +63,6 @@
 <template>
   <header>
     <h1 class="first-heading">Butik</h1>
-    <h2 class="tokens">Antal tokens: {{ tokens.sum }}</h2>
   </header>
   <main class="shop container">
     <section class="row">

@@ -165,7 +165,6 @@
 
 <template>
   <h1 v-if="winner">WOOOHKOOOO</h1>
-  <p>You have {{ tokens.sum }} tokens left</p>
   <h1 v-if="winner">Congratulations, you won 100 tokens!</h1>
   <h1 v-if="this.tokens.sum === 0">GAME OVER</h1>
 
