@@ -108,34 +108,3 @@ $btn-red2: #d84145;
   left: 0px;
   top: 0px;
 }
-
-
-//OBS!: Prövar nedan att mobilanpassa och underlätta för olika teman.
-//Theme standard
-$icon-size: 48px;
-//One line font -> https://hadrysmateusz.com/blog/font-shorthand
-$icon-font: bold 16px Arial, Helvetica, sans-serif;
-$border-radius: 10px;
-
-.shop-item {
-  height: $icon-size;
-  width: $icon-size;
-  border-radius: $border-radius;
-  font: $icon-font;
-  border: transparent;
-}
-//Night Theme
-.shop-item.night-theme {
-  $primary: #BCA8F2;
-  $secondary: #231251;
-  background-color: $secondary;
-  color: $primary;
-}
-.icon {
-  width: 20px;
-}
-
-.shop-display {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}

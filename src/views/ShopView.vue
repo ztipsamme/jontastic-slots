@@ -1,6 +1,5 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
-  import PopUp from "../components/PopUp.vue"
 
   // Importera tokenStore
   export default {
@@ -8,9 +7,6 @@
       const tokenStore = useTokenStore()
       window.content = tokenStore
       return { tokenStore }
-    },
-    components: {
-      PopUp,
     },
     data() {
       return {
@@ -61,73 +57,112 @@
     <h1 class="first-heading">Butik</h1>
     <h2 class="tokens">Antal tokens: {{ tokens.sum }}</h2>
   </header>
-  <main class="shop">
-    <h2 class="second-heading">Bonusar:</h2>
-    <div class="bonus shop-display">
-      <button class="shop-item bonus-btn" @click="buyBonus('Extra Spin')">
-        Extra Spin
-      </button>
-      <button class="shop-item bonus-btn" @click="buyBonus('Extra Row')">
-        Extra Row
-      </button>
-      <button class="shop-item bonus-btn">Någon Bonus</button>
-    </div>
-    <h2 class="second-heading">Teman:</h2>
-    <div class="bonus shop-display">
-      <button
-        aria-label="Night Theme"
-        class="shop-item night-theme"
-        @click="buyBonus('Night Theme')"
-      >
-        <img class="icon" src="/assets/svg/icon-moon.svg" alt="Halvmånde" />
-      </button>
-      <button class="shop-item forest-theme" @click="buyBonus('Forest Theme')">
-        Forest Theme
-      </button>
-      <button class="shop-item cat-theme" @click="buyBonus('Cat Theme')">
-        Cat Theme
-      </button>
-      <i class="fa-solid fa-moon" />
-    </div>
+  <main class="shop container">
+    <section class="row">
+      <div class="col">
+        <h2 class="second-heading">Bonusar:</h2>
+        <div>
+          <button class="shop-item bonus" @click="buyBonus('Extra Spin')">
+            Extra Spin
+          </button>
+          <button class="shop-item bonus" @click="buyBonus('Extra Row')">
+            Extra Row
+          </button>
+          <button class="shop-item bonus">Någon Bonus</button>
+        </div>
+      </div>
+      <div class="col">
+        <h2 class="second-heading">Teman:</h2>
+        <div>
+          <button
+            aria-label="Night Theme"
+            class="shop-item night"
+            @click="buyBonus('Night Theme')"
+          >
+            <img class="icon" src="/assets/svg/icon-moon.svg" alt="Halvmånde" />
+          </button>
+          <button
+            aria-label="Forest Theme"
+            class="shop-item forest"
+            @click="buyBonus('Forest Theme')"
+          >
+            <img class="icon" src="/assets/svg/icon-pine-tree.svg" alt="Gran" />
+          </button>
+          <button
+            aria-lable="Cat Theme"
+            class="shop-item cat"
+            @click="buyBonus('Cat Theme')"
+          >
+            <img class="icon" src="/assets/svg/icon-cat.svg" alt="Katt" />
+          </button>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <div class="item-bag">
-    <h1 class="first-heading">Din väska</h1>
-
-    <h2 class="second-heading">Bonusar:</h2>
-    <div class="bonus">
-      <button class="bonus-btn" :key="bonus" v-for="bonus in bonusTypes">
-        {{ bonus.amount }} {{ bonus.name }}
-      </button>
-      <button class="bonus-btn">Någon Bonus</button>
+  <section class="container">
+    <!--Din väska 1-->
+    <div class="row">
+      <h1 class="first-heading">Din väska</h1>
+      <div class="col">
+        <h2 class="second-heading">Bonusar:</h2>
+        <div class="shop-display">
+          <button
+            class="shop-item bonus"
+            :key="bonus"
+            v-for="bonus in bonusTypes"
+          >
+            {{ bonus.amount }} {{ bonus.name }}
+          </button>
+          <button class="shop-item bonus">Någon Bonus</button>
+        </div>
+      </div>
+      <div class="col">
+        <h2 class="second-heading">Teman:</h2>
+        <div class="shop-display">
+          <button
+            class="shop-item bonus"
+            :key="theme"
+            v-for="theme in themeTypes"
+          >
+            {{ theme.name }} {{ theme.amount }}
+          </button>
+        </div>
+      </div>
     </div>
 
-    <h2 class="second-heading">Teman:</h2>
-    <div class="bonus">
-      <button class="bonus-btn" :key="theme" v-for="theme in themeTypes">
-        {{ theme.name }} {{ theme.amount }}
-      </button>
+    <!--Din väska 2-->
+    <div class="row">
+      <h1 class="first-heading">Din väska</h1>
+      <div class="col">
+        <h2 class="second-heading">Bonusar:</h2>
+        <div class="shop-display">
+          <button
+            class="shop-item bonus"
+            :key="bonus"
+            v-for="bonus in bonusTypes"
+          >
+            {{ bonus.amount }}: {{ bonus.name }}
+          </button>
+        </div>
+      </div>
+      <div class="col">
+        <h2 class="first-heading">Teman:</h2>
+        <div class="shop-display">
+          <button
+            class="shop-item bonus"
+            :key="theme"
+            v-for="theme in themeTypes"
+          >
+            {{ theme.name }}
+          </button>
+        </div>
+      </div>
     </div>
-    <h1 class="first-heading">Din väska</h1>
-    <h2 class="second-heading">Bonusar:</h2>
-    <div class="bonus">
-      <button class="bonus-btn" :key="bonus" v-for="bonus in bonusTypes">
-        {{ bonus.amount }}: {{ bonus.name }}
-      </button>
-    </div>
-
-    <h2 class="first-heading">Teman:</h2>
-    <div class="bonus">
-      <button class="bonus-btn" :key="theme" v-for="theme in themeTypes">
-        {{ theme.name }}
-      </button>
-    </div>
-  </div>
-
-  <PopUp />
+  </section>
 </template>
 
-<!--OBS!: Prövar att mobilanpassa och underlätta för olika teman. -->
+<!--OBS!: Prövar att mobilanpassa och underlätta för olika teman. Tidigare styling finns i den utkommenterade koden nedan.-->
 <!-- <style>
   header {
     padding: 15px;
@@ -172,6 +207,53 @@
     font-weight: bold;
   }
 </style> -->
+
+<style lang="scss">
+  //OBS!: Prövar nedan att mobilanpassa och underlätta för olika teman.
+  //Theme standard
+  $icon-size: 48px;
+  //One line font -> https://hadrysmateusz.com/blog/font-shorthand
+  $icon-font: bold 16px Arial, Helvetica, sans-serif;
+  $border-radius: 10px;
+  $primary: black;
+  $secondary: lightgray;
+
+  .shop-item {
+    height: $icon-size;
+    width: $icon-size;
+    border-radius: $border-radius;
+    font: $icon-font;
+    border: transparent;
+    background-color: $secondary;
+    color: $primary;
+    overflow: hidden;
+    align-items: center;
+    img {
+      width: 20px;
+    }
+  }
+
+  .night {
+    $primary: #bca8f2;
+    $secondary: #231251;
+    background-color: $secondary;
+  }
+  .forest {
+    $primary: #7dbe91;
+    $secondary: #283a24;
+    background-color: $secondary;
+  }
+  .cat {
+    $primary: #d54fa0;
+    $secondary: #ffd3ee;
+    background-color: $secondary;
+  }
+  .bonus {
+    $primary: #e9d489;
+    $secondary: #bca349;
+    background-color: $secondary;
+  }
+</style>
 
 <!--
 
