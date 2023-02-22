@@ -1,6 +1,19 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
+
+  let resize = function (el, binding) {
+    const onResizeCallback = binding.value
+    window.addEventListener("resize", () => {
+      const width = document.documentElement.clientWidth
+      const height = document.documentElement.clientHeight
+      onResizeCallback({ width, height })
+    })
+  }
+
   export default {
+    directives: {
+      resize,
+    },
     props: {
       numbers: {
         type: Array,
@@ -19,6 +32,11 @@
         default: () => null,
       },
     },
+    mounted() {
+      const width = document.documentElement.clientWidth
+      const height = document.documentElement.clientHeight
+      this.s.height = height * 0.2
+    },
     emits: { done: null },
     setup() {
       const tokens = useTokenStore()
@@ -27,7 +45,7 @@
     data() {
       return {
         width: 250,
-        height: 150,
+        s: { height: 150 },
         win: false,
         current: new Array(this.spinners.length).fill(0),
       }
@@ -62,7 +80,7 @@
         return (x) => (360 / c) * x
       },
       rad() {
-        return Math.round(this.height / 2 / Math.tan(Math.PI / this.count))
+        return Math.round(this.s.height / 2 / Math.tan(Math.PI / this.count))
       },
       opt() {
         return (i) => ({
@@ -91,32 +109,6 @@
       },
     },
     methods: {
-      spin(arr) {
-        let ani = []
-        let refs = this.spinners.map((e, i) => {
-          return this.$refs["c" + i]
-        })
-        refs.forEach((e, i) => {
-          let startAngle = this.current[i] * (360 / this.count) * -1
-
-          let newNumber = arr[i]
-
-          let deg = 1080 + newNumber * (360 / this.count)
-
-          console.log(arr[i])
-          let x = this.rotation(startAngle, -deg)
-          console.log(x)
-          let rotani = new KeyframeEffect(e, x, this.opt(i))
-          ani[i] = new Animation(rotani, document.timeline)
-          this.current[i] = arr[i]
-        })
-        let p = []
-        for (let a of ani) {
-          a.play()
-          p.push(a.finished)
-        }
-        return Promise.all(p)
-      },
       start(num = this.numbers) {
         this.win = false
         this.test(num).then((data) => {
@@ -175,6 +167,10 @@
         })
         return Promise.all(p)
       },
+      onResize({ width, height }) {
+        this.s.height = height * 0.2
+        console.log("res")
+      },
     },
   }
 </script>
@@ -183,7 +179,7 @@
   <h1 v-if="this.winner">WINNER!!</h1>
 
   <template v-for="(spinner, i) in spinners">
-    <div :class="'scene-' + i">
+    <div :class="'scene-' + i" v-resize="onResize">
       <div
         class="carousel"
         :ref="'c' + i"
@@ -196,21 +192,30 @@
           :key="ind"
           :data-val="val"
           :style="{
-            width: width + 'px',
-            height: height + 'px',
+            width: '100%',
+            height: s.height + 'px',
             transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
             backgroundColor: `hsla(${0 + 16 * Number(ind)}deg,75%,50%)`,
-            backgroundImage: `linear-gradient(
-              45deg,
-              hsla(${0 + 16 * (Number(ind) - 1)}deg,75%,50%),
+            /* backgroundImage: `linear-gradient(
+              0deg,
               hsla(${0 + 16 * Number(ind)}deg,75%,50%),
-              hsla(${0 + 16 * Number(ind)}deg,75%,50%))`,
-            boxShadow: `inset 0 0 18px 10px hsla(${
-              0 + 16 * (Number(ind) + 1)
-            }deg,100%,65%,0.4)`,
+              hsla(${0 + 16 * (Number(ind) + 1)}deg,75%,50%))`,
+*/
+            boxShadow: `inset 0 0 18px 10px hsla(${180}deg,100%,65%,0.5)`,
+
+            backgroundImage: `linear-gradient(
+              0deg,
+              hsla(${180}deg,100%,80%),
+              hsla(${190}deg,75%,80%))`,
           }"
         >
-          {{ val }}
+          <div
+            class="slot-ico"
+            :style="{
+              backgroundImage: `url(../../assets/ico${val}.svg`,
+              filter: 'drop-shadow(5px 5px 6px hsla(0deg,0%,0%,0.5))',
+            }"
+          />
         </div>
       </div>
     </div>
@@ -310,7 +315,7 @@
   div[class*="scene"] {
     position: relative;
     width: 250px;
-    height: 480px;
+    height: 60vh;
     perspective: 2000px;
     overflow: hidden;
     border-radius: 33px;
@@ -347,5 +352,15 @@
     font-size: 100px;
     font-weight: bold;
     color: hsla(180deg, 50%, 100%, 0.8);
+    padding: 15px;
+  }
+
+  .slot-ico {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
   }
 </style>

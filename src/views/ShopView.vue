@@ -20,7 +20,7 @@
     },
     computed: {
       tokens() {
-        return this.tokenStore.tokens // Hämta tokens
+        return this.tokenStore.tokens
       },
       bonusTypes() {
         return this.tokenStore.bonusTypes
@@ -31,14 +31,13 @@
     },
     methods: {
       buyBonus(name) {
-        // Sök genom tokenStore och hitta matchande namn som klickats på
         let bonus = this.tokenStore.bonusTypes.find(
           (type) => type.name === name,
         )
         let theme = this.tokenStore.themeTypes.find(
           (type) => type.name === name,
         )
-        // Kolla om du har nog med tokens som räcker för cost och att du inte redan äger temat
+
         if (
           theme &&
           this.tokenStore.tokens.sum >= theme.cost &&
@@ -116,9 +115,7 @@
         {{ bonus.amount }}: {{ bonus.name }}
       </button>
     </div>
-    <!-- <ul :key="bonus" v-for="bonus in bonusTypes">
-      <li>{{ bonus.amount }}: {{ bonus.name }}</li>
-    </ul> -->
+
     <h2 class="first-heading">Teman:</h2>
     <div class="bonus">
       <button class="bonus-btn" :key="theme" v-for="theme in themeTypes">
@@ -191,24 +188,5 @@
   ----
 
   Du har inte tillräckligt många tokens. Spela och vinn fler!
-
- -->
-
-<!--
-
-  TO DO:
-
-Knapp för varje köp, länk till komponent som man lägger in i varukorg
-
-Är du säker att du vill köpa? varning
-
-Du saknar tokens varning
-
-Tillbaka-knapp
-
-Komponent för bonus och teman
-
-
-
 
  -->
