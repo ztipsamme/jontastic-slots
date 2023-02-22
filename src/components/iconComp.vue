@@ -9,17 +9,7 @@
       return {}
     },
     computed: {},
-    methods: {
-      getState() {
-        console.log(this.tokens.tokens.sum)
-
-        this.tokens.tokens.sum = 10
-        console.log(this.tokens.tokens.sum)
-
-        this.tokens.tokens(15)
-        console.log(this.tokens.tokens.sum)
-      },
-    },
+    methods: {},
   }
 </script>
 

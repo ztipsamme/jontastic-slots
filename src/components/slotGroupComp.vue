@@ -72,7 +72,7 @@
           n[i] = Math.floor(Math.random() * this.count)
           num[i] = e[n[i]]
         })
-        console.log("Start Num", { num, n })
+
         if (num[0] == num[1]) {
           for (let i = 2; i < this.spinnerArr.length; i++) {
             n[i] = this.spinnerArr[i].indexOf(num[0])
@@ -120,8 +120,6 @@
             }
           } */
 
-        console.log("ountN", { num, n })
-
         return { num: num, n: n }
       },
       checkNumbers() {
@@ -132,8 +130,6 @@
         return this.n
       },
       done() {
-        console.log("DONE", this.num)
-
         this.startGame = false
 
         if (this.num.every((e) => e == this.num[0])) {

@@ -114,17 +114,26 @@
       start(num = this.numbers) {
         this.win = false
         this.test(num).then(() => {
-          console.log(this)
+          this.blinking()
+
           this.$emit("done")
-          console.log("spinner done")
+
           if (num.every((e) => e == num[0])) {
             this.win = true
           }
         })
       },
+      blinking() {
+        let refs = this.spinners.map((e, i) => {
+          return this.$refs["c" + i][0]
+        })
+        refs.forEach((e, i) => {
+          let card = document.querySelector("[data-id]=" + this.numbers[i])
+          card.classList.add("animation-blinking")
+        })
+      },
       test(arr) {
         this.startTime = Date.now()
-
         let loop = (element, from, to, resolve) => {
           this.time = Date.now()
           this.elapsed = this.time - this.startTime
@@ -152,10 +161,10 @@
         let refs = this.spinners.map((e, i) => {
           return this.$refs["c" + i][0]
         })
-        console.log(this.$refs, refs)
+
         refs.forEach((e, i) => {
           let startAngle = this.current[i] * (360 / this.count) * -1
-          console.log("SA", startAngle)
+
           let newNumber = arr[i]
           let deg = 1080 + newNumber * (360 / this.count)
           let from = startAngle
@@ -171,7 +180,6 @@
       },
       onResize({ width, height }) {
         this.s.height = height * 0.2
-        console.log("res")
       },
     },
   }
@@ -192,7 +200,7 @@
           class="carousel__cell"
           v-for="(val, ind) in spinner"
           :key="ind"
-          :data-val="val"
+          :data-id="ind"
           :style="{
             width: '100%',
             height: s.height + 'px',
@@ -358,5 +366,23 @@
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+  }
+
+  .animation-blinking {
+    animation-name: blinking;
+    animation-duration: 0.5;
+    animation-iteration-count: infinite;
+  }
+  @keyframes blinking {
+    from {
+      background-image: none;
+      background-color: hsla(180deg, 75%, 50%);
+      width: 100%;
+    }
+    to {
+      background-image: none;
+      background-color: hsla(180deg, 75%, 100%);
+      width: 120%;
+    }
   }
 </style>
