@@ -19,6 +19,9 @@ export const useTokenStore = defineStore("tokens", {
     getTokensPlusOne: (state) => state.tokens + 1,
   },
   actions: {
+    isThemeOwned(name){
+      this.the
+    }
     addTokens(amount) {
       this.token += amount
     },
