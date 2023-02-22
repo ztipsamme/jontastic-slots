@@ -36,12 +36,12 @@
       reels() {
         this.spinnerArr = new Array(this.reels)
           .fill(null)
-          .map((e) => this.generateSpinner())
+          .map(() => this.generateSpinner())
       },
     },
     computed: {
       mytokens() {
-        return this.tokens.tokens
+        return this.tokens.tokens.sum
       },
     },
     methods: {
@@ -138,7 +138,7 @@
 
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
-          this.tokens.tokens = this.tokens.tokens + 100
+          this.tokens.tokens.sum = this.tokens.tokens.sum + 100
           console.log("Yay, you won 100 toekns! =D")
         } else {
           this.winner = false
@@ -152,13 +152,13 @@
         this.startGame = true
 
         this.num = [1, 2, 3, 4, 5, 3, 6, 9]
-        if (this.tokens.tokens - 5 < 0) {
+        if (this.tokens.tokens.sum - 5 < 0) {
           alert("GameOver")
-          this.tokens.tokens = 100
+          this.tokens.tokens.sum = this.tokens.tokens.startValue
           return
         }
         this.winner = false
-        this.tokens.tokens -= 5
+        this.tokens.tokens.sum -= 5
         this.checkNumbers()
 
         this.$refs.child.start(this.n)
@@ -169,9 +169,9 @@
 
 <template>
   <h1 v-if="winner">WOOOHKOOOO</h1>
-  <p>You have {{ tokens.tokens }} tokens left</p>
+  <p>You have {{ tokens.tokens.sum }} tokens left</p>
   <h1 v-if="winner">Congratulations, you won 100 tokens!</h1>
-  <h1 v-if="this.tokens.tokens === 0">GAME OVER</h1>
+  <h1 v-if="this.tokens.tokens.sum === 0">GAME OVER</h1>
 
   <div class="cont">
     <spinner
@@ -188,7 +188,7 @@
     class="slot-btn red"
     style="min-height: 200px; min-width: 200px"
     @click="gameStart"
-    :disabled="this.tokens.tokens === 0 ? true : false"
+    :disabled="this.tokens.tokens.sum === 0 ? true : false"
   >
     SPELA
   </button>

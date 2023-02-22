@@ -1,6 +1,6 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
-  import overlayPopUp from "../components/overlayPopUp.vue"
+  import PopUp from "../components/PopUp.vue"
 
   // Importera tokenStore
   export default {
@@ -10,7 +10,7 @@
       return { tokenStore }
     },
     components: {
-      overlayPopUp,
+      PopUp,
     },
     data() {
       return {
@@ -18,22 +18,19 @@
         verification: false,
       }
     },
-
     computed: {
       tokens() {
-        return this.tokenStore.tokens // Hämta tokens
+        return this.tokenStore.tokens
       },
       bonusTypes() {
         return this.tokenStore.bonusTypes
       },
       themeTypes() {
-        return this.tokenStore
+        return this.tokenStore.themeTypes
       },
     },
-
     methods: {
       buyBonus(name) {
-        // Sök genom tokenStore och hitta matchande namn som klickats på
         let bonus = this.tokenStore.bonusTypes.find(
           (type) => type.name === name,
         )
@@ -41,19 +38,17 @@
           (type) => type.name === name,
         )
 
-        // Kolla om du har nog med tokens som räcker för cost och att du inte redan äger temat
-
         if (
           theme &&
-          this.tokenStore.tokens >= theme.cost &&
+          this.tokenStore.tokens.sum >= theme.cost &&
           theme.owned != true
         ) {
           theme.owned = true
-          this.tokenStore.tokens -= theme.cost
+          this.tokenStore.tokens.sum -= theme.cost
         }
-        if (bonus && this.tokenStore.tokens >= bonus.cost) {
+        if (bonus && this.tokenStore.tokens.sum >= bonus.cost) {
           bonus.amount += 1
-          this.tokenStore.tokens -= bonus.cost
+          this.tokenStore.tokens.sum -= bonus.cost
         } else {
           this.errorMessage = true
         }
@@ -61,15 +56,13 @@
     },
   }
 </script>
-
 <template>
   <header>
-    <h1>Butik</h1>
-    <h2 class="tokens">Antal tokens: {{ tokens }}</h2>
+    <h1 class="first-heading">Butik</h1>
+    <h2 class="tokens">Antal tokens: {{ tokens.sum }}</h2>
   </header>
-
   <main class="shop">
-    <h2 class="first-heading">Bonus</h2>
+    <h2 class="second-heading">Bonusar:</h2>
     <div class="bonus">
       <button class="bonus-btn" @click="buyBonus('Extra Spin')">
         Extra Spin
@@ -79,7 +72,7 @@
       </button>
       <button class="bonus-btn">Någon Bonus</button>
     </div>
-    <h2 class="first-heading">Tema</h2>
+    <h2 class="second-heading">Teman:</h2>
     <div class="bonus">
       <button class="night-theme" @click="buyBonus('Night Theme')">
         Night Theme
@@ -92,24 +85,41 @@
       </button>
     </div>
   </main>
-  <h1 class="error" v-if="errorMessage">
-    Du har inte tillräckligt med tokens. Spela igen för att få fler!
-  </h1>
+
   <div class="item-bag">
-    <h1>Din väska</h1>
-    <h2>Bonusar:</h2>
-    <ul>
-      <li :key="bonus" v-for="bonus in bonusTypes">
+    <h1 class="first-heading">Din väska</h1>
+
+    <h2 class="second-heading">Bonusar:</h2>
+    <div class="bonus">
+      <button class="bonus-btn" :key="bonus" v-for="bonus in bonusTypes">
+        {{ bonus.amount }} {{ bonus.name }}
+      </button>
+      <button class="bonus-btn">Någon Bonus</button>
+    </div>
+
+    <h2 class="second-heading">Teman:</h2>
+    <div class="bonus">
+      <button class="bonus-btn" :key="theme" v-for="theme in themeTypes">
+        {{ theme.name }} {{ theme.amount }}
+      </button>
+    </div>
+    <h1 class="first-heading">Din väska</h1>
+    <h2 class="second-heading">Bonusar:</h2>
+    <div class="bonus">
+      <button class="bonus-btn" :key="bonus" v-for="bonus in bonusTypes">
         {{ bonus.amount }}: {{ bonus.name }}
-      </li>
-    </ul>
-    <h2>Teman:</h2>
-    <ul>
-      <li :key="theme" v-for="theme in themeTypes">{{ theme.name }}</li>
-    </ul>
+      </button>
+    </div>
+
+    <h2 class="first-heading">Teman:</h2>
+    <div class="bonus">
+      <button class="bonus-btn" :key="theme" v-for="theme in themeTypes">
+        {{ theme.name }}
+      </button>
+    </div>
   </div>
 
-  <overlayPopUp />
+  <PopUp />
 </template>
 
 <style>
@@ -118,31 +128,31 @@
     text-align: center;
     margin-bottom: 30px;
   }
-  .shop {
+  .shop,
+  .item-bag {
     display: flex;
     flex-direction: column;
-    /*  gap: 20px; */
   }
-
   .bonus {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
     gap: 15px;
     align-items: center;
   }
 
-  .first-heading,
+  .first-heading {
+    font-size: 30px;
+    text-align: center;
+  }
+  .second-heading,
   .error {
     text-align: center;
     font-size: 18px;
     font-weight: bold;
   }
-
   .tokens {
     font-size: 13px;
   }
-
   .night-theme,
   .forest-theme,
   .cat-theme,
@@ -152,6 +162,8 @@
     border-radius: 60px;
     margin-top: 20px;
     margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
   }
 </style>
 
@@ -170,24 +182,5 @@
   ----
 
   Du har inte tillräckligt många tokens. Spela och vinn fler!
-
- -->
-
-<!--
-
-  TO DO:
-
-Knapp för varje köp, länk till komponent som man lägger in i varukorg
-
-Är du säker att du vill köpa? varning
-
-Du saknar tokens varning
-
-Tillbaka-knapp
-
-Komponent för bonus och teman
-
-
-
 
  -->
