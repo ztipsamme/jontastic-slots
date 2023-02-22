@@ -202,15 +202,21 @@
             backgroundColor: `hsla(${0 + 16 * Number(ind)}deg,75%,50%)`,
             backgroundImage: `linear-gradient(
               45deg,
-              hsla(${0 + 16 * (Number(ind) - 1)}deg,75%,50%),
-              hsla(${0 + 16 * Number(ind)}deg,75%,50%),
-              hsla(${0 + 16 * Number(ind)}deg,75%,50%))`,
+              hsla(${0 + 16 * (Number(ind) - 1)}deg,75%,80%),
+              hsla(${0 + 16 * Number(ind)}deg,75%,75%),
+              hsla(${0 + 16 * Number(ind)}deg,75%,80%))`,
             boxShadow: `inset 0 0 18px 10px hsla(${
               0 + 16 * (Number(ind) + 1)
             }deg,100%,65%,0.4)`,
           }"
         >
-          {{ val }}
+          <div
+            class="slot-ico"
+            :style="{
+              backgroundImage: `url(../../assets/ico${val}.svg`,
+              filter: 'drop-shadow(5px 5px 6px hsla(0deg,0%,0%,0.5))',
+            }"
+          />
         </div>
       </div>
     </div>
@@ -347,5 +353,15 @@
     font-size: 100px;
     font-weight: bold;
     color: hsla(180deg, 50%, 100%, 0.8);
+    padding: 15px;
+  }
+
+  .slot-ico {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
   }
 </style>
