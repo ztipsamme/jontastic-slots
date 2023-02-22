@@ -28,10 +28,18 @@
       },
     },
     methods: {
-      popUpAction(state, item) {
-        this.popUp = state
+      popUpAction(item) {
+        let theme = this.tokenStore.themeTypes.find(
+          (type) => type.name === item,
+        ).owned
+
         this.seceltedItem = item
-        console.log(this.seceltedItem)
+
+        if (!theme) {
+          this.popUp = true
+        } else {
+          this.popUp = false
+        }
       },
       buyBonus() {
         let bonus = this.tokenStore.bonusTypes.find(
@@ -69,16 +77,10 @@
       <div class="col">
         <h2 class="second-heading">Bonusar:</h2>
         <div>
-          <button
-            class="shop-item bonus"
-            @click="popUpAction(true, 'Extra Spin')"
-          >
+          <button class="shop-item bonus" @click="popUpAction('Extra Spin')">
             Extra Spin
           </button>
-          <button
-            class="shop-item bonus"
-            @click="popUpAction(true, 'Extra Row')"
-          >
+          <button class="shop-item bonus" @click="popUpAction('Extra Row')">
             Extra Row
           </button>
           <button class="shop-item bonus">Någon Bonus</button>
@@ -90,21 +92,21 @@
           <button
             aria-label="Night Theme"
             class="shop-item night"
-            @click="popUpAction(true, 'Night Theme')"
+            @click="popUpAction('Night Theme')"
           >
             <img class="icon" src="/assets/svg/icon-moon.svg" alt="Halvmånde" />
           </button>
           <button
             aria-label="Forest Theme"
             class="shop-item forest"
-            @click="popUpAction(true, 'Forest Theme')"
+            @click="popUpAction('Forest Theme')"
           >
             <img class="icon" src="/assets/svg/icon-pine-tree.svg" alt="Gran" />
           </button>
           <button
             aria-lable="Cat Theme"
             class="shop-item cat"
-            @click="popUpAction(true, 'Cat Theme')"
+            @click="popUpAction('Cat Theme')"
           >
             <img class="icon" src="/assets/svg/icon-cat.svg" alt="Katt" />
           </button>
