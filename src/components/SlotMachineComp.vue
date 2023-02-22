@@ -1,6 +1,6 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
-  import spinnerComp from "./ReelsComp.vue.js"
+  import spinnerComp from "./ReelsComp.vue"
   export default {
     components: {
       spinner: spinnerComp,

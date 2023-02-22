@@ -2,12 +2,12 @@
   import { useTokenStore } from "../stores/tokenStore.js"
   import Themes from "./themes/index.js"
   import Icons from "./themes/Default/index"
-  import icon1 from "./themes/Default/themeIco1.vue.js"
-  import icon6 from "./themes/Default/themeIco6.vue.js"
-  import icon2 from "./themes/Default/themeIco2.vue.js"
-  import icon3 from "./themes/Default/themeIco3.vue.js"
-  import icon4 from "./themes/Default/themeIco4.vue.js"
-  import icon5 from "./themes/Default/themeIco5.vue.js"
+  import icon1 from "./themes/Default/themeIco1.vue"
+  import icon6 from "./themes/Default/themeIco6.vue"
+  import icon2 from "./themes/Default/themeIco2.vue"
+  import icon3 from "./themes/Default/themeIco3.vue"
+  import icon4 from "./themes/Default/themeIco4.vue"
+  import icon5 from "./themes/Default/themeIco5.vue"
 
   let resize = function (el, binding) {
     const onResizeCallback = binding.value
