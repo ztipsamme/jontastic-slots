@@ -6,8 +6,8 @@ export const useTokenStore = defineStore("tokens", {
   state: () => ({
     tokens: useStorage("tokens", { sum: 10000, startValue: 100 }),
     bonusTypes: useStorage("bonusTypes", [
-      { name: "Extra Spin", cost: 200, amount: 0 },
-      { name: "Extra Row", cost: 250, amount: 0 },
+      { name: "Extra Spin", cost: 200, amount: 0, owned: false },
+      { name: "Extra Row", cost: 250, amount: 0, owned: false },
     ]),
     themeTypes: useStorage("themeTypes", [
       { name: "Cat Theme", cost: 150, owned: false },

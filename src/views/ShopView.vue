@@ -13,7 +13,7 @@
         errorMessage: false,
         verification: false,
         popUp: false,
-        seceltedItem: "",
+        selectedItem: "",
       }
     },
     computed: {
@@ -27,26 +27,31 @@
         return this.tokenStore.themeTypes
       },
     },
+
     methods: {
       popUpAction(item) {
         let theme = this.tokenStore.themeTypes.find(
           (type) => type.name === item,
-        ).owned
+        )
+        let bonus = this.tokenStore.bonusTypes.find(
+          (type) => type.name === item,
+        )
 
-        this.seceltedItem = item
+        this.selectedItem = item
 
-        if (!theme) {
+        if ((theme && !theme.owned) || (bonus && !bonus.owned)) {
           this.popUp = true
         } else {
           this.popUp = false
         }
       },
+
       buyBonus() {
         let bonus = this.tokenStore.bonusTypes.find(
-          (type) => type.name === this.seceltedItem,
+          (type) => type.name === this.selectedItem,
         )
         let theme = this.tokenStore.themeTypes.find(
-          (type) => type.name === this.seceltedItem,
+          (type) => type.name === this.selectedItem,
         )
 
         if (
@@ -146,43 +151,14 @@
       </div>
     </div>
 
-    <!--Din väska 2-->
-    <div class="row">
-      <h1 class="first-heading">Din väska</h1>
-      <div class="col">
-        <h2 class="second-heading">Bonusar:</h2>
-        <div class="shop-display">
-          <button
-            class="shop-item bonus"
-            :key="bonus"
-            v-for="bonus in bonusTypes"
-          >
-            {{ bonus.amount }}: {{ bonus.name }}
-          </button>
-        </div>
-      </div>
-      <div class="col">
-        <h2 class="first-heading">Teman:</h2>
-        <div class="shop-display">
-          <button
-            class="shop-item bonus"
-            :key="theme"
-            v-for="theme in themeTypes"
-          >
-            {{ theme.name }}
-          </button>
-        </div>
+    <div v-if="popUp" @close="popUp = false" class="popup-overlay">
+      <div class="popup-container">
+        <p>Vill du köpa {{ selectedItem }}?</p>
+        <button @click="popUp = false">Avbryt</button>
+        <button @click="buyBonus()">Köp</button>
       </div>
     </div>
   </section>
-
-  <div v-if="popUp" @close="popUp = false" class="popup-overlay">
-    <div class="popup-container">
-      <p>Vill du köpa {{ seceltedItem }}?</p>
-      <button @click="popUp = false">Avbryt</button>
-      <button @click="buyBonus()">Köp</button>
-    </div>
-  </div>
 </template>
 
 <!--OBS!: Prövar att mobilanpassa och underlätta för olika teman. Tidigare styling finns i den utkommenterade koden nedan.-->
