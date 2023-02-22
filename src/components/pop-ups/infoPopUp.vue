@@ -10,8 +10,8 @@
 </template>
 
 <script>
-  import SymbolsValue from "./pop-ups/symbolValuePopUp.vue"
-  import ShopPopUp from "./pop-ups/shopPopUp.vue"
+  import SymbolsValue from "./symbolValuePopUp.vue"
+  import ShopPopUp from "./shopPopUp.vue"
   export default {
     components: {
       SymbolsValue,
@@ -47,28 +47,6 @@
     font-style: normal;
     font-size: 30px;
     font-weight: bold;
-  }
-
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .popup-container {
-    background-color: white;
-    border-radius: 5px;
-    padding: 20px;
-    max-width: 500px;
-    width: 100%;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    position: relative;
   }
 
   .popup-title {
