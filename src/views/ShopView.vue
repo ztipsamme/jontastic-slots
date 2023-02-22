@@ -64,26 +64,31 @@
   </header>
   <main class="shop">
     <h2 class="second-heading">Bonusar:</h2>
-    <div class="bonus">
-      <button class="bonus-btn" @click="buyBonus('Extra Spin')">
+    <div class="bonus shop-display">
+      <button class="shop-item bonus-btn" @click="buyBonus('Extra Spin')">
         Extra Spin
       </button>
-      <button class="bonus-btn" @click="buyBonus('Extra Row')">
+      <button class="shop-item bonus-btn" @click="buyBonus('Extra Row')">
         Extra Row
       </button>
-      <button class="bonus-btn">Någon Bonus</button>
+      <button class="shop-item bonus-btn">Någon Bonus</button>
     </div>
     <h2 class="second-heading">Teman:</h2>
-    <div class="bonus">
-      <button class="night-theme" @click="buyBonus('Night Theme')">
-        Night Theme
+    <div class="bonus shop-display">
+      <button
+        aria-label="Night Theme"
+        class="shop-item night-theme"
+        @click="buyBonus('Night Theme')"
+      >
+        <img class="icon" src="/assets/svg/icon-moon.svg" alt="Halvmånde" />
       </button>
-      <button class="forest-theme" @click="buyBonus('Forest Theme')">
+      <button class="shop-item forest-theme" @click="buyBonus('Forest Theme')">
         Forest Theme
       </button>
-      <button class="cat-theme" @click="buyBonus('Cat Theme')">
+      <button class="shop-item cat-theme" @click="buyBonus('Cat Theme')">
         Cat Theme
       </button>
+      <i class="fa-solid fa-moon" />
     </div>
   </main>
 
@@ -125,7 +130,8 @@
   <PopUp />
 </template>
 
-<style>
+<!--OBS!: Prövar att mobilanpassa och underlätta för olika teman. -->
+<!-- <style>
   header {
     padding: 15px;
     text-align: center;
@@ -168,7 +174,7 @@
     font-size: 16px;
     font-weight: bold;
   }
-</style>
+</style> -->
 
 <!--
 
