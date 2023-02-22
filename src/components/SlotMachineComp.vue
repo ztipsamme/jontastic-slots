@@ -173,7 +173,12 @@
         <p>You have {{ tokens.tokens.sum }} tokens left</p>
       </div>
       <div class="col">
-        <button @click="theme.currentTheme = 'catTheme'">Cat Theme</button>
+        <button
+          v-if="tokens.isThemeOwned('cattheme')"
+          @click="theme.currentTheme = 'catTheme'"
+        >
+          Cat Theme
+        </button>
         <button @click="theme.currentTheme = 'default'">Default</button>
       </div>
     </div>
