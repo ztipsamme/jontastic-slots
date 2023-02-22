@@ -1,13 +1,8 @@
+<!-- eslint-disable vue/attribute-hyphenation -->
+<!-- eslint-disable vue/attribute-hyphenation -->
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
-  import Themes from "./themes/index.js"
-  import Icons from "./themes/Default/index"
-  import icon1 from "./themes/Default/themeIco1.vue"
-  import icon6 from "./themes/Default/themeIco6.vue"
-  import icon2 from "./themes/Default/themeIco2.vue"
-  import icon3 from "./themes/Default/themeIco3.vue"
-  import icon4 from "./themes/Default/themeIco4.vue"
-  import icon5 from "./themes/Default/themeIco5.vue"
+  import { useThemeStore } from "../stores/themes.js"
 
   let resize = function (el, binding) {
     const onResizeCallback = binding.value
@@ -19,16 +14,14 @@
   }
 
   export default {
+    setup() {
+      const tokens = useTokenStore()
+      const theme = useThemeStore()
+      return { tokens, theme }
+    },
+    beforeCreate() {},
     directives: {
       resize,
-    },
-    components: {
-      icon1: icon1,
-      icon2: icon2,
-      icon3: icon3,
-      icon4: icon4,
-      icon5: icon5,
-      icon6: icon6,
     },
     props: {
       numbers: {
@@ -47,27 +40,21 @@
         type: Array,
         default: () => null,
       },
-      theme: {
-        type: Object,
-        default: () => Themes._default,
-      },
     },
     mounted() {
       const height = document.documentElement.clientHeight
       this.s.height = height * 0.2
       console.log(this.theme)
+      console.log(this.$components)
     },
     emits: { done: null },
-    setup() {
-      const tokens = useTokenStore()
-      return { tokens }
-    },
     data() {
       return {
         width: 250,
         s: { height: 150 },
         win: false,
         current: new Array(this.spinners.length).fill(0),
+        currentTheme: "default",
       }
     },
     watch: {
@@ -146,8 +133,8 @@
           return this.$refs["c" + i][0]
         })
         refs.forEach((e, i) => {
-          let card = document.querySelector("[data-id]=" + this.numbers[i])
-          card.classList.add("animation-blinking")
+          //          let card = document.querySelector("[data-id=" + this.numbers[i] + "]")
+          //        card.classList.add("animation-blinking")
         })
       },
       test(arr) {
@@ -224,20 +211,18 @@
             height: s.height + 'px',
             transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
             backgroundColor: `hsla(${0 + 16 * Number(ind)}deg,75%,50%)`,
-            /* backgroundImage: `linear-gradient(
-              0deg,
-              hsla(${0 + 16 * Number(ind)}deg,75%,50%),
-              hsla(${0 + 16 * (Number(ind) + 1)}deg,75%,50%))`,
-*/
-            boxShadow: `inset 0 0 18px 10px hsla(${180}deg,100%,65%,0.5)`,
-
             backgroundImage: `linear-gradient(
-              0deg,
-              hsla(${180}deg,100%,80%),
-              hsla(${190}deg,75%,80%))`,
+              45deg,
+              hsla(${0 + 16 * Number(ind)}deg,75%,50%),
+              hsla(${0 + 16 * Number(ind)}deg,75%,50%),
+              hsla(${0 + 16 * Number(ind + 1)}deg,50%,75%))`,
+
+            boxShadow: `inset 0 0 18px 11px hsla(${
+              0 + 16 * (Number(ind) + 1)
+            }deg,100%,75%,0.5)`,
           }"
         >
-          <component :is="'icon' + val" />
+          <img :src="theme.icons[val - 1]" alt="" class="slot-ico" />
         </div>
       </div>
     </div>
@@ -245,7 +230,7 @@
 
   <!--
 
-  <div class="scene-0">
+  <div class="scene-0">s
     <div
       class="carousel"
       :ref="'c0'"

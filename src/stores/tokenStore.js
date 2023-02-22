@@ -17,6 +17,12 @@ export const useTokenStore = defineStore("tokens", {
   }),
   getters: {
     getTokensPlusOne: (state) => state.tokens + 1,
+    isThemeOwned: (state) => (name) =>
+      state.themeTypes.find(
+        (e) =>
+          e.name.toLowerCase().replace(/\s/, "") ==
+          name.toLowerCase().replace(/\s/, ""),
+      ).owned,
   },
   actions: {
     addTokens(amount) {
