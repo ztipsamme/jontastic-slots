@@ -12,6 +12,8 @@
       return {
         errorMessage: false,
         verification: false,
+        popUp: false,
+        seceltedItem: "",
       }
     },
     computed: {
@@ -26,12 +28,17 @@
       },
     },
     methods: {
-      buyBonus(name) {
+      popUpAction(state, item) {
+        this.popUp = state
+        this.seceltedItem = item
+        console.log(this.seceltedItem)
+      },
+      buyBonus() {
         let bonus = this.tokenStore.bonusTypes.find(
-          (type) => type.name === name,
+          (type) => type.name === this.seceltedItem,
         )
         let theme = this.tokenStore.themeTypes.find(
-          (type) => type.name === name,
+          (type) => type.name === this.seceltedItem,
         )
 
         if (
@@ -48,6 +55,7 @@
         } else {
           this.errorMessage = true
         }
+        this.popUp = false
       },
     },
   }
@@ -62,10 +70,16 @@
       <div class="col">
         <h2 class="second-heading">Bonusar:</h2>
         <div>
-          <button class="shop-item bonus" @click="buyBonus('Extra Spin')">
+          <button
+            class="shop-item bonus"
+            @click="popUpAction(true, 'Extra Spin')"
+          >
             Extra Spin
           </button>
-          <button class="shop-item bonus" @click="buyBonus('Extra Row')">
+          <button
+            class="shop-item bonus"
+            @click="popUpAction(true, 'Extra Row')"
+          >
             Extra Row
           </button>
           <button class="shop-item bonus">Någon Bonus</button>
@@ -77,21 +91,21 @@
           <button
             aria-label="Night Theme"
             class="shop-item night"
-            @click="buyBonus('Night Theme')"
+            @click="popUpAction(true, 'Night Theme')"
           >
             <img class="icon" src="/assets/svg/icon-moon.svg" alt="Halvmånde" />
           </button>
           <button
             aria-label="Forest Theme"
             class="shop-item forest"
-            @click="buyBonus('Forest Theme')"
+            @click="popUpAction(true, 'Forest Theme')"
           >
             <img class="icon" src="/assets/svg/icon-pine-tree.svg" alt="Gran" />
           </button>
           <button
             aria-lable="Cat Theme"
             class="shop-item cat"
-            @click="buyBonus('Cat Theme')"
+            @click="popUpAction(true, 'Cat Theme')"
           >
             <img class="icon" src="/assets/svg/icon-cat.svg" alt="Katt" />
           </button>
@@ -160,6 +174,14 @@
       </div>
     </div>
   </section>
+
+  <div v-if="popUp" @close="popUp = false" class="popup-overlay">
+    <div class="popup-container">
+      <p>Vill du köpa {{ seceltedItem }}?</p>
+      <button @click="popUp = false">Avbryt</button>
+      <button @click="buyBonus()">Köp</button>
+    </div>
+  </div>
 </template>
 
 <!--OBS!: Prövar att mobilanpassa och underlätta för olika teman. Tidigare styling finns i den utkommenterade koden nedan.-->

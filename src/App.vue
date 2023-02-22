@@ -1,5 +1,5 @@
 <script>
-  import PopUp from "./components/PopUp.vue"
+  import PopUp from "./components/pop-ups/infoPopUp.vue"
   export default {
     components: {
       PopUp,
