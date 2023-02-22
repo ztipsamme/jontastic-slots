@@ -4,7 +4,7 @@
 </template>
 
 <script>
-  import slotgroup from "../components/slotGroupComp.vue"
+  import slotgroup from "../components/SlotMachineComp.vue"
   import { useTokenStore } from "../stores/tokenStore"
 
   export default {
