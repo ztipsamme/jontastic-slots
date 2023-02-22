@@ -1,6 +1,13 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
-  import Ico from "./ico/icoComp.vue"
+  import Themes from "./themes"
+  import Icons from "./themes/Default/index"
+  import icon1 from "./themes/Default/themeIco1.vue"
+  import icon6 from "./themes/Default/themeIco6.vue"
+  import icon2 from "./themes/Default/themeIco2.vue"
+  import icon3 from "./themes/Default/themeIco3.vue"
+  import icon4 from "./themes/Default/themeIco4.vue"
+  import icon5 from "./themes/Default/themeIco5.vue"
   let resize = function (el, binding) {
     const onResizeCallback = binding.value
     window.addEventListener("resize", () => {
@@ -13,6 +20,14 @@
   export default {
     directives: {
       resize,
+    },
+    components: {
+      icon1: icon1,
+      icon2: icon2,
+      icon3: icon3,
+      icon4: icon4,
+      icon5: icon5,
+      icon6: icon6,
     },
     props: {
       numbers: {
@@ -31,13 +46,15 @@
         type: Array,
         default: () => null,
       },
-    },
-    components: {
-      ico: Ico,
+      theme: {
+        type: Object,
+        default: () => Themes._default,
+      },
     },
     mounted() {
       const height = document.documentElement.clientHeight
       this.s.height = height * 0.2
+      console.log(this.theme)
     },
     emits: { done: null },
     setup() {
@@ -219,7 +236,7 @@
               hsla(${190}deg,75%,80%))`,
           }"
         >
-          <ico :id="val" />
+          <component :is="'icon' + val" />
         </div>
       </div>
     </div>

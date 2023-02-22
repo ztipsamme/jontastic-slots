@@ -18,7 +18,11 @@
   }
 </script>
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 191.08 187.99">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 191.08 187.99"
+    class="slot-ico"
+  >
     <title>Resurs 3</title>
     <g id="Lager_2" data-name="Lager 2">
       <g id="Lager_1-2" data-name="Lager 1">
