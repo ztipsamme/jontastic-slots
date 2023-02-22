@@ -1,5 +1,6 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
+  import overlayPopUp from "../components/overlayPopUp.vue"
 
   // Importera tokenStore
   export default {
@@ -8,10 +9,13 @@
       window.content = tokenStore
       return { tokenStore }
     },
-
+    components: {
+      overlayPopUp,
+    },
     data() {
       return {
         errorMessage: false,
+        verification: false,
       }
     },
 
@@ -20,7 +24,10 @@
         return this.tokenStore.tokens // Hämta tokens
       },
       bonusTypes() {
-        return this.tokenStore.bonusTypes // Hämta typ av köpfunktioner
+        return this.tokenStore.bonusTypes
+      },
+      themeTypes() {
+        return this.tokenStore
       },
     },
 
@@ -35,51 +42,45 @@
         )
 
         // Kolla om du har nog med tokens som räcker för cost och att du inte redan äger temat
+
         if (
           theme &&
           this.tokenStore.tokens >= theme.cost &&
-          !this.tokenStore.bonusList.includes(theme)
+          theme.owned != true
         ) {
-          this.tokenStore.bonusList.push(theme)
+          theme.owned = true
           this.tokenStore.tokens -= theme.cost
         }
-
-        /* Öka antal istället för att lägga in flera objekt
-         */
         if (bonus && this.tokenStore.tokens >= bonus.cost) {
-          bonus.amount = bonus.amount + 1
-          this.tokenStore.bonusList.push(bonus)
+          bonus.amount += 1
           this.tokenStore.tokens -= bonus.cost
         } else {
           this.errorMessage = true
         }
       },
     },
-    goBack() {
-      // Kod för tillbaka-knapp
-    },
   }
 </script>
 
 <template>
   <header>
-    <h1>Shop</h1>
-    <button @click="goBack()">Tillbaka</button>
+    <h1>Butik</h1>
     <h2 class="tokens">Antal tokens: {{ tokens }}</h2>
   </header>
 
   <main class="shop">
+    <h2 class="first-heading">Bonus</h2>
     <div class="bonus">
-      <h2 class="first-heading">Bonus</h2>
       <button class="bonus-btn" @click="buyBonus('Extra Spin')">
         Extra Spin
       </button>
       <button class="bonus-btn" @click="buyBonus('Extra Row')">
         Extra Row
       </button>
+      <button class="bonus-btn">Någon Bonus</button>
     </div>
+    <h2 class="first-heading">Tema</h2>
     <div class="bonus">
-      <h2 class="first-heading">Teman</h2>
       <button class="night-theme" @click="buyBonus('Night Theme')">
         Night Theme
       </button>
@@ -90,26 +91,56 @@
         Cat Theme
       </button>
     </div>
-    <h1 v-if="errorMessage">Du saknar tokens</h1>
   </main>
+  <h1 class="error" v-if="errorMessage">
+    Du har inte tillräckligt med tokens. Spela igen för att få fler!
+  </h1>
+  <div class="item-bag">
+    <h1>Din väska</h1>
+    <h2>Bonusar:</h2>
+    <ul>
+      <li :key="bonus" v-for="bonus in bonusTypes">
+        {{ bonus.amount }}: {{ bonus.name }}
+      </li>
+    </ul>
+    <h2>Teman:</h2>
+    <ul>
+      <li :key="theme" v-for="theme in themeTypes">{{ theme.name }}</li>
+    </ul>
+  </div>
+
+  <overlayPopUp />
 </template>
 
 <style>
   header {
     padding: 15px;
     text-align: center;
+    margin-bottom: 30px;
   }
   .shop {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    /*  gap: 20px; */
   }
 
   .bonus {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    justify-content: space-evenly;
+    gap: 15px;
     align-items: center;
+  }
+
+  .first-heading,
+  .error {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .tokens {
+    font-size: 13px;
   }
 
   .night-theme,
@@ -118,9 +149,29 @@
   .bonus-btn {
     height: 150px;
     width: 150px;
-    border-radius: 40px;
+    border-radius: 60px;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 </style>
+
+<!--
+
+  Välkommen till din butik!
+
+  Här kan du använda dina tokens för att köpa bonusar som bättrar dina vinstchanser eller välja ett tema som passar dig.
+
+  Du behöver bara köpa ett tema en gång och kan byta bland dina favoriter när du känner för det.
+
+  ----
+
+  Är du säker på att du vill köpa {{ name }}? Ja / Nej
+
+  ----
+
+  Du har inte tillräckligt många tokens. Spela och vinn fler!
+
+ -->
 
 <!--
 

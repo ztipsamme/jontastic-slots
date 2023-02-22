@@ -1,35 +1,54 @@
 <template>
-  <div class="popup-overlay">
+  <i class="info-icon" @click="Popup = true" />
+  <div v-if="Popup" @close="Popup = false" class="popup-overlay">
     <div class="popup-container">
-      <h2 class="popup-title">Symbol Values</h2>
-      <div class="symbol-values">
-        <div
-          v-for="symbolValue in symbolValues"
-          :key="symbolValue.symbol"
-          class="symbol-value"
-        >
-          <img :src="symbolValue.imageUrl" class="symbol-image" />
-          <span class="symbol-name">{{ symbolValue.symbol }}</span>
-          <span class="symbol-points">{{ symbolValue.value }}</span>
-        </div>
-      </div>
-      <button class="close-button" @click="$emit('close')">Close</button>
+      <SymbolsValue v-if="$route.path === '/'" />
+      <ShopPopUp v-if="$route.path === '/shop'" />
+      <button class="close-button" @click="Popup = false">Close</button>
     </div>
   </div>
 </template>
 
 <script>
+  import SymbolsValue from "./pop-ups/symbolValuePopUp.vue"
+  import ShopPopUp from "./pop-ups/shopPopUp.vue"
   export default {
-    props: {
-      symbolValues: {
-        type: Array,
-        required: true,
-      },
+    components: {
+      SymbolsValue,
+      ShopPopUp,
+    },
+    data() {
+      return {
+        Popup: false,
+      }
     },
   }
 </script>
 
-<style scoped>
+<style>
+  .info-icon {
+    display: inline-block;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #f00;
+    border-radius: 50%;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  .info-icon::before {
+    content: "i";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-style: normal;
+    font-size: 30px;
+    font-weight: bold;
+  }
+
   .popup-overlay {
     position: fixed;
     top: 0;
