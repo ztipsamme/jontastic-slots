@@ -1,6 +1,6 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
-
+  import Ico from "./ico/icoComp.vue"
   let resize = function (el, binding) {
     const onResizeCallback = binding.value
     window.addEventListener("resize", () => {
@@ -32,8 +32,10 @@
         default: () => null,
       },
     },
+    components: {
+      ico: Ico,
+    },
     mounted() {
-      const width = document.documentElement.clientWidth
       const height = document.documentElement.clientHeight
       this.s.height = height * 0.2
     },
@@ -111,7 +113,7 @@
     methods: {
       start(num = this.numbers) {
         this.win = false
-        this.test(num).then((data) => {
+        this.test(num).then(() => {
           console.log(this)
           this.$emit("done")
           console.log("spinner done")
@@ -178,7 +180,7 @@
 <template>
   <h1 v-if="this.winner">WINNER!!</h1>
 
-  <template v-for="(spinner, i) in spinners">
+  <template v-for="(spinner, i) in spinners" :key="i">
     <div :class="'scene-' + i" v-resize="onResize">
       <div
         class="carousel"
@@ -209,13 +211,7 @@
               hsla(${190}deg,75%,80%))`,
           }"
         >
-          <div
-            class="slot-ico"
-            :style="{
-              backgroundImage: `url(../../assets/ico${val}.svg`,
-              filter: 'drop-shadow(5px 5px 6px hsla(0deg,0%,0%,0.5))',
-            }"
-          />
+          <ico :id="val" />
         </div>
       </div>
     </div>

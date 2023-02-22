@@ -93,7 +93,7 @@
               break
             }
           }
-          if (same && !num.every(e=>e==same)) {
+          if (same && !num.every((e) => e == same)) {
             let i = num.findIndex((e) => e != same)
             let arr = []
             this.spinnerArr[i].forEach((e, i) => {
@@ -138,7 +138,7 @@
 
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
-          this.tokens.tokens.sum = this.tokens.tokens.sum + 100
+          this.tokens.sum = this.tokens.sum + 100
           console.log("Yay, you won 100 toekns! =D")
         } else {
           this.winner = false
@@ -158,7 +158,7 @@
           return
         }
         this.winner = false
-        this.tokens.tokens.sum -= 5
+        this.tokens.sum -= 5
         this.checkNumbers()
 
         this.$refs.child.start(this.n)
@@ -169,9 +169,9 @@
 
 <template>
   <h1 v-if="winner">WOOOHKOOOO</h1>
-  <p>You have {{ tokens.tokens.sum }} tokens left</p>
+  <p>You have {{ tokens.sum }} tokens left</p>
   <h1 v-if="winner">Congratulations, you won 100 tokens!</h1>
-  <h1 v-if="this.tokens.tokens.sum === 0">GAME OVER</h1>
+  <h1 v-if="this.tokens.sum === 0">GAME OVER</h1>
 
   <div class="cont">
     <spinner
@@ -188,7 +188,7 @@
     class="slot-btn red"
     style="min-height: 200px; min-width: 200px"
     @click="gameStart"
-    :disabled="this.tokens.tokens.sum === 0 ? true : false"
+    :disabled="tokens.sum === 0 ? true : false"
   >
     SPELA
   </button>
