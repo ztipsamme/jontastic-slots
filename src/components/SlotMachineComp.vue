@@ -8,15 +8,19 @@
     },
     emits: { stop: null },
     created() {
+      var hasBonus = this.tokens.bonusTypes.find((i) => i.name === "Extra Row")
+      if (hasBonus.owned === true) {
+        this.reels = 4
+      } else {
+        this.reels = 3
+      }
+      console.log(hasBonus)
+
       this.spinnerArr = new Array(this.reels)
         .fill(null)
         .map(() => this.generateSpinner())
-      /*       this.spinnerArr = [
-        this.generateSpinner(),
-        this.generateSpinner(),
-        this.generateSpinner(),
-      ] */
     },
+
     setup() {
       const tokens = useTokenStore()
       const theme = useThemeStore()
@@ -31,9 +35,10 @@
         winner: false,
         startGame: false,
         spinnerArr: [],
-        reels: 4,
+        reels: 3,
       }
     },
+
     watch: {
       reels() {
         this.spinnerArr = new Array(this.reels)
@@ -46,6 +51,7 @@
         return this.tokens.tokens.sum
       },
     },
+
     methods: {
       generateSpinner() {
         let arr = []
@@ -66,7 +72,6 @@
       },
 
       getNumbers() {
-        // this.spinnerArr = new Array(3).fill(this.generateSpinner())
         let num = []
         let n = []
 
@@ -144,6 +149,7 @@
         }
       },
       gameStart() {
+        console.log("startgame", this.startGame)
         if (this.startGame) {
           return
         }
@@ -168,9 +174,6 @@
 <template>
   <div class="main-mashine cont">
     <div class="row">
-      <div class="col">
-        <h1 v-if="winner">WOOOHKOOOO</h1>
-      </div>
       <div class="col">
         <button
           v-if="tokens.isThemeOwned('cattheme')"
