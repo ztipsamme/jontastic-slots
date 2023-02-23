@@ -39,6 +39,7 @@ export const useTokenStore = defineStore("tokens", {
           name.toLowerCase().replace(/\s/, ""),
       ).owned,
   },
+
   actions: {
     addTokens(amount) {
       this.token += amount
