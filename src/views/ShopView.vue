@@ -1,21 +1,23 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
 
-  // Importera tokenStore
   export default {
     setup() {
       const tokenStore = useTokenStore()
       window.content = tokenStore
       return { tokenStore }
     },
+
     data() {
       return {
         errorMessage: false,
         verification: false,
         popUp: false,
+        popUpOwned: false,
         selectedItem: "",
       }
     },
+
     computed: {
       tokens() {
         return this.tokenStore.tokens
@@ -43,6 +45,10 @@
           this.popUp = true
         } else {
           this.popUp = false
+        }
+
+        if (theme.owned) {
+          this.popUpOwned = true
         }
       },
 
@@ -73,6 +79,7 @@
     },
   }
 </script>
+
 <template>
   <header>
     <h1 class="first-heading">Butik</h1>
@@ -158,7 +165,15 @@
         <button @click="buyBonus()">Köp</button>
       </div>
     </div>
+
+    <div v-if="popUpOwned" @close="popup = false" class="popup-overlay">
+      <div class="popup-container">
+        <p>Du har redan köpt {{ selectedItem }}</p>
+        <button @click="popUpOwned = false">Avbryt</button>
+      </div>
+    </div>
   </section>
+  <!-- </section /></section> -->
 </template>
 
 <!--OBS!: Prövar att mobilanpassa och underlätta för olika teman. Tidigare styling finns i den utkommenterade koden nedan.-->
