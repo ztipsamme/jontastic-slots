@@ -70,56 +70,55 @@
         window.arr = arr
         return arr
       },
-    },
 
-    getNumbers() {
-      let num = []
-      let n = []
+      getNumbers() {
+        let num = []
+        let n = []
 
-      this.spinnerArr.forEach((e, i) => {
-        n[i] = Math.floor(Math.random() * this.count)
-        num[i] = e[n[i]]
-      })
-
-      if (num[0] == num[1]) {
-        for (let i = 2; i < this.spinnerArr.length; i++) {
-          n[i] = this.spinnerArr[i].indexOf(num[0])
-          num[i] = this.spinnerArr[i][n[i]]
-        }
-      } else {
-        for (let i = 2; i < this.spinnerArr.length; i++) {
+        this.spinnerArr.forEach((e, i) => {
           n[i] = Math.floor(Math.random() * this.count)
-          num[i] = this.spinnerArr[i][n[i]]
-        }
-      }
-      if (this.reels == 4) {
-        let same = false
-        for (let n in num) {
-          let i = Number(n)
-          if (num.filter((e) => e == num[i]).length > 2) {
-            same = num[i]
-            break
+          num[i] = e[n[i]]
+        })
+
+        if (num[0] == num[1]) {
+          for (let i = 2; i < this.spinnerArr.length; i++) {
+            n[i] = this.spinnerArr[i].indexOf(num[0])
+            num[i] = this.spinnerArr[i][n[i]]
+          }
+        } else {
+          for (let i = 2; i < this.spinnerArr.length; i++) {
+            n[i] = Math.floor(Math.random() * this.count)
+            num[i] = this.spinnerArr[i][n[i]]
           }
         }
-        if (same && !num.every((e) => e == same)) {
-          let i = num.findIndex((e) => e != same)
-          let arr = []
-          this.spinnerArr[i].forEach((e, i) => {
-            if (e == same) {
-              arr.push(i)
+        if (this.reels == 4) {
+          let same = false
+          for (let n in num) {
+            let i = Number(n)
+            if (num.filter((e) => e == num[i]).length > 2) {
+              same = num[i]
+              break
             }
-          })
-          n[i] = arr[Math.floor(Math.random() * arr.length)]
-          num[i] = this.spinnerArr[i][n[i]]
+          }
+          if (same && !num.every((e) => e == same)) {
+            let i = num.findIndex((e) => e != same)
+            let arr = []
+            this.spinnerArr[i].forEach((e, i) => {
+              if (e == same) {
+                arr.push(i)
+              }
+            })
+            n[i] = arr[Math.floor(Math.random() * arr.length)]
+            num[i] = this.spinnerArr[i][n[i]]
+          }
         }
-      }
 
-      // Sortera så att stösrt sannorlikhet kommerförsts
+        // Sortera så att stösrt sannorlikhet kommerförsts
 
-      /*   n[2] = Math.floor(Math.random() * this.count)
+        /*   n[2] = Math.floor(Math.random() * this.count)
           num[2] = this.spinnerArr[2][n[2]] */
 
-      /*      num[2] =
+        /*      num[2] =
             num[0] == num[1] ? num[0] : Math.floor(Math.random() * this.count)
 
           if (!num.every((e) => e == num[0])) {
@@ -128,44 +127,46 @@
             }
           } */
 
-      return { num: num, n: n }
-    },
-    checkNumbers() {
-      let val = this.getNumbers()
-      this.num = val.num
-      this.n = val.n
+        return { num: num, n: n }
+      },
+      checkNumbers() {
+        let val = this.getNumbers()
+        this.num = val.num
+        this.n = val.n
 
-      return this.n
-    },
-    done() {
-      this.startGame = false
+        return this.n
+      },
+      done() {
+        this.startGame = false
 
-      if (this.num.every((e) => e == this.num[0])) {
-        this.winner = true
-        this.tokens.tokens.sum = this.tokens.tokens.sum + 100
-        console.log("Yay, you won 100 toekns! =D")
-      } else {
+        if (this.num.every((e) => e == this.num[0])) {
+          this.winner = true
+          this.tokens.tokens.sum = this.tokens.tokens.sum + 100
+          console.log("Yay, you won 100 toekns! =D")
+        } else {
+          this.winner = false
+          console.log("Haha, loser. :P")
+        }
+      },
+      gameStart() {
+        console.log("startgame", this.startGame)
+        if (this.startGame) {
+          return
+        }
+        this.startGame = true
+
+        this.num = [1, 2, 3, 4, 5, 3, 6, 9]
+        if (this.tokens.tokens.sum - 5 < 0) {
+          alert("GameOver")
+          this.tokens.tokens.sum = this.tokens.tokens.startValue
+          return
+        }
         this.winner = false
-        console.log("Haha, loser. :P")
-      }
-    },
-    gameStart() {
-      if (this.startGame) {
-        return
-      }
-      this.startGame = true
+        this.tokens.tokens.sum -= 5
+        this.checkNumbers()
 
-      this.num = [1, 2, 3, 4, 5, 3, 6, 9]
-      if (this.tokens.tokens.sum - 5 < 0) {
-        alert("GameOver")
-        this.tokens.tokens.sum = this.tokens.tokens.startValue
-        return
-      }
-      this.winner = false
-      this.tokens.tokens.sum -= 5
-      this.checkNumbers()
-
-      this.$refs.child.start(this.n)
+        this.$refs.child.start(this.n)
+      },
     },
   }
 </script>
