@@ -13,7 +13,6 @@
         errorMessage: false,
         verification: false,
         popUp: false,
-        popUpOwned: false,
         selectedItem: "",
       }
     },
@@ -32,9 +31,7 @@
 
     methods: {
       popUpAction(item) {
-        let theme = this.tokenStore.themeTypes.find(
-          (type) => type.name === item,
-        )
+        let theme = this.themeTypes.find((type) => type.name === item)
         let bonus = this.tokenStore.bonusTypes.find(
           (type) => type.name === item,
         )
@@ -46,17 +43,13 @@
         } else {
           this.popUp = false
         }
-
-        if (theme.owned) {
-          this.popUpOwned = true
-        }
       },
 
       buyBonus() {
         let bonus = this.tokenStore.bonusTypes.find(
           (type) => type.name === this.selectedItem,
         )
-        let theme = this.tokenStore.themeTypes.find(
+        let theme = this.themeTypes.find(
           (type) => type.name === this.selectedItem,
         )
 
@@ -102,25 +95,21 @@
         <h2 class="second-heading">Teman:</h2>
         <div>
           <button
-            aria-label="Night Theme"
-            class="shop-item night"
-            @click="popUpAction('Night Theme')"
+            :key="item.name"
+            v-for="item in themeTypes"
+            :aria-label="item.name"
+            :class="
+              'shop-item ' +
+              item.name
+                .toLowerCase()
+                .replace(/theme/g, '')
+                .trim()
+                .replace(/\s/g, '-')
+            "
+            @click="popUpAction(item.name)"
+            :disabled="item.owned"
           >
-            <img class="icon" src="/assets/svg/icon-moon.svg" alt="Halvmånde" />
-          </button>
-          <button
-            aria-label="Forest Theme"
-            class="shop-item forest"
-            @click="popUpAction('Forest Theme')"
-          >
-            <img class="icon" src="/assets/svg/icon-pine-tree.svg" alt="Gran" />
-          </button>
-          <button
-            aria-lable="Cat Theme"
-            class="shop-item cat"
-            @click="popUpAction('Cat Theme')"
-          >
-            <img class="icon" src="/assets/svg/icon-cat.svg" alt="Katt" />
+            <img class="icon" :src="item.src" :alt="item.name" />
           </button>
         </div>
       </div>
@@ -165,67 +154,12 @@
         <button @click="buyBonus()">Köp</button>
       </div>
     </div>
-
-    <div v-if="popUpOwned" @close="popup = false" class="popup-overlay">
-      <div class="popup-container">
-        <p>Du har redan köpt {{ selectedItem }}</p>
-        <button @click="popUpOwned = false">Avbryt</button>
-      </div>
-    </div>
   </section>
-  <!-- </section /></section> -->
 </template>
 
-<!--OBS!: Prövar att mobilanpassa och underlätta för olika teman. Tidigare styling finns i den utkommenterade koden nedan.-->
-<!-- <style>
-  header {
-    padding: 15px;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  .shop,
-  .item-bag {
-    display: flex;
-    flex-direction: column;
-  }
-  .bonus {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    align-items: center;
-  }
-
-  .first-heading {
-    font-size: 30px;
-    text-align: center;
-  }
-  .second-heading,
-  .error {
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  .tokens {
-    font-size: 13px;
-  }
-  .night-theme,
-  .forest-theme,
-  .cat-theme,
-  .bonus-btn {
-    height: 150px;
-    width: 150px;
-    border-radius: 60px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 16px;
-    font-weight: bold;
-  }
-</style> -->
-
 <style lang="scss">
-  //OBS!: Prövar nedan att mobilanpassa och underlätta för olika teman.
   //Theme standard
-  $icon-size: 48px;
+  $icon-size: 68px;
   //One line font -> https://hadrysmateusz.com/blog/font-shorthand
   $icon-font: bold 16px Arial, Helvetica, sans-serif;
   $border-radius: 10px;
@@ -233,6 +167,7 @@
   $secondary: lightgray;
 
   .shop-item {
+    position: relative;
     height: $icon-size;
     width: $icon-size;
     border-radius: $border-radius;
@@ -244,6 +179,16 @@
     align-items: center;
     img {
       width: 20px;
+    }
+    &:disabled::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: gray;
+      opacity: 0.5;
     }
   }
 
@@ -268,21 +213,3 @@
     background-color: $secondary;
   }
 </style>
-
-<!--
-
-  Välkommen till din butik!
-
-  Här kan du använda dina tokens för att köpa bonusar som bättrar dina vinstchanser eller välja ett tema som passar dig.
-
-  Du behöver bara köpa ett tema en gång och kan byta bland dina favoriter när du känner för det.
-
-  ----
-
-  Är du säker på att du vill köpa {{ name }}? Ja / Nej
-
-  ----
-
-  Du har inte tillräckligt många tokens. Spela och vinn fler!
-
- -->

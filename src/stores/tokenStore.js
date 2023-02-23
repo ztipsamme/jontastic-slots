@@ -10,9 +10,24 @@ export const useTokenStore = defineStore("tokens", {
       { name: "Extra Row", cost: 250, amount: 0, owned: false },
     ]),
     themeTypes: useStorage("themeTypes", [
-      { name: "Cat Theme", cost: 150, owned: false },
-      { name: "Night Theme", cost: 100, owned: false },
-      { name: "Forest Theme", cost: 100, owned: false },
+      {
+        name: "Cat Theme",
+        cost: 150,
+        owned: false,
+        src: "./assets/svg/icon-cat.svg",
+      },
+      {
+        name: "Night Theme",
+        cost: 100,
+        owned: false,
+        src: "./assets/svg/icon-moon.svg",
+      },
+      {
+        name: "Forest Theme",
+        cost: 100,
+        owned: false,
+        src: "./assets/svg/icon-pine-tree.svg",
+      },
     ]),
   }),
   getters: {
