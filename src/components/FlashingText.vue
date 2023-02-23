@@ -43,9 +43,9 @@
         hsl(${h}deg 95% 50%) 0px 0px 0.05em,
         hsl(${h}deg 95% 50% / 50%) 0px 0px 0.8em,
         hsl(${h}deg 95% 50%) 1px 0px 0.09em,
-        hsl(303deg 95% 85%) 2px 0px 3em,
-        hsl(${h}deg 95% 50% / 50%) 1em 0px 4em,
-        hsl(${h}deg 96% 90% / 50%) 0em 0px 10em`"
+        hsl(${h}deg 95% 85%) 2px 0px 0.2em,
+        hsl(${h}deg 95% 50% / 50%)0em 0px 0.1em,
+        hsl(${h}deg 96% 90% / 50%) 0em 0px 0.5em`"
       >
         {{ text }}
       </text>
