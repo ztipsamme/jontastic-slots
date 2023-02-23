@@ -5,16 +5,22 @@
         type: String,
         default: () => "You're a Winner!",
       },
-      hue: {
+      h: {
         type: Number,
         default: () => 150,
       },
     },
+    methods:{
+      clr(h = 180,s = 95,l = 50){
+        return `hsl(${h}deg ${s}% ${l}%)`
+      }
+    }
   }
 </script>
 
 <template>
-  <svg viewBox="0 0 100 100">
+  <Transition>
+     <svg viewBox="0 0 100 100">
     <g class="scale">
       <text
         text-anchor="middle"
@@ -29,17 +35,20 @@
         x="50"
         dominant-baseline="hanging"
         class="text neon flicker"
-        style="'text-shadow:
-    0px 0px 0.01em hlsa($h,$s,$l),
-    0px 0px 0.1em hlsa($h,$s,$l),
-    1px 0px 0.3em hlsa($h,$s,$l),
-    2px 0px 3em hlsa($h+3,$s,$l+45),
-    1em 0 3em hlsa($h+4,$s,$l+5);'"
+        :style="`text-shadow:
+    0px 0px 0.01em ${clr(h,95,50)},
+    0px 0px 0.1em ${clr(h,95,50)},
+    1px 0px 0.3em ${clr(h,95,50)},
+    2px 0px 3em ${clr(h+3,95,85)},
+    1em 0 3em ${clr(h,95,50)},
+    0em 0 10em ${clr(h,95,90)};`"
       >
         {{ text }}
       </text>
     </g>
   </svg>
+  </Transition>
+
 
   <p style="text-shadow: 2px 2px 2px green">Hejsan</p>
 </template>
