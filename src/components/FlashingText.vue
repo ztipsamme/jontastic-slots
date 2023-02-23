@@ -1,7 +1,7 @@
 <script>
   export default {
     props: {
-      test: {
+      text: {
         type: String,
         default: () => "You're a Winner!",
       },
@@ -10,47 +10,47 @@
         default: () => 150,
       },
     },
-    methods:{
-      clr(h = 180,s = 95,l = 50){
+    methods: {
+      clr(h = 180, s = 95, l = 50) {
         return `hsl(${h}deg ${s}% ${l}%)`
-      }
-    }
+      },
+    },
   }
 </script>
 
 <template>
-  <Transition>
-     <svg viewBox="0 0 100 100">
+  <svg viewBox="0 0 1000 400">
     <g class="scale">
       <text
         text-anchor="middle"
-        x="50"
-        dominant-baseline="hanging"
+        x="500"
+        y="150"
+        dominant-baseline="middle"
         class="text back"
+        :style="'fill: ' + clr(h, 100, 50)"
       >
         {{ text }}
       </text>
       <text
         text-anchor="middle"
-        x="50"
-        dominant-baseline="hanging"
+        x="500"
+        y="150"
+        dominant-baseline="middle"
         class="text neon flicker"
-        :style="`text-shadow:
-    0px 0px 0.01em ${clr(h,95,50)},
-    0px 0px 0.1em ${clr(h,95,50)},
-    1px 0px 0.3em ${clr(h,95,50)},
-    2px 0px 3em ${clr(h+3,95,85)},
-    1em 0 3em ${clr(h,95,50)},
-    0em 0 10em ${clr(h,95,90)};`"
+        :style="`
+        fill: ${clr(h, 100, 95)};
+        text-shadow:
+        hsl(${h}deg 95% 50%) 0px 0px 0.05em,
+        hsl(${h}deg 95% 50% / 50%) 0px 0px 0.8em,
+        hsl(${h}deg 95% 50%) 1px 0px 0.09em,
+        hsl(303deg 95% 85%) 2px 0px 3em,
+        hsl(${h}deg 95% 50% / 50%) 1em 0px 4em,
+        hsl(${h}deg 96% 90% / 50%) 0em 0px 10em`"
       >
         {{ text }}
       </text>
     </g>
   </svg>
-  </Transition>
-
-
-  <p style="text-shadow: 2px 2px 2px green">Hejsan</p>
 </template>
 
 <style scoped lang="scss">
@@ -66,13 +66,17 @@
   }
 
   svg {
-    width: 100vw;
-    height: 10vh;
-    border: 1px solid red;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    position: absolute;
+    g {
+      transform-origin: center;
+    }
   }
   .text {
     font-family: "tilt warp";
-    font-size: 100px;
+    font-size: 110px;
     font-weight: 400;
   }
 
@@ -83,16 +87,6 @@
   @function hlsa($h, $s, $l) {
     $str: hsl($h, $s, $l);
     @return $str;
-  }
-  .back {
-    fill: hlsa($h, $s, $l);
-  }
-
-  .neon {
-    fill: hlsa($h, $s, 95);
-    text-shadow: 0px 0px 0.01em hlsa($h, $s, $l), 0px 0px 0.1em hlsa($h, $s, $l),
-      1px 0px 0.3em hlsa($h, $s, $l), 2px 0px 3em hlsa($h + 3, $s, $l + 45),
-      1em 0 3em hlsa($h + 4, $s, $l + 5);
   }
 
   .flicker {

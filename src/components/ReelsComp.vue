@@ -119,10 +119,7 @@
       start(num = this.numbers) {
         this.win = false
         this.test(num).then(() => {
-          this.blinking()
-
           this.$emit("done")
-
           if (num.every((e) => e == num[0])) {
             this.win = true
           }
@@ -191,8 +188,6 @@
 </script>
 
 <template>
-  <h1 v-if="this.winner">WINNER!!</h1>
-
   <template v-for="(spinner, i) in spinners" :key="i">
     <div :class="'scene-' + i" v-resize="onResize">
       <div
@@ -227,81 +222,6 @@
       </div>
     </div>
   </template>
-
-  <!--
-
-  <div class="scene-0">s
-    <div
-      class="carousel"
-      :ref="'c0'"
-      data-rot="0"
-      :style="{ transform: `translateZ(${-rad}px)` }"
-    >
-      <div
-        class="carousel__cell"
-        v-for="(val, ind) in spinners[0]"
-        :key="ind"
-        :data-val="val"
-        :style="{
-          width: width + 'px',
-          height: height + 'px',
-          transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
-          backgroundColor: `hsla(${0 + 16 * Number(ind)}deg,75%,50%)`,
-        }"
-      >
-        {{ val }}
-      </div>
-    </div>
-  </div>
-
-  <div class="scene-1">
-    <div
-      class="carousel"
-      :ref="'c1'"
-      data-rot="0"
-      :style="{ transform: `translateZ(${-rad}px)` }"
-    >
-      <div
-        class="carousel__cell"
-        v-for="(val, ind) in spinners[1]"
-        :key="ind"
-        :data-val="val"
-        :style="{
-          width: width + 'px',
-          height: height + 'px',
-          transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
-          backgroundColor: `hsla(${16 * Number(ind)}deg,75%,50%)`,
-        }"
-      >
-        {{ val }}
-      </div>
-    </div>
-  </div>
-
-  <div class="scene-2">
-    <div
-      class="carousel"
-      :ref="'c2'"
-      data-rot="0"
-      :style="{ transform: `translateZ(${-rad}px)` }"
-    >
-      <div
-        class="carousel__cell"
-        v-for="(val, ind) in spinners[2]"
-        :key="ind"
-        :data-val="val"
-        :style="{
-          width: width + 'px',
-          height: height + 'px',
-          transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
-          backgroundColor: `hsla(${16 * Number(ind)}deg,75%,50%)`,
-        }"
-      >
-        {{ val }}
-      </div>
-    </div>
-  </div>
-  -->
 </template>
 
 <style>
