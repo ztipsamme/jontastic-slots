@@ -2,9 +2,11 @@
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes.js"
   import spinnerComp from "./ReelsComp.vue"
+  import TotalBet from "./TotalBet.vue"
   import FlashText from "./FlashingText.vue"
   export default {
     components: {
+      TotalBet,
       spinner: spinnerComp,
       "flash-text": FlashText,
     },
@@ -188,7 +190,7 @@
     </div>
     <div class="row winner-row">
       <flash-text :h="50" v-if="winner" />
-      <h1 v-if="winner"></h1>
+      <h1 v-if="winner" />
       <h1 v-if="tokens.tokens.sum === 0">GAME OVER</h1>
     </div>
     <div class="row">
@@ -212,20 +214,21 @@
     >
       SPELA
     </button>
+    <TotalBet />
   </div>
 </template>
 
 <style lang="scss">
-.winner-row{
-  display:flex;
-  justify-content:center;
-  align-items:center
-}
+  .winner-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .reel-cont {
     display: flex;
     position: relative;
     align-items: center;
-    justify-content: center
+    justify-content: center;
   }
   .cont {
     width: 80vw;
