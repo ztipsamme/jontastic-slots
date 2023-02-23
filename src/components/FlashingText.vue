@@ -69,6 +69,7 @@
     width: 100%;
     height: 100%;
     min-height: 300px;
+    max-width: 1000px;
     position: absolute;
     g {
       transform-origin: center;

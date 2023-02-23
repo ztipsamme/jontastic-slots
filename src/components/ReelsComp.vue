@@ -226,7 +226,14 @@
                 }deg,100%,75%,0.5)`,
               }"
             >
-              <img :src="theme.icons[val - 1]" alt="" class="slot-ico" />
+              <img
+                :src="theme.icons[val - 1]"
+                alt=""
+                :class="{
+                  'slot-ico': true,
+                  'win-scale': win && numbers[i] == ind,
+                }"
+              />
             </div>
           </Transition>
         </template>
@@ -235,7 +242,7 @@
   </template>
 </template>
 
-<style>
+<style lang="scss">
   *,
   * * {
     box-sizing: border-box;
@@ -303,7 +310,15 @@
   }
   .blink {
     animation-name: blink;
-    animation-duration: 0.15s;
+    animation-duration: 0.2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: linear;
+  }
+
+  .win-scale {
+    animation-name: scale;
+    animation-duration: 0.2s;
     animation-iteration-count: infinite;
     animation-direction: alternate;
     animation-timing-function: linear;
@@ -317,5 +332,14 @@
       filter: brightness(1.3);
     }
   }
-
+  @keyframes scale {
+    0% {
+      width: 90%;
+      height: 90%;
+    }
+    100% {
+      width: 120%;
+      height: 120%;
+    }
+  }
 </style>
