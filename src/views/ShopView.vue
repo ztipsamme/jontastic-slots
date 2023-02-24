@@ -212,4 +212,13 @@
     $secondary: #bca349;
     background-color: $secondary;
   }
+
+  .popup-container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    position: relative;
+    overflow-y: scroll;
+  }
 </style>

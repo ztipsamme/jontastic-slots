@@ -39,6 +39,12 @@ export const useTokenStore = defineStore("tokens", {
           name.toLowerCase().replace(/\s/, ""),
       ).owned,
   },
+  mutations: {
+    // other mutations...
+    setBet(state, newBet) {
+      state.bet = newBet
+    },
+  },
 
   actions: {
     addTokens(amount) {

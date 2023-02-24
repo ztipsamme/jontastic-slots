@@ -3,6 +3,14 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes.js"
+  import {
+    hsla,
+    rgba,
+    adjustHsl,
+    changeHsl,
+    rgbToHsl,
+    hslToRgb,
+  } from "../utilHsl.js"
 
   let resize = function (el, binding) {
     const onResizeCallback = binding.value
@@ -43,9 +51,7 @@
     },
     mounted() {
       const height = document.documentElement.clientHeight
-      this.s.height = height * 0.2
-      console.log(this.theme)
-      console.log(this.$components)
+      this.s.height = Math.ceil(height * 0.2)
     },
     emits: { done: null },
     data() {
@@ -87,7 +93,7 @@
         return (x) => (360 / c) * x
       },
       rad() {
-        return Math.round(this.s.height / 2 / Math.tan(Math.PI / this.count))
+        return Math.floor(this.s.height / 2 / Math.tan(Math.PI / this.count))
       },
       opt() {
         return (i) => ({
@@ -119,24 +125,22 @@
       start(num = this.numbers) {
         this.win = false
         this.test(num).then(() => {
-          this.blinking()
-
           this.$emit("done")
-
-          if (num.every((e) => e == num[0])) {
+          let winNum = this.spinners[0][num[0]]
+          console.log(num)
+          let test = num.every((e, i) => {
+            console.log("in every", this.spinners[i][e], winNum)
+            console.log("in every", this.spinners[i][e] == winNum)
+            return this.spinners[i][e] == winNum
+          })
+          console.log("test", test)
+          if (test) {
             this.win = true
+            console.log(this.win)
           }
         })
       },
-      blinking() {
-        let refs = this.spinners.map((e, i) => {
-          return this.$refs["c" + i][0]
-        })
-        refs.forEach((e, i) => {
-          //          let card = document.querySelector("[data-id=" + this.numbers[i] + "]")
-          //        card.classList.add("animation-blinking")
-        })
-      },
+
       test(arr) {
         this.startTime = Date.now()
         let loop = (element, from, to, resolve) => {
@@ -184,15 +188,13 @@
         return Promise.all(p)
       },
       onResize({ width, height }) {
-        this.s.height = height * 0.2
+        this.s.height = Math.ceil(height * 0.2)
       },
     },
   }
 </script>
 
 <template>
-  <h1 v-if="this.winner">WINNER!!</h1>
-
   <template v-for="(spinner, i) in spinners" :key="i">
     <div :class="'scene-' + i" v-resize="onResize">
       <div
@@ -201,110 +203,46 @@
         data-rot="0"
         :style="{ transform: `translateZ(${-rad}px)` }"
       >
-        <div
-          class="carousel__cell"
-          v-for="(val, ind) in spinner"
-          :key="ind"
-          :data-id="ind"
-          :style="{
-            width: '100%',
-            height: s.height + 'px',
-            transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
-            backgroundColor: `hsla(${0 + 16 * Number(ind)}deg,75%,50%)`,
-            backgroundImage: `linear-gradient(
+        <template v-for="(val, ind) in spinner" :key="ind">
+          <Transition>
+            <div
+              :class="{ carousel__cell: true, blink: win && numbers[i] == ind }"
+              :data-id="ind"
+              :style="{
+                width: '100%',
+                height: s.height + 'px',
+                transform: `rotateX(${ang(
+                  Number(ind),
+                )}deg) translateZ(${rad}px ) `,
+                backgroundColor: `hsla(${0 + 16 * Number(ind)}deg,75%,50%)`,
+                backgroundImage: `linear-gradient(
               45deg,
               hsla(${0 + 16 * Number(ind)}deg,75%,50%),
               hsla(${0 + 16 * Number(ind)}deg,75%,50%),
               hsla(${0 + 16 * Number(ind + 1)}deg,50%,75%))`,
 
-            boxShadow: `inset 0 0 18px 11px hsla(${
-              0 + 16 * (Number(ind) + 1)
-            }deg,100%,75%,0.5)`,
-          }"
-        >
-          <img :src="theme.icons[val - 1]" alt="" class="slot-ico" />
-        </div>
+                boxShadow: `inset 0 0 18px 11px hsla(${
+                  0 + 16 * (Number(ind) + 1)
+                }deg,100%,75%,0.5)`,
+              }"
+            >
+              <img
+                :src="theme.icons[val - 1]"
+                alt=""
+                :class="{
+                  'slot-ico': true,
+                  'win-scale': win && numbers[i] == ind,
+                }"
+              />
+            </div>
+          </Transition>
+        </template>
       </div>
     </div>
   </template>
-
-  <!--
-
-  <div class="scene-0">s
-    <div
-      class="carousel"
-      :ref="'c0'"
-      data-rot="0"
-      :style="{ transform: `translateZ(${-rad}px)` }"
-    >
-      <div
-        class="carousel__cell"
-        v-for="(val, ind) in spinners[0]"
-        :key="ind"
-        :data-val="val"
-        :style="{
-          width: width + 'px',
-          height: height + 'px',
-          transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
-          backgroundColor: `hsla(${0 + 16 * Number(ind)}deg,75%,50%)`,
-        }"
-      >
-        {{ val }}
-      </div>
-    </div>
-  </div>
-
-  <div class="scene-1">
-    <div
-      class="carousel"
-      :ref="'c1'"
-      data-rot="0"
-      :style="{ transform: `translateZ(${-rad}px)` }"
-    >
-      <div
-        class="carousel__cell"
-        v-for="(val, ind) in spinners[1]"
-        :key="ind"
-        :data-val="val"
-        :style="{
-          width: width + 'px',
-          height: height + 'px',
-          transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
-          backgroundColor: `hsla(${16 * Number(ind)}deg,75%,50%)`,
-        }"
-      >
-        {{ val }}
-      </div>
-    </div>
-  </div>
-
-  <div class="scene-2">
-    <div
-      class="carousel"
-      :ref="'c2'"
-      data-rot="0"
-      :style="{ transform: `translateZ(${-rad}px)` }"
-    >
-      <div
-        class="carousel__cell"
-        v-for="(val, ind) in spinners[2]"
-        :key="ind"
-        :data-val="val"
-        :style="{
-          width: width + 'px',
-          height: height + 'px',
-          transform: `rotateX(${ang(Number(ind))}deg) translateZ(${rad}px ) `,
-          backgroundColor: `hsla(${16 * Number(ind)}deg,75%,50%)`,
-        }"
-      >
-        {{ val }}
-      </div>
-    </div>
-  </div>
-  -->
 </template>
 
-<style>
+<style lang="scss">
   *,
   * * {
     box-sizing: border-box;
@@ -370,22 +308,38 @@
     background-size: contain;
     background-position: center;
   }
-
-  .animation-blinking {
-    animation-name: blinking;
-    animation-duration: 0.5;
+  .blink {
+    animation-name: blink;
+    animation-duration: 0.2s;
     animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: linear;
   }
-  @keyframes blinking {
-    from {
-      background-image: none;
-      background-color: hsla(180deg, 75%, 50%);
-      width: 100%;
+
+  .win-scale {
+    animation-name: scale;
+    animation-duration: 0.2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: linear;
+  }
+
+  @keyframes blink {
+    0% {
+      filter: brightness(0.9);
     }
-    to {
-      background-image: none;
-      background-color: hsla(180deg, 75%, 100%);
+    100% {
+      filter: brightness(1.3);
+    }
+  }
+  @keyframes scale {
+    0% {
+      width: 90%;
+      height: 90%;
+    }
+    100% {
       width: 120%;
+      height: 120%;
     }
   }
 </style>
