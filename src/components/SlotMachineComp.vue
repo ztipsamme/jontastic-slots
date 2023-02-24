@@ -202,7 +202,7 @@
 
     <!--If player doesn't have tokens, button is disabeld-->
     <button
-      class="slot-btn red"
+      class="slot-btn green"
       style="min-height: 200px; min-width: 200px"
       @click="gameStart"
       :disabled="tokens.tokens.sum === 0 ? true : false"
