@@ -1,5 +1,4 @@
 <template>
-  <h1>Start View</h1>
   <slotgroup />
   <betting />
 </template>

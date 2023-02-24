@@ -3,7 +3,7 @@
   import { useThemeStore } from "../stores/themes.js"
   import spinnerComp from "./ReelsComp.vue"
   import TotalBet from "./TotalBet.vue"
-  import FlashText from "./FlashingText.vue"
+  import FlashText from "./animations/FlashingText.vue"
   export default {
     components: {
       TotalBet,
@@ -203,7 +203,6 @@
     <!--If player doesn't have tokens, button is disabeld-->
     <button
       class="slot-btn green"
-      style="min-height: 200px; min-width: 200px"
       @click="gameStart"
       :disabled="tokens.tokens.sum === 0 ? true : false"
     >
