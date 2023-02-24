@@ -13,6 +13,7 @@
 </script>
 <template>
   <nav class="nav">
+    <PopUp />
     <ul class="nav">
       <li>
         <RouterLink class="nav-link" to="/">Start</RouterLink>
@@ -26,7 +27,6 @@
   <main>
     <RouterView />
   </main>
-  <PopUp />
 </template>
 
 <style lang="scss">
@@ -36,7 +36,12 @@
     align-items: center;
     justify-content: space-between;
     > * {
+      text-align: center;
       color: #000;
+    }
+    ul {
+      width: max-content;
+      padding: 0;
       > li > * {
         color: inherit;
       }

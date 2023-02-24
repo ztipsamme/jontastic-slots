@@ -3,7 +3,7 @@
   import { useThemeStore } from "../stores/themes.js"
   import spinnerComp from "./ReelsComp.vue"
   import TotalBet from "./TotalBet.vue"
-  import FlashText from "./FlashingText.vue"
+  import FlashText from "./animations/FlashingText.vue"
   export default {
     components: {
       TotalBet,

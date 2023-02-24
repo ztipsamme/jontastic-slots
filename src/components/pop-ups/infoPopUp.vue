@@ -1,39 +1,19 @@
 <template>
-  <i class="info-icon" @click="Popup()" />
+  <button aria-label="infomration" class="slot-btn red" @click="Popup()">
+    i
+  </button>
   <div v-if="popUpState" class="popup-overlay">
     <div class="popup">
       <ul class="tabs">
         <li
-          @click="symbols"
+          :key="theTab"
+          v-for="(theTab, index) in tabs"
+          @click="tab(index)"
           :style="{
-            backgroundColor: activeTab === 'symbols' ? '#fff' : '#eee',
+            backgroundColor: activeTab === index ? '#fff' : '#eee',
           }"
         >
-          Symbols
-        </li>
-        <li
-          @click="gameInstructions"
-          :style="{
-            backgroundColor: activeTab === 'gameInstructions' ? '#fff' : '#eee',
-          }"
-        >
-          Hjälp
-        </li>
-        <li
-          @click="shopInfo"
-          :style="{
-            backgroundColor: activeTab === 'shopInfo' ? '#fff' : '#eee',
-          }"
-        >
-          Shop
-        </li>
-        <li
-          @click="security"
-          :style="{
-            backgroundColor: activeTab === 'security' ? '#fff' : '#eee',
-          }"
-        >
-          Säkerhet
+          {{ theTab.name }}
         </li>
         <li class="close-btn">
           <button @click="close()">
@@ -66,42 +46,34 @@
     data() {
       return {
         popUpState: false,
-        startView: false,
-        shopView: false,
         activeTab: "",
+        tabs: {
+          symbols: {
+            name: "Symboler",
+          },
+          gameInstructions: {
+            name: "Hjälp",
+          },
+          shopInfo: {
+            name: "Shop",
+          },
+          security: {
+            name: "Säkerhet",
+          },
+        },
       }
     },
     methods: {
       Popup() {
         this.popUpState = true
         if (this.$route.path === "/") {
-          this.symbols()
+          this.tab("symbols")
         } else if (this.$route.path === "/shop") {
-          this.shopInfo()
+          this.tab("shopInfo")
         }
       },
       close() {
         this.popUpState = false
-        this.startView = false
-        this.shopView = false
-      },
-      symbols() {
-        console.log("symbols", "symbols")
-        this.startView = true
-        this.tab("symbols")
-      },
-      gameInstructions() {
-        console.log("gameInstructions", "gameInstructions")
-        this.tab("gameInstructions")
-      },
-      shopInfo() {
-        console.log("shopInfo", "shopInfo")
-        this.shopView = true
-        this.tab("shopInfo")
-      },
-      security() {
-        console.log("security", "security")
-        this.tab("security")
       },
       tab(tab) {
         this.activeTab = tab
@@ -111,29 +83,6 @@
 </script>
 
 <style lang="scss">
-  .info-icon {
-    display: inline-block;
-    position: relative;
-    width: 32px;
-    height: 32px;
-    border: 1px solid #f00;
-    border-radius: 50%;
-    background-color: #fff;
-    cursor: pointer;
-  }
-  .info-icon::before {
-    content: "i";
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    font-style: normal;
-    font-size: 30px;
-    font-weight: bold;
-  }
-
   .popup-overlay {
     position: fixed;
     top: 0;
@@ -150,30 +99,28 @@
   .popup {
     top: 0;
     position: absolute;
-    padding: 0;
-    margin: 0;
     width: 600px;
+    margin: 0;
+    padding: 0;
     .tabs {
       padding: 0;
-      padding-top: calc(48px - 26.59px);
-      margin: 0;
+      padding-top: calc(48px - 34px);
       display: flex;
       gap: 1px;
-      list-style: none;
-      width: 95%;
+      align-items: center;
       margin: auto;
+      width: 95%;
+      list-style: none;
       li,
-      .close-btn {
-        border: 1px 1px solid green;
-        border-radius: 10px 10px 0px 0px;
-        background-color: #fff;
+      li .close-btn {
+        padding: 5px;
+        border-radius: 10px 10px 0 0;
         width: 100%;
-        text-align: center;
       }
       .close-btn {
         background-color: transparent;
-        width: min-content;
         padding: 0 5px;
+        width: min-content;
         button {
           background-color: transparent;
           border: none;
@@ -183,16 +130,19 @@
         }
       }
     }
-    .content {
-      background-color: white;
-      border-radius: 10px;
-      padding: 20px;
-      width: 100%;
-      min-height: 100px;
-      max-height: 300px;
-      position: relative;
-      overflow-y: scroll;
-    }
+  }
+
+  .content {
+    left: 0;
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 0;
+    width: 100%;
+    min-height: 100px;
+    max-height: 300px;
+    overflow-y: scroll;
   }
 
   // .popup-title {
