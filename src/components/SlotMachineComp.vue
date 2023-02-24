@@ -189,26 +189,30 @@
       <h1 v-if="tokens.tokens.sum === 0">GAME OVER</h1>
     </div>
     <div class="row">
-      <div class="reel-cont">
-        <spinner
-          :ref="'child'"
-          :spinners="spinnerArr"
-          :numbers="n"
-          :count="count"
-          @done="done"
-        />
+      <div class="reels-col col">
+        <div class="reel-cont">
+          <spinner
+            :ref="'child'"
+            :spinners="spinnerArr"
+            :numbers="n"
+            :count="count"
+            @done="done"
+          />
+        </div>
+
+        <button
+          class="slot-btn red"
+          style="height: 10vw; width: 10vw"
+          @click="gameStart"
+          :disabled="tokens.tokens.sum === 0 ? true : false"
+        >
+          SPELA
+        </button>
       </div>
     </div>
 
     <!--If player doesn't have tokens, button is disabeld-->
-    <button
-      class="slot-btn red"
-      style="min-height: 200px; min-width: 200px"
-      @click="gameStart"
-      :disabled="tokens.tokens.sum === 0 ? true : false"
-    >
-      SPELA
-    </button>
+
     <TotalBet />
   </div>
 </template>
@@ -224,10 +228,15 @@
     position: relative;
     align-items: center;
     justify-content: center;
+    width: 100%;
   }
   .cont {
     width: 80vw;
     display: flex;
     flex-direction: column;
+  }
+  .reels-col {
+    display: flex;
+    width: 100%;
   }
 </style>

@@ -259,11 +259,13 @@
 
   div[class*="scene"] {
     position: relative;
-    width: 250px;
+    min-width: 10vmin;
+    width: 100%;
     height: 60vh;
     perspective: 2000px;
     overflow: hidden;
     border-radius: 33px;
+    flex-grow: 1;
   }
 
   div[class*="scene"]::after {
