@@ -6,16 +6,10 @@
     components: {
       spinner: spinnerComp,
     },
-    emits: { stop: null },
-    created() {
-      var hasBonus = this.tokens.bonusTypes.find((i) => i.name === "Extra Row")
-      if (hasBonus.owned === true) {
-        this.reels = 4
-      } else {
-        this.reels = 3
-      }
-      console.log(hasBonus)
 
+    emits: { stop: null },
+
+    created() {
       this.spinnerArr = new Array(this.reels)
         .fill(null)
         .map(() => this.generateSpinner())
@@ -50,6 +44,12 @@
       mytokens() {
         return this.tokens.tokens.sum
       },
+
+      hasExtraRow() {
+        return this.tokens.bonusTypes.some(
+          (i) => i.name === "Extra Row" && i.owned,
+        )
+      },
     },
 
     methods: {
@@ -69,6 +69,14 @@
         arr = shuffleArray(arr)
         window.arr = arr
         return arr
+      },
+
+      activateRow() {
+        let extraRow = this.tokens.bonusTypes.find(
+          (i) => i.name === "Extra Row",
+        )
+        extraRow.owned = false
+        this.reels = 4
       },
 
       getNumbers() {
@@ -112,20 +120,6 @@
             num[i] = this.spinnerArr[i][n[i]]
           }
         }
-
-        // Sortera så att stösrt sannorlikhet kommerförsts
-
-        /*   n[2] = Math.floor(Math.random() * this.count)
-          num[2] = this.spinnerArr[2][n[2]] */
-
-        /*      num[2] =
-            num[0] == num[1] ? num[0] : Math.floor(Math.random() * this.count)
-
-          if (!num.every((e) => e == num[0])) {
-            for (let i = 0; i < 3; i++) {
-              num[i] = Math.floor(Math.random() * this.count)
-            }
-          } */
 
         return { num: num, n: n }
       },
@@ -175,6 +169,7 @@
   <div class="main-mashine cont">
     <div class="row">
       <div class="col">
+        <button v-if="hasExtraRow" @click="activateRow()">Extra Row</button>
         <button
           v-if="tokens.isThemeOwned('cattheme')"
           @click="theme.currentTheme = 'catTheme'"
