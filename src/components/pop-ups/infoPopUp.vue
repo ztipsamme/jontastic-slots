@@ -25,7 +25,7 @@
             backgroundColor: activeTab === 'shopInfo' ? '#fff' : '#eee',
           }"
         >
-          Shop"
+          Shop
         </li>
         <li
           @click="security"
@@ -33,7 +33,7 @@
             backgroundColor: activeTab === 'security' ? '#fff' : '#eee',
           }"
         >
-          Säkerhet"
+          Säkerhet
         </li>
         <li class="close-btn">
           <button @click="close()">
@@ -42,8 +42,10 @@
         </li>
       </ul>
       <div class="content">
-        <SymbolsValue v-if="startView" />
-        <ShopPopUp v-if="shopView" />
+        <SymbolsValue v-if="activeTab === 'symbols'" />
+        <gameInstructions v-if="activeTab === 'gameInstructions'" />
+        <ShopPopUp v-if="activeTab === 'shopInfo'" />
+        <securityInfo v-if="activeTab === 'security'" />
       </div>
     </div>
   </div>
@@ -51,11 +53,15 @@
 
 <script>
   import SymbolsValue from "./symbolValuePopUp.vue"
+  import gameInstructions from "./gameInstructions.vue"
   import ShopPopUp from "./shopPopUp.vue"
+  import securityInfo from "./securityInfo.vue"
   export default {
     components: {
       SymbolsValue,
+      gameInstructions,
       ShopPopUp,
+      securityInfo,
     },
     data() {
       return {
