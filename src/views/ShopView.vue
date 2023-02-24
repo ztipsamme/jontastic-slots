@@ -149,8 +149,12 @@
     <div v-if="popUp" @close="popUp = false" class="popup-overlay">
       <div class="popup-container">
         <p>Vill du köpa {{ selectedItem }}?</p>
-        <button @click="popUp = false">Avbryt</button>
-        <button @click="buyBonus()">Köp</button>
+        <div class="row gap-1 mx-3">
+          <button class="col slot-btn red" @click="popUp = false">
+            Avbryt
+          </button>
+          <button class="col slot-btn green" @click="buyBonus()">Köp</button>
+        </div>
       </div>
     </div>
   </section>
@@ -220,5 +224,15 @@
     width: 300px;
     position: relative;
     overflow-y: scroll;
+  }
+</style>
+
+<style scoped lang="scss">
+  .popup-container {
+    div {
+      button {
+        font-size: 16px;
+      }
+    }
   }
 </style>
