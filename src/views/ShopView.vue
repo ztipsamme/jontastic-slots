@@ -27,6 +27,9 @@
       themeTypes() {
         return this.tokenStore.themeTypes
       },
+      owned() {
+        return this.tokenStore.themeTypes.owned
+      },
     },
 
     methods: {
@@ -35,10 +38,9 @@
         let bonus = this.tokenStore.bonusTypes.find(
           (type) => type.name === item,
         )
-
         this.selectedItem = item
 
-        if ((theme && !theme.owned) || (bonus && !bonus.owned)) {
+        if ((theme && !theme.owned) || bonus) {
           this.popUp = true
         } else {
           this.popUp = false
@@ -63,6 +65,7 @@
         }
         if (bonus && this.tokenStore.tokens.sum >= bonus.cost) {
           bonus.amount += 1
+          bonus.owned = true
           this.tokenStore.tokens.sum -= bonus.cost
         } else {
           this.errorMessage = true
@@ -136,11 +139,7 @@
       <div class="col">
         <h2 class="second-heading">Teman:</h2>
         <div class="shop-display">
-          <button
-            class="shop-item bonus"
-            :key="theme"
-            v-for="theme in themeTypes"
-          >
+          <button class="shop-item bonus" :key="theme" v-for="theme in owned">
             {{ theme.name }} {{ theme.amount }}
           </button>
         </div>
@@ -177,8 +176,9 @@
     color: $primary;
     overflow: hidden;
     align-items: center;
+    margin-left: 10px;
     img {
-      width: 20px;
+      width: 30px;
     }
     &:disabled::after {
       content: "";
