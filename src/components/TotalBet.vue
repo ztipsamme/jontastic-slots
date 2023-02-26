@@ -1,23 +1,25 @@
 <template>
   <div class="total-bet-container">
-    <button class="minus-button slot-btn blue" @click="decrementBetAmount()">
-      -
-    </button>
-    <p class="bet-amount">{{ betAmount }}</p>
-    <button
-      style="z-index: 1"
-      class="plus-button slot-btn blue"
-      @click="incrementBetAmount()"
+    <btn
+      :styles="{ height: '100%' }"
+      :size="'large'"
+      @click="decrementBetAmount()"
     >
-      +
-    </button>
+      -
+    </btn>
+    <p class="bet-amount">{{ betAmount }}</p>
+    <btn :size="'large'" @click="incrementBetAmount()"> + </btn>
   </div>
 </template>
 
 <script>
   import { mapMutations, mapGetters } from "vuex"
+  import buttonComponent from "./elements/buttonComponent.vue"
   export default {
     name: "TotalBet",
+    components: {
+      btn: buttonComponent,
+    },
     data() {
       return {
         betAmount: 5,

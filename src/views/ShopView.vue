@@ -1,10 +1,12 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
   import iconComponent from "../components/elements/iconComponent.vue"
+  import buttonComponent from "../components/elements/buttonComponent.vue"
 
   export default {
     components: {
       icon: iconComponent,
+      btn: buttonComponent,
     },
     setup() {
       const tokenStore = useTokenStore()
@@ -164,10 +166,21 @@
       <div class="popup-container">
         <p>Vill du köpa {{ selectedItem }}?</p>
         <div class="row gap-1 mx-3">
-          <button class="col slot-btn red" @click="popUp = false">
+          <btn
+            :color="'red'"
+            :styles="{ width: '48%', marginLeft: '1%' }"
+            type="small"
+            @click="popUp = false"
+          >
             Avbryt
-          </button>
-          <button class="col slot-btn green" @click="buyBonus()">Köp</button>
+          </btn>
+          <btn
+            :color="'green'"
+            :styles="{ width: '48%', marginLeft: '1%' }"
+            type="small"
+            @click="buyBonus()"
+            >Köp</btn
+          >
         </div>
       </div>
     </div>
