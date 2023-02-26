@@ -120,7 +120,8 @@
         $bg1: $btn-purple;
         $bg2: $btn-purple2;
         background-image: linear-gradient(10deg, $bg2, $bg1 60%);
-        &:hover {
+        &:hover,
+        &.selected {
           $bg1: color.adjust($btn-purple, $lightness: 5%);
           $bg2: color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%);
           background-image: linear-gradient(10deg, $bg2, $bg1 60%);
@@ -137,7 +138,8 @@
         $bg1: $btn-blue;
         $bg2: $btn-blue2;
         background-image: linear-gradient(10deg, $bg2, $bg1 60%);
-        &:hover {
+        &:hover,
+        &.selected {
           $bg1: color.adjust($btn-blue, $lightness: 5%);
           $bg2: color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%);
           background-image: linear-gradient(10deg, $bg2, $bg1 60%);
@@ -154,7 +156,8 @@
         $bg1: $btn-green;
         $bg2: $btn-green2;
         background-image: linear-gradient(10deg, $bg2, $bg1 60%);
-        &:hover {
+        &:hover,
+        &.selected {
           $bg1: color.adjust($btn-green, $lightness: 5%);
           $bg2: color.adjust($btn-green2, $lightness: 5%, $saturation: 10%);
           background-image: linear-gradient(10deg, $bg2, $bg1 60%);
@@ -195,7 +198,8 @@
     transition: 0.05s;
   }
 
-  .btn-comp:hover:active {
+  .btn-comp:hover:active,
+  .btn-container.selected .btn-comp {
     top: 5px;
     left: -2px;
   }

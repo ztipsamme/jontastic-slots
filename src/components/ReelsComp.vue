@@ -213,15 +213,15 @@
                 transform: `rotateX(${ang(
                   Number(ind),
                 )}deg) translateZ(${rad}px ) `,
-                backgroundColor: `hsla(${0 + 16 * Number(ind)}deg,75%,50%)`,
+                backgroundColor: `hsla(${0 + 16 * Number(ind)}deg,40%,50%)`,
                 backgroundImage: `linear-gradient(
               45deg,
-              hsla(${0 + 16 * Number(ind)}deg,75%,50%),
-              hsla(${0 + 16 * Number(ind)}deg,75%,50%),
-              hsla(${0 + 16 * Number(ind + 1)}deg,50%,75%))`,
+              hsla(${(0 + 16 * Number(ind)) % 100}deg,30%,50%),
+              hsla(${(0 + 16 * Number(ind)) % 100}deg,30%,50%),
+              hsla(${(0 + 16 * Number(ind + 1)) % 100}deg,30%,75%))`,
 
                 boxShadow: `inset 0 0 18px 11px hsla(${
-                  0 + 16 * (Number(ind) + 1)
+                  (0 + 16 * Number(ind)) % 100
                 }deg,100%,75%,0.5)`,
               }"
             >

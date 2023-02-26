@@ -5,6 +5,7 @@
   import TotalBet from "./TotalBet.vue"
   import FlashText from "./animations/FlashingText.vue"
   import Btn from "./elements/buttonComponent.vue"
+  import iconComponent from "./elements/iconComponent.vue"
   import { breakpointsTailwind } from "@vueuse/core"
   export default {
     components: {
@@ -12,6 +13,7 @@
       spinner: spinnerComp,
       "flash-text": FlashText,
       btn: Btn,
+      icon: iconComponent,
     },
 
     emits: { stop: null },
@@ -233,13 +235,6 @@
     <div class="row">
       <div class="col">
         <btn v-if="hasExtraRow" @click="activateRow()">Extra Row</btn>
-        <btn
-          v-if="tokens.isThemeOwned('cattheme')"
-          @click="theme.currentTheme = 'catTheme'"
-        >
-          Cat Theme
-        </btn>
-        <btn @click="theme.currentTheme = 'default'">Default</btn>
       </div>
     </div>
     <div class="row winner-row">
@@ -249,6 +244,35 @@
     </div>
     <div class="row">
       <div class="reels-col col">
+        <div class="col-1">
+          <template v-for="(t, i) in tokens.themeTypes" :key="i">
+            <icon
+              :name="t.name"
+              :src="t.src"
+              v-if="t.owned"
+              @click="
+                theme.currentTheme = t.name.replace(/\s/g, '').toLowerCase()
+              "
+            />
+          </template>
+
+          <icon
+            :size="'small'"
+            :styles="{ width: '80px', height: '80px' }"
+            :class="{ selected: theme.currentTheme == 'catTheme' }"
+            :color="theme.currentTheme == 'catTheme' ? 'green' : 'blue'"
+            v-if="tokens.isThemeOwned('cattheme')"
+            @click="theme.currentTheme = 'catTheme'"
+          >
+            Cat Theme
+          </icon>
+          <btn
+            :class="{ selected: theme.currentTheme == 'default' }"
+            :color="theme.currentTheme == 'default' ? 'green' : 'blue'"
+            @click="theme.currentTheme = 'default'"
+            >Default</btn
+          >
+        </div>
         <div class="reel-cont">
           <spinner
             :ref="'child'"
@@ -259,14 +283,14 @@
           />
         </div>
 
-        <button
-          class="slot-btn red"
-          style="height: 10vw; width: 10vw"
+        <btn
+          :color="'purple'"
+          :styles="{ height: '10vw', width: '12vw' }"
           @click="gameStart"
           :disabled="tokens.tokens.sum === 0 ? true : false"
         >
           SPELA
-        </button>
+        </btn>
       </div>
     </div>
 
@@ -295,7 +319,8 @@
     flex-direction: column;
   }
   .reels-col {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
     width: 100%;
   }
 </style>
