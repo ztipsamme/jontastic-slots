@@ -1,7 +1,11 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
+  import iconComponent from "../components/elements/iconComponent.vue"
 
   export default {
+    components: {
+      icon: iconComponent,
+    },
     setup() {
       const tokenStore = useTokenStore()
       window.content = tokenStore
@@ -97,7 +101,7 @@
       <div class="col">
         <h2 class="second-heading">Teman:</h2>
         <div>
-          <button
+          <!--           <button
             :key="item.name"
             v-for="item in themeTypes"
             :aria-label="item.name"
@@ -113,7 +117,17 @@
             :disabled="item.owned"
           >
             <img class="icon" :src="item.src" :alt="item.name" />
-          </button>
+          </button> -->
+          <icon
+            :key="item.name"
+            :name="item.name"
+            v-for="item in themeTypes"
+            :aria-label="item.name"
+            @click="popUpAction(item.name)"
+            :size="'68px'"
+            :disabled="item.owned"
+            :src="item.src"
+          />
         </div>
       </div>
     </section>

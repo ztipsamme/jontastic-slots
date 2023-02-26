@@ -124,7 +124,7 @@
     methods: {
       start(num = this.numbers) {
         this.win = false
-        this.test(num).then(() => {
+        this.spin(num).then(() => {
           this.$emit("done")
           let winNum = this.spinners[0][num[0]]
           console.log(num)
@@ -140,8 +140,7 @@
           }
         })
       },
-
-      test(arr) {
+      spin(arr) {
         this.startTime = Date.now()
         let loop = (element, from, to, resolve) => {
           this.time = Date.now()

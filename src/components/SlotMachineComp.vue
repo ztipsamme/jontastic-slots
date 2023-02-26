@@ -4,11 +4,14 @@
   import spinnerComp from "./ReelsComp.vue"
   import TotalBet from "./TotalBet.vue"
   import FlashText from "./animations/FlashingText.vue"
+  import Btn from "./elements/buttonComponent.vue"
+  import { breakpointsTailwind } from "@vueuse/core"
   export default {
     components: {
       TotalBet,
       spinner: spinnerComp,
       "flash-text": FlashText,
+      btn: Btn,
     },
 
     emits: { stop: null },
@@ -83,6 +86,62 @@
         this.reels = 4
       },
 
+      altGetNumbers() {
+        let n = [],
+          num = []
+
+        let isWinner = Math.floor(Math.random() * 3) == 2
+        console.log("isWinner", isWinner)
+        if (isWinner) {
+          let v = 6
+          let isHigher
+          for (let i = 2; i <= 7; i++) {
+            console.log("odds för " + i + ": " + i * i)
+          }
+
+          for (let i = 7; i >= 2; i--) {
+            isHigher = Math.floor(Math.random() * i + i)
+            console.log("v", v)
+            console.log("isHigher", isHigher)
+            if (isHigher) {
+              break
+            }
+            v = i - 1
+          }
+
+          console.log("WinNumber:", v)
+          this.spinnerArr.forEach((reel, index) => {
+            console.log("\n------------REEL: " + index + "-----------\n")
+            let arr = []
+            reel.forEach((e, i) => {
+              if (e == v) {
+                arr.push(i)
+              }
+            })
+            console.log(arr)
+
+            n[index] = arr[Math.floor(Math.random() * arr.length)]
+            num[index] = reel[index][n[index]]
+          })
+        } else {
+          this.spinnerArr.forEach((e, i) => {
+            n[i] = Math.floor(Math.random() * e.length)
+            num[i] = e[n[i]]
+          })
+
+          if (num.every((e) => e == num[0])) {
+            let same = num[0]
+            let reel = Math.floor(Math.random() * num.length)
+            while (num[reel] == same) {
+              n[reel] = Math.floor(Math.random() * this.spinnerArr[reel].length)
+              num[reel] = this.spinnerArr[reel][n[reel]]
+            }
+          }
+        }
+        console.log({ num: num, n: n })
+        return { num: num, n: n }
+      },
+
       getNumbers() {
         let num = []
         let n = []
@@ -128,7 +187,7 @@
         return { num: num, n: n }
       },
       checkNumbers() {
-        let val = this.getNumbers()
+        let val = this.altGetNumbers()
         this.num = val.num
         this.n = val.n
 
@@ -173,14 +232,14 @@
   <div class="main-mashine cont">
     <div class="row">
       <div class="col">
-        <button v-if="hasExtraRow" @click="activateRow()">Extra Row</button>
-        <button
+        <btn v-if="hasExtraRow" @click="activateRow()">Extra Row</btn>
+        <btn
           v-if="tokens.isThemeOwned('cattheme')"
           @click="theme.currentTheme = 'catTheme'"
         >
           Cat Theme
-        </button>
-        <button @click="theme.currentTheme = 'default'">Default</button>
+        </btn>
+        <btn @click="theme.currentTheme = 'default'">Default</btn>
       </div>
     </div>
     <div class="row winner-row">

@@ -59,7 +59,7 @@ export const useTokenStore = defineStore("tokens", {
 /*
 // För att använda i ViewComponent:
 
-import {useTokenStore} from .......PiniaTemplate.js
+import {useTokenStore} from ../stores/tokenStore.js
 
 default export{
   setup(){

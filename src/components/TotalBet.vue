@@ -1,8 +1,16 @@
 <template>
   <div class="total-bet-container">
-    <button class="minus-button" @click="decrementBetAmount()">-</button>
-    <span class="bet-amount">{{ betAmount }}</span>
-    <button class="plus-button" @click="incrementBetAmount()">+</button>
+    <button class="minus-button slot-btn blue" @click="decrementBetAmount()">
+      -
+    </button>
+    <p class="bet-amount">{{ betAmount }}</p>
+    <button
+      style="z-index: 1"
+      class="plus-button slot-btn blue"
+      @click="incrementBetAmount()"
+    >
+      +
+    </button>
   </div>
 </template>
 
@@ -57,8 +65,22 @@
   }
 
   .bet-amount {
-    font-size: 24px;
+    background-image: linear-gradient(
+      45deg,
+      hsl(200, 100%, 85%),
+      hsl(200, 100%, 75%)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 20vw;
+    height: 50px;
+    z-index: -5;
+    top: 5px;
+    box-shadow: inset 1px 1px 3px 0px black;
+    font-size: 30px;
     font-weight: bold;
-    margin: 0 10px;
+    margin: 0 -25px;
   }
 </style>
