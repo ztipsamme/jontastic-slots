@@ -10,20 +10,6 @@
 -->
 
 <script>
-  import { useTokenStore } from "../stores/tokenStore.js"
-
-  export default {
-    setup() {
-      const tokens = useTokenStore()
-      return { tokens }
-    },
-    created() {
-      console.log("Exempel:", this.tokens.tokens.sum + 10)
-    },
-  }
-</script>
-
-<script>
 import { useTokenStore } from "../stores/tokenStore.js"
 
 
