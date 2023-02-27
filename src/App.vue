@@ -2,6 +2,7 @@
   import { useTokenStore } from "./stores/tokenStore.js"
   import iconComponent from "./components/elements/iconComponent.vue"
   import PopUp from "./components/pop-ups/infoPopUp.vue"
+  import buttonComponent from "./components/elements/buttonComponent.vue"
   export default {
     setup() {
       const tokens = useTokenStore()
@@ -9,58 +10,99 @@
     },
     components: {
       PopUp,
+      btn: buttonComponent,
       icon: iconComponent,
     },
   }
 </script>
 <template>
-  <nav class="nav">
-    <PopUp />
-    <ul class="nav">
-      <li>
-        <RouterLink class="nav-link" to="/">Start</RouterLink>
-      </li>
-      <li>
-        <RouterLink class="nav-link" to="/shop">Shop</RouterLink>
-      </li>
-    </ul>
-    <div
-      v-if="this.$route.path === '/'"
-      class="bonuses"
-      :key="bonus"
-      v-for="bonus in tokens.bonusTypes"
-    >
-      <icon
-        class="icon d-inline-flex align-items-center justify-content-center"
-        :name="bonus.name"
-        :aria-label="bonus.name"
-        :size="'38px'"
-        :src="bonus.src"
-      />
-      <div class="amount d-inline-flex align-items-center justify-content-end">
-        {{ bonus.amount }}
+  <header>
+    <div class="info">
+      <PopUp />
+    </div>
+
+    <nav class="nav">
+      <RouterLink class="nav-link" to="/">
+        <btn :circle="false" :width="'10vw'" :height="'50px'" :size="'large'">
+          <i class="bi bi-house-fill" />
+        </btn>
+      </RouterLink>
+      <RouterLink class="nav-link" to="/shop">
+        <btn
+          :color="'purple'"
+          :circle="false"
+          :width="'10vw'"
+          :height="'50px'"
+          :size="'large'"
+        >
+          <i class="bi bi-cart-fill" /> </btn
+      ></RouterLink>
+    </nav>
+    <div class="d-inline-flex">
+      <div
+        v-if="this.$route.path === '/'"
+        class="token-display"
+        :key="bonus"
+        v-for="bonus in tokens.bonusTypes"
+      >
+        <icon
+          class="token-icon"
+          :name="bonus.name"
+          :aria-label="bonus.name"
+          :size="'38px'"
+          :src="bonus.src"
+        />
+        <div>
+          {{ bonus.amount }}
+        </div>
+      </div>
+      <div class="token-display">
+        <div class="token-icon">t</div>
+        <div class="token-text">
+          {{ tokens.tokens.sum }}
+        </div>
       </div>
     </div>
-    <div class="amount d-inline-flex align-items-center justify-content-end">
-      {{ tokens.tokens.sum }}t
-    </div>
-  </nav>
+  </header>
+
   <main>
     <RouterView />
   </main>
 </template>
 
 <style lang="scss">
+  #app {
+    display: grid;
+    grid-template-rows: 75px auto;
+    height: 100vh;
+    width: 90vw;
+  }
+  header {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    height: 100%;
+    padding: 10px 0px;
+    align-items: center;
+
+    margin-bottom: 3vh;
+
+    width: 100%;
+    .info {
+      justify-self: end;
+      width: 100%;
+    }
+  }
   .nav {
-    padding: 15px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    height: 100%;
     > * {
       text-align: center;
       color: #000;
+      margin: 0px 15px;
     }
-    ul {
+    .nav-link {
       width: max-content;
       padding: 0;
       > li > * {
@@ -68,24 +110,51 @@
       }
     }
   }
-
-  .bonuses {
-    display: inline-flex;
-    position: relative;
+  .token-display {
+    border: 3px solid hsla(50deg, 100%, 50%);
+    border-radius: 1000px;
+    width: 100%;
+    padding: 15px 0px;
+    padding-right: 30px;
+    display: flex;
+    height: 50px;
+    align-items: center;
+    justify-self: end;
+    background-image: linear-gradient(
+      45deg,
+      hsla(50deg, 0%, 90%) -20%,
+      hsla(55deg, 0%, 95%) 80%
+    );
+    box-shadow: inset -2px 2px 5px 0px hsla(50deg, 0%, 0%, 0.5);
   }
-  .amount {
-    text-align: right;
-    border-radius: 10px;
+  .token-icon {
+    flex-shrink: 0;
+    justify-self: start;
+    display: flex;
+    width: 44px;
+    height: 44px;
+    background-image: linear-gradient(
+      45deg,
+      hsla(50deg, 100%, 50%),
+      hsla(55deg, 100%, 75%)
+    );
+    border-radius: 100%;
+    border: 3px solid hsla(50deg, 100%, 50%);
+    justify-content: center;
+    font-size: 25px;
+    align-items: center;
     font-weight: bold;
-    padding: 0 10px;
-    height: 38px;
-    box-shadow: inset -2px 2px 3px rgba(0, 0, 0, 0.5);
+    padding-bottom: 5px;
+    color: hsla(50deg, 100%, 8%, 0.7);
   }
-  .bonuses .amount {
-    border-radius: 0 10px 10px 0;
-    position: absolute;
-    width: 58px;
-    left: 18px;
-    z-index: -1;
+
+  .token-text {
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 24px;
+    height: 24px;
+    margin-left: 15px;
+    width: 100%;
   }
 </style>
