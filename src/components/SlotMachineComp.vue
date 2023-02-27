@@ -79,7 +79,6 @@
         window.arr = arr
         return arr
       },
-
       activateRow() {
         let extraRow = this.tokens.bonusTypes.find(
           (i) => i.name === "Extra Row",
@@ -87,7 +86,6 @@
         extraRow.owned = false
         this.reels = 4
       },
-
       altGetNumbers() {
         let n = [],
           num = []
@@ -143,7 +141,6 @@
         console.log({ num: num, n: n })
         return { num: num, n: n }
       },
-
       getNumbers() {
         let num = []
         let n = []
@@ -242,6 +239,7 @@
       <h1 v-if="winner" />
       <h1 v-if="tokens.tokens.sum === 0">GAME OVER</h1>
     </div>
+
     <div class="row">
       <div class="reels-col col">
         <div class="col-1">

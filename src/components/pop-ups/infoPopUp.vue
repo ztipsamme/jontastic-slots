@@ -1,7 +1,14 @@
 <template>
-  <button aria-label="infomration" class="slot-btn red" @click="Popup()">
+  <btn
+    aria-label="infomration"
+    :color="'red'"
+    :size="'medium'"
+    :circle="true"
+    :width="'50px'"
+    @click="Popup()"
+  >
     i
-  </button>
+  </btn>
   <div v-if="popUpState" class="popup-overlay">
     <div class="popup">
       <ul class="tabs">
@@ -36,8 +43,10 @@
   import gameInstructions from "./gameInstructions.vue"
   import ShopPopUp from "./shopPopUp.vue"
   import securityInfo from "./securityInfo.vue"
+  import buttonComponent from "../elements/buttonComponent.vue"
   export default {
     components: {
+      btn: buttonComponent,
       SymbolsValue,
       gameInstructions,
       ShopPopUp,

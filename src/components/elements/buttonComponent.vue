@@ -13,6 +13,18 @@
         type: String,
         default: "meduim",
       },
+      circle: {
+        type: Boolean,
+        default: false,
+      },
+      width: {
+        type: String,
+        default: "50px",
+      },
+      height: {
+        type: String,
+        default: "",
+      },
     },
     setup() {
       return {}
@@ -22,22 +34,25 @@
     mounted() {},
     data() {
       return {
+        newStyle: this.styles,
         val: 0,
       }
     },
     computed: {
       style() {
         let obj = {}
+        obj = { ...this.styles, ...this.frontStyle }
         if (this.width) {
           obj.width = this.width
         }
         if (this.height) {
           obj.height = this.height
         }
-        if (this.size) {
-          obj.width = this.size
-          obj.height = this.size
+        if (this.circle) {
+          obj.width = this.width
+          obj.height = ""
         }
+
         return obj
       },
       fontStyle() {
@@ -65,9 +80,12 @@
   }
 </script>
 <template>
-  <div :style="styles" :class="'btn-container ' + color">
+  <div
+    :style="style"
+    :class="'btn-container ' + color + (circle ? ' circle' : '')"
+  >
     <div class="under" />
-    <div :style="fontStyle" :class="'btn-comp '">
+    <div :class="'btn-comp '" :style="fontStyle">
       <slot>Text</slot>
     </div>
   </div>
@@ -88,9 +106,6 @@
     padding: 0px;
     margin: 0px;
     display: flex;
-    min-height: 50px;
-    min-width: 50px;
-    width: fit-content;
     position: relative;
     .btn-comp {
       border: 0;
@@ -99,12 +114,13 @@
       top: 0;
       left: 0;
       user-select: none;
-      position: relative;
+      position: absolute;
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
       display: flex;
       width: 100%;
+      height: 100%;
       border-radius: 1000px;
       font-size: 20px;
       font-family: "inter";
@@ -181,6 +197,12 @@
           box-shadow: inset 0 0 10px 0px $bg2;
         }
       }
+    }
+    &.circle::after {
+      content: "";
+      display: block;
+      padding-top: 100%;
+      width: 100%;
     }
   }
 
