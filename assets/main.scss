@@ -21,6 +21,9 @@ $btn-red2: #d84145;
 $btn-purple: #774ab0;
 $btn-purple2: #d89ced;
 
+body {
+  background-image: linear-gradient(hsl(266, 65%, 17%), hsl(310, 25%, 29%));
+}
 .slot-btn {
   border: 0;
   outline: 0;
