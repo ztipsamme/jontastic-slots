@@ -245,7 +245,7 @@
     <div class="row">
       <div class="reels-col col">
         <div class="col-1">
-          <template v-for="(t, i) in tokens.themeTypes" :key="i">
+          <!-- <template v-for="(t, i) in tokens.themeTypes" :key="i">
             <icon
               :name="t.name"
               :src="t.src"
@@ -254,9 +254,9 @@
                 theme.currentTheme = t.name.replace(/\s/g, '').toLowerCase()
               "
             />
-          </template>
+          </template> -->
 
-          <icon
+          <!-- <icon
             :size="'small'"
             :styles="{ width: '80px', height: '80px' }"
             :class="{ selected: theme.currentTheme == 'catTheme' }"
@@ -265,13 +265,13 @@
             @click="theme.currentTheme = 'catTheme'"
           >
             Cat Theme
-          </icon>
-          <btn
+          </icon> -->
+          <!-- <btn
             :class="{ selected: theme.currentTheme == 'default' }"
             :color="theme.currentTheme == 'default' ? 'green' : 'blue'"
             @click="theme.currentTheme = 'default'"
             >Default</btn
-          >
+          > -->
         </div>
         <div class="reel-cont">
           <spinner

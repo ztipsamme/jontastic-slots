@@ -1,5 +1,6 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
+  import { useThemeStore } from "../stores/themes.js"
   import iconComponent from "../components/elements/iconComponent.vue"
   import buttonComponent from "../components/elements/buttonComponent.vue"
 
@@ -10,8 +11,9 @@
     },
     setup() {
       const tokenStore = useTokenStore()
+      const theme = useThemeStore()
       window.content = tokenStore
-      return { tokenStore }
+      return { tokenStore, theme }
     },
 
     data() {
@@ -39,6 +41,17 @@
     },
 
     methods: {
+      onClick(item) {
+        if (!item.owned) {
+          this.popUpAction(item.name)
+        } else if (item.owned) {
+          this.tokenStore.themeTypes.forEach((element) => {
+            element.active = false
+          })
+          item.active = true
+          this.theme.currentTheme = item.name.replace(/\s/g, "").toLowerCase()
+        }
+      },
       popUpAction(item) {
         let theme = this.themeTypes.find((type) => type.name === item)
         let bonus = this.tokenStore.bonusTypes.find(
@@ -103,32 +116,23 @@
       <div class="col">
         <h2 class="second-heading">Teman:</h2>
         <div>
-          <!--           <button
-            :key="item.name"
-            v-for="item in themeTypes"
-            :aria-label="item.name"
-            :class="
-              'shop-item ' +
-              item.name
-                .toLowerCase()
-                .replace(/theme/g, '')
-                .trim()
-                .replace(/\s/g, '-')
-            "
-            @click="popUpAction(item.name)"
-            :disabled="item.owned"
+          <btn
+            :class="{ selected: theme.currentTheme == 'default' }"
+            :color="theme.currentTheme == 'default' ? 'green' : 'blue'"
+            @click="theme.currentTheme = 'default'"
+            >Default</btn
           >
-            <img class="icon" :src="item.src" :alt="item.name" />
-          </button> -->
           <icon
             :key="item.name"
             :name="item.name"
             v-for="item in themeTypes"
             :aria-label="item.name"
-            @click="popUpAction(item.name)"
+            @click="onClick(item)"
             :size="'68px'"
-            :disabled="item.owned"
             :src="item.src"
+            :style="{
+              border: item.active ? 'solid 5px blue' : '',
+            }"
           />
         </div>
       </div>
