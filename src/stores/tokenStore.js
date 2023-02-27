@@ -6,33 +6,45 @@ export const useTokenStore = defineStore("tokens", {
   state: () => ({
     tokens: useStorage("tokens", { sum: 10000, startValue: 100 }),
     bonusTypes: useStorage("bonusTypes", [
-      { name: "Extra Spin", cost: 200, amount: 0, owned: false },
-      { name: "Extra Row", cost: 250, amount: 0, owned: false },
+      {
+        name: "Extra Spin",
+        cost: 200,
+        amount: 0,
+        owned: false,
+        src: "./assets/svg/icon-spin.svg",
+      },
+      {
+        name: "Extra Row",
+        cost: 250,
+        amount: 0,
+        owned: false,
+        src: "./assets/svg/icon-row.svg",
+      },
     ]),
     themeTypes: useStorage("themeTypes", [
       {
-        name: "Default",
+        name: "Diamant",
         cost: 0,
         owned: true,
         active: true,
         src: "./assets/svg/icon-gem.svg",
       },
       {
-        name: "Cat Theme",
+        name: "Katt",
         cost: 150,
         owned: false,
         active: false,
         src: "./assets/svg/icon-cat.svg",
       },
       {
-        name: "Night Theme",
+        name: "Midnatt",
         cost: 100,
         owned: false,
         active: false,
         src: "./assets/svg/icon-moon.svg",
       },
       {
-        name: "Forest Theme",
+        name: "Skog",
         cost: 100,
         owned: false,
         active: false,

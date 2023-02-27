@@ -3,11 +3,7 @@
     props: {
       name: {
         type: String,
-        default: "night",
-      },
-      disabled: {
-        type: Boolean,
-        default: false,
+        default: "diamant",
       },
       src: {
         type: String,
@@ -18,12 +14,6 @@
         default: "68px",
       },
     },
-    setup() {
-      return {}
-    },
-    creaeted() {},
-    beforeMounted() {},
-    mounted() {},
     data() {
       return {
         val: 0,
@@ -55,56 +45,48 @@
     :style="style"
     :class="
       'shop-item ' +
-      name.toLowerCase().replace(/theme/g, '').trim().replace(/\s/g, '-')
+      (name.startsWith('Extra')
+        ? 'bonus'
+        : name.toLowerCase().replace(/theme/g, '').trim().replace(/\s/g, '-'))
     "
-    :disabled="disabled"
   >
     <img class="icon" :style="imgStyle" :src="src" :alt="name" />
   </button>
 </template>
 <style lang="scss">
-  .comp-item {
-    position: relative;
-    font: bold 16px Arial, Helvetica, sans-serif;
-    border: transparent;
-    background-color: white;
-    color: black;
-    overflow: hidden;
-    align-items: center;
-    margin-left: 10px;
-    img {
-      width: 30px;
-    }
-    &:disabled::after {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: gray;
-      opacity: 0.5;
-    }
+  .shop-item {
+    border: none;
   }
 
-  .night {
-    $primary: #bca8f2;
-    $secondary: #231251;
+  .diamant {
+    $primary: #46a2b6;
+    $secondary: #c5f4ff;
     background-color: $secondary;
   }
-  .forest {
-    $primary: #7dbe91;
-    $secondary: #283a24;
-    background-color: $secondary;
-  }
-  .cat {
+  .katt {
     $primary: #d54fa0;
     $secondary: #ffd3ee;
     background-color: $secondary;
   }
-  .bonus {
-    $primary: #e9d489;
-    $secondary: #bca349;
+  .midnatt {
+    $primary: #bca8f2;
+    $secondary: #231251;
     background-color: $secondary;
+  }
+  .skog {
+    $primary: #7dbe91;
+    $secondary: #283a24;
+    background-color: $secondary;
+  }
+  .bonus {
+    $primary: #b18617;
+    $secondary: #ffde68;
+    background-color: $secondary;
+  }
+</style>
+
+<style scoped>
+  button {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
   }
 </style>

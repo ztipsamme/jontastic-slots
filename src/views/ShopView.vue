@@ -101,33 +101,45 @@
   </header>
   <main class="shop container">
     <section class="row">
-      <div class="col">
-        <h2 class="second-heading">Bonusar:</h2>
-        <div>
-          <button class="shop-item bonus" @click="popUpAction('Extra Spin')">
-            Extra Spin
-          </button>
-          <button class="shop-item bonus" @click="popUpAction('Extra Row')">
-            Extra Row
-          </button>
-          <button class="shop-item bonus">Någon Bonus</button>
+      <div class="col category">
+        <h2 class="second-heading">Bonusar</h2>
+        <p>Levla upp spänningen med någonting extra.</p>
+        <div class="d-inline-flex flex-wrap gap-2">
+          <div class="item" :key="item" v-for="item in bonusTypes">
+            <icon
+              :name="item.name"
+              :aria-label="item.name"
+              @click="onClick(item)"
+              :size="'68px'"
+              :src="item.src"
+            />
+            <span>
+              {{
+                item.name.substring(item.name.indexOf("Extra") + "extra".length)
+              }}
+            </span>
+            <span> {{ item.cost }}t </span>
+          </div>
         </div>
       </div>
-      <div class="col">
-        <h2 class="second-heading">Teman:</h2>
-        <div>
-          <icon
-            :key="item.name"
-            :name="item.name"
-            v-for="item in themeTypes"
-            :aria-label="item.name"
-            @click="onClick(item)"
-            :size="'68px'"
-            :src="item.src"
-            :style="{
-              border: item.active ? 'solid 5px blue' : '',
-            }"
-          />
+      <div class="col category">
+        <h2 class="second-heading">Teman</h2>
+        <p>Anpassa ditt spel med ett tema.</p>
+        <div class="d-inline-flex flex-wrap gap-2">
+          <div class="item" v-for="item in themeTypes" :key="item.name">
+            <icon
+              :name="item.name"
+              :aria-label="item.name"
+              @click="onClick(item)"
+              :size="'68px'"
+              :src="item.src"
+              :style="{
+                border: item.active ? 'solid 5px blue' : '',
+              }"
+            />
+            <span> {{ item.name }} </span>
+            <span v-if="!item.owned"> {{ item.cost }}t </span>
+          </div>
         </div>
       </div>
     </section>
@@ -187,65 +199,19 @@
 
 <style lang="scss">
   //Theme standard
-  $icon-size: 68px;
   //One line font -> https://hadrysmateusz.com/blog/font-shorthand
-  $icon-font: bold 16px Arial, Helvetica, sans-serif;
-  $border-radius: 10px;
-  $primary: black;
-  $secondary: lightgray;
+  p {
+    text-align: start;
+  }
 
-  .shop-item {
-    position: relative;
-    height: $icon-size;
-    width: $icon-size;
-    border-radius: $border-radius;
-    font: $icon-font;
-    border: transparent;
-    background-color: $secondary;
-    color: $primary;
-    overflow: hidden;
-    align-items: center;
-    margin-left: 10px;
-    img {
-      width: 30px;
+  .category {
+    .item {
+      display: flex;
+      flex-direction: column;
+      width: min-content;
+      font-weight: bold;
+      text-align: center;
     }
-    &:disabled::after {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: gray;
-      opacity: 0.5;
-    }
-  }
-
-  .default {
-    $primary: #46a2b6;
-    $secondary: #c5f4ff;
-    background-color: $secondary;
-  }
-
-  .night {
-    $primary: #bca8f2;
-    $secondary: #231251;
-    background-color: $secondary;
-  }
-  .forest {
-    $primary: #7dbe91;
-    $secondary: #283a24;
-    background-color: $secondary;
-  }
-  .cat {
-    $primary: #d54fa0;
-    $secondary: #ffd3ee;
-    background-color: $secondary;
-  }
-  .bonus {
-    $primary: #e9d489;
-    $secondary: #bca349;
-    background-color: $secondary;
   }
 
   .popup-container {
