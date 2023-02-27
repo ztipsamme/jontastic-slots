@@ -2,51 +2,52 @@
   <div class="total-bet-container">
     <btn
       :styles="{ height: '100%' }"
-      :size="'large'"
+      size="large"
       @click="decrementBetAmount()"
     >
       -
     </btn>
     <p class="bet-amount">{{ betAmount }}</p>
-    <btn :size="'large'" @click="incrementBetAmount()"> + </btn>
+    <btn size="large" @click="incrementBetAmount()"> + </btn>
   </div>
 </template>
 
 <script>
-  import { mapMutations, mapGetters } from "vuex"
-  import buttonComponent from "./elements/buttonComponent.vue"
-  export default {
+  import { defineComponent, ref } from "vue"
+  import btn from "./elements/buttonComponent.vue"
+  import { useTokenStore } from "../stores/tokenStore.js"
+
+  export default defineComponent({
     name: "TotalBet",
     components: {
-      btn: buttonComponent,
+      btn,
     },
-    data() {
+    setup() {
+      const tokenStore = useTokenStore()
+      const betAmount = ref(10)
+
+      function decrementBetAmount() {
+        if (betAmount.value > 5) {
+          betAmount.value -= 5
+          tokenStore.dispatch("addToken", 5)
+        }
+      }
+
+      function incrementBetAmount() {
+        const tokens = tokenStore.state.tokens.sum
+        if (betAmount.value < tokens && betAmount.value < 50) {
+          betAmount.value += 5
+          tokenStore.dispatch("removeToken", 5)
+        }
+      }
+
       return {
-        betAmount: 5,
-        minBetAmount: 5,
-        maxBetAmount: 50,
-        stepBetAmount: 5,
+        betAmount,
+        decrementBetAmount,
+        incrementBetAmount,
       }
     },
-    computed: {
-      ...mapGetters("tokenStore", ["bet"]),
-    },
-    methods: {
-      ...mapMutations("tokenStore", ["setBet"]),
-      incrementBetAmount() {
-        if (this.betAmount + this.stepBetAmount <= this.maxBetAmount) {
-          this.betAmount += this.stepBetAmount
-          this.setBet(this.bet + this.stepBetAmount)
-        }
-      },
-      decrementBetAmount() {
-        if (this.betAmount - this.stepBetAmount >= this.minBetAmount) {
-          this.betAmount -= this.stepBetAmount
-          this.setBet(this.bet - this.stepBetAmount)
-        }
-      },
-    },
-  }
+  })
 </script>
 
 <style scoped>
