@@ -116,12 +116,6 @@
       <div class="col">
         <h2 class="second-heading">Teman:</h2>
         <div>
-          <btn
-            :class="{ selected: theme.currentTheme == 'default' }"
-            :color="theme.currentTheme == 'default' ? 'green' : 'blue'"
-            @click="theme.currentTheme = 'default'"
-            >Default</btn
-          >
           <icon
             :key="item.name"
             :name="item.name"
@@ -227,6 +221,12 @@
     }
   }
 
+  .default {
+    $primary: #46a2b6;
+    $secondary: #c5f4ff;
+    background-color: $secondary;
+  }
+
   .night {
     $primary: #bca8f2;
     $secondary: #231251;
@@ -255,11 +255,6 @@
     width: 300px;
     position: relative;
     overflow-y: scroll;
-  }
-</style>
-
-<style scoped lang="scss">
-  .popup-container {
     div {
       button {
         font-size: 16px;

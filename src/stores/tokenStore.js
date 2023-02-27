@@ -11,6 +11,13 @@ export const useTokenStore = defineStore("tokens", {
     ]),
     themeTypes: useStorage("themeTypes", [
       {
+        name: "Default",
+        cost: 0,
+        owned: true,
+        active: true,
+        src: "./assets/svg/icon-gem.svg",
+      },
+      {
         name: "Cat Theme",
         cost: 150,
         owned: false,
