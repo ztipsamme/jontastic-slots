@@ -1,5 +1,7 @@
 <template>
+  <!-- Vad är detta?-->
   <slotgroup />
+
   <betting />
 </template>
 

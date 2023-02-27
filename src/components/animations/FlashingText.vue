@@ -9,7 +9,12 @@
         type: Number,
         default: () => 150,
       },
+      style: {
+        type: Object,
+        default: () => ({}),
+      },
     },
+
     methods: {
       clr(h = 180, s = 95, l = 50) {
         return `hsl(${h}deg ${s}% ${l}%)`
@@ -19,7 +24,7 @@
 </script>
 
 <template>
-  <svg viewBox="0 0 1000 400">
+  <svg viewBox="0 0 1000 400" :style="style">
     <g class="scale">
       <text
         text-anchor="middle"

@@ -41,7 +41,7 @@
     computed: {
       style() {
         let obj = {}
-        obj = { ...this.styles, ...this.frontStyle }
+        obj = { ...this.styles, ...this.fontStyle }
         if (this.width) {
           obj.width = this.width
         }

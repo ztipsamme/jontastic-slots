@@ -87,59 +87,57 @@
         this.reels = 4
       },
       altGetNumbers() {
-        let n = [],
-          num = []
+        console.log("this.num", this.num)
 
         let isWinner = Math.floor(Math.random() * 3) == 2
-        console.log("isWinner", isWinner)
         if (isWinner) {
           let v = 6
           let isHigher
-          for (let i = 2; i <= 7; i++) {
-            console.log("odds för " + i + ": " + i * i)
-          }
 
           for (let i = 7; i >= 2; i--) {
             isHigher = Math.floor(Math.random() * i + i)
-            console.log("v", v)
-            console.log("isHigher", isHigher)
             if (isHigher) {
               break
             }
             v = i - 1
           }
 
-          console.log("WinNumber:", v)
           this.spinnerArr.forEach((reel, index) => {
-            console.log("\n------------REEL: " + index + "-----------\n")
             let arr = []
             reel.forEach((e, i) => {
               if (e == v) {
                 arr.push(i)
               }
             })
-            console.log(arr)
+            let nIndex = arr[Math.floor(Math.random() * arr.length)]
+            console.log("index", index)
+            console.log(this.n, nIndex)
 
-            n[index] = arr[Math.floor(Math.random() * arr.length)]
-            num[index] = reel[index][n[index]]
+            this.n[index] = nIndex
+            this.num[index] = reel[this.n[index]]
+            console.log(this.num)
           })
         } else {
           this.spinnerArr.forEach((e, i) => {
-            n[i] = Math.floor(Math.random() * e.length)
-            num[i] = e[n[i]]
+            this.n[i] = Math.floor(Math.random() * e.length)
+            this.num[i] = e[this.n[i]]
           })
 
-          if (num.every((e) => e == num[0])) {
-            let same = num[0]
-            let reel = Math.floor(Math.random() * num.length)
-            while (num[reel] == same) {
-              n[reel] = Math.floor(Math.random() * this.spinnerArr[reel].length)
-              num[reel] = this.spinnerArr[reel][n[reel]]
+          if (this.num.every((e) => e == this.num[0])) {
+            console.log("!!!!!!!!BAJS")
+            let same = this.num[0]
+            let reel = Math.floor(Math.random() * this.num.length)
+            while (this.num[reel] == same) {
+              this.n[reel] = Math.floor(
+                Math.random() * this.spinnerArr[reel].length,
+              )
+              this.num[reel] = this.spinnerArr[reel][this.n[reel]]
             }
           }
         }
-        console.log({ num: num, n: n })
-        return { num: num, n: n }
+        console.log("this.num", this.num)
+        console.log("this.n", this.n)
+        return { num: this.num, n: this.n }
       },
       getNumbers() {
         let num = []
@@ -194,11 +192,14 @@
       },
       done() {
         this.startGame = false
-
+        console.log(this.num)
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
-          this.tokens.tokens.sum = this.tokens.tokens.sum + 100
-          console.log("Yay, you won 100 toekns! =D")
+          let winSum =
+            this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
+          console.log("winSum", winSum)
+          this.tokens.winning(winSum)
+          console.log("Yay, you won " + winSum + " toekns! =D")
         } else {
           this.winner = false
           console.log("Haha, loser. :P")
@@ -210,15 +211,14 @@
           return
         }
         this.startGame = true
-
-        this.num = [1, 2, 3, 4, 5, 3, 6, 9]
         if (this.tokens.tokens.sum - 5 < 0) {
           alert("GameOver")
+          this.startGame = false
           this.tokens.tokens.sum = this.tokens.tokens.startValue
           return
         }
         this.winner = false
-        this.tokens.tokens.sum -= 5
+        this.tokens.takeoutBet(this.tokens.tokens.bet)
         this.checkNumbers()
 
         this.$refs.child.start(this.n)
@@ -228,77 +228,58 @@
 </script>
 
 <template>
-  <div class="main-mashine cont">
-    <div class="row">
+  <flash-text
+    :h="50"
+    v-if="winner"
+    :style="{ position: 'absolute', margin: 'auto', top: '25vh', zIndex: '99' }"
+    @click="winner = !winner"
+  />
+  <div class="main-machine cont">
+    <div class="row row-1">
+      En rad för saker
       <div class="col">
         <btn v-if="hasExtraRow" @click="activateRow()">Extra Row</btn>
       </div>
     </div>
-    <div class="row winner-row">
-      <flash-text :h="50" v-if="winner" />
-      <h1 v-if="winner" />
-      <h1 v-if="tokens.tokens.sum === 0">GAME OVER</h1>
-    </div>
-
-    <div class="row">
-      <div class="reels-col col">
-        <div class="col-1">
-          <!-- <template v-for="(t, i) in tokens.themeTypes" :key="i">
-            <icon
-              :name="t.name"
-              :src="t.src"
-              v-if="t.owned"
-              @click="
-                theme.currentTheme = t.name.replace(/\s/g, '').toLowerCase()
-              "
-            />
-          </template>
-
-          <icon
-            :size="'small'"
-            :styles="{ width: '80px', height: '80px' }"
-            :class="{ selected: theme.currentTheme == 'catTheme' }"
-            :color="theme.currentTheme == 'catTheme' ? 'green' : 'blue'"
-            v-if="tokens.isThemeOwned('cattheme')"
-            @click="theme.currentTheme = 'catTheme'"
-          >
-            Cat Theme
-          </icon>
-          <btn
-            :class="{ selected: theme.currentTheme == 'default' }"
-            :color="theme.currentTheme == 'default' ? 'green' : 'blue'"
-            @click="theme.currentTheme = 'default'"
-            >Default</btn
-          > -->
-        </div>
-        <div class="reel-cont">
-          <spinner
-            :ref="'child'"
-            :spinners="spinnerArr"
-            :numbers="n"
-            :count="count"
-            @done="done"
-          />
-        </div>
-
-        <btn
-          :color="'purple'"
-          :styles="{ height: '10vw', width: '12vw' }"
-          @click="gameStart"
-          :disabled="tokens.tokens.sum === 0 ? true : false"
-        >
-          SPELA
-        </btn>
+    <div class="reels-col col">
+      <div class="col-1" />
+      <div class="reel-cont">
+        <spinner
+          :ref="'child'"
+          :spinners="spinnerArr"
+          :numbers="n"
+          :count="count"
+          @done="done"
+        />
       </div>
     </div>
-
+    <div class="row-3">
+      <TotalBet />
+      <btn
+        :color="'purple'"
+        :height="'50px'"
+        :width="'30vw'"
+        @click="gameStart"
+        :disabled="tokens.tokens.sum === 0 ? true : false"
+      >
+        SPELA
+      </btn>
+    </div>
     <!--If player doesn't have tokens, button is disabeld-->
-
-    <TotalBet />
   </div>
 </template>
 
 <style lang="scss">
+  .main-machine.cont {
+    display: grid;
+    height: calc(100vh - 75px);
+    grid-template-rows: 60px 60vh 150px;
+    grid-template-columns: 15vw auto 15vw;
+    width: 100%;
+  }
+  .row-1 {
+    grid-column: span 3;
+  }
   .winner-row {
     display: flex;
     justify-content: center;
@@ -310,6 +291,14 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    height: 100%;
+  }
+  .row-3 {
+    grid-row: 3;
+    grid-column: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .cont {
     width: 80vw;
@@ -317,8 +306,8 @@
     flex-direction: column;
   }
   .reels-col {
+    grid-column-start: 2;
     display: grid;
-    grid-template-columns: 1fr 10fr 1fr;
     width: 100%;
   }
 </style>

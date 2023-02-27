@@ -4,7 +4,7 @@ import { useStorage } from "@vueuse/core"
 export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
-    tokens: useStorage("tokens", { sum: 10000, startValue: 100 }),
+    tokens: useStorage("tokens", { sum: 10000, startValue: 100, bet: 5 }),
     bonusTypes: useStorage("bonusTypes", [
       {
         name: "Extra Spin",
@@ -21,6 +21,7 @@ export const useTokenStore = defineStore("tokens", {
         src: "./assets/svg/icon-row.svg",
       },
     ]),
+
     themeTypes: useStorage("themeTypes", [
       {
         name: "Diamant",
@@ -61,16 +62,40 @@ export const useTokenStore = defineStore("tokens", {
           name.toLowerCase().replace(/\s/, ""),
       ).owned,
   },
-  mutations: {
-    // other mutations...
-    setBet(state, newBet) {
-      state.bet = newBet
-    },
-  },
 
   actions: {
     addTokens(amount) {
       this.token += amount
+    },
+    async takeoutBet(amount) {
+      console.log("ASDFASDF", amount)
+      let val = 0
+      let timeout
+      let loop = () => {
+        this.tokens.sum--
+        val++
+        val = Math.min(val, amount)
+        if (val < amount) {
+          timeout = setTimeout(loop, 100)
+        } else {
+          clearTimeout(timeout)
+        }
+      }
+      loop()
+    },
+    async winning(amount) {
+      let val = amount
+      let timeout
+      let loop = () => {
+        this.tokens.sum++
+        val--
+        if (val > 0) {
+          timeout = setTimeout(loop, 100)
+        } else {
+          clearTimeout(timeout)
+        }
+      }
+      loop()
     },
   },
 })

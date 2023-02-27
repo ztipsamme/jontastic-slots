@@ -1,8 +1,8 @@
 import _default from "./Default"
 import CatTheme from "./CatTheme"
 const Themes = {
-  default: _default,
-  cattheme: CatTheme,
+  diamant: _default,
+  katt: CatTheme,
 }
 console.log(Themes)
 export default Themes

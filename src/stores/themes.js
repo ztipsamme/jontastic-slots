@@ -4,7 +4,7 @@ import Themes from "../components/themes/index.js"
 export const useThemeStore = defineStore("themes", {
   strict: true,
   state: () => ({
-    currentTheme: useStorage("currentTheme", "default"),
+    currentTheme: useStorage("currentTheme", "diamant"),
     Themes,
   }),
   getters: {
