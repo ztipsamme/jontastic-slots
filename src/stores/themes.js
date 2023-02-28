@@ -10,5 +10,13 @@ export const useThemeStore = defineStore("themes", {
   getters: {
     current: (state) => state.Themes[state.currentTheme],
     icons: (state) => state.current.icons,
+    app: () => window.document.getElementById("app"),
+  },
+  actions: {
+    setTheme(name) {
+      this.currentTheme = name
+      this.app.classList.remove(...this.app.classList)
+      this.app.classList.add(name)
+    },
   },
 })

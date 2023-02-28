@@ -10,16 +10,17 @@
   padding: 0;
 }
 
-$btn-blue: #4a65b0;
-$btn-blue2: #42c4ec;
+$btn-blue: $btn-one;
+$btn-blue2: $btn-oneLight;
 
-$btn-green: #5e9f48;
-$btn-green2: #96be38;
+$btn-green: $btn-two;
+$btn-green2: $btn-twoLight;
 
-$btn-red: #8e1c4f;
-$btn-red2: #d84145;
-$btn-purple: #774ab0;
-$btn-purple2: #d89ced;
+$btn-red: $btn-three;
+$btn-red2: $btn-threeLight;
+
+$btn-purple: $btn-four;
+$btn-purple2: $btn-fourLight;
 
 body {
   background-image: linear-gradient(hsl(266, 65%, 17%), hsl(310, 25%, 29%));
