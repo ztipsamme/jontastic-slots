@@ -95,9 +95,6 @@
 </script>
 
 <template>
-  <header>
-    <h1 class="first-heading">Butik</h1>
-  </header>
   <main class="shop container">
     <section class="row">
       <div class="col category">
@@ -199,6 +196,7 @@
 <style lang="scss">
   //Theme standard
   //One line font -> https://hadrysmateusz.com/blog/font-shorthand
+
   p {
     text-align: start;
   }
@@ -214,7 +212,8 @@
   }
 
   .first-heading,
-  .second-heading {
+  .second-heading,
+  p {
     color: white;
   }
 

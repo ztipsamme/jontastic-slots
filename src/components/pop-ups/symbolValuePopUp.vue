@@ -9,12 +9,6 @@
   import { useThemeStore } from "../../stores/themes.js"
 
   export default {
-    data() {
-      return {
-        currentTheme: "default",
-      }
-    },
-
     setup() {
       const theme = useThemeStore()
       const icons = theme.icons
