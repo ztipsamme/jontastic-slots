@@ -53,7 +53,7 @@
     <img class="icon" :style="imgStyle" :src="src" :alt="name" />
   </button>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
   .shop-item {
     border: none;
   }

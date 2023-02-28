@@ -1,7 +1,6 @@
 // Theme variables
-
-$btn-one: #4a65b0;
-$btn-oneLight: #42c4ec;
+$btn-one: green;
+$btn-oneLight: red;
 
 $btn-two: #5e9f48;
 $btn-twoLight: #96be38;
@@ -12,24 +11,23 @@ $btn-threeLight: #d84145;
 $btn-four: #774ab0;
 $btn-fourLight: #d89ced;
 
-#app{
-  .diamant{
-    $btn-one: #4a65b0;
-    $btn-oneLight: #42c4ec;
+#app {
+  .diamant * {
+    $btn-blue: $btn-one;
+    $btn-blue2: $btn-oneLight;
 
-    $btn-two: #5e9f48;
-    $btn-twoLight: #96be38;
+    $btn-green: $btn-two;
+    $btn-green2: $btn-twoLight;
 
-    $btn-three: #8e1c4f;
-    $btn-threeLight: #d84145;
+    $btn-red: $btn-three;
+    $btn-red2: $btn-threeLight;
 
-    $btn-four: #774ab0;
-    $btn-fourLight: #d89ced;
-
+    $btn-purple: $btn-four;
+    $btn-purple2: $btn-fourLight;
   }
 }
 
- bakgrund 1 2
+/*  bakgrund 1 2
 
  typsnitt{
   färg
@@ -39,3 +37,4 @@ $btn-fourLight: #d89ced;
  }
 
  sekundärfärg
+ */
