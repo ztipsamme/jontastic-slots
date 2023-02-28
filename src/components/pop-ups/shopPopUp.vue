@@ -19,6 +19,9 @@
 </template>
 
 <style>
+  * {
+    color: black;
+  }
   .container {
     margin-bottom: 20px;
   }
