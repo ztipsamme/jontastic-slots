@@ -49,7 +49,7 @@
             element.active = false
           })
           item.active = true
-          this.theme.currentTheme = item.name.replace(/\s/g, "").toLowerCase()
+          this.theme.setTheme(item.name.replace(/\s/g, "").toLowerCase())
         }
       },
       popUpAction(item) {

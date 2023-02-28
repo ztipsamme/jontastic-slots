@@ -9,23 +9,184 @@
   margin: 0;
   padding: 0;
 }
-
-$btn-blue: $btn-one;
-$btn-blue2: $btn-oneLight;
-
-$btn-green: $btn-two;
-$btn-green2: $btn-twoLight;
-
-$btn-red: $btn-three;
-$btn-red2: $btn-threeLight;
-
-$btn-purple: $btn-four;
-$btn-purple2: $btn-fourLight;
-
 body {
-  background-image: linear-gradient(hsl(266, 65%, 17%), hsl(310, 25%, 29%));
+  &.diamant,
+  &.diamant * {
+    $bg-color1: hsl(266, 65%, 17%);
+    $bg-color2: hsl(310, 25%, 29%);
+
+    $btn-blue: #4a65b0;
+    $btn-blue2: #42c4ec;
+
+    $btn-green: #5e9f48;
+    $btn-green2: #96be38;
+
+    $btn-red: #8e1c4f;
+    $btn-red2: #d84145;
+
+    $btn-purple: #774ab0;
+    $btn-purple2: #d89ced;
+
+    --bg-color1: #{$bg-color1};
+    --bg-color2: #{$bg-color2};
+
+    --btn-blue: #{$btn-blue};
+    --btn-blue2: #{$btn-blue2};
+    --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
+    --btn-blue4: #{color.adjust($btn-blue, $lightness: 5%)};
+    --btn-blue5: #{color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-green: #{$btn-green};
+    --btn-green2: #{$btn-green2};
+    --btn-green3: #{color.adjust($btn-green, $lightness: -20%)};
+    --btn-green4: #{color.adjust($btn-green, $lightness: 5%)};
+    --btn-green5: #{color.adjust($btn-green2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-red: #{$btn-red};
+    --btn-red2: #{$btn-red2};
+    --btn-red3: #{color.adjust($btn-red, $lightness: -20%)};
+    --btn-red4: #{color.adjust($btn-red, $lightness: 5%)};
+    --btn-red5: #{color.adjust($btn-red2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-purple: #{$btn-purple};
+    --btn-purple2: #{$btn-purple2};
+    --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
+    --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
+  }
+  &.skog,
+  &.skog * {
+    $bg-color1: hsl(266, 65%, 17%);
+    $bg-color2: hsl(310, 25%, 29%);
+
+    $btn-blue: #4a65b0;
+    $btn-blue2: #42c4ec;
+
+    $btn-green: #5e9f48;
+    $btn-green2: #96be38;
+
+    $btn-red: #8e1c4f;
+    $btn-red2: #d84145;
+
+    $btn-purple: #774ab0;
+    $btn-purple2: #d89ced;
+
+    --bg-color1: #{$bg-color1};
+    --bg-color2: #{$bg-color2};
+    --btn-blue: $btn-blue;
+    --btn-blue2: $btn-blue2;
+    --btn-blue3: color.adjust($btn-blue, $lightness: -20%);
+    --btn-blue4: color.adjust($btn-blue, $lightness: 5%);
+    --btn-blue5: color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%);
+
+    --btn-green: $btn-green;
+    --btn-green2: $btn-green2;
+    --btn-green3: color.adjust($btn-green, $lightness: -20%);
+    --btn-green4: color.adjust($btn-green, $lightness: 5%);
+    --btn-green5: color.adjust($btn-green2, $lightness: 5%, $saturation: 10%);
+
+    --btn-red: $btn-red;
+    --btn-red2: $btn-red2;
+    --btn-red3: color.adjust($btn-red, $lightness: -20%);
+    --btn-red4: color.adjust($btn-red, $lightness: 5%);
+    --btn-red5: color.adjust($btn-red2, $lightness: 5%, $saturation: 10%);
+
+    --btn-purple: $btn-purple;
+    --btn-purple2: $btn-purple2;
+    --btn-purple3: color.adjust($btn-purple, $lightness: -20%);
+    --btn-purple4: color.adjust($btn-purple, $lightness: 5%);
+    --btn-purple5: color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%);
+  }
+  &.katt,
+  &.katt * {
+    $bg-color1: hsl(150, 100%, 50%);
+    $bg-color2: hsl(221, 100%, 84%);
+
+    $btn-blue: #9b005f;
+    $btn-blue2: #ff58d5;
+
+    $btn-green: #610069;
+    $btn-green2: #ffd4f6;
+
+    $btn-red: #8e1c4f;
+    $btn-red2: #d84145;
+
+    $btn-purple: green;
+    $btn-purple2: lightgreen;
+
+    --bg-color1: #{$bg-color1};
+    --bg-color2: #{$bg-color2};
+    --btn-blue: #{$btn-blue};
+    --btn-blue2: #{$btn-blue2};
+    --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
+    --btn-blue4: #{color.adjust($btn-blue, $lightness: 5%)};
+    --btn-blue5: #{color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-green: #{$btn-green};
+    --btn-green2: #{$btn-green2};
+    --btn-green3: #{color.adjust($btn-green, $lightness: -20%)};
+    --btn-green4: #{color.adjust($btn-green, $lightness: 5%)};
+    --btn-green5: #{color.adjust($btn-green2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-red: #{$btn-red};
+    --btn-red2: #{$btn-red2};
+    --btn-red3: #{color.adjust($btn-red, $lightness: -20%)};
+    --btn-red4: #{color.adjust($btn-red, $lightness: 5%)};
+    --btn-red5: #{color.adjust($btn-red2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-purple: #{$btn-purple};
+    --btn-purple2: #{$btn-purple2};
+    --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
+    --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
+  }
+  &.midnatt,
+  &.midnatt {
+    $bg-color1: hsl(266, 65%, 17%);
+    $bg-color2: hsl(310, 25%, 29%);
+
+    $btn-blue: #4a65b0;
+    $btn-blue2: #42c4ec;
+
+    $btn-green: #5e9f48;
+    $btn-green2: #96be38;
+
+    $btn-red: #8e1c4f;
+    $btn-red2: #d84145;
+
+    $btn-purple: #774ab0;
+    $btn-purple2: #d89ced;
+
+    --bg-color1: #{$bg-color1};
+    --bg-color2: #{$bg-color2};
+    --btn-blue: $btn-blue;
+    --btn-blue2: $btn-blue2;
+    --btn-blue3: color.adjust($btn-blue, $lightness: -20%);
+    --btn-blue4: color.adjust($btn-blue, $lightness: 5%);
+    --btn-blue5: color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%);
+
+    --btn-green: $btn-green;
+    --btn-green2: $btn-green2;
+    --btn-green3: color.adjust($btn-green, $lightness: -20%);
+    --btn-green4: color.adjust($btn-green, $lightness: 5%);
+    --btn-green5: color.adjust($btn-green2, $lightness: 5%, $saturation: 10%);
+
+    --btn-red: $btn-red;
+    --btn-red2: $btn-red2;
+    --btn-red3: color.adjust($btn-red, $lightness: -20%);
+    --btn-red4: color.adjust($btn-red, $lightness: 5%);
+    --btn-red5: color.adjust($btn-red2, $lightness: 5%, $saturation: 10%);
+
+    --btn-purple: $btn-purple;
+    --btn-purple2: $btn-purple2;
+    --btn-purple3: color.adjust($btn-purple, $lightness: -20%);
+    --btn-purple4: color.adjust($btn-purple, $lightness: 5%);
+    --btn-purple5: color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%);
+  }
+  background-image: linear-gradient(var(--bg-color1), var(--bg-color2));
 }
-.slot-btn {
+
+/* .slot-btn {
   border: 0;
   outline: 0;
   color: hsla(0deg, 0, 100%, 0.8);
@@ -131,3 +292,4 @@ body {
   top: 0px;
   z-index: -1;
 }
+ */
