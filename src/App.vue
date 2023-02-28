@@ -79,13 +79,11 @@
   }
   header {
     display: grid;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: 25% 50% 25%;
     height: 100%;
     padding: 10px 0px;
     align-items: center;
-
     margin-bottom: 3vh;
-
     width: 100%;
     .info {
       justify-self: end;
@@ -126,34 +124,35 @@
       hsla(55deg, 0%, 95%) 80%
     );
     box-shadow: inset -2px 2px 5px 0px hsla(50deg, 0%, 0%, 0.5);
-    .token-icon {
-      flex-shrink: 0;
-      justify-self: start;
-      display: flex;
-      width: 44px;
-      height: 44px;
-      background-image: linear-gradient(
-        45deg,
-        hsla(50deg, 100%, 50%),
-        hsla(55deg, 100%, 75%)
-      );
-      border: 3px solid hsla(50deg, 100%, 50%);
-      border-radius: 100%;
-      justify-content: center;
-      font-size: 25px;
-      align-items: center;
-      font-weight: bold;
-      padding-bottom: 5px;
-      color: hsla(50deg, 100%, 8%, 0.7);
-      .token-text {
-        text-align: center;
-        font-weight: bold;
-        font-size: 24px;
-        line-height: 24px;
-        height: 24px;
-        margin-left: 15px;
-        width: 100%;
-      }
-    }
+  }
+  .token-icon {
+    flex-shrink: 0;
+    justify-self: start;
+    display: flex;
+    width: 44px;
+    height: 44px;
+    background-image: linear-gradient(
+      45deg,
+      hsla(50deg, 100%, 50%),
+      hsla(55deg, 100%, 75%)
+    );
+    border-radius: 100%;
+    border: 3px solid hsla(50deg, 100%, 50%);
+    justify-content: center;
+    font-size: 25px;
+    align-items: center;
+    font-weight: bold;
+    padding-bottom: 5px;
+    color: hsla(50deg, 100%, 8%, 0.7);
+  }
+
+  .token-text {
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 24px;
+    height: 24px;
+    margin-left: 15px;
+    width: 100%;
   }
 </style>
