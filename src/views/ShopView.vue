@@ -212,8 +212,7 @@
   }
 
   .first-heading,
-  .second-heading,
-  p {
+  .second-heading {
     color: white;
   }
 
