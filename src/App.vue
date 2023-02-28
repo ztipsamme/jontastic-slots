@@ -1,11 +1,16 @@
 <script>
   import { useTokenStore } from "./stores/tokenStore.js"
+  import { useThemeStore } from "./stores/themes"
   import iconComponent from "./components/elements/iconComponent.vue"
   import PopUp from "./components/pop-ups/infoPopUp.vue"
   import buttonComponent from "./components/elements/buttonComponent.vue"
   export default {
     setup() {
       const tokens = useTokenStore()
+      const theme = useThemeStore()
+
+      theme.setTheme(theme.currentTheme)
+
       return { tokens }
     },
     components: {

@@ -13,17 +13,17 @@ $btn-fourLight: #d89ced;
 
 #app {
   .diamant * {
-    $btn-blue: $btn-one;
-    $btn-blue2: $btn-oneLight;
+    --btn-one: $btn-one;
+    --btn-oneLight: $btn-oneLight;
 
-    $btn-green: $btn-two;
-    $btn-green2: $btn-twoLight;
+    --btn-two: $btn-two;
+    --btn-twoLight: $btn-twoLight;
 
-    $btn-red: $btn-three;
-    $btn-red2: $btn-threeLight;
+    --btn-three: $btn-three;
+    --btn-threeLight: $btn-threeLight;
 
-    $btn-purple: $btn-four;
-    $btn-purple2: $btn-fourLight;
+    --btn-four: $btn-four;
+    --btn-fourLight: $btn-fourLight;
   }
 }
 
