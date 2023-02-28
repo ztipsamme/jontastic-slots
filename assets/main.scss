@@ -107,11 +107,12 @@ body {
   }
   &.katt,
   &.katt * {
-    $bg-color1: hsl(324, 61%, 57%);
-    $bg-color2: hsl(323, 100%, 91%);
+    $bg-color1: #FFB800;
+    ;
+    $bg-color2: #FFDDE2;
 
-    $btn-blue: #9b005f;
-    $btn-blue2: #ff58d5;
+    $btn-blue: #FB8B02;
+    $btn-blue2: #FFB800;
 
     $btn-green: #610069;
     $btn-green2: #ffd4f6;
@@ -119,8 +120,8 @@ body {
     $btn-red: #8e1c4f;
     $btn-red2: #d84145;
 
-    $btn-purple: green;
-    $btn-purple2: lightgreen;
+    $btn-purple: #FF8CC6;
+    $btn-purple2: #FFDDE2;
 
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};

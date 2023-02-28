@@ -64,8 +64,8 @@
     background-color: $secondary;
   }
   .katt {
-    $primary: #d54fa0;
-    $secondary: #ffd3ee;
+    $primary: #de369d;
+    $secondary: #ffdde2;
     background-color: $secondary;
   }
   .midnatt {
