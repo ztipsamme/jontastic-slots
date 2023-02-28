@@ -193,7 +193,7 @@
   </section>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   //Theme standard
   //One line font -> https://hadrysmateusz.com/blog/font-shorthand
 
