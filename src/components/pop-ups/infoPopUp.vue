@@ -17,7 +17,7 @@
           v-for="(theTab, index) in tabs"
           @click="tab(index)"
           :style="{
-            backgroundColor: activeTab === index ? '#fff' : '#eee',
+            backgroundColor: activeTab === index ? '#CCBEE5' : '#eee',
           }"
         >
           {{ theTab.name }}
@@ -61,10 +61,10 @@
             name: "Symboler",
           },
           gameInstructions: {
-            name: "Hjälp",
+            name: "Instruktioner",
           },
           shopInfo: {
-            name: "Shop",
+            name: "Butik",
           },
           security: {
             name: "Säkerhet",
@@ -145,6 +145,7 @@
     left: 0;
     position: relative;
     background-color: #fff;
+    border: solid 2px #ad98d0;
     border-radius: 10px;
     padding: 20px;
     margin: 0;

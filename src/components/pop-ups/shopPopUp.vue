@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Välkommen till din butik!</h1>
+    <h1 class="popup-title">Butik</h1>
     <p>
       Här kan du använda dina tokens för att förhöja din spelupplevelse med
       olika funktioner som går att köpa. Vi erbjuder teman som du kan köpa för
@@ -25,12 +25,12 @@
   .container {
     margin-bottom: 20px;
   }
-  h1 {
-    font-size: 20px;
+  .popup-title {
     text-align: center;
-    margin-bottom: 20px;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 16px;
   }
-
   p {
     text-align: center;
   }

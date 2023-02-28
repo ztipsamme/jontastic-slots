@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Säkerhet</h1>
+    <h1 class="popup-title">Säkerhet</h1>
     <p>
       Vi tror på att erbjuda en rolig och underhållande spelupplevelse utan
       några risker. Istället för att spela med riktiga pengar så använder vi
@@ -18,10 +18,11 @@
 </template>
 
 <style>
-  h1 {
-    font-size: 20px;
+  .popup-title {
     text-align: center;
-    margin-bottom: 20px;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 16px;
   }
 
   p {

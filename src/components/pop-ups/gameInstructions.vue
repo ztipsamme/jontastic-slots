@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Instruktioner</h1>
+    <h1 class="popup-title">Instruktioner</h1>
     <p class="first">
       Spela och vinn stora priser medan du har kul och spenderar dina virtuella
       tokens. Du kan satsa på dina egna villkor genom att välja antalet tokens
@@ -20,10 +20,11 @@
 </template>
 
 <style>
-  h1 {
-    font-size: 20px;
+  .popup-title {
     text-align: center;
-    margin-bottom: 20px;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 16px;
   }
 
   p {

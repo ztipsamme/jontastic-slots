@@ -169,7 +169,7 @@
 
   <div v-if="popUp" @close="popUp = false" class="popup-overlay">
     <div class="popup-container">
-      <p class="desc">Vill du köpa {{ selectedItem }}?</p>
+      <p class="buy-text">Vill du köpa temat {{ selectedItem }}?</p>
       <div class="row gap-1 mx-3">
         <btn
           :color="'red'"
