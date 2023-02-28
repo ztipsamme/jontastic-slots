@@ -169,21 +169,25 @@
 
   <div v-if="popUp" @close="popUp = false" class="popup-overlay">
     <div class="popup-container">
-      <p class="buy-text">Vill du köpa temat {{ selectedItem }}?</p>
-      <div class="row gap-1 mx-3">
+      <p class="buy">Vill du köpa temat {{ selectedItem }}?</p>
+      <div id="btn-row" class="row gap-1 mx-3">
         <btn
           :color="'red'"
-          :styles="{ width: '48%', marginLeft: '1%' }"
-          type="small"
+          :styles="{ height: '50px', marginLeft: '1%' }"
+          :width="'80px'"
+          :type="'small'"
           @click="popUp = false"
+          class="buy-btn"
         >
           Avbryt
         </btn>
         <btn
           :color="'green'"
-          :styles="{ width: '48%', marginLeft: '1%' }"
-          type="small"
+          :styles="{ height: '50px', marginLeft: '1%' }"
+          :width="'80px'"
+          :type="'small'"
           @click="buyBonus()"
+          class="buy-btn"
           >Köp</btn
         >
       </div>
@@ -232,13 +236,24 @@
     background-color: white;
     border-radius: 10px;
     padding: 20px;
-    width: 300px;
-    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 300px; /*
+    position: relative; */
     overflow-y: scroll;
     div {
       button {
         font-size: 16px;
       }
     }
+  }
+
+  #btn-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
 </style>

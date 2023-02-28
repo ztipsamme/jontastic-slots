@@ -248,7 +248,6 @@
   />
   <div class="main-machine cont">
     <div class="row row-1">
-      En rad för saker
       <div class="col">
         <btn v-if="hasExtraRow" @click="activateRow()">Extra Row</btn>
       </div>
