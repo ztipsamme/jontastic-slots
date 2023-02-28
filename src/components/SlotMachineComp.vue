@@ -56,7 +56,7 @@
 
       hasExtraRow() {
         return this.tokens.bonusTypes.some(
-          (i) => i.name === "Extra Row" && i.owned,
+          (i) => i.name === "Extra Row" && i.amount > 0,
         )
       },
     },
@@ -80,10 +80,10 @@
         return arr
       },
       activateRow() {
+        if (this.extraRowCount) this.extraRowCount = 4
         let extraRow = this.tokens.bonusTypes.find(
           (i) => i.name === "Extra Row",
         )
-        extraRow.owned = false
         this.reels = 4
       },
       altGetNumbers() {
