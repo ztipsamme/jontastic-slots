@@ -214,6 +214,10 @@
     }
   }
 
+  .first-heading {
+    color: white;
+  }
+
   .popup-container {
     background-color: white;
     border-radius: 10px;
