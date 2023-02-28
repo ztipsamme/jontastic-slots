@@ -1,4 +1,5 @@
 <script>
+  import { useThemeStore } from "../../stores/themes"
   export default {
     props: {
       color: {
@@ -27,7 +28,8 @@
       },
     },
     setup() {
-      return {}
+      const theme = useThemeStore()
+      return { theme }
     },
     creaeted() {},
     beforeMounted() {},
@@ -92,16 +94,17 @@
 </template>
 <style lang="scss" scoped>
   @use "sass:color";
-  $btn-blue: #4a65b0;
-  $btn-blue2: #42c4ec;
+  /* --btn-blue: #4a65b0;
+  --btn-blue2: #42c4ec;
 
-  $btn-green: #5e9f48;
-  $btn-green2: #96be38;
+  --btn-green: #5e9f48;
+  --btn-green2: #96be38;
 
-  $btn-red: #8e1c4f;
-  $btn-red2: #d84145;
-  $btn-purple: #774ab0;
-  $btn-purple2: #d89ced;
+  --btn-red: #8e1c4f;
+  --btn-red2: #d84145;
+  --btn-purple: #774ab0;
+  --btn-purple2: #d89ced; */
+
   .btn-container {
     padding: 0px;
     margin: 0px;
@@ -130,71 +133,88 @@
     }
     &.purple {
       .under {
-        background-color: color.adjust($btn-purple, $lightness: -20%);
+        background-color: var(--btn-purple3);
       }
-      .btn-comp {
-        $bg1: $btn-purple;
-        $bg2: $btn-purple2;
-        background-image: linear-gradient(10deg, $bg2, $bg1 60%);
+      & > .btn-comp {
+        background-image: linear-gradient(
+          10deg,
+          var(--btn-purple2),
+          var(--btn-purple) 60%
+        );
         &:hover,
         &.selected {
-          $bg1: color.adjust($btn-purple, $lightness: 5%);
-          $bg2: color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%);
-          background-image: linear-gradient(10deg, $bg2, $bg1 60%);
-          box-shadow: inset 0 0 10px 2px $bg2;
+          background-image: linear-gradient(
+            10deg,
+            var(--btn-purple5),
+            var(--btn-purple4) 60%
+          );
+          box-shadow: inset 0 0 10px 0px var(--btn-purple5);
         }
       }
     }
 
     &.blue {
       .under {
-        background-color: color.adjust($btn-blue, $lightness: -20%);
+        background-color: var(--btn-blue3);
       }
       & > .btn-comp {
-        $bg1: $btn-blue;
-        $bg2: $btn-blue2;
-        background-image: linear-gradient(10deg, $bg2, $bg1 60%);
+        background-image: linear-gradient(
+          10deg,
+          var(--btn-blue2),
+          var(--btn-blue) 60%
+        );
         &:hover,
         &.selected {
-          $bg1: color.adjust($btn-blue, $lightness: 5%);
-          $bg2: color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%);
-          background-image: linear-gradient(10deg, $bg2, $bg1 60%);
-          box-shadow: inset 0 0 10px 0px $bg2;
+          background-image: linear-gradient(
+            10deg,
+            var(--btn-blue5),
+            var(--btn-blue4) 60%
+          );
+          box-shadow: inset 0 0 10px 0px var(--btn-blue5);
         }
       }
     }
 
     &.green {
       .under {
-        background-color: color.adjust($btn-green, $lightness: -20%);
+        background-color: var(--btn-green3);
       }
       & > .btn-comp {
-        $bg1: $btn-green;
-        $bg2: $btn-green2;
-        background-image: linear-gradient(10deg, $bg2, $bg1 60%);
+        background-image: linear-gradient(
+          10deg,
+          var(--btn-green2),
+          var(--btn-green) 60%
+        );
         &:hover,
         &.selected {
-          $bg1: color.adjust($btn-green, $lightness: 5%);
-          $bg2: color.adjust($btn-green2, $lightness: 5%, $saturation: 10%);
-          background-image: linear-gradient(10deg, $bg2, $bg1 60%);
-          box-shadow: inset 0 0 10px 0px $bg2;
+          background-image: linear-gradient(
+            10deg,
+            var(--btn-green5),
+            var(--btn-green4) 60%
+          );
+          box-shadow: inset 0 0 10px 0px var(--btn-green5);
         }
       }
     }
 
     &.red {
       .under {
-        background-color: color.adjust($btn-red, $lightness: -20%);
+        background-color: var(--btn-red3);
       }
       & > .btn-comp {
-        $bg1: $btn-red;
-        $bg2: $btn-red2;
-        background-image: linear-gradient(10deg, $bg2, $bg1 60%);
-        &:hover {
-          $bg1: color.adjust($btn-red, $lightness: 5%);
-          $bg2: color.adjust($btn-red2, $lightness: 5%, $saturation: 10%);
-          background-image: linear-gradient(10deg, $bg2, $bg1 60%);
-          box-shadow: inset 0 0 10px 0px $bg2;
+        background-image: linear-gradient(
+          10deg,
+          var(--btn-red2),
+          var(--btn-red) 60%
+        );
+        &:hover,
+        &.selected {
+          background-image: linear-gradient(
+            10deg,
+            var(--btn-red5),
+            var(--btn-red4) 60%
+          );
+          box-shadow: inset 0 0 10px 0px var(--btn-red5);
         }
       }
     }

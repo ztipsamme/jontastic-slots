@@ -49,7 +49,7 @@
             element.active = false
           })
           item.active = true
-          this.theme.currentTheme = item.name.replace(/\s/g, "").toLowerCase()
+          this.theme.setTheme(item.name.replace(/\s/g, "").toLowerCase())
         }
       },
       popUpAction(item) {
@@ -99,7 +99,7 @@
     <section class="row">
       <div class="col category">
         <h2 class="second-heading">Bonusar</h2>
-        <p>Levla upp spänningen med någonting extra.</p>
+        <p class="desc">Levla upp spänningen med någonting extra.</p>
         <div class="d-inline-flex flex-wrap gap-2">
           <div class="item" :key="item" v-for="item in bonusTypes">
             <icon
@@ -120,7 +120,7 @@
       </div>
       <div class="col category">
         <h2 class="second-heading">Teman</h2>
-        <p>Anpassa ditt spel med ett tema.</p>
+        <p class="desc">Anpassa ditt spel med ett tema.</p>
         <div class="d-inline-flex flex-wrap gap-2">
           <div class="item" v-for="item in themeTypes" :key="item.name">
             <icon
@@ -141,8 +141,7 @@
     </section>
   </main>
 
-  <section class="container">
-    <!--Din väska 1-->
+  <!--   <section class="container">
     <div class="row">
       <h1 class="first-heading">Din väska</h1>
       <div class="col">
@@ -166,34 +165,33 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div v-if="popUp" @close="popUp = false" class="popup-overlay">
-      <div class="popup-container">
-        <p>Vill du köpa {{ selectedItem }}?</p>
-        <div class="row gap-1 mx-3">
-          <btn
-            :color="'red'"
-            :styles="{ width: '48%', marginLeft: '1%' }"
-            type="small"
-            @click="popUp = false"
-          >
-            Avbryt
-          </btn>
-          <btn
-            :color="'green'"
-            :styles="{ width: '48%', marginLeft: '1%' }"
-            type="small"
-            @click="buyBonus()"
-            >Köp</btn
-          >
-        </div>
+  <div v-if="popUp" @close="popUp = false" class="popup-overlay">
+    <div class="popup-container">
+      <p class="desc">Vill du köpa {{ selectedItem }}?</p>
+      <div class="row gap-1 mx-3">
+        <btn
+          :color="'red'"
+          :styles="{ width: '48%', marginLeft: '1%' }"
+          type="small"
+          @click="popUp = false"
+        >
+          Avbryt
+        </btn>
+        <btn
+          :color="'green'"
+          :styles="{ width: '48%', marginLeft: '1%' }"
+          type="small"
+          @click="buyBonus()"
+          >Köp</btn
+        >
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   //Theme standard
   //One line font -> https://hadrysmateusz.com/blog/font-shorthand
 
@@ -211,12 +209,25 @@
     }
   }
 
+  .desc {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .second-heading {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
   .first-heading,
   .second-heading,
-  p {
+  .desc {
     color: white;
   }
 
+  .container {
+    margin-top: 20px;
+  }
   .popup-container {
     background-color: white;
     border-radius: 10px;

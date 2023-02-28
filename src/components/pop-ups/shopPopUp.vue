@@ -18,7 +18,10 @@
   </div>
 </template>
 
-<!-- <style>
+<style>
+  * {
+    color: black;
+  }
   .container {
     margin-bottom: 20px;
   }
@@ -31,4 +34,5 @@
   p {
     text-align: center;
   }
-</style> -->
+</style>
+-->
