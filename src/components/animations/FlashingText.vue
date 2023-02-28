@@ -3,7 +3,7 @@
     props: {
       text: {
         type: String,
-        default: () => "You're a Winner!",
+        default: () => "Vinst!",
       },
       h: {
         type: Number,

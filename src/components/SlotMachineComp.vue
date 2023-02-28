@@ -39,6 +39,7 @@
         startGame: false,
         spinnerArr: [],
         reels: 3,
+        gameOver: false,
       }
     },
 
@@ -204,6 +205,10 @@
           console.log("winSum", winSum)
           this.tokens.winning(winSum)
           console.log("Yay, you won " + winSum + " toekns! =D")
+        } else if (this.tokens.tokens.sum - 5 < 0) {
+          this.winner = false
+          console.log("Haha, loser. :P")
+          this.gameOver = true
         } else {
           this.winner = false
           console.log("Haha, loser. :P")
@@ -235,6 +240,10 @@
       activateBonus(name) {
         let bonus = this.tokens.bonusTypes.find
       },
+      newGame() {
+        this.gameOver = false
+        this.tokens.$reset()
+      },
     },
   }
 </script>
@@ -245,6 +254,13 @@
     v-if="winner"
     :style="{ position: 'absolute', margin: 'auto', top: '25vh', zIndex: '99' }"
     @click="winner = !winner"
+  />
+  <flash-text
+    :h="0"
+    :text="'Game Over'"
+    v-if="gameOver"
+    :style="{ position: 'absolute', margin: 'auto', top: '25vh', zIndex: '99' }"
+    @click="newGame"
   />
   <div class="main-machine cont">
     <div class="row row-1">
