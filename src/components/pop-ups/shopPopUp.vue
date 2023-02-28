@@ -18,7 +18,7 @@
   </div>
 </template>
 
-<style>
+<!-- <style>
   .container {
     margin-bottom: 20px;
   }
@@ -31,4 +31,4 @@
   p {
     text-align: center;
   }
-</style>
+</style> -->
