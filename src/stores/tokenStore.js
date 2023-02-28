@@ -49,6 +49,13 @@ export const useTokenStore = defineStore("tokens", {
         active: false,
         src: "./assets/svg/icon-pine-tree.svg",
       },
+      {
+        name: "Eld",
+        cost: 100,
+        owned: false,
+        active: false,
+        src: "./assets/svg/icon-fire.svg",
+      },
     ]),
   }),
   getters: {

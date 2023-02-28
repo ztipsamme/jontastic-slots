@@ -195,6 +195,54 @@ body {
     --btn-purple4: color.adjust($btn-purple, $lightness: 5%);
     --btn-purple5: color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%);
   }
+  &.eld,
+  &.eld * {
+    $bg-color1: #b32e10;
+    $bg-color2: #820303;
+
+    $btn-blue: #4a65b0;
+    $btn-blue2: #42c4ec;
+
+    $btn-green: #5e9f48;
+    $btn-green2: #96be38;
+
+    $btn-red: #8e1c4f;
+    $btn-red2: #d84145;
+
+    $btn-purple: #774ab0;
+    $btn-purple2: #d89ced;
+
+    --bg-color1: #{$bg-color1};
+    --bg-color2: #{$bg-color2};
+
+    --btn-blue: #{$btn-blue};
+    --btn-blue2: #{$btn-blue2};
+    --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
+    --btn-blue4: #{color.adjust($btn-blue, $lightness: 5%)};
+    --btn-blue5: #{color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-green: #{$btn-green};
+    --btn-green2: #{$btn-green2};
+    --btn-green3: #{color.adjust($btn-green, $lightness: -20%)};
+    --btn-green4: #{color.adjust($btn-green, $lightness: 5%)};
+    --btn-green5: #{color.adjust($btn-green2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-red: #{$btn-red};
+    --btn-red2: #{$btn-red2};
+    --btn-red3: #{color.adjust($btn-red, $lightness: -20%)};
+    --btn-red4: #{color.adjust($btn-red, $lightness: 5%)};
+    --btn-red5: #{color.adjust($btn-red2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-purple: #{$btn-purple};
+    --btn-purple2: #{$btn-purple2};
+    --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
+    --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
+    --btn-purple5: #{color.adjust(
+        $btn-purple2,
+        $lightness: 5%,
+        $saturation: 10%
+      )};
+  }
   background-image: linear-gradient(var(--bg-color1), var(--bg-color2));
 }
 
