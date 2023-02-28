@@ -80,10 +80,14 @@
         return arr
       },
       activateRow() {
-        if (this.extraRowCount) this.extraRowCount = 4
+        if (this.extraRowCount) {
+          return
+        }
+
         let extraRow = this.tokens.bonusTypes.find(
           (i) => i.name === "Extra Row",
         )
+        this.extraRowCount = extraRow.count
         this.reels = 4
       },
       altGetNumbers() {
@@ -217,11 +221,19 @@
           this.tokens.tokens.sum = this.tokens.tokens.startValue
           return
         }
+
+        if (this.extraRowCount) {
+          this.extraRowCount--
+        }
+
         this.winner = false
         this.tokens.takeoutBet(this.tokens.tokens.bet)
         this.checkNumbers()
 
         this.$refs.child.start(this.n)
+      },
+      activateBonus(name) {
+        let bonus = this.tokens.bonusTypes.find
       },
     },
   }
