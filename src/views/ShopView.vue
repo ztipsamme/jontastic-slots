@@ -213,7 +213,8 @@
     }
   }
 
-  .first-heading {
+  .first-heading,
+  .second-heading {
     color: white;
   }
 
