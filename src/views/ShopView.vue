@@ -84,7 +84,6 @@
         }
         if (bonus && this.tokenStore.tokens.sum >= bonus.cost) {
           bonus.amount += 1
-          bonus.owned = true
           this.tokenStore.tokens.sum -= bonus.cost
         } else {
           this.errorMessage = true

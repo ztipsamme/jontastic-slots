@@ -56,7 +56,7 @@
 
       hasExtraRow() {
         return this.tokens.bonusTypes.some(
-          (i) => i.name === "Extra Row" && i.owned,
+          (i) => i.name === "Extra Row" && i.amount >= 1,
         )
       },
     },
