@@ -263,7 +263,8 @@
     height: 60vh;
     perspective: 2000px;
     overflow: hidden;
-    border-radius: 33px;
+    border-radius: 5px;
+    margin-left: 1vw;
     flex-grow: 1;
   }
 
@@ -273,8 +274,7 @@
     width: 100%;
     height: 100%;
     top: 0;
-    box-shadow: inset 0 0 17px 1px black;
-    border-radius: 33px;
+    border-radius: 5px;
   }
 
   .carousel {

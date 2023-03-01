@@ -29,6 +29,7 @@ body {
 
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
+    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
 
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
@@ -52,11 +53,7 @@ body {
     --btn-purple2: #{$btn-purple2};
     --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
     --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
-    --btn-purple5: #{color.adjust(
-        $btn-purple2,
-        $lightness: 5%,
-        $saturation: 10%
-      )};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
   }
   &.skog,
   &.skog * {
@@ -77,6 +74,8 @@ body {
 
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
+    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
+
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
     --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
@@ -99,11 +98,7 @@ body {
     --btn-purple2: #{$btn-purple2};
     --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
     --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
-    --btn-purple5: #{color.adjust(
-        $btn-purple2,
-        $lightness: 5%,
-        $saturation: 10%
-      )};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
   }
   &.katt,
   &.katt * {
@@ -124,6 +119,7 @@ body {
 
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
+    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
     --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
@@ -146,14 +142,15 @@ body {
     --btn-purple2: #{$btn-purple2};
     --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
     --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
-    --btn-purple5: #{color.adjust(
-        $btn-purple2,
-        $lightness: 5%,
-        $saturation: 10%
-      )};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
+  }
+  &.midnatt .carousel__cell {
+    background-color: hsl(180, 50%, 10%) !important;
+    background-image: linear-gradient(0deg, black -25%, transparent 25%, transparent 75%, black 125%) !important;
+    box-shadow: black 0px 0px 0px 0px inset !important;
   }
   &.midnatt,
-  &.midnatt {
+  &.midnatt * {
     $bg-color1: #160054;
     $bg-color2: #4400ff;
 
@@ -171,6 +168,7 @@ body {
 
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
+    --bg-image: url("../src/components/themes/NightTheme/bg4.png");
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
     --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
@@ -193,11 +191,7 @@ body {
     --btn-purple2: #{$btn-purple2};
     --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
     --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
-    --btn-purple5: #{color.adjust(
-        $btn-purple2,
-        $lightness: 5%,
-        $saturation: 10%
-      )};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
   }
   &.eld,
   &.eld * {
@@ -218,6 +212,7 @@ body {
 
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
+    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
 
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
@@ -241,13 +236,11 @@ body {
     --btn-purple2: #{$btn-purple2};
     --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
     --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
-    --btn-purple5: #{color.adjust(
-        $btn-purple2,
-        $lightness: 5%,
-        $saturation: 10%
-      )};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
   }
-  background-image: linear-gradient(var(--bg-color1), var(--bg-color2));
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: 75%;
 }
 
 /* .slot-btn {
