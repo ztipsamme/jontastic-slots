@@ -3,14 +3,15 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes.js"
-  import {
+  /* import {
+
     hsla,
     rgba,
     adjustHsl,
     changeHsl,
     rgbToHsl,
     hslToRgb,
-  } from "../utilHsl.js"
+  } from "../utilHsl.js"*/
 
   let resize = function (el, binding) {
     const onResizeCallback = binding.value
@@ -59,7 +60,7 @@
         width: 250,
         s: { height: 150 },
         win: false,
-        current: new Array(this.spinners.length).fill(0),
+        current: new Array(4).fill(0),
         currentTheme: "default",
       }
     },
@@ -186,7 +187,7 @@
         })
         return Promise.all(p)
       },
-      onResize({ width, height }) {
+      onResize({ height }) {
         this.s.height = Math.ceil(height * 0.2)
       },
     },
@@ -296,7 +297,7 @@
     justify-content: center;
     background-color: hsla(180deg, 50%, 100%, 1);
     font-size: 100px;
-    font-weight: bold;
+    font-weight: normal;
     color: hsla(180deg, 50%, 100%, 0.8);
     padding: 15px;
   }

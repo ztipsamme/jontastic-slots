@@ -146,14 +146,14 @@
     justify-content: center;
     font-size: 25px;
     align-items: center;
-    font-weight: bold;
+    font-weight: normal;
     padding-bottom: 5px;
     color: hsla(50deg, 100%, 8%, 0.7);
   }
 
   .token-text {
     text-align: center;
-    font-weight: bold;
+    font-weight: normal;
     font-size: 24px;
     line-height: 24px;
     height: 24px;

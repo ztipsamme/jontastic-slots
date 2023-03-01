@@ -1,10 +1,10 @@
 <template>
   <div class="total-bet-container">
     <btn
-      :styles="{ zIndex: 2 }"
+      :styles="{ zIndex: 2, maxWidth: '75px' }"
       :circle="true"
-      :width="'75px'"
-      size="large"
+      :width="'13vh'"
+      :size="'large'"
       @click="decrementBetAmount()"
     >
       -
@@ -15,10 +15,10 @@
       {{ "\n" + bet }}
     </div>
     <btn
-      :styles="{ zIndex: 2 }"
+      :styles="{ zIndex: 2, maxWidth: '75px' }"
       :circle="true"
-      :width="'75px'"
-      size="large"
+      :width="'13vh'"
+      :size="'large'"
       @click="incrementBetAmount()"
     >
       +
@@ -88,7 +88,7 @@
   .minus-button,
   .plus-button {
     font-size: 24px;
-    font-weight: bold;
+    font-weight: normal;
     background: none;
     border: none;
     cursor: pointer;
@@ -106,14 +106,17 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    width: 20vw;
-    height: 75px;
+    width: 23vw;
+    height: 13vh;
+    max-height: 65px;
     top: 5px;
     box-shadow: inset 1px 1px 3px 0px black;
-    font-size: 30px;
-    font-weight: bold;
+    font-size: clamp(10px, 7vh, 30px);
+    font-weight: normal;
     margin: 0 -25px;
     & p {
+      position: relative;
+      top: 5px;
       margin: 0;
       padding: 0;
       line-height: 1em;

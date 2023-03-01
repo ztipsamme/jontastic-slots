@@ -26,6 +26,15 @@
         type: String,
         default: "",
       },
+      borderRadius: {
+        type: String,
+        default: null,
+      },
+
+      bgPath: {
+        type: String,
+        default: null,
+      },
     },
     setup() {
       const theme = useThemeStore()
@@ -61,6 +70,9 @@
         let fs = "20px"
 
         switch (this.size) {
+          case "x-small":
+            fs = "8px"
+            break
           case "small":
             fs = "12px"
             break
@@ -86,8 +98,15 @@
     :style="style"
     :class="'btn-container ' + color + (circle ? ' circle' : '')"
   >
-    <div class="under" />
-    <div :class="'btn-comp '" :style="fontStyle">
+    <div class="under" :style="{ borderRadius: borderRadius }" />
+    <div
+      :class="'btn-comp '"
+      :style="{
+        fontStyle,
+        borderRadius: borderRadius,
+        backgroundImage: bgPath ? 'url(' + bgPath + ')' : '',
+      }"
+    >
       <slot>Text</slot>
     </div>
   </div>
@@ -125,7 +144,6 @@
       width: 100%;
       height: 100%;
       border-radius: 1000px;
-      font-size: 20px;
       font-family: "inter";
       font-weight: 500;
       padding: 5px 15px;

@@ -80,16 +80,25 @@
         window.arr = arr
         return arr
       },
-      activateRow() {
-        if (this.extraRowCount) {
-          return
-        }
+      activateBonus(name) {
+        switch (name) {
+          case "extrarow": {
+            if (this.extraRowCount) {
+              return
+            }
 
-        let extraRow = this.tokens.bonusTypes.find(
-          (i) => i.name === "Extra Row",
-        )
-        this.extraRowCount = extraRow.count
-        this.reels = 4
+            let extraRow = this.tokens.bonusTypes.find(
+              (i) => i.name === "Extra Row",
+            )
+            extraRow.amount--
+            this.extraRowCount = extraRow.count
+            this.reels = 4
+            this.spinnerArr = new Array(this.reels)
+              .fill(null)
+              .map(() => this.generateSpinner())
+            break
+          }
+        }
       },
       altGetNumbers() {
         console.log("this.num", this.num)
@@ -237,9 +246,7 @@
 
         this.$refs.child.start(this.n)
       },
-      activateBonus(name) {
-        let bonus = this.tokens.bonusTypes.find
-      },
+
       newGame() {
         this.gameOver = false
         this.tokens.$reset()
@@ -252,20 +259,49 @@
   <flash-text
     :h="50"
     v-if="winner"
-    :style="{ position: 'absolute', margin: 'auto', top: '25vh', zIndex: '99' }"
+    :style="{
+      position: 'absolute',
+      margin: '0',
+      top: '0',
+      left: '0',
+      width: '100vw',
+      height: '100vh',
+      zIndex: '99',
+    }"
     @click="winner = !winner"
   />
   <flash-text
     :h="0"
     :text="'Game Over'"
     v-if="gameOver"
-    :style="{ position: 'absolute', margin: 'auto', top: '25vh', zIndex: '99' }"
+    :style="{
+      position: 'absolute',
+      margin: '0',
+      top: '0',
+      left: '0',
+      width: '100vw',
+      height: '100vh',
+      zIndex: '99',
+    }"
     @click="newGame"
   />
   <div class="main-machine cont">
-    <div class="row row-1">
-      <div class="col">
-        <btn v-if="hasExtraRow" @click="activateRow()">Extra Row</btn>
+    <div class="bonus-container">
+      <div
+        class="bonus-wrapper"
+        v-for="b in tokens.bonusTypes.filter((e) => e.amount > 0)"
+        :key="b.name"
+      >
+        <btn
+          :circle="true"
+          :size="'small'"
+          :width="'50%'"
+          :styles="{ minWidth: '50px', maxWidth: '150px' }"
+          :border-radius="'5px'"
+          @click="activateBonus(b.name.replace(/[^A-z]/g, '').toLowerCase())"
+          ><p>{{ b.amount }}</p></btn
+        >
+        {{ b.name }}
       </div>
     </div>
     <div class="reels-col col">
@@ -280,14 +316,15 @@
         />
       </div>
     </div>
-    <div class="row-3">
+    <div class="row-2">
       <TotalBet />
       <btn
         :color="'purple'"
-        :height="'50px'"
+        :height="'13vh'"
         :width="'30vw'"
         @click="gameStart"
         :disabled="tokens.tokens.sum === 0 ? true : false"
+        :styles="{ maxHeight: '65px' }"
       >
         SPELA
       </btn>
@@ -300,17 +337,50 @@
   .main-machine.cont {
     display: grid;
     height: calc(100vh - 75px);
-    grid-template-rows: 60px 60vh 150px;
+    grid-template-rows: 60vh auto;
     grid-template-columns: 15vw auto 15vw;
     width: 100%;
-  }
-  .row-1 {
-    grid-column: span 3;
   }
   .winner-row {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .bonus-container {
+    grid-column: 1;
+    grid-row: span 1;
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+    width: 100%;
+    & .bonus-wrapper {
+      flex-shrink: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      p {
+        margin: 0;
+        padding: 0;
+        border: 1px solid black;
+        width: 2em;
+        height: 2em;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        left: calc(100% - 1em - 2px);
+        top: calc(-1em + 2px);
+        border-radius: 200px;
+        background-color: var(--btn-purple);
+        color: var(--btn-purple4);
+      }
+    }
   }
   .reel-cont {
     display: flex;
@@ -320,11 +390,12 @@
     width: 100%;
     height: 100%;
   }
-  .row-3 {
-    grid-row: 3;
-    grid-column: 2;
+  .row-2 {
+    grid-row: 2;
+    grid-column: span 3;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 2vw;
     align-items: center;
   }
   .cont {

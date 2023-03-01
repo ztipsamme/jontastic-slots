@@ -208,19 +208,19 @@
       display: flex;
       flex-direction: column;
       width: min-content;
-      font-weight: bold;
+      font-weight: normal;
       text-align: center;
     }
   }
 
   .desc {
     font-size: 14px;
-    font-weight: bold;
+    font-weight: normal;
   }
 
   .second-heading {
     font-size: 20px;
-    font-weight: bold;
+    font-weight: normal;
   }
 
   .first-heading,
