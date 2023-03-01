@@ -5,15 +5,15 @@
   import TotalBet from "./TotalBet.vue"
   import FlashText from "./animations/FlashingText.vue"
   import Btn from "./elements/buttonComponent.vue"
-  import iconComponent from "./elements/iconComponent.vue"
-  import { breakpointsTailwind } from "@vueuse/core"
+  /*  import iconComponent from "./elements/iconComponent.vue" */
+
   export default {
     components: {
       TotalBet,
       spinner: spinnerComp,
       "flash-text": FlashText,
       btn: Btn,
-      icon: iconComponent,
+      /* icon: iconComponent, */
     },
 
     emits: { stop: null },
@@ -40,6 +40,7 @@
         spinnerArr: [],
         reels: 3,
         gameOver: false,
+        winSum: null,
       }
     },
 
@@ -92,6 +93,7 @@
             )
             extraRow.amount--
             this.extraRowCount = extraRow.count
+            console.log("extraCount", this.extraRowCount)
             this.reels = 4
             this.spinnerArr = new Array(this.reels)
               .fill(null)
@@ -109,7 +111,7 @@
           let isHigher
 
           for (let i = 7; i >= 2; i--) {
-            isHigher = Math.floor(Math.random() * i + i)
+            isHigher = Math.floor(Math.random() * 2)
             if (isHigher) {
               break
             }
@@ -207,10 +209,17 @@
       done() {
         this.startGame = false
         console.log(this.num)
+        if (!this.extraRowCount && this.reels == 4) {
+          this.reels = 3
+          this.spinnerArr = new Array(this.reels)
+            .fill(null)
+            .map(() => this.generateSpinner())
+        }
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
           let winSum =
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
+          this.winSum = winSum
           console.log("winSum", winSum)
           this.tokens.winning(winSum)
           console.log("Yay, you won " + winSum + " toekns! =D")
@@ -224,6 +233,7 @@
         }
       },
       gameStart() {
+        this.winSum = null
         console.log("startgame", this.startGame)
         if (this.startGame) {
           return
@@ -268,6 +278,7 @@
       height: '100vh',
       zIndex: '99',
     }"
+    :text="'Vinst: ' + winSum + 't'"
     @click="winner = !winner"
   />
   <flash-text

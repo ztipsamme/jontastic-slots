@@ -11,7 +11,7 @@ body {
   &.diamant * {
     $bg-color1: #46a2b6;
     $bg-color2: #e5f9fe;
-    $bg-color3: rgba(color.adjust($bg-color2, $lightness: 0%), 0.8);
+    $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
 
     $btn-blue: #4a65b0;
     $btn-blue2: #42c4ec;
@@ -58,7 +58,7 @@ body {
   &.skog * {
     $bg-color1: #0a561b;
     $bg-color2: lightgreen;
-    $bg-color3: rgba(color.adjust($bg-color2, $lightness: 0%), 0.8);
+    $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
 
     $btn-blue: #40a442;
     $btn-blue2: #6ce16e;
@@ -75,7 +75,7 @@ body {
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
-    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
+    --bg-image: url("../src/components/themes/ForestTheme/bg.png");
 
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
@@ -105,8 +105,7 @@ body {
   &.katt * {
     $bg-color1: #ffb800;
     $bg-color2: #ffdde2;
-    $bg-color3: rgba($bg-color2, 0.8);
-
+    $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
     $btn-blue: #fb8b02;
     $btn-blue2: #ffb800;
 
@@ -157,7 +156,7 @@ body {
   &.midnatt * {
     $bg-color1: #160054;
     $bg-color2: #4400ff;
-    $bg-color3: rgba(color.adjust($bg-color2, $lightness: 5%), 0.8);
+    $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
 
     $btn-blue: #4a65b0;
     $btn-blue2: #42c4ec;
@@ -204,7 +203,7 @@ body {
   &.eld * {
     $bg-color1: #b32e10;
     $bg-color2: #820303;
-    $bg-color3: rgba(color.adjust($bg-color2, $lightness: 5%), 0.8);
+    $bg-color3: rgba(color.adjust($bg-color2, $lightness: -10%, $saturation: 100%), 0.8);
 
     $btn-blue: #dacd0e;
     $btn-blue2: #eb7405;
@@ -250,6 +249,15 @@ body {
   background-image: var(--bg-image);
   background-size: cover;
   background-position: 75%;
+  &::before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(transparent 60%, var(--bg-color3) 130%);
+    z-index: -99;
+  }
 }
 *,
 * * {

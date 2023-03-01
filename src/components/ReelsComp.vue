@@ -150,9 +150,9 @@
           let len = (to - from) * this.curve.ease(x)
           let ang = from + len
 
-          element.style.transform = ` translateZ(${
-            -this.rad + 25
-          }px) rotateX(${ang}deg)`
+          element.style.transform = ` translateZ(${-(
+            this.rad + 25
+          )}px) rotateX(${ang}deg)`
           element.querySelectorAll(".carousel__cell").forEach((e, i) => {
             e.style.transform = `rotateX(${this.ang(
               Number(i),
@@ -201,7 +201,7 @@
         class="carousel"
         :ref="'c' + i"
         data-rot="0"
-        :style="{ transform: `translateZ(${-rad}px)` }"
+        :style="{ transform: `translateZ(${-(rad + 10)}px)` }"
       >
         <template v-for="(val, ind) in spinner" :key="ind">
           <Transition>
@@ -255,6 +255,17 @@
     margin: 0;
     padding: 0;
     min-height: 100vh;
+  }
+
+  div[class*="scene"]:last-child {
+    perspective-origin: -325% 0%;
+    /*     overflow-y: hidden;
+    overflow-x: visible; */
+  }
+  div[class*="scene"]:nth-child(1) {
+    perspective-origin: 325% 0%;
+    /*     overflow-y: hidden;
+    overflow-x: visible; */
   }
 
   div[class*="scene"] {
