@@ -6,6 +6,7 @@
  import { ShoppingCartOutlined,  CheckCircleTwoTone } from '@ant-design/icons-vue';
 
 
+
  export default {
    components: {
      ShoppingCartOutlined,
@@ -159,10 +160,11 @@
              }"
           />
 
+
            <span v-if="!item.owned"> {{ ShoppingCartOutlined }}
             <ShoppingCartOutlined :style="{fontSize: '23px', color: '#08c', }" @click="onClick(item)" />
            </span>
-           <span v-else>    <CheckCircleTwoTone :style="{fontSize: '26px', color: '#08c'}" /></span> <template v-if="!item.owned"> {{ item.cost }}t</template>
+           <span v-else>    <CheckCircleTwoTone two-tone-color="#FFDE68" :style="{fontSize: '26px'}" /></span> <template v-if="!item.owned"> {{ item.cost }}t</template>
 
 
 

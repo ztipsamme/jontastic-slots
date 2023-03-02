@@ -3,6 +3,7 @@
   <div class="symbols">
     <img v-for="image in icons" :src="image" :key="image" class="symbol" />
   </div>
+  <span :src="icons" />
 </template>
 
 <script>
