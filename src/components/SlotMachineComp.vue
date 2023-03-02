@@ -310,8 +310,9 @@
           :styles="{ minWidth: '50px', maxWidth: '150px' }"
           :border-radius="'5px'"
           @click="activateBonus(b.name.replace(/[^A-z]/g, '').toLowerCase())"
-          ><p>{{ b.amount }}</p></btn
-        >
+          ><p>{{ b.amount }}</p>
+          <img class="icon" :src="b.src" :alt="b.name" />
+        </btn>
         {{ b.name }}
       </div>
     </div>

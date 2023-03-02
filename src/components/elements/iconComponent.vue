@@ -83,6 +83,11 @@
     $secondary: #ffde68;
     background-color: $secondary;
   }
+  .eld {
+    $primary: #b32e10;
+    $secondary: #820303;
+    background-color: $secondary;
+  }
 </style>
 
 <style scoped>
