@@ -232,13 +232,8 @@
         return this.n
       },
       done() {
-        if (this.tokens.tokens.bet > this.tokens.tokens.sum) {
-          this.$refs.betComp.setBet(this.tokens.tokens.sum)
-        }
         this.startGame = false
-        if (this.tokens.tokens.bet > this.tokens.tokens.sum) {
-          this.tokens.tokens.bet = this.tokens.tokens.sum
-        }
+
         //console.log(this.num)
         if (!this.extraRowCount && this.reels == 4) {
           let extraRow = this.tokens.bonusTypes.find(
@@ -270,18 +265,21 @@
           this.winner = false
           //console.log("Haha, loser. :P")
         }
+        if (this.tokens.tokens.bet > this.tokens.tokens.sum) {
+          this.$refs.betComp.setBet(this.tokens.tokens.sum)
+        }
       },
       gameStart(freeSpin = false) {
+        if (this.startGame) {
+          return
+        }
+        this.startGame = true
         this.winSum = null
         if (this.tokens.tokens.sum - this.tokens.tokens.bet < 0) {
           return
         }
         this.tokens.tokens.sum = this.tokens.tokens.sum - this.tokens.tokens.bet
         console.log("startgame", this.startGame)
-        if (this.startGame) {
-          return
-        }
-        this.startGame = true
 
         if (this.extraRowCount) {
           this.extraRowCount--
