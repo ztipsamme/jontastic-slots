@@ -4,7 +4,11 @@ import { useStorage } from "@vueuse/core"
 export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
-    tokens: useStorage("tokens", { sum: 5, startValue: 5, bet: 5 }),
+    tokens: useStorage("tokens", {
+      sum: 100,
+      startValue: 100,
+      bet: 5,
+    }),
     bonusTypes: useStorage("bonusTypes", [
       {
         name: "Extra Spin",
@@ -30,35 +34,35 @@ export const useTokenStore = defineStore("tokens", {
         cost: 0,
         owned: true,
         active: true,
-        src: "./assets/svg/icon-gem.svg",
+        src: "./src/components/themes/default/ico1.svg",
       },
       {
         name: "Katt",
         cost: 250,
         owned: false,
         active: false,
-        src: "./assets/svg/icon-cat.svg",
+        src: "./src/components/themes/CatTheme/ico1.svg",
       },
       {
         name: "Midnatt",
         cost: 200,
         owned: false,
         active: false,
-        src: "./assets/svg/icon-moon.svg",
+        src: "./src/components/themes/NightTheme/ico1.svg",
       },
       {
         name: "Skog",
         cost: 150,
         owned: false,
         active: false,
-        src: "./assets/svg/icon-pine-tree.svg",
+        src: "./src/components/themes/ForestTheme/ico1.svg",
       },
       {
         name: "Eld",
         cost: 200,
         owned: false,
         active: false,
-        src: "./assets/svg/icon-fire.svg",
+        src: "./src/components/themes/EldTheme/ico1.svg",
       },
     ]),
   }),
