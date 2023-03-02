@@ -294,7 +294,10 @@
       newGame() {
         this.gameOver = false
         this.tokens.tokens.sum = this.tokens.tokens.startValue
-        this.tokens.tokens.bet = this.tokens.tokens.startBet
+        let startbet = this.tokens.tokens.startBet
+          ? this.tokens.tokens.startBet
+          : 100
+        this.tokens.tokens.bet = startbet
       },
     },
   }
