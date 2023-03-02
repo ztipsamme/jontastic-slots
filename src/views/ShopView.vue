@@ -31,6 +31,7 @@
       theme2Bought: true,
       theme3Bought: true,
       theme4Bought: true,
+
      }
    },
 
@@ -143,7 +144,7 @@
        <div class="d-inline-flex flex-wrap gap-2">
          <div class="item" v-for="item in themeTypes" :key="item.name">
            <template v-if="'theme' + item + 'Bought'">
-          <template v-if="theme2Bought">
+          <template v-if="theme3Bought">
 <span> {{ item.name }} </span>
 
 
@@ -156,9 +157,14 @@
              :style="{
                border: item.active ? 'solid 5px blue' : '',
              }"
-          /><ShoppingCartOutlined :style="{fontSize: '23px', color: '#08c', }" @click="onClick(item)" />
-           <span v-if="!item.owned"> {{ item.cost }}t </span>
-           <span v-else>    <CheckCircleTwoTone two-tone-color="#52c41a" @click="onClick(item)" /></span>
+          />
+
+           <span v-if="!item.owned"> {{ ShoppingCartOutlined }}
+            <ShoppingCartOutlined :style="{fontSize: '23px', color: '#08c', }" @click="onClick(item)" />
+           </span>
+           <span v-else>    <CheckCircleTwoTone :style="{fontSize: '26px', color: '#08c'}" /></span> <template v-if="!item.owned"> {{ item.cost }}t</template>
+
+
 
 
          </template></template></div>
