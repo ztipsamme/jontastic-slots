@@ -268,6 +268,9 @@
       },
       gameStart(freeSpin = false) {
         this.winSum = null
+        if (this.tokens.tokens.sum - this.tokens.tokens.bet < 0) {
+          return
+        }
         this.tokens.tokens.sum = this.tokens.tokens.sum - this.tokens.tokens.bet
         console.log("startgame", this.startGame)
         if (this.startGame) {
