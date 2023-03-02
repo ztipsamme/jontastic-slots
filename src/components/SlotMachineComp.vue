@@ -107,6 +107,17 @@
               .map(() => this.generateSpinner())
             break
           }
+          case "extraspin": {
+            if (this.startGame) {
+              return
+            }
+            let extraSpin = this.tokens.bonusTypes.find(
+              (i) => i.name === "Extra Spin",
+            )
+            extraSpin.amount--
+            extraSpin.active = true
+            this.gameStart(true)
+          }
         }
       },
       altGetNumbers() {
@@ -236,6 +247,9 @@
 
           console.log(this.spinnerArr)
         }
+        this.tokens.bonusTypes.find(
+          (i) => i.name === "Extra Spin",
+        ).active = false
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
           let winSum =
@@ -253,7 +267,7 @@
           //console.log("Haha, loser. :P")
         }
       },
-      gameStart() {
+      gameStart(freeSpin = false) {
         this.winSum = null
         //console.log("startgame", this.startGame)
         if (this.startGame) {
@@ -272,7 +286,10 @@
         }
 
         this.winner = false
-        this.tokens.takeoutBet(this.tokens.tokens.bet)
+        if (!freeSpin) {
+          this.tokens.takeoutBet(this.tokens.tokens.bet)
+        }
+
         this.checkNumbers()
 
         this.$refs.child.start(this.n)
