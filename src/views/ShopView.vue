@@ -78,7 +78,7 @@
 
       buyBonus() {
         this.theme1Bought = false
-        //console.log("hej " + this.theme1Bought)
+        console.log("hej " + this.theme1Bought)
 
         let bonus = this.tokenStore.bonusTypes.find(
           (type) => type.name === this.selectedItem,
