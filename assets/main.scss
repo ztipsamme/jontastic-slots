@@ -81,6 +81,14 @@ body {
     $btn-purple: #aa4b69;
     $btn-purple2: #ce708d;
 
+    $btn-disabled: #5d5d5d;
+    $btn-disabled2: #929292;
+    --btn-disabled: #{$btn-disabled};
+    --btn-disabled2: #{$btn-disabled2};
+    --btn-disabled3: #{color.adjust($btn-disabled, $lightness: -20%)};
+    --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
+    --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
+
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
@@ -127,6 +135,14 @@ body {
     $btn-purple: #ff8cc6;
     $btn-purple2: #ffdde2;
 
+    $btn-disabled: #5d5d5d;
+    $btn-disabled2: #929292;
+    --btn-disabled: #{$btn-disabled};
+    --btn-disabled2: #{$btn-disabled2};
+    --btn-disabled3: #{color.adjust($btn-disabled, $lightness: -20%)};
+    --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
+    --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
+
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
@@ -167,17 +183,25 @@ body {
     $bg-color2: #4400ff;
     $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
 
-    $btn-blue: #4a65b0;
-    $btn-blue2: #42c4ec;
+    $btn-blue: #4979ff;
+    $btn-blue2: #00c3ff;
 
-    $btn-green: #5e9f48;
-    $btn-green2: #96be38;
+    $btn-green: #2db500;
+    $btn-green2: #c1ff32;
 
-    $btn-red: #8e1c4f;
-    $btn-red2: #d84145;
+    $btn-red: #a9004c;
+    $btn-red2: #f40008;
 
-    $btn-purple: #b04aa4;
-    $btn-purple2: #d89ced;
+    $btn-purple: #ff45e9;
+    $btn-purple2: #eebfff;
+
+    $btn-disabled: #5d5d5d;
+    $btn-disabled2: #929292;
+    --btn-disabled: #{$btn-disabled};
+    --btn-disabled2: #{$btn-disabled2};
+    --btn-disabled3: #{color.adjust($btn-disabled, $lightness: -20%)};
+    --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
+    --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
 
     --text-color: white;
     --bg-color1: #{$bg-color1};
@@ -226,6 +250,14 @@ body {
 
     $btn-purple: #dacd0e;
     $btn-purple2: #eb7405;
+
+    $btn-disabled: #5d5d5d;
+    $btn-disabled2: #929292;
+    --btn-disabled: #{$btn-disabled};
+    --btn-disabled2: #{$btn-disabled2};
+    --btn-disabled3: #{color.adjust($btn-disabled, $lightness: -20%)};
+    --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
+    --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
 
     --text-color: white;
     --bg-color1: #{$bg-color1};

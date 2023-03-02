@@ -43,6 +43,7 @@
     computed: {},
     methods: {
       setBet(val) {
+        val = val < 5 ? 5 : val
         this.tokenStore.tokens.bet = val
       },
       decrementBetAmount() {
