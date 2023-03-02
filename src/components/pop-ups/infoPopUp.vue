@@ -141,6 +141,10 @@
     }
   }
 
+  .popup-container {
+    overflow: hidden;
+  }
+
   .content {
     left: 0;
     position: relative;
