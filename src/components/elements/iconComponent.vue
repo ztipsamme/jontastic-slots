@@ -22,7 +22,7 @@
     computed: {
       imgStyle() {
         let num = Number(this.size.replace(/[^\d.]/g, ""))
-        let w = num / 2.4 + this.size.replace(num.toString(), "")
+        let w = num / 1.6 + this.size.replace(num.toString(), "")
         return { width: w }
       },
       style() {

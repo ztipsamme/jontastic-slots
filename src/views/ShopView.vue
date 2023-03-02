@@ -170,33 +170,6 @@
       </div>
     </section>
   </main>
-
-  <!--   <section class="container">
-   <div class="row">
-     <h1 class="first-heading">Din väska</h1>
-     <div class="col">
-       <h2 class="second-heading">Bonusar:</h2>
-       <div class="shop-display">
-         <button
-           class="shop-item bonus"
-           :key="bonus"
-           v-for="bonus in bonusTypes"
-         >
-           {{ bonus.amount }} {{ bonus.name }}
-         </button>
-         <button class="shop-item bonus">Någon Bonus</button>
-       </div>
-     </div>
-     <div class="col">
-       <h2 class="second-heading">Teman:</h2>
-       <div class="shop-display">
-         <button class="shop-item bonus" :key="theme" v-for="theme in owned">
-           {{ theme.name }} {{ theme.amount }}
-         </button>
-       </div>
-     </div>
-   </div> -->
-
   <div v-if="popUp" @close="popUp = false" class="popup-overlay">
     <div class="popup-container">
       <p class="buy">Vill du köpa temat {{ selectedItem }}?</p>
