@@ -147,7 +147,7 @@
                   :size="'68px'"
                   :src="item.src"
                   :style="{
-                    border: item.active ? 'solid 5px blue' : '',
+                    border: item.active ? 'solid 5px #ffde68' : '',
                   }"
                 />
 
