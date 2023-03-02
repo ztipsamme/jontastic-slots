@@ -258,9 +258,8 @@
           //console.log("winSum", winSum)
           this.tokens.winning(winSum)
           //console.log("Yay, you won " + winSum + " toekns! =D")
-        } else if (this.tokens.tokens.sum - 5 < 0) {
+        } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
-          //console.log("Haha, loser. :P")
           this.gameOver = true
         } else {
           this.winner = false
@@ -269,17 +268,12 @@
       },
       gameStart(freeSpin = false) {
         this.winSum = null
-        //console.log("startgame", this.startGame)
+        this.tokens.tokens.sum = this.tokens.tokens.sum - this.tokens.tokens.bet
+        console.log("startgame", this.startGame)
         if (this.startGame) {
           return
         }
         this.startGame = true
-        if (this.tokens.tokens.sum - 5 < 0) {
-          alert("GameOver")
-          this.startGame = false
-          this.tokens.tokens.sum = this.tokens.tokens.startValue
-          return
-        }
 
         if (this.extraRowCount) {
           this.extraRowCount--
@@ -297,7 +291,7 @@
 
       newGame() {
         this.gameOver = false
-        this.tokens.$reset()
+        this.tokens.tokens.sum = this.tokens.tokens.startValue
       },
     },
   }
@@ -332,7 +326,7 @@
       height: '100vh',
       zIndex: '99',
     }"
-    @click="newGame"
+    @click="newGame()"
   />
   <div class="main-machine cont">
     <div class="bonus-container">

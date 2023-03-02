@@ -4,7 +4,7 @@ import { useStorage } from "@vueuse/core"
 export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
-    tokens: useStorage("tokens", { sum: 10000, startValue: 100, bet: 5 }),
+    tokens: useStorage("tokens", { sum: 5, startValue: 5, bet: 5 }),
     bonusTypes: useStorage("bonusTypes", [
       {
         name: "Extra Spin",
