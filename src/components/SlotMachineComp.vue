@@ -239,7 +239,6 @@
             (i) => i.name === "Extra Row",
           )
           extraRow.active = false
-          console.log("FUUUCK")
           this.reels = 3
           this.spinnerArr = new Array(this.reels)
             .fill(null)
@@ -292,6 +291,7 @@
       newGame() {
         this.gameOver = false
         this.tokens.tokens.sum = this.tokens.tokens.startValue
+        this.tokens.tokens.bet = this.tokens.tokens.startBet
       },
     },
   }
