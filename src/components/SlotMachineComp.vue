@@ -429,7 +429,6 @@
         top: calc(-1em + 2px);
         border-radius: 200px;
         background-color: var(--btn-purple);
-        color: var(--btn-purple4);
       }
     }
   }
