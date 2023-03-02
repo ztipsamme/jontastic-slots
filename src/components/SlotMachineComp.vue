@@ -233,6 +233,9 @@
       },
       done() {
         this.startGame = false
+        if (this.tokens.tokens.bet > this.tokens.tokens.sum) {
+          this.tokens.tokens.bet = this.tokens.tokens.sum
+        }
         //console.log(this.num)
         if (!this.extraRowCount && this.reels == 4) {
           let extraRow = this.tokens.bonusTypes.find(
