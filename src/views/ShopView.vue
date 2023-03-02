@@ -53,7 +53,7 @@
     methods: {
       onClick(item) {
         if (!item.owned) {
-          this.popUpAction(item.name)
+          this.popUpAction(item)
         } else if (item.owned) {
           this.tokenStore.themeTypes.forEach((element) => {
             element.active = false
@@ -63,9 +63,9 @@
         }
       },
       popUpAction(item) {
-        let theme = this.themeTypes.find((type) => type.name === item)
+        let theme = this.themeTypes.find((type) => type.name === item.name)
         let bonus = this.tokenStore.bonusTypes.find(
-          (type) => type.name === item,
+          (type) => type.name === item.name,
         )
         this.selectedItem = item
 
@@ -81,10 +81,10 @@
         console.log("hej " + this.theme1Bought)
 
         let bonus = this.tokenStore.bonusTypes.find(
-          (type) => type.name === this.selectedItem,
+          (type) => type.name === this.selectedItem.name,
         )
         let theme = this.themeTypes.find(
-          (type) => type.name === this.selectedItem,
+          (type) => type.name === this.selectedItem.name,
         )
 
         if (
@@ -172,7 +172,12 @@
   </main>
   <div v-if="popUp" @close="popUp = false" class="popup-overlay">
     <div class="popup-container">
-      <p class="buy">Vill du köpa temat {{ selectedItem }}?</p>
+      <p class="buy" v-if="this.tokenStore.tokens.sum > selectedItem.cost">
+        Vill du köpa {{ selectedItem.name }}?
+      </p>
+      <p v-if="this.tokenStore.tokens.sum < selectedItem.cost">
+        Du har inte råd med {{ selectedItem.name }}.
+      </p>
       <div id="btn-row" class="row gap-1 mx-3">
         <btn
           :color="'red'"
@@ -191,6 +196,7 @@
           :type="'small'"
           @click="buyBonus()"
           class="buy-btn"
+          :hidden="this.tokenStore.tokens.sum < selectedItem.cost"
           >Köp</btn
         >
       </div>
