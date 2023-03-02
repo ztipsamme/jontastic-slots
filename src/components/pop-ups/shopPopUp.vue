@@ -18,7 +18,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
   * {
     color: black;
   }

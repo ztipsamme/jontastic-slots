@@ -11,6 +11,7 @@ export const useTokenStore = defineStore("tokens", {
         cost: 200,
         amount: 0,
         count: 1,
+        active: false,
         src: "./assets/svg/icon-spin.svg",
       },
       {
@@ -18,6 +19,7 @@ export const useTokenStore = defineStore("tokens", {
         cost: 250,
         amount: 0,
         count: 4,
+        active: false,
         src: "./assets/svg/icon-row.svg",
       },
     ]),
@@ -75,7 +77,7 @@ export const useTokenStore = defineStore("tokens", {
       this.token += amount
     },
     async takeoutBet(amount) {
-      console.log("ASDFASDF", amount)
+      //console.log("ASDFASDF", amount)
       let val = 0
       let timeout
       let loop = () => {
@@ -83,7 +85,7 @@ export const useTokenStore = defineStore("tokens", {
         val++
         val = Math.min(val, amount)
         if (val < amount) {
-          timeout = setTimeout(loop, 100)
+          timeout = setTimeout(loop, 25)
         } else {
           clearTimeout(timeout)
         }
@@ -97,7 +99,7 @@ export const useTokenStore = defineStore("tokens", {
         this.tokens.sum++
         val--
         if (val > 0) {
-          timeout = setTimeout(loop, 100)
+          timeout = setTimeout(loop, 25)
         } else {
           clearTimeout(timeout)
         }
@@ -133,13 +135,13 @@ default export{
   methods: {
 // Hur du använder din store
     getState(){
-      console.log(this.tokens.token) // prints 0
+      //console.log(this.tokens.token) // prints 0
 
       this.tokens.tokens = 10
-      console.log(this.tokens.token) // prints 10
+      //console.log(this.tokens.token) // prints 10
 
       this.tokens.addTokens(15)
-      console.log(this.tokens.token) // prints 25
+      //console.log(this.tokens.token) // prints 25
     }
   }
 }

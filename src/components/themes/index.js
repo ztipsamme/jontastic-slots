@@ -10,5 +10,5 @@ const Themes = {
   eld: EldTheme,
   midnatt: NightTheme,
 }
-console.log(Themes)
+//console.log(Themes)
 export default Themes

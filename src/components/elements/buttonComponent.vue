@@ -30,6 +30,10 @@
         type: String,
         default: null,
       },
+      selected: {
+        type: Boolean,
+        default: false,
+      },
 
       bgPath: {
         type: String,
@@ -96,7 +100,12 @@
 <template>
   <div
     :style="style"
-    :class="'btn-container ' + color + (circle ? ' circle' : '')"
+    :class="
+      'btn-container ' +
+      color +
+      (circle ? ' circle' : '') +
+      (selected ? ' selected' : '')
+    "
   >
     <div class="under" :style="{ borderRadius: borderRadius }" />
     <div
