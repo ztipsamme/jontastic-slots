@@ -12,7 +12,7 @@
 
     <div class="bet-amount">
       <p>total bet:</p>
-      {{ "\n" + this.tokenStore.tokens.bet }}
+      {{ "\n" + tokenStore.tokens.bet }}
     </div>
     <btn
       :styles="{ zIndex: 2, maxWidth: '75px' }"
@@ -40,20 +40,11 @@
     components: {
       btn,
     },
-    computed: {
-      // bet: {
-      //   get() {
-      //     return this.tokenStore.tokens.bet
-      //   },
-      //   set(val) {
-      //     this.tokenStore.tokens.bet = val
-      //   },
-      // },
-      // tokens() {
-      //   return this.tokenStore.tokens.sum
-      // },
-    },
+    computed: {},
     methods: {
+      setBet(val) {
+        this.tokenStore.tokens.bet = val
+      },
       decrementBetAmount() {
         if (this.tokenStore.tokens.bet > 5) {
           this.tokenStore.tokens.bet = this.tokenStore.tokens.bet - 5

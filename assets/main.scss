@@ -25,6 +25,9 @@ body {
     $btn-purple: #b04aa4;
     $btn-purple2: #d89ced;
 
+    $btn-disabled: #5d5d5d;
+    $btn-disabled2: #929292;
+
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
@@ -53,6 +56,12 @@ body {
     --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
     --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
     --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-disabled: #{$btn-disabled};
+    --btn-disabled2: #{$btn-disabled2};
+    --btn-disabled3: #{color.adjust($btn-disabled, $lightness: -20%)};
+    --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
+    --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
   }
   &.skog,
   &.skog * {

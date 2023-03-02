@@ -232,6 +232,9 @@
         return this.n
       },
       done() {
+        if (this.tokens.tokens.bet > this.tokens.tokens.sum) {
+          this.$refs.betComp.setBet(this.tokens.tokens.sum)
+        }
         this.startGame = false
         //console.log(this.num)
         if (!this.extraRowCount && this.reels == 4) {
@@ -368,13 +371,13 @@
       </div>
     </div>
     <div class="row-2">
-      <TotalBet />
+      <TotalBet :ref="'betComp'" />
       <btn
         :color="'purple'"
         :height="'13vh'"
         :width="'30vw'"
         @click="gameStart"
-        :disabled="tokens.tokens.sum === 0 ? true : false"
+        :disabled="tokens.tokens.bet > tokens.tokens.sum"
         :styles="{ maxHeight: '65px' }"
       >
         SPELA
