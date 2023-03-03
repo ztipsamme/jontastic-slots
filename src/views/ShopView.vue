@@ -1,10 +1,12 @@
 <script>
- import { useTokenStore } from "../stores/tokenStore.js"
- import { useThemeStore } from "../stores/themes.js"
- import iconComponent from "../components/elements/iconComponent.vue"
- import buttonComponent from "../components/elements/buttonComponent.vue"
- import { ShoppingCartOutlined,  CheckCircleTwoTone } from '@ant-design/icons-vue';
-
+  import { useTokenStore } from "../stores/tokenStore.js"
+  import { useThemeStore } from "../stores/themes.js"
+  import iconComponent from "../components/elements/iconComponent.vue"
+  import buttonComponent from "../components/elements/buttonComponent.vue"
+  import {
+    ShoppingCartOutlined,
+    CheckCircleTwoTone,
+  } from "@ant-design/icons-vue"
 
   export default {
     components: {
@@ -17,7 +19,7 @@
       const tokenStore = useTokenStore()
       const theme = useThemeStore()
       window.content = tokenStore
-      return { tokenStore, theme }
+      return { tokenStore, theme, ShoppingCartOutlined, CheckCircleTwoTone }
     },
 
     data() {
@@ -76,7 +78,7 @@
 
       buyBonus() {
         this.theme1Bought = false
-        console.log("hej " + this.theme1Bought)
+        // console.log("hej " + this.theme1Bought)
 
         let bonus = this.tokenStore.bonusTypes.find(
           (type) => type.name === this.selectedItem.name,
@@ -138,33 +140,37 @@
               <template v-if="theme3Bought">
                 <span> {{ item.name }} </span>
 
-<icon
-             :name="item.name"
-             :aria-label="item.name"
-             @click="onClick(item)"
-             :size="'68px'"
-             :src="item.src"
-             :style="{
-               border: item.active ? 'solid 5px blue' : '',
-             }"
-          />
+                <icon
+                  :name="item.name"
+                  :aria-label="item.name"
+                  @click="onClick(item)"
+                  :size="'68px'"
+                  :src="item.src"
+                  :style="{
+                    border: item.active ? 'solid 5px #ffde68' : '',
+                  }"
+                />
 
-           <span v-if="!item.owned"> {{ ShoppingCartOutlined }}
-            <ShoppingCartOutlined :style="{fontSize: '23px', color: '#08c', }" @click="onClick(item)" />
-           </span>
-           <span v-else>    <CheckCircleTwoTone :style="{fontSize: '26px', color: '#08c'}" /></span> <template v-if="!item.owned"> {{ item.cost }}t</template>
+                <span v-if="!item.owned">
+                  <ShoppingCartOutlined
+                    :style="{ fontSize: '23px', color: '#08c' }"
+                    @click="onClick(item)"
+                  />
+                </span>
+                <span v-else>
+                  <CheckCircleTwoTone
+                    :style="{ fontSize: '26px', color: '#08c' }"
+                /></span>
+                <template v-if="!item.owned"> {{ item.cost }}t</template>
+              </template></template
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-
-
-
-         </template></template></div>
-       </div>
-     </div>
-   </section>
- </main>
-
-
- <!--   <section class="container">
+  <!--   <section class="container">
    <div class="row">
      <h1 class="first-heading">Din väska</h1>
      <div class="col">
@@ -190,33 +196,32 @@
      </div>
    </div> -->
 
-
- <div v-if="popUp" @close="popUp = false" class="popup-overlay">
-   <div class="popup-container">
-     <p class="buy">Vill du köpa temat {{ selectedItem }}?</p>
-     <div id="btn-row" class="row gap-1 mx-3">
-       <btn
-         :color="'red'"
-         :styles="{ height: '50px', marginLeft: '1%' }"
-         :width="'80px'"
-         :type="'small'"
-         @click="popUp = false"
-         class="buy-btn"
-       >
-         Avbryt
-       </btn>
-       <btn
-         :color="'green'"
-         :styles="{ height: '50px', marginLeft: '1%' }"
-         :width="'80px'"
-         :type="'small'"
-         @click="buyBonus()"
-         class="buy-btn"
-         >Köp</btn
-       >
-     </div>
-   </div>
- </div>
+  <div v-if="popUp" @close="popUp = false" class="popup-overlay">
+    <div class="popup-container">
+      <p class="buy">Vill du köpa temat {{ selectedItem.name }}?</p>
+      <div id="btn-row" class="row gap-1 mx-3">
+        <btn
+          :color="'red'"
+          :styles="{ height: '50px', marginLeft: '1%' }"
+          :width="'80px'"
+          :type="'small'"
+          @click="popUp = false"
+          class="buy-btn"
+        >
+          Avbryt
+        </btn>
+        <btn
+          :color="'green'"
+          :styles="{ height: '50px', marginLeft: '1%' }"
+          :width="'80px'"
+          :type="'small'"
+          @click="buyBonus()"
+          class="buy-btn"
+          >Köp</btn
+        >
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>

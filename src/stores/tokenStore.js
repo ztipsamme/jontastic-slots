@@ -5,8 +5,8 @@ export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
     tokens: useStorage("tokens", {
-      sum: 100,
-      startValue: 100,
+      sum: 900,
+      startValue: 900,
       bet: 5,
       startBet: 5,
     }),
