@@ -19,6 +19,12 @@
     emits: { stop: null },
 
     created() {
+      if (this.tokens.bonusTypes.find((i) => i.name === "Extra Row").active) {
+        this.reels = 4
+        this.extraRowCount = this.tokens.bonusTypes.find(
+          (i) => i.name === "Extra Row",
+        ).count
+      }
       this.spinnerArr = new Array(this.reels)
         .fill(null)
         .map(() => this.generateSpinner())
@@ -92,30 +98,44 @@
               (i) => i.name === "Extra Row",
             )
             extraRow.amount--
+            extraRow.active = true
             this.extraRowCount = extraRow.count
-            console.log("extraCount", this.extraRowCount)
+            //console.log("extraCount", this.extraRowCount)
             this.reels = 4
             this.spinnerArr = new Array(this.reels)
               .fill(null)
               .map(() => this.generateSpinner())
             break
           }
+          case "extraspin": {
+            if (this.startGame) {
+              return
+            }
+            let extraSpin = this.tokens.bonusTypes.find(
+              (i) => i.name === "Extra Spin",
+            )
+            extraSpin.amount--
+            extraSpin.active = true
+            this.gameStart(true)
+          }
         }
       },
       altGetNumbers() {
-        console.log("this.num", this.num)
-
+        //console.log("this.num", this.num)
+        this.n = []
+        this.num = []
         let isWinner = Math.floor(Math.random() * 3) == 2
         if (isWinner) {
           let v = 6
           let isHigher
 
-          for (let i = 7; i >= 2; i--) {
+          for (let i = 6; i > 0; i--) {
+            v = i
             isHigher = Math.floor(Math.random() * 2)
+            console.log("isHigher", isHigher, v)
             if (isHigher) {
               break
             }
-            v = i - 1
           }
 
           this.spinnerArr.forEach((reel, index) => {
@@ -126,12 +146,12 @@
               }
             })
             let nIndex = arr[Math.floor(Math.random() * arr.length)]
-            console.log("index", index)
-            console.log(this.n, nIndex)
+            //console.log("index", index)
+            //console.log(this.n, nIndex)
 
             this.n[index] = nIndex
             this.num[index] = reel[this.n[index]]
-            console.log(this.num)
+            //console.log(this.num)
           })
         } else {
           this.spinnerArr.forEach((e, i) => {
@@ -140,7 +160,7 @@
           })
 
           if (this.num.every((e) => e == this.num[0])) {
-            console.log("!!!!!!!!BAJS")
+            //console.log("!!!!!!!!BAJS")
             let same = this.num[0]
             let reel = Math.floor(Math.random() * this.num.length)
             while (this.num[reel] == same) {
@@ -151,8 +171,13 @@
             }
           }
         }
-        console.log("this.num", this.num)
-        console.log("this.n", this.n)
+        //console.log("this.num", this.num)
+        //console.log("this.n", this.n)
+        if (this.num.length > this.reels) {
+          console.log("STOP")
+          console.log(this.num)
+          console.log(this.n)
+        }
         return { num: this.num, n: this.n }
       },
       getNumbers() {
@@ -208,50 +233,57 @@
       },
       done() {
         this.startGame = false
-        console.log(this.num)
+        //console.log(this.num)
         if (!this.extraRowCount && this.reels == 4) {
+          let extraRow = this.tokens.bonusTypes.find(
+            (i) => i.name === "Extra Row",
+          )
+          extraRow.active = false
+          console.log("FUUUCK")
           this.reels = 3
           this.spinnerArr = new Array(this.reels)
             .fill(null)
             .map(() => this.generateSpinner())
+
+          console.log(this.spinnerArr)
         }
+        this.tokens.bonusTypes.find(
+          (i) => i.name === "Extra Spin",
+        ).active = false
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
           let winSum =
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
           this.winSum = winSum
-          console.log("winSum", winSum)
+          //console.log("winSum", winSum)
           this.tokens.winning(winSum)
-          console.log("Yay, you won " + winSum + " toekns! =D")
-        } else if (this.tokens.tokens.sum - 5 < 0) {
+          //console.log("Yay, you won " + winSum + " toekns! =D")
+        } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
-          console.log("Haha, loser. :P")
           this.gameOver = true
         } else {
           this.winner = false
-          console.log("Haha, loser. :P")
+          //console.log("Haha, loser. :P")
         }
       },
-      gameStart() {
+      gameStart(freeSpin = false) {
         this.winSum = null
+        this.tokens.tokens.sum = this.tokens.tokens.sum - this.tokens.tokens.bet
         console.log("startgame", this.startGame)
         if (this.startGame) {
           return
         }
         this.startGame = true
-        if (this.tokens.tokens.sum - 5 < 0) {
-          alert("GameOver")
-          this.startGame = false
-          this.tokens.tokens.sum = this.tokens.tokens.startValue
-          return
-        }
 
         if (this.extraRowCount) {
           this.extraRowCount--
         }
 
         this.winner = false
-        this.tokens.takeoutBet(this.tokens.tokens.bet)
+        if (!freeSpin) {
+          this.tokens.takeoutBet(this.tokens.tokens.bet)
+        }
+
         this.checkNumbers()
 
         this.$refs.child.start(this.n)
@@ -259,7 +291,7 @@
 
       newGame() {
         this.gameOver = false
-        this.tokens.$reset()
+        this.tokens.tokens.sum = this.tokens.tokens.startValue
       },
     },
   }
@@ -294,7 +326,7 @@
       height: '100vh',
       zIndex: '99',
     }"
-    @click="newGame"
+    @click="newGame()"
   />
   <div class="main-machine cont">
     <div class="bonus-container">
@@ -309,9 +341,11 @@
           :width="'50%'"
           :styles="{ minWidth: '50px', maxWidth: '150px' }"
           :border-radius="'5px'"
+          :selected="b.active"
           @click="activateBonus(b.name.replace(/[^A-z]/g, '').toLowerCase())"
-          ><p>{{ b.amount }}</p></btn
-        >
+          ><p>{{ b.amount }}</p>
+          <img class="icon" :src="b.src" :alt="b.name" />
+        </btn>
         {{ b.name }}
       </div>
     </div>
@@ -389,7 +423,6 @@
         top: calc(-1em + 2px);
         border-radius: 200px;
         background-color: var(--btn-purple);
-        color: var(--btn-purple4);
       }
     }
   }

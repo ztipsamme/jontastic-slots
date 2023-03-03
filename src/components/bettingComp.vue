@@ -10,29 +10,25 @@
 -->
 
 <script>
-import { useTokenStore } from "../stores/tokenStore.js"
+  import { useTokenStore } from "../stores/tokenStore.js"
 
-
-export default {
- setup() {
-   const tokens = useTokenStore()
-   return {
-     tokens,
-   }
- },
- canDraw() {
-   const gamestates = gamestates
-   return (this.gamestate === gamestates.READY || this.gamestate === gamestates.SWAP) && this.bet > 0;
- }
- ,
-
-
- created() {
-   console.log("Exempel:", this.tokens.tokens.sum + 10)
- }
-}
-
-
-
-
+  export default {
+    setup() {
+      const tokens = useTokenStore()
+      return {
+        tokens,
+      }
+    },
+    canDraw() {
+      const gamestates = gamestates
+      return (
+        (this.gamestate === gamestates.READY ||
+          this.gamestate === gamestates.SWAP) &&
+        this.bet > 0
+      )
+    },
+    created() {
+      //console.log("Exempel:", this.tokens.tokens.sum + 10)
+    },
+  }
 </script>

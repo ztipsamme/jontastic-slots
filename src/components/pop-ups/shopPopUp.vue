@@ -2,23 +2,32 @@
   <div class="container">
     <h1 class="popup-title">Butik</h1>
     <p>
-      Här kan du använda dina tokens för att förhöja din spelupplevelse med
-      olika funktioner som går att köpa. Vi erbjuder teman som du kan köpa för
-      att personifiera din spelupplevelse. När du har köpt ett tema kan du
-      använda det när du vill utan någon extra kostnad. Om du vill öka dina
-      vinstchanser, så kan du köpa några av våra bonusar. "Extra Row" ger dig
-      ytterligare en rad i maskinen och "Extra Row" tillåter dig att få en extra
-      chans att snurra på hjulet. Du kan köpa dessa bonusar när du vill, och när
-      du har gjort det kommer de finnas tillgängliga i din väska.
+      Använd dina tokens i butiken för att förhöja speluplevelsen med bonusar
+      och teman. Butiken finner du genom att klicka på knappen med kundvagnen i
+      övre delen av sidan.
     </p>
+
+    <h2>Teman</h2>
     <p>
-      För att aktivera dina köpta föremål behöver du bara klicka på dom i din
-      väska.
+      När du har köpt ett tema ändras ikonen nedanför temat i shopen ifrån en
+      kundvagn till en bock. För att aktivera ett av dina köpta teman klickar du
+      på önskat tema så att det markeras med en gul ram.
     </p>
+
+    <h2>Bonusar</h2>
+    <p>
+      Om du vill öka dina vinstchanser finns bonusar till hands. Köpta bonusar
+      samlas på spelsidan i en kolumn till vänster av snurrorna. Förbruka en av
+      dina köpta bonusar genom att klicka på bonusen och spela sedan visare som
+      vanligt.
+    </p>
+
+    <p>"Extra Row" ger dig ytterligare en rad i maskinen.</p>
+    <p>"Extra Row" tillåter dig att få en extra chans att snurra på hjulet.</p>
   </div>
 </template>
 
-<style>
+<style scoped>
   * {
     color: black;
   }

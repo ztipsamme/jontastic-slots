@@ -4,13 +4,18 @@ import { useStorage } from "@vueuse/core"
 export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
-    tokens: useStorage("tokens", { sum: 10000, startValue: 100, bet: 5 }),
+    tokens: useStorage("tokens", {
+      sum: 100,
+      startValue: 100,
+      bet: 5,
+    }),
     bonusTypes: useStorage("bonusTypes", [
       {
         name: "Extra Spin",
         cost: 200,
         amount: 0,
         count: 1,
+        active: false,
         src: "./assets/svg/icon-spin.svg",
       },
       {
@@ -18,6 +23,7 @@ export const useTokenStore = defineStore("tokens", {
         cost: 250,
         amount: 0,
         count: 4,
+        active: false,
         src: "./assets/svg/icon-row.svg",
       },
     ]),
@@ -28,35 +34,35 @@ export const useTokenStore = defineStore("tokens", {
         cost: 0,
         owned: true,
         active: true,
-        src: "./assets/svg/icon-gem.svg",
+        src: "./src/components/themes/default/ico1.svg",
       },
       {
         name: "Katt",
         cost: 250,
         owned: false,
         active: false,
-        src: "./assets/svg/icon-cat.svg",
+        src: "./src/components/themes/CatTheme/ico1.svg",
       },
       {
         name: "Midnatt",
         cost: 200,
         owned: false,
         active: false,
-        src: "./assets/svg/icon-moon.svg",
+        src: "./src/components/themes/NightTheme/ico1.svg",
       },
       {
         name: "Skog",
         cost: 150,
         owned: false,
         active: false,
-        src: "./assets/svg/icon-pine-tree.svg",
+        src: "./src/components/themes/ForestTheme/ico1.svg",
       },
       {
         name: "Eld",
         cost: 200,
         owned: false,
         active: false,
-        src: "./assets/svg/icon-fire.svg",
+        src: "./src/components/themes/EldTheme/ico1.svg",
       },
     ]),
   }),
@@ -75,7 +81,7 @@ export const useTokenStore = defineStore("tokens", {
       this.token += amount
     },
     async takeoutBet(amount) {
-      console.log("ASDFASDF", amount)
+      //console.log("ASDFASDF", amount)
       let val = 0
       let timeout
       let loop = () => {
@@ -83,7 +89,7 @@ export const useTokenStore = defineStore("tokens", {
         val++
         val = Math.min(val, amount)
         if (val < amount) {
-          timeout = setTimeout(loop, 100)
+          timeout = setTimeout(loop, 25)
         } else {
           clearTimeout(timeout)
         }
@@ -97,7 +103,7 @@ export const useTokenStore = defineStore("tokens", {
         this.tokens.sum++
         val--
         if (val > 0) {
-          timeout = setTimeout(loop, 100)
+          timeout = setTimeout(loop, 25)
         } else {
           clearTimeout(timeout)
         }
@@ -133,13 +139,13 @@ default export{
   methods: {
 // Hur du använder din store
     getState(){
-      console.log(this.tokens.token) // prints 0
+      //console.log(this.tokens.token) // prints 0
 
       this.tokens.tokens = 10
-      console.log(this.tokens.token) // prints 10
+      //console.log(this.tokens.token) // prints 10
 
       this.tokens.addTokens(15)
-      console.log(this.tokens.token) // prints 25
+      //console.log(this.tokens.token) // prints 25
     }
   }
 }

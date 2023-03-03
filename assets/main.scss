@@ -170,6 +170,7 @@ body {
     $btn-purple: #b04aa4;
     $btn-purple2: #d89ced;
 
+    --text-color: white;
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
@@ -217,6 +218,7 @@ body {
     $btn-purple: #dacd0e;
     $btn-purple2: #eb7405;
 
+    --text-color: white;
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
@@ -249,9 +251,18 @@ body {
   background-image: var(--bg-image);
   background-size: cover;
   background-position: 75%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--text-color);
+  & .token-text,
+  & .bet-amount,
+  & .bet-amount p {
+    color: black;
+  }
+
   &::before {
     content: "";
-    position: absolute;
+    position: fixed;
     display: block;
     width: 100%;
     height: 100%;
@@ -259,12 +270,15 @@ body {
     z-index: -99;
   }
 }
+.popup-overlay *:not(.btn-comp) {
+  color: black !important;
+}
 *,
 * * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  text-shadow: 1px 1px 3px var(--bg-color3);
+  // text-shadow: 1px 1px 3px var(--bg-color3);
 }
 /* .slot-btn {
   border: 0;

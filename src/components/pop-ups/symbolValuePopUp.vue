@@ -13,7 +13,7 @@
     setup() {
       const theme = useThemeStore()
       const icons = theme.icons
-      console.log(theme.icons)
+      //console.log(theme.icons)
 
       return { theme, icons }
     },

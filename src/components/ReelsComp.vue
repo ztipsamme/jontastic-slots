@@ -128,16 +128,16 @@
         this.spin(num).then(() => {
           this.$emit("done")
           let winNum = this.spinners[0][num[0]]
-          console.log(num)
+          //console.log(num)
           let test = num.every((e, i) => {
-            console.log("in every", this.spinners[i][e], winNum)
-            console.log("in every", this.spinners[i][e] == winNum)
+            //console.log("in every", this.spinners[i][e], winNum)
+            //console.log("in every", this.spinners[i][e] == winNum)
             return this.spinners[i][e] == winNum
           })
-          console.log("test", test)
+          //console.log("test", test)
           if (test) {
             this.win = true
-            console.log(this.win)
+            //console.log(this.win)
           }
         })
       },
@@ -217,9 +217,9 @@
                 backgroundColor: `hsla(${0 + 16 * Number(ind)}deg,40%,50%)`,
                 backgroundImage: `linear-gradient(
               45deg,
-              hsla(${(0 + 16 * Number(ind)) % 100}deg,30%,50%),
-              hsla(${(0 + 16 * Number(ind)) % 100}deg,30%,50%),
-              hsla(${(0 + 16 * Number(ind + 1)) % 100}deg,30%,75%))`,
+              hsla(${(0 + 16 * Number(ind)) % 100}deg,30%,85%),
+              hsla(${(0 + 16 * Number(ind)) % 100}deg,30%,85%),
+              hsla(${(0 + 16 * Number(ind + 1)) % 100}deg,30%,95%))`,
 
                 boxShadow: `inset 0 0 18px 11px hsla(${
                   (0 + 16 * Number(ind)) % 100

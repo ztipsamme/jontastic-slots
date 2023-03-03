@@ -44,13 +44,13 @@ export default {
   methods: {
 // Hur du använder din store
     getState(){
-      console.log(this.tokens.token) // prints 0
+      //console.log(this.tokens.token) // prints 0
 
       this.tokens.tokens = 10
-      console.log(this.tokens.token) // prints 10
+      //console.log(this.tokens.token) // prints 10
 
       this.tokens.addTokens(15)
-      console.log(this.tokens.token) // prints 25
+      //console.log(this.tokens.token) // prints 25
     }
   }
 }
