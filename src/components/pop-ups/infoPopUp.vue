@@ -128,9 +128,8 @@
       }
       .close-btn {
         position: relative;
-    border: solid 2px #ad98d0;
-     padding: 0 5px;
-    padding-top: calc(34px - 29px);
+        padding: 0 5px;
+        padding-top: calc(34px - 29px);
 
         width: min-content;
 
