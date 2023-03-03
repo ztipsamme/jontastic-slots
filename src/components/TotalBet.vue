@@ -12,7 +12,16 @@
 
     <div class="bet-amount">
       <p>total bet:</p>
-      {{ "\n" + tokenStore.tokens.bet }}
+      <input
+        id="inpBet"
+        @blur="onBlur"
+        v-if="isActive"
+        type="text"
+        v-model="currentBet"
+      />
+      <span @click="onClick" v-if="!isActive">{{
+        "\n" + tokenStore.tokens.bet
+      }}</span>
     </div>
     <btn
       :styles="{ zIndex: 2, maxWidth: '75px' }"
@@ -40,10 +49,23 @@
     components: {
       btn,
     },
+    data() {
+      return {
+        currentBet: 0,
+        isActive: false,
+      }
+    },
+    watch: {
+      currentBet() {
+        this.setBet(this.currentBet)
+      },
+    },
     computed: {},
     methods: {
       setBet(val) {
         val = val < 5 ? 5 : val
+        val =
+          val > this.tokenStore.tokens.sum ? this.tokenStore.tokens.sum : val
         this.tokenStore.tokens.bet = val
       },
       decrementBetAmount() {
@@ -55,6 +77,13 @@
         if (this.tokenStore.tokens.bet + 5 <= this.tokenStore.tokens.sum) {
           this.tokenStore.tokens.bet = this.tokenStore.tokens.bet + 5
         }
+      },
+      onClick() {
+        this.isActive = true
+        this.currentBet = this.tokenStore.tokens.bet
+      },
+      onBlur() {
+        this.isActive = false
       },
     },
   }
@@ -85,6 +114,13 @@
     border: none;
     cursor: pointer;
     z-index: 2;
+  }
+  #inpBet {
+    border: 0;
+    outline: 0;
+    padding: 0;
+    text-align: center;
+    background: none;
   }
 
   .bet-amount {
