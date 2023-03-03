@@ -233,13 +233,13 @@
       },
       done() {
         this.startGame = false
+
         //console.log(this.num)
         if (!this.extraRowCount && this.reels == 4) {
           let extraRow = this.tokens.bonusTypes.find(
             (i) => i.name === "Extra Row",
           )
           extraRow.active = false
-          console.log("FUUUCK")
           this.reels = 3
           this.spinnerArr = new Array(this.reels)
             .fill(null)
@@ -265,15 +265,21 @@
           this.winner = false
           //console.log("Haha, loser. :P")
         }
+        if (this.tokens.tokens.bet > this.tokens.tokens.sum) {
+          this.$refs.betComp.setBet(this.tokens.tokens.sum)
+        }
       },
       gameStart(freeSpin = false) {
-        this.winSum = null
-        this.tokens.tokens.sum = this.tokens.tokens.sum - this.tokens.tokens.bet
-        console.log("startgame", this.startGame)
         if (this.startGame) {
           return
         }
         this.startGame = true
+        this.winSum = null
+        if (this.tokens.tokens.sum - this.tokens.tokens.bet < 0) {
+          return
+        }
+        this.tokens.tokens.sum = this.tokens.tokens.sum - this.tokens.tokens.bet
+        console.log("startgame", this.startGame)
 
         if (this.extraRowCount) {
           this.extraRowCount--
@@ -292,6 +298,10 @@
       newGame() {
         this.gameOver = false
         this.tokens.tokens.sum = this.tokens.tokens.startValue
+        let startbet = this.tokens.tokens.startBet
+          ? this.tokens.tokens.startBet
+          : 100
+        this.tokens.tokens.bet = startbet
       },
     },
   }
@@ -362,13 +372,13 @@
       </div>
     </div>
     <div class="row-2">
-      <TotalBet />
+      <TotalBet :ref="'betComp'" />
       <btn
         :color="'purple'"
         :height="'13vh'"
         :width="'30vw'"
         @click="gameStart"
-        :disabled="tokens.tokens.sum === 0 ? true : false"
+        :disabled="tokens.tokens.bet > tokens.tokens.sum"
         :styles="{ maxHeight: '65px' }"
       >
         SPELA

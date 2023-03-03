@@ -12,7 +12,16 @@
 
     <div class="bet-amount">
       <p>total bet:</p>
-      {{ "\n" + bet }}
+      <input
+        id="inpBet"
+        @blur="onBlur"
+        v-if="isActive"
+        type="text"
+        v-model="currentBet"
+      />
+      <span @click="onClick" v-if="!isActive">{{
+        "\n" + tokenStore.tokens.bet
+      }}</span>
     </div>
     <btn
       :styles="{ zIndex: 2, maxWidth: '75px' }"
@@ -40,29 +49,41 @@
     components: {
       btn,
     },
-    computed: {
-      bet: {
-        get() {
-          return this.tokenStore.tokens.bet
-        },
-        set(val) {
-          this.tokenStore.tokens.bet = val
-        },
-      },
-      tokens() {
-        return this.tokenStore.tokens.sum
+    data() {
+      return {
+        currentBet: 0,
+        isActive: false,
+      }
+    },
+    watch: {
+      currentBet() {
+        this.setBet(this.currentBet)
       },
     },
+    computed: {},
     methods: {
+      setBet(val) {
+        val = val < 5 ? 5 : val
+        val =
+          val > this.tokenStore.tokens.sum ? this.tokenStore.tokens.sum : val
+        this.tokenStore.tokens.bet = val
+      },
       decrementBetAmount() {
-        if (this.bet > 5) {
-          this.bet -= 5
+        if (this.tokenStore.tokens.bet > 5) {
+          this.tokenStore.tokens.bet = this.tokenStore.tokens.bet - 5
         }
       },
       incrementBetAmount() {
-        if (this.bet + 5 < this.tokens && this.bet + 5 <= 50) {
-          this.bet += 5
+        if (this.tokenStore.tokens.bet + 5 <= this.tokenStore.tokens.sum) {
+          this.tokenStore.tokens.bet = this.tokenStore.tokens.bet + 5
         }
+      },
+      onClick() {
+        this.isActive = true
+        this.currentBet = this.tokenStore.tokens.bet
+      },
+      onBlur() {
+        this.isActive = false
       },
     },
   }
@@ -93,6 +114,13 @@
     border: none;
     cursor: pointer;
     z-index: 2;
+  }
+  #inpBet {
+    border: 0;
+    outline: 0;
+    padding: 0;
+    text-align: center;
+    background: none;
   }
 
   .bet-amount {

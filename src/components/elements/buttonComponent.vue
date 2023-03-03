@@ -34,7 +34,10 @@
         type: Boolean,
         default: false,
       },
-
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
       bgPath: {
         type: String,
         default: null,
@@ -102,9 +105,9 @@
     :style="style"
     :class="
       'btn-container ' +
-      color +
-      (circle ? ' circle' : '') +
-      (selected ? ' selected' : '')
+      (circle ? ' circle ' : '') +
+      (selected ? ' selected ' : '') +
+      (disabled ? ' disabled' : color)
     "
   >
     <div class="under" :style="{ borderRadius: borderRadius }" />
@@ -157,6 +160,27 @@
       font-weight: 500;
       padding: 5px 15px;
       transition: 0.05s;
+    }
+    &.disabled {
+      .under {
+        background-color: var(--btn-disableds3);
+      }
+      & > .btn-comp {
+        background-image: linear-gradient(
+          10deg,
+          var(--btn-disabled2),
+          var(--btn-disabled) 60%
+        );
+        &:hover,
+        &.selected {
+          background-image: linear-gradient(
+            10deg,
+            var(--btn-disabled5),
+            var(--btn-disabled4) 60%
+          );
+          box-shadow: inset 0 0 10px 0px var(--btn-disabled5);
+        }
+      }
     }
     &.purple {
       .under {
@@ -267,7 +291,7 @@
     transition: 0.05s;
   }
 
-  .btn-comp:hover:active,
+  .btn-container:not(.disabled) .btn-comp:hover:active,
   .btn-container.selected .btn-comp {
     top: 5px;
     left: -2px;
