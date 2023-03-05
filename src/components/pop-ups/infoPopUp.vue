@@ -127,9 +127,12 @@
         width: 100%;
       }
       .close-btn {
-        background-color: transparent;
+        position: relative;
         padding: 0 5px;
+        padding-top: calc(34px - 29px);
+
         width: min-content;
+
         button {
           background-color: transparent;
           border: none;

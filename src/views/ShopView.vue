@@ -19,7 +19,7 @@
       const tokenStore = useTokenStore()
       const theme = useThemeStore()
       window.content = tokenStore
-      return { tokenStore, theme }
+      return { tokenStore, theme, ShoppingCartOutlined, CheckCircleTwoTone }
     },
 
     data() {
@@ -78,7 +78,7 @@
 
       buyBonus() {
         this.theme1Bought = false
-        console.log("hej " + this.theme1Bought)
+        // console.log("hej " + this.theme1Bought)
 
         let bonus = this.tokenStore.bonusTypes.find(
           (type) => type.name === this.selectedItem.name,
@@ -152,7 +152,6 @@
                 />
 
                 <span v-if="!item.owned">
-                  {{ ShoppingCartOutlined }}
                   <ShoppingCartOutlined
                     :style="{ fontSize: '23px', color: '#08c' }"
                     @click="onClick(item)"
@@ -170,14 +169,36 @@
       </div>
     </section>
   </main>
+
+  <!--   <section class="container">
+   <div class="row">
+     <h1 class="first-heading">Din väska</h1>
+     <div class="col">
+       <h2 class="second-heading">Bonusar:</h2>
+       <div class="shop-display">
+         <button
+           class="shop-item bonus"
+           :key="bonus"
+           v-for="bonus in bonusTypes"
+         >
+           {{ bonus.amount }} {{ bonus.name }}
+         </button>
+         <button class="shop-item bonus">Någon Bonus</button>
+       </div>
+     </div>
+     <div class="col">
+       <h2 class="second-heading">Teman:</h2>
+       <div class="shop-display">
+         <button class="shop-item bonus" :key="theme" v-for="theme in owned">
+           {{ theme.name }} {{ theme.amount }}
+         </button>
+       </div>
+     </div>
+   </div> -->
+
   <div v-if="popUp" @close="popUp = false" class="popup-overlay">
     <div class="popup-container">
-      <p class="buy" v-if="this.tokenStore.tokens.sum > selectedItem.cost">
-        Vill du köpa {{ selectedItem.name }}?
-      </p>
-      <p v-if="this.tokenStore.tokens.sum < selectedItem.cost">
-        Du har inte råd med {{ selectedItem.name }}.
-      </p>
+      <p class="buy">Vill du köpa temat {{ selectedItem.name }}?</p>
       <div id="btn-row" class="row gap-1 mx-3">
         <btn
           :color="'red'"
@@ -196,7 +217,6 @@
           :type="'small'"
           @click="buyBonus()"
           class="buy-btn"
-          :hidden="this.tokenStore.tokens.sum < selectedItem.cost"
           >Köp</btn
         >
       </div>
