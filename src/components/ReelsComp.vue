@@ -143,14 +143,49 @@
       },
       spin(arr) {
         this.startTime = Date.now()
-        let loop = (element, from, to, resolve) => {
+        let loop = (element, from, to, resolve, index) => {
           this.time = Date.now()
           this.elapsed = this.time - this.startTime
           let x = Math.min(1, this.elapsed / 5000)
           let len = (to - from) * this.curve.ease(x)
           let ang = from + len
+          let reelCount =
+            this.spinners.map((e, i) => {
+              return this.$refs["c" + i][0]
+            }).length - 1 // 2
 
-          element.style.transform = ` translateZ(${-(
+          let test = reelCount / 2 // 2
+          let s = (index - test) / test //2  -1
+
+          let xKorr = "translateX(" + (4 * s).toFixed(2) + "%)"
+          let elw = element.parentNode.offsetWidth
+          let elh = element.parentNode.offsetHeight
+
+          let m = element.parentNode.offsetWidth * (39 / 192) //0,208
+          let c1 = element.parentNode.offsetWidth * (20 / 192) //0,104
+          let c2 = (c1 / 2) * 3
+          let h = element.parentNode.offsetHeight - c2
+          let w = element.parentNode.offsetWidth * (167 / 192) //0,87
+
+          let a1 = `M ${m} 0 `
+          let l1 = `l ${w} 0`
+          let l2 = index == 0 ? "" : ""
+
+          let clipPath = `path(' M ${m} 0 l ${w} 0 c ${-c1} ${c2} ${-c1} ${h} 0 ${
+            element.parentNode.offsetHeight
+          } l ${-w} 0 c ${-element.parentNode.offsetWidth * (40 / 192)} 0 ${
+            -element.parentNode.offsetWidth * (40 / 192)
+          } ${-element.parentNode.offsetHeight} 0 ${-element.parentNode
+            .offsetHeight}')`
+          console.log("lipPAnnt", clipPath)
+
+          if (index == 0) {
+            element.parentNode.style.clipPath = clipPath
+          }
+
+          console.log(element.parentNode.offsetWidth)
+          console.log("xKorr", xKorr)
+          element.style.transform = `${xKorr} translateZ(${-(
             this.rad + 25
           )}px) rotateX(${ang}deg)`
           element.querySelectorAll(".carousel__cell").forEach((e, i) => {
@@ -161,7 +196,9 @@
             }deg) `
           })
           if (x < 1) {
-            requestAnimationFrame(loop.bind(this, element, from, to, resolve))
+            requestAnimationFrame(
+              loop.bind(this, element, from, to, resolve, index),
+            )
           } else {
             resolve("done")
           }
@@ -181,7 +218,7 @@
           this.current[i] = arr[i]
           p.push(
             new Promise((resolve) => {
-              requestAnimationFrame(loop.bind(this, e, from, to, resolve))
+              requestAnimationFrame(loop.bind(this, e, from, to, resolve, i))
             }),
           )
         })
@@ -190,13 +227,16 @@
       onResize({ height }) {
         this.s.height = Math.ceil(height * 0.2)
       },
+      setClipPath() {
+        let parent
+      },
     },
   }
 </script>
 
 <template>
   <template v-for="(spinner, i) in spinners" :key="i">
-    <div :class="'scene-' + i" v-resize="onResize">
+    <div :class="'scene-' + i" v-resize="onResize" :ref="'scene' + i">
       <div
         class="carousel"
         :ref="'c' + i"
@@ -257,13 +297,34 @@
     min-height: 100vh;
   }
 
+  .scene-1 {
+    perspective-origin: 50% 50%;
+    /*clip-path: path( "M20 0 l 164 0 c10 0 10 430 0 430 l-164 0 c-10 0 -10 -430 0 -430");*/
+    outline: 1px solid black;
+    border: 1px solid black;
+  }
+
+  .scene-2 {
+    perspective-origin: -100% 50%;
+    /*clip-path: path("M-11 0 l 167 0 c40 0 40 430 0 430 l-167 0 c10 0 10 -430 0 -430");*/
+    outline: 1px solid black;
+    border: 1px solid black;
+  }
+
+  .scene-0 {
+    perspective-origin: 200% 50%;
+    /*clip-path: path("M48 0 l 167 0 c-10 0 -10 430 0 430 l-164 0 c-40 0 -40 -430 0 -430");*/
+    outline: 1px solid black;
+    border: 1px solid black;
+  }
+
   div[class*="scene"]:last-child {
-    perspective-origin: -325% 0%;
+    perspective-origin: -100% 50%;
     /*     overflow-y: hidden;
     overflow-x: visible; */
   }
   div[class*="scene"]:nth-child(1) {
-    perspective-origin: 325% 0%;
+    perspective-origin: 200% 50%;
     /*     overflow-y: hidden;
     overflow-x: visible; */
   }
@@ -273,10 +334,10 @@
     min-width: 10vmin;
     width: 100%;
     height: 60vh;
-    perspective: 2000px;
-    overflow: hidden;
+    perspective: 900px;
+    overflow: visible;
     border-radius: 5px;
-    margin-left: 1vw;
+    //margin-left: 1vw;
     flex-grow: 1;
   }
 

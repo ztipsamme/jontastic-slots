@@ -1,7 +1,7 @@
 <script>
   import { useTokenStore } from "./stores/tokenStore.js"
   import { useThemeStore } from "./stores/themes"
-  import iconComponent from "./components/elements/iconComponent.vue"
+  //import iconComponent from "./components/elements/iconComponent.vue"
   import PopUp from "./components/pop-ups/infoPopUp.vue"
   import buttonComponent from "./components/elements/buttonComponent.vue"
   export default {
@@ -16,7 +16,7 @@
     components: {
       PopUp,
       btn: buttonComponent,
-      icon: iconComponent,
+      //icon: iconComponent,
     },
   }
 </script>
@@ -28,7 +28,13 @@
 
     <nav class="nav">
       <RouterLink class="nav-link" to="/">
-        <btn :circle="false" :width="'10vw'" :height="'50px'" :size="'large'">
+        <btn
+          :circle="false"
+          :selected="$route.path == '/'"
+          :width="'10vw'"
+          :height="'50px'"
+          :size="'large'"
+        >
           <i class="bi bi-house-fill" />
         </btn>
       </RouterLink>
@@ -39,6 +45,7 @@
           :width="'10vw'"
           :height="'50px'"
           :size="'large'"
+          :selected="$route.path == '/shop'"
         >
           <i class="bi bi-cart-fill" /> </btn
       ></RouterLink>
