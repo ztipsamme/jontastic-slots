@@ -5,13 +5,13 @@
   import { useThemeStore } from "../stores/themes.js"
   /* import {
 
-    hsla,
-    rgba,
-    adjustHsl,
-    changeHsl,
-    rgbToHsl,
-    hslToRgb,
-  } from "../utilHsl.js"*/
+      hsla,
+      rgba,
+      adjustHsl,
+      changeHsl,
+      rgbToHsl,
+      hslToRgb,
+    } from "../utilHsl.js"*/
 
   let resize = function (el, binding) {
     const onResizeCallback = binding.value
@@ -53,6 +53,7 @@
     mounted() {
       const height = document.documentElement.clientHeight
       this.s.height = Math.ceil(height * 0.2)
+      this.setClipPath()
     },
     emits: { done: null },
     data() {
@@ -153,38 +154,60 @@
             this.spinners.map((e, i) => {
               return this.$refs["c" + i][0]
             }).length - 1 // 2
-
           let test = reelCount / 2 // 2
-          let s = (index - test) / test //2  -1
-
+          let n = index - test
+          let s = n / test //2  -1
+          let dir = Math.abs(s) / s
           let xKorr = "translateX(" + (4 * s).toFixed(2) + "%)"
-          let elw = element.parentNode.offsetWidth
-          let elh = element.parentNode.offsetHeight
+          let perspectiveX = 50 + Math.abs(n) * 2 * 50 * -dir
+          element.parentNode.style.perspectiveOrigin = perspectiveX + "% 50%"
 
-          let m = element.parentNode.offsetWidth * (39 / 192) //0,208
-          let c1 = element.parentNode.offsetWidth * (20 / 192) //0,104
-          let c2 = (c1 / 2) * 3
-          let h = element.parentNode.offsetHeight - c2
-          let w = element.parentNode.offsetWidth * (167 / 192) //0,87
+          let w = element.parentNode.offsetWidth
+          let h = element.parentNode.offsetHeight
 
-          let a1 = `M ${m} 0 `
-          let l1 = `l ${w} 0`
-          let l2 = index == 0 ? "" : ""
+          let start = w * 0.225
+          let max = w * 0.2
+          let width = w * 0.8
+          let min = max * 0.375
+          let m, a1, a2, l1
 
-          let clipPath = `path(' M ${m} 0 l ${w} 0 c ${-c1} ${c2} ${-c1} ${h} 0 ${
-            element.parentNode.offsetHeight
-          } l ${-w} 0 c ${-element.parentNode.offsetWidth * (40 / 192)} 0 ${
-            -element.parentNode.offsetWidth * (40 / 192)
-          } ${-element.parentNode.offsetHeight} 0 ${-element.parentNode
-            .offsetHeight}')`
-          console.log("lipPAnnt", clipPath)
-
-          if (index == 0) {
-            element.parentNode.style.clipPath = clipPath
+          switch (index) {
+            case 0: {
+              m = `M ${start} 0`
+              a1 = `a ${max} ${h / 2} 180 0 0 0 ${h}`
+              l1 = `l ${width} 0`
+              a2 = `a ${min} ${h / 2} 180 1 1  0 ${-h}`
+              break
+            }
+            case 1: {
+              m = `M ${w * 0.1} 0`
+              a1 = `a ${min} ${h / 2} 180 0 0 0 ${h}`
+              l1 = `l ${width} 0`
+              a2 = `a ${reelCount == 3 ? 0 : min} ${h / 2} 180 0 0 0 ${-h}`
+              break
+            }
+            case 2: {
+              if (reelCount == 3) {
+                m = `M ${w * 0.1} 0`
+                a1 = `a ${0} ${h / 2} 180 0 0 0 ${h}`
+                l1 = `l ${width} 0`
+                a2 = `a ${min} ${h / 2} 180 0 0 0 ${-h}`
+                break
+              }
+            }
+            // eslint-disable-next-line no-fallthrough
+            case 3: {
+              m = `M ${w - (start + width)} 0`
+              a1 = `a ${min} ${h / 2} 180 0 1 0 ${h}`
+              l1 = `l ${width} 0`
+              a2 = `a ${max} ${h / 2} 180 1 0 0 ${-h}`
+              break
+            }
           }
+          element.parentNode.style.clipPath = `path('${m} ${a1} ${l1} ${a2}')`
+          element.parentNode.style.zIndex = Math.abs(s)
 
-          console.log(element.parentNode.offsetWidth)
-          console.log("xKorr", xKorr)
+          console.log(`path('${m} ${a1} ${l1} ${a2}')`)
           element.style.transform = `${xKorr} translateZ(${-(
             this.rad + 25
           )}px) rotateX(${ang}deg)`
@@ -226,9 +249,58 @@
       },
       onResize({ height }) {
         this.s.height = Math.ceil(height * 0.2)
+        this.setClipPath()
       },
       setClipPath() {
-        let parent
+        let refs = this.spinners.map((e, i) => {
+          return this.$refs["c" + i][0]
+        })
+        refs.forEach((e, i) => {
+          let reelCount = refs.length - 1
+          let w = e.parentNode.offsetWidth
+          let h = e.parentNode.offsetHeight
+
+          let start = w * 0.225
+          let max = w * 0.2
+          let clipWidth = w * 0.8
+          let min = max * 0.375
+          let m, a1, a2, l1
+
+          switch (i) {
+            case 0: {
+              m = `M ${start} 0`
+              a1 = `a ${max} ${h / 2} 180 0 0 0 ${h}`
+              l1 = `l ${clipWidth} 0`
+              a2 = `a ${min} ${h / 2} 180 1 1  0 ${-h}`
+              break
+            }
+            case 1: {
+              m = `M ${w * 0.1} 0`
+              a1 = `a ${min} ${h / 2} 180 0 0 0 ${h}`
+              l1 = `l ${clipWidth} 0`
+              a2 = `a ${reelCount == 3 ? 0 : min} ${h / 2} 180 0 0 0 ${-h}`
+              break
+            }
+            case 2: {
+              if (reelCount == 3) {
+                m = `M ${w * 0.1} 0`
+                a1 = `a ${0} ${h / 2} 180 0 0 0 ${h}`
+                l1 = `l ${clipWidth} 0`
+                a2 = `a ${min} ${h / 2} 180 0 0 0 ${-h}`
+                break
+              }
+            }
+            // eslint-disable-next-line no-fallthrough
+            case 3: {
+              m = `M ${w - (start + clipWidth)} 0`
+              a1 = `a ${min} ${h / 2} 180 0 1 0 ${h}`
+              l1 = `l ${clipWidth} 0`
+              a2 = `a ${max} ${h / 2} 180 1 0 0 ${-h}`
+              break
+            }
+          }
+          e.parentNode.style.clipPath = `path('${m} ${a1} ${l1} ${a2}')`
+        })
       },
     },
   }
@@ -305,14 +377,12 @@
   }
 
   .scene-2 {
-    perspective-origin: -100% 50%;
     /*clip-path: path("M-11 0 l 167 0 c40 0 40 430 0 430 l-167 0 c10 0 10 -430 0 -430");*/
     outline: 1px solid black;
     border: 1px solid black;
   }
 
   .scene-0 {
-    perspective-origin: 200% 50%;
     /*clip-path: path("M48 0 l 167 0 c-10 0 -10 430 0 430 l-164 0 c-40 0 -40 -430 0 -430");*/
     outline: 1px solid black;
     border: 1px solid black;
