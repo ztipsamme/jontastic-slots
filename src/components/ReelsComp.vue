@@ -317,7 +317,7 @@
               :data-id="ind"
               :style="{
                 width: '100%',
-                height: s.height + 'px',
+                height: size.height + 'px',
                 transform: `rotateX(${ang(
                   Number(ind),
                 )}deg) translateZ(${rad}px ) `,
