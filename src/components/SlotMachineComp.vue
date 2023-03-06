@@ -40,9 +40,9 @@
       return {
         count: 21,
         num: [],
-        n: [],
+        numIndex: [],
         winner: false,
-        startGame: false,
+        isSpinning: false,
         spinnerArr: [],
         reels: 3,
         gameOver: false,
@@ -71,21 +71,20 @@
 
     methods: {
       generateSpinner() {
-        let arr = []
+        let array = []
         for (var i = 1; i <= 6; i++) {
-          arr = new Array(i).fill(i).concat(arr)
+          array = new Array(i).fill(i).concat(array)
         }
 
-        function shuffleArray(array) {
-          for (let i = array.length - 1; i > 0; i--) {
+        function shuffleArray(arr) {
+          for (let i = arr.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1))
-            ;[array[i], array[j]] = [array[j], array[i]]
+            ;[arr[i], arr[j]] = [arr[j], arr[i]]
           }
           return array
         }
-        arr = shuffleArray(arr)
-        window.arr = arr
-        return arr
+        array = shuffleArray(array)
+        return array
       },
       activateBonus(name) {
         switch (name) {
@@ -108,7 +107,7 @@
             break
           }
           case "extraspin": {
-            if (this.startGame) {
+            if (this.isSpinning) {
               return
             }
             let extraSpin = this.tokens.bonusTypes.find(
@@ -122,17 +121,17 @@
       },
       altGetNumbers() {
         //console.log("this.num", this.num)
-        this.n = []
+        this.numIndex = []
         this.num = []
         let isWinner = Math.floor(Math.random() * 3) == 2
         if (isWinner) {
-          let v = 6
+          let winVal = 6
           let isHigher
 
           for (let i = 6; i > 0; i--) {
-            v = i
+            winVal = i
             isHigher = Math.floor(Math.random() * 2)
-            console.log("isHigher", isHigher, v)
+            console.log("isHigher", isHigher, winVal)
             if (isHigher) {
               break
             }
@@ -141,7 +140,7 @@
           this.spinnerArr.forEach((reel, index) => {
             let arr = []
             reel.forEach((e, i) => {
-              if (e == v) {
+              if (e == winVal) {
                 arr.push(i)
               }
             })
@@ -149,14 +148,14 @@
             //console.log("index", index)
             //console.log(this.n, nIndex)
 
-            this.n[index] = nIndex
-            this.num[index] = reel[this.n[index]]
+            this.numIndex[index] = nIndex
+            this.num[index] = reel[this.numIndex[index]]
             //console.log(this.num)
           })
         } else {
           this.spinnerArr.forEach((e, i) => {
-            this.n[i] = Math.floor(Math.random() * e.length)
-            this.num[i] = e[this.n[i]]
+            this.numIndex[i] = Math.floor(Math.random() * e.length)
+            this.num[i] = e[this.numIndex[i]]
           })
 
           if (this.num.every((e) => e == this.num[0])) {
@@ -164,23 +163,17 @@
             let same = this.num[0]
             let reel = Math.floor(Math.random() * this.num.length)
             while (this.num[reel] == same) {
-              this.n[reel] = Math.floor(
+              this.numIndex[reel] = Math.floor(
                 Math.random() * this.spinnerArr[reel].length,
               )
-              this.num[reel] = this.spinnerArr[reel][this.n[reel]]
+              this.num[reel] = this.spinnerArr[reel][this.numIndex[reel]]
             }
           }
         }
-        //console.log("this.num", this.num)
-        //console.log("this.n", this.n)
-        if (this.num.length > this.reels) {
-          console.log("STOP")
-          console.log(this.num)
-          console.log(this.n)
-        }
-        return { num: this.num, n: this.n }
+
+        return { num: this.num, numIndex: this.numIndex }
       },
-      getNumbers() {
+      /*getNumbers() {
         let num = []
         let n = []
 
@@ -223,16 +216,16 @@
         }
 
         return { num: num, n: n }
-      },
+      },*/
       checkNumbers() {
         let val = this.altGetNumbers()
         this.num = val.num
-        this.n = val.n
+        this.numIndex = val.numIndex
 
-        return this.n
+        return this.numIndex
       },
       done() {
-        this.startGame = false
+        this.isSpinning = false
 
         //console.log(this.num)
         if (!this.extraRowCount && this.reels == 4) {
@@ -270,16 +263,16 @@
         }
       },
       gameStart(freeSpin = false) {
-        if (this.startGame) {
+        if (this.isSpinning) {
           return
         }
-        this.startGame = true
+        this.isSpinning = true
         this.winSum = null
         if (this.tokens.tokens.sum - this.tokens.tokens.bet < 0) {
           return
         }
         this.tokens.tokens.sum = this.tokens.tokens.sum - this.tokens.tokens.bet
-        console.log("startgame", this.startGame)
+        console.log("startgame", this.isSpinning)
 
         if (this.extraRowCount) {
           this.extraRowCount--
@@ -292,7 +285,7 @@
 
         this.checkNumbers()
 
-        this.$refs.child.start(this.n)
+        this.$refs.child.start(this.numIndex)
       },
 
       newGame() {
@@ -365,7 +358,7 @@
         <spinner
           :ref="'child'"
           :spinners="spinnerArr"
-          :numbers="n"
+          :numbers="numIndex"
           :count="count"
           @done="done"
         />

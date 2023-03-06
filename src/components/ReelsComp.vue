@@ -52,14 +52,14 @@
     },
     mounted() {
       const height = document.documentElement.clientHeight
-      this.s.height = Math.ceil(height * 0.2)
+      this.size.height = Math.ceil(height * 0.2)
       this.setClipPath()
     },
     emits: { done: null },
     data() {
       return {
         width: 250,
-        s: { height: 150 },
+        size: { height: 150 },
         win: false,
         current: new Array(4).fill(0),
         currentTheme: "default",
@@ -95,7 +95,7 @@
         return (x) => (360 / c) * x
       },
       rad() {
-        return Math.floor(this.s.height / 2 / Math.tan(Math.PI / this.count))
+        return Math.floor(this.size.height / 2 / Math.tan(Math.PI / this.count))
       },
       opt() {
         return (i) => ({
@@ -129,16 +129,11 @@
         this.spin(num).then(() => {
           this.$emit("done")
           let winNum = this.spinners[0][num[0]]
-          //console.log(num)
           let test = num.every((e, i) => {
-            //console.log("in every", this.spinners[i][e], winNum)
-            //console.log("in every", this.spinners[i][e] == winNum)
             return this.spinners[i][e] == winNum
           })
-          //console.log("test", test)
           if (test) {
             this.win = true
-            //console.log(this.win)
           }
         })
       },
@@ -248,7 +243,7 @@
         return Promise.all(p)
       },
       onResize({ height }) {
-        this.s.height = Math.ceil(height * 0.2)
+        this.size.height = Math.ceil(height * 0.2)
         this.setClipPath()
       },
       setClipPath() {
