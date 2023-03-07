@@ -206,50 +206,7 @@
 
         return { num: this.num, numIndex: this.numIndex }
       },
-      /*getNumbers() {
-        let num = []
-        let n = []
 
-        this.spinnerArr.forEach((e, i) => {
-          n[i] = Math.floor(Math.random() * this.count)
-          num[i] = e[n[i]]
-        })
-
-        if (num[0] == num[1]) {
-          for (let i = 2; i < this.spinnerArr.length; i++) {
-            n[i] = this.spinnerArr[i].indexOf(num[0])
-            num[i] = this.spinnerArr[i][n[i]]
-          }
-        } else {
-          for (let i = 2; i < this.spinnerArr.length; i++) {
-            n[i] = Math.floor(Math.random() * this.count)
-            num[i] = this.spinnerArr[i][n[i]]
-          }
-        }
-        if (this.reels == 4) {
-          let same = false
-          for (let n in num) {
-            let i = Number(n)
-            if (num.filter((e) => e == num[i]).length > 2) {
-              same = num[i]
-              break
-            }
-          }
-          if (same && !num.every((e) => e == same)) {
-            let i = num.findIndex((e) => e != same)
-            let arr = []
-            this.spinnerArr[i].forEach((e, i) => {
-              if (e == same) {
-                arr.push(i)
-              }
-            })
-            n[i] = arr[Math.floor(Math.random() * arr.length)]
-            num[i] = this.spinnerArr[i][n[i]]
-          }
-        }
-
-        return { num: num, n: n }
-      },*/
       checkNumbers() {
         let val = this.altGetNumbers()
         this.num = val.num
