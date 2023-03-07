@@ -101,6 +101,9 @@
         return array
       },
       activateBonus(name) {
+        let audio = new Audio("../../assets/audio/bonus.mp3")
+        audio.play()
+
         switch (name) {
           case "extrarow": {
             if (this.extraRowCount) {
@@ -129,7 +132,9 @@
             )
             extraSpin.amount--
             extraSpin.active = true
-            this.gameStart(true)
+            audio.addEventListener("ended", (event) => {
+              this.gameStart(true)
+            })
           }
         }
       },
