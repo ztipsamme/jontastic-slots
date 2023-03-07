@@ -3,6 +3,7 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes.js"
+  import { gsap } from "gsap"
   /* import {
 
       hsla,
@@ -142,65 +143,33 @@
       },
       spin(arr) {
         this.startTime = Date.now()
-        let loop = (element, from, to, resolve, index) => {
-          this.time = Date.now()
-          this.elapsed = this.time - this.startTime
-          let x = Math.min(1, this.elapsed / 5000)
-          let len = (to - from) * this.curve.ease(x)
-          let ang = from + len
-          let reelCount =
-            this.spinners.map((e, i) => {
-              return this.$refs["c" + i][0]
-            }).length - 1 // 2
-          let test = reelCount / 2 // 2
-          let n = index - test
-          let s = n / test //2  -1
-          let dir = Math.abs(s) / s
-          let xKorr = "translateX(" + (4 * s).toFixed(2) + "%)"
-          let perspectiveX = 50 + Math.abs(n) * 2 * 50 * -dir
-          element.parentNode.style.perspectiveOrigin = perspectiveX + "% 50%"
-
-          this.setClipPath()
-          element.parentNode.style.zIndex = Math.abs(s)
-
-          element.style.transform = `${xKorr} translateZ(${-(
-            this.rad + 25
-          )}px) rotateX(${ang}deg)`
-          element.querySelectorAll(".carousel__cell").forEach((e, i) => {
-            e.style.transform = `rotateX(${this.ang(
-              Number(i),
-            )}deg) translateZ(${this.rad}px) rotacteX(${
-              ((-1 * ang) % 360) - this.ang(i)
-            }deg) `
-          })
-          if (x < 1) {
-            requestAnimationFrame(
-              loop.bind(this, element, from, to, resolve, index),
-            )
-          } else {
-            resolve("done")
-          }
-        }
-        let p = []
         let refs = this.spinners.map((e, i) => {
           return this.$refs["c" + i][0]
         })
-
+        let tween = []
         refs.forEach((e, i) => {
           let startAngle = this.current[i] * (360 / this.count) * -1
-
           let newNumber = arr[i]
           let deg = 1080 + newNumber * (360 / this.count)
           let from = startAngle
           let to = -deg
           this.current[i] = arr[i]
-          p.push(
-            new Promise((resolve) => {
-              requestAnimationFrame(loop.bind(this, e, from, to, resolve, i))
-            }),
+          let refTween = gsap.fromTo(
+            e,
+            {
+              translateZ: -this.rad,
+              rotateX: from,
+            },
+            {
+              translateZ: () => -this.rad,
+              rotateX: to,
+              duration: 5,
+              ease: "power1.inOut",
+            },
           )
+          tween.push(refTween.play())
         })
-        return Promise.all(p)
+        return Promise.all(tween)
       },
       onResize({ height }) {
         this.size.height = Math.ceil(height * 0.2)
@@ -210,8 +179,35 @@
         let refs = this.spinners.map((e, i) => {
           return this.$refs["c" + i][0]
         })
+
         refs.forEach((e, i) => {
+          try {
+            e.querySelectorAll(".carousel__cell").forEach((el, i) => {
+              el.style.transform = `rotateX(${this.ang(
+                Number(i),
+              )}deg) translateZ(${this.rad}px)`
+            })
+          } catch {
+            return
+          }
+
           let reelCount = refs.length - 1
+          let n = i - reelCount / 2
+          let s = n / (reelCount / 2) //2  -1
+          let dir = Math.abs(s) / s
+
+          let xKorr = `translate3d(${(4 * s).toFixed(2)}%, 0px, -${
+            this.rad + 25
+          }px) rotateX(${this.current[i] * (360 / this.count) * -1}deg)`
+
+          let perspectiveX = 50 + Math.abs(n) * 2 * 50 * -dir
+
+          e.parentNode.style.perspectiveOrigin = perspectiveX + "% 50%"
+          e.parentNode.style.zIndex = Math.abs(s)
+          e.style.transform = xKorr
+          const height = document.documentElement.clientHeight
+          this.size.height = Math.ceil(height * 0.2)
+
           let sceneHeight, sceneWidth
           try {
             sceneWidth = e.parentNode.offsetWidth
@@ -237,7 +233,9 @@
             case 1: {
               m = `M ${sceneWidth * 0.1} 0`
               a1 = `a ${min} ${sceneHeight / 2} 180 0 0 0 ${sceneHeight}`
-              l1 = `l ${reelCount == 3 ? clipWidth + min * 0.8 : clipWidth} 0`
+              l1 = `l ${
+                reelCount == 3 ? clipWidth + min * 0.8 : clipWidth * 1.03
+              } 0`
               a2 =
                 reelCount == 3
                   ? `l 0 -${sceneHeight} z`
