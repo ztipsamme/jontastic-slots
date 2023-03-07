@@ -63,9 +63,11 @@
     computed: {},
     methods: {
       setBet(val) {
-        val = val < 5 ? 5 : val
         val =
           val > this.tokenStore.tokens.sum ? this.tokenStore.tokens.sum : val
+        val = val < 5 ? 5 : val
+        console.log("val", val)
+
         this.tokenStore.tokens.bet = val
       },
       decrementBetAmount() {
