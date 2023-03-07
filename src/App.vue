@@ -13,15 +13,36 @@
 
       return { tokens }
     },
+    data() {
+      return {
+        volume: 0.05,
+      }
+    },
+    watch: {
+      volume(newVal) {
+        this.audio.volume = newVal
+      },
+    },
     created() {
-      let audio = new Audio("../../assets/audio/diamant.mp3")
-      audio.play()
-      audio.loop = true
-      audio.volume = 0.5
+      this.audio = new Audio("../../assets/audio/diamant.mp3")
+      this.audio.loop = true
+      this.audio.volume = this.volume
+      document.addEventListener("mouseover", () => {
+        this.audio.play()
+      })
+      document.addEventListener("mouseleave", () => {
+        this.audio.pause()
+      })
     },
     components: {
       PopUp,
       btn: buttonComponent,
+    },
+    methods: {
+      setVolume(e) {
+        this.volume = Number(e.target.value) / 10
+        console.log(e.target.value)
+      },
     },
   }
 </script>
@@ -30,7 +51,16 @@
     <div class="info">
       <PopUp />
     </div>
-
+    <input
+      type="range"
+      id="cowbell"
+      name="cowbell"
+      min="0"
+      max="1"
+      value="=0.5"
+      step="0.05"
+      @input="setVolume"
+    />
     <nav class="nav">
       <RouterLink class="nav-link" to="/">
         <btn
@@ -54,7 +84,18 @@
         >
           <i class="bi bi-cart-fill" /> </btn
       ></RouterLink>
-      <RouterLink class="nav-link" to="/score">Score</RouterLink>
+      <RouterLink class="nav-link" to="/score">
+        <btn
+          :color="'green'"
+          :circle="false"
+          :width="'10vw'"
+          :height="'50px'"
+          :size="'large'"
+          :selected="$route.path == '/score'"
+        >
+          Score
+        </btn></RouterLink
+      >
     </nav>
     <div class="token-display">
       <div class="token-icon">t</div>
@@ -97,7 +138,7 @@
   }
   header {
     display: grid;
-    grid-template-columns: 25% 50% 25%;
+    grid-template-columns: 10% 15% 50% 25%;
     height: 100%;
     padding: 10px 0px;
     align-items: center;
