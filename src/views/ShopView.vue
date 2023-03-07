@@ -78,7 +78,6 @@
 
       buyBonus() {
         this.theme1Bought = false
-        new Audio("../assets/audio/purchase.mp3").play()
         // console.log("hej " + this.theme1Bought)
 
         let bonus = this.tokenStore.bonusTypes.find(
@@ -191,6 +190,7 @@
           :width="'80px'"
           :type="'small'"
           @click="buyBonus()"
+          :audio="'purchase.mp3'"
           class="buy-btn"
           >Köp</btn
         >

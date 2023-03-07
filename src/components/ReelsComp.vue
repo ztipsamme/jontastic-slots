@@ -173,6 +173,7 @@
         })
         let audio = new Audio("../assets/audio/reels.mp3")
         audio.playbackRate = 0.4
+        audio.preservesPitch = true
         let audioTimeLine = gsap.timeline(audio, {})
         audioTimeLine = gsap.to(audio, {
           playbackRate: 1,

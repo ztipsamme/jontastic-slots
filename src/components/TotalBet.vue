@@ -6,6 +6,7 @@
       :width="'13vh'"
       :size="'large'"
       @click="decrementBetAmount()"
+      :audio="'btn.mp3'"
     >
       -
     </btn>
@@ -45,6 +46,9 @@
       return {
         tokenStore,
       }
+    },
+    mounted() {
+      this.setBet(this.tokenStore.tokens.bet)
     },
     components: {
       btn,
