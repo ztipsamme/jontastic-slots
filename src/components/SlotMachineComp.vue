@@ -19,6 +19,7 @@
     emits: { stop: null },
 
     created() {
+      console.log("FUNKA DÅ SKIT!")
       if (this.tokens.bonusTypes.find((i) => i.name === "Extra Row").active) {
         this.reels = 4
         this.extraRowCount = this.tokens.bonusTypes.find(
@@ -70,6 +71,19 @@
     },
 
     methods: {
+      handleKeyPress(event) {
+        if (event.keyCode === 32) {
+          this.gameStart()
+        } else if (event.keyCode === 37) {
+          if (this.betAmount > 1) {
+            this.betAmount--
+          }
+        } else if (event.keyCode === 39) {
+          if (this.betAmount < 10) {
+            this.betAmount++
+          }
+        }
+      },
       generateSpinner() {
         let array = []
         for (var i = 1; i <= 6; i++) {
@@ -296,6 +310,9 @@
           : 100
         this.tokens.tokens.bet = startbet
       },
+    },
+    mounted() {
+      document.addEventListener("keydown", this.handleKeyPress)
     },
   }
 </script>
