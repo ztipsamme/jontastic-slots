@@ -129,11 +129,8 @@
     },
     methods: {
       start(num = this.numbers) {
-        let audio = new Audio("../assets/audio/reels.mp3")
-        audio.play()
         this.win = false
         this.spin(num).then(() => {
-          audio.pause()
           this.$emit("done")
           let winNum = this.spinners[0][num[0]]
           let test = num.every((e, i) => {
@@ -162,6 +159,7 @@
             {
               translateZ: -this.rad,
               rotateX: from,
+              top: console.log(this),
             },
             {
               translateZ: () => -this.rad,
@@ -170,8 +168,30 @@
               ease: "power1.inOut",
             },
           )
+
           tween.push(refTween.play())
         })
+        let audio = new Audio("../assets/audio/reels.mp3")
+        audio.playbackRate = 0.4
+        let audioTimeLine = gsap.timeline(audio, {})
+        audioTimeLine = gsap.to(audio, {
+          playbackRate: 1,
+          volume: 1,
+          duration: 2.5,
+          ease: "power1.in",
+        })
+        audioTimeLine = gsap.to(
+          audio,
+          {
+            playbackRate: 0.4,
+            duration: 2.6,
+            volume: 1,
+            ease: "power1.out",
+          },
+          ">",
+        )
+        audio.play()
+        audioTimeLine.play().then(() => audio.pause())
         return Promise.all(tween)
       },
       onResize({ height }) {
