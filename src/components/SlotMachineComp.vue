@@ -289,6 +289,7 @@
           new Audio("../assets/audio/game-over.mp3").play()
         } else {
           this.winner = false
+          new Audio("../assets/audio/no-win.mp3").play()
           //console.log("Haha, loser. :P")
         }
         if (this.tokens.tokens.bet > this.tokens.tokens.sum) {
