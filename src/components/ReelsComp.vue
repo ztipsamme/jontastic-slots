@@ -128,8 +128,11 @@
     },
     methods: {
       start(num = this.numbers) {
+        let audio = new Audio("../assets/audio/reels.mp3")
+        audio.play()
         this.win = false
         this.spin(num).then(() => {
+          audio.pause()
           this.$emit("done")
           let winNum = this.spinners[0][num[0]]
           let test = num.every((e, i) => {

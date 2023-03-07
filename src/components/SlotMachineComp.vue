@@ -282,9 +282,11 @@
           //console.log("winSum", winSum)
           this.tokens.winning(winSum)
           //console.log("Yay, you won " + winSum + " toekns! =D")
+          new Audio("../assets/audio/win.mp3").play()
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
+          new Audio("../assets/audio/game-over.mp3").play()
         } else {
           this.winner = false
           //console.log("Haha, loser. :P")
