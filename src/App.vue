@@ -49,6 +49,7 @@
         >
           <i class="bi bi-cart-fill" /> </btn
       ></RouterLink>
+      <RouterLink class="nav-link" to="/score">Score</RouterLink>
     </nav>
     <div class="token-display">
       <div class="token-icon">t</div>

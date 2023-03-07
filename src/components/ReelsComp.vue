@@ -202,7 +202,7 @@
           element.parentNode.style.clipPath = `path('${m} ${a1} ${l1} ${a2}')`
           element.parentNode.style.zIndex = Math.abs(s)
 
-          console.log(`path('${m} ${a1} ${l1} ${a2}')`)
+          /*       console.log(`path('${m} ${a1} ${l1} ${a2}')`) */
           element.style.transform = `${xKorr} translateZ(${-(
             this.rad + 25
           )}px) rotateX(${ang}deg)`
