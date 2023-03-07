@@ -13,10 +13,15 @@
 
       return { tokens }
     },
+    created() {
+      let audio = new Audio("../../assets/audio/diamant.mp3")
+      audio.play()
+      audio.loop = true
+      audio.volume = 0.5
+    },
     components: {
       PopUp,
       btn: buttonComponent,
-      //icon: iconComponent,
     },
   }
 </script>

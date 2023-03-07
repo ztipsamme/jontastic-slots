@@ -20,6 +20,7 @@
     emits: { stop: null },
 
     created() {
+      console.log("FUNKA DÅ SKIT!")
       if (this.tokens.bonusTypes.find((i) => i.name === "Extra Row").active) {
         this.reels = 4
         this.extraRowCount = this.tokens.bonusTypes.find(
@@ -29,6 +30,10 @@
       this.spinnerArr = new Array(this.reels)
         .fill(null)
         .map(() => this.generateSpinner())
+    },
+    mounted() {
+      document.removeEventListener("keydown", this.handleKeyPress)
+      document.addEventListener("keydown", this.handleKeyPress)
     },
 
     setup() {
@@ -74,6 +79,12 @@
     },
 
     methods: {
+      handleKeyPress(event) {
+        console.log("press")
+        if (event.keyCode === 32) {
+          this.gameStart()
+        }
+      },
       generateSpinner() {
         let array = []
         for (var i = 1; i <= 6; i++) {
@@ -92,6 +103,9 @@
       },
 
       activateBonus(name) {
+        let audio = new Audio("../../assets/audio/bonus.mp3")
+        audio.play()
+
         switch (name) {
           case "extrarow": {
             if (this.extraRowCount) {
@@ -119,7 +133,9 @@
             )
             extraSpin.amount--
             extraSpin.active = true
-            this.gameStart(true)
+            audio.addEventListener("ended", () => {
+              this.gameStart(true)
+            })
           }
         }
       },
@@ -128,6 +144,7 @@
         this.numIndex = []
         this.num = []
         let isWinner = Math.floor(Math.random() * 3) == 2
+
         if (isWinner) {
           let winVal = 6
           let isHigher
@@ -140,6 +157,23 @@
               break
             }
           }
+
+          //Här är winVal vinst siffran
+          /*
+            6: 1/3 * 1/2 = 1/6
+            5: 1/3 * 1/2 = 1/6
+            4: 1/3 * 1/2 * 1/2 = 1/12
+            3: 1/24
+            2: 1/48
+            1: 1/96
+
+
+           1 5 3 5 5 8 6 4 8 9 3
+           1 4 4 4 8 9 3
+           1 6 7 3 1 8 2 5 5 8 6 4 8 9 3
+
+
+            */
 
           this.spinnerArr.forEach((reel, index) => {
             let arr = []
@@ -154,6 +188,9 @@
             this.num[index] = reel[this.numIndex[index]]
           })
         } else {
+          /** TODO */
+          /** Gör egentligen samma sak som för att hitta vinst nummer, men snurra till index+1 mot siffran som det ska vara */
+
           this.spinnerArr.forEach((e, i) => {
             this.numIndex[i] = Math.floor(Math.random() * e.length)
             this.num[i] = e[this.numIndex[i]]
@@ -204,13 +241,23 @@
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
           this.winSum = winSum
           this.tokens.winning(winSum)
+
+          //console.log("Yay, you won " + winSum + " toekns! =D")
+          new Audio("../../assets/audio/win.mp3").play()
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
+          new Audio("../assets/audio/game-over.mp3").play()
         } else {
           this.winner = false
+          //console.log("Haha, loser. :P")
+          new Audio("../../assets/audio/no-win.mp3").play()
         }
-        if (this.tokens.tokens.bet > this.tokens.tokens.sum) {
+        if (
+          this.tokens.tokens.bet > this.tokens.tokens.sum &&
+          this.tokens.tokens.bet < this.winSum
+        ) {
+          console.log("setBet")
           this.$refs.betComp.setBet(this.tokens.tokens.sum)
         }
 
@@ -237,7 +284,6 @@
         if (this.tokens.tokens.sum - this.tokens.tokens.bet < 0) {
           return
         }
-        this.tokens.tokens.sum = this.tokens.tokens.sum - this.tokens.tokens.bet
         console.log("startgame", this.isSpinning)
 
         if (this.extraRowCount) {
@@ -245,7 +291,9 @@
         }
 
         this.winner = false
+        console.log(freeSpin)
         if (!freeSpin) {
+          console.log("WFT")
           this.tokens.takeoutBet(this.tokens.tokens.bet)
         }
 
@@ -336,7 +384,7 @@
         :color="'purple'"
         :height="'13vh'"
         :width="'30vw'"
-        @click="gameStart"
+        @click="gameStart()"
         :disabled="tokens.tokens.bet > tokens.tokens.sum"
         :styles="{ maxHeight: '65px' }"
       >
