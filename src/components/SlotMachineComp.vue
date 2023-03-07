@@ -129,7 +129,7 @@
             )
             extraSpin.amount--
             extraSpin.active = true
-            audio.addEventListener("ended", (event) => {
+            audio.addEventListener("ended", () => {
               this.gameStart(true)
             })
           }
@@ -141,7 +141,7 @@
         this.num = []
         let isWinner = Math.floor(Math.random() * 3) == 2
 
-        if (isWinner || true) {
+        if (isWinner) {
           let winVal = 6
           let isHigher
 
@@ -240,6 +240,7 @@
           this.winSum = winSum
           this.tokens.winning(winSum)
           //console.log("Yay, you won " + winSum + " toekns! =D")
+          new Audio("../../assets/audio/win.mp3").play()
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
@@ -247,6 +248,7 @@
         } else {
           this.winner = false
           //console.log("Haha, loser. :P")
+          new Audio("../../assets/audio/no-win.mp3").play()
         }
         if (
           this.tokens.tokens.bet > this.tokens.tokens.sum &&
