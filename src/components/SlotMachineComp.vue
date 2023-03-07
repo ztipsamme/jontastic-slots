@@ -30,6 +30,10 @@
         .fill(null)
         .map(() => this.generateSpinner())
     },
+    mounted() {
+      document.removeEventListener("keydown", this.handleKeyPress)
+      document.addEventListener("keydown", this.handleKeyPress)
+    },
 
     setup() {
       const tokens = useTokenStore()
@@ -72,16 +76,9 @@
 
     methods: {
       handleKeyPress(event) {
+        console.log("press")
         if (event.keyCode === 32) {
           this.gameStart()
-        } else if (event.keyCode === 37) {
-          if (this.betAmount > 1) {
-            this.betAmount--
-          }
-        } else if (event.keyCode === 39) {
-          if (this.betAmount < 10) {
-            this.betAmount++
-          }
         }
       },
       generateSpinner() {
@@ -144,7 +141,7 @@
         this.num = []
         let isWinner = Math.floor(Math.random() * 3) == 2
 
-        if (isWinner) {
+        if (isWinner || true) {
           let winVal = 6
           let isHigher
 
@@ -284,20 +281,21 @@
           let winSum =
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
           this.winSum = winSum
-          //console.log("winSum", winSum)
           this.tokens.winning(winSum)
           //console.log("Yay, you won " + winSum + " toekns! =D")
-          new Audio("../assets/audio/win.mp3").play()
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
           new Audio("../assets/audio/game-over.mp3").play()
         } else {
           this.winner = false
-          new Audio("../assets/audio/no-win.mp3").play()
           //console.log("Haha, loser. :P")
         }
-        if (this.tokens.tokens.bet > this.tokens.tokens.sum) {
+        if (
+          this.tokens.tokens.bet > this.tokens.tokens.sum &&
+          this.tokens.tokens.bet < this.winSum
+        ) {
+          console.log("setBet")
           this.$refs.betComp.setBet(this.tokens.tokens.sum)
         }
       },
@@ -310,7 +308,6 @@
         if (this.tokens.tokens.sum - this.tokens.tokens.bet < 0) {
           return
         }
-        this.tokens.tokens.sum = this.tokens.tokens.sum - this.tokens.tokens.bet
         console.log("startgame", this.isSpinning)
 
         if (this.extraRowCount) {
@@ -318,7 +315,9 @@
         }
 
         this.winner = false
+        console.log(freeSpin)
         if (!freeSpin) {
+          console.log("WFT")
           this.tokens.takeoutBet(this.tokens.tokens.bet)
         }
 
@@ -335,9 +334,6 @@
           : 100
         this.tokens.tokens.bet = startbet
       },
-    },
-    mounted() {
-      document.addEventListener("keydown", this.handleKeyPress)
     },
   }
 </script>
@@ -412,7 +408,7 @@
         :color="'purple'"
         :height="'13vh'"
         :width="'30vw'"
-        @click="gameStart"
+        @click="gameStart()"
         :disabled="tokens.tokens.bet > tokens.tokens.sum"
         :styles="{ maxHeight: '65px' }"
       >
