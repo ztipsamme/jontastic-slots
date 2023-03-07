@@ -129,7 +129,7 @@
             )
             extraSpin.amount--
             extraSpin.active = true
-            audio.addEventListener("ended", (event) => {
+            audio.addEventListener("ended", () => {
               this.gameStart(true)
             })
           }
