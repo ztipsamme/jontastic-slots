@@ -124,6 +124,7 @@
         this.numIndex = []
         this.num = []
         let isWinner = Math.floor(Math.random() * 3) == 2
+
         if (isWinner) {
           let winVal = 6
           let isHigher
@@ -137,6 +138,23 @@
             }
           }
 
+          //Här är winVal vinst siffran
+          /*
+            6: 1/3 * 1/2 = 1/6
+            5: 1/3 * 1/2 = 1/6
+            4: 1/3 * 1/2 * 1/2 = 1/12
+            3: 1/24
+            2: 1/48
+            1: 1/96
+
+
+           1 5 3 5 5 8 6 4 8 9 3
+           1 4 4 4 8 9 3
+           1 6 7 3 1 8 2 5 5 8 6 4 8 9 3
+
+
+            */
+
           this.spinnerArr.forEach((reel, index) => {
             let arr = []
             reel.forEach((e, i) => {
@@ -145,21 +163,20 @@
               }
             })
             let nIndex = arr[Math.floor(Math.random() * arr.length)]
-            //console.log("index", index)
-            //console.log(this.n, nIndex)
 
             this.numIndex[index] = nIndex
             this.num[index] = reel[this.numIndex[index]]
-            //console.log(this.num)
           })
         } else {
+          /** TODO */
+          /** Gör egentligen samma sak som för att hitta vinst nummer, men snurra till index+1 mot siffran som det ska vara */
+
           this.spinnerArr.forEach((e, i) => {
             this.numIndex[i] = Math.floor(Math.random() * e.length)
             this.num[i] = e[this.numIndex[i]]
           })
 
           if (this.num.every((e) => e == this.num[0])) {
-            //console.log("!!!!!!!!BAJS")
             let same = this.num[0]
             let reel = Math.floor(Math.random() * this.num.length)
             while (this.num[reel] == same) {

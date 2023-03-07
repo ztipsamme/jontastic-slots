@@ -55,6 +55,9 @@
       this.size.height = Math.ceil(height * 0.2)
       this.setClipPath()
     },
+    updated() {
+      this.setClipPath()
+    },
     emits: { done: null },
     data() {
       return {
@@ -157,52 +160,9 @@
           let perspectiveX = 50 + Math.abs(n) * 2 * 50 * -dir
           element.parentNode.style.perspectiveOrigin = perspectiveX + "% 50%"
 
-          let w = element.parentNode.offsetWidth
-          let h = element.parentNode.offsetHeight
-
-          let start = w * 0.225
-          let max = w * 0.2
-          let width = w * 0.8
-          let min = max * 0.375
-          let m, a1, a2, l1
-
-          switch (index) {
-            case 0: {
-              m = `M ${start} 0`
-              a1 = `a ${max} ${h / 2} 180 0 0 0 ${h}`
-              l1 = `l ${width} 0`
-              a2 = `a ${min} ${h / 2} 180 1 1  0 ${-h}`
-              break
-            }
-            case 1: {
-              m = `M ${w * 0.1} 0`
-              a1 = `a ${min} ${h / 2} 180 0 0 0 ${h}`
-              l1 = `l ${width} 0`
-              a2 = `a ${reelCount == 3 ? 0 : min} ${h / 2} 180 0 0 0 ${-h}`
-              break
-            }
-            case 2: {
-              if (reelCount == 3) {
-                m = `M ${w * 0.1} 0`
-                a1 = `a ${0} ${h / 2} 180 0 0 0 ${h}`
-                l1 = `l ${width} 0`
-                a2 = `a ${min} ${h / 2} 180 0 0 0 ${-h}`
-                break
-              }
-            }
-            // eslint-disable-next-line no-fallthrough
-            case 3: {
-              m = `M ${w - (start + width)} 0`
-              a1 = `a ${min} ${h / 2} 180 0 1 0 ${h}`
-              l1 = `l ${width} 0`
-              a2 = `a ${max} ${h / 2} 180 1 0 0 ${-h}`
-              break
-            }
-          }
-          element.parentNode.style.clipPath = `path('${m} ${a1} ${l1} ${a2}')`
+          this.setClipPath()
           element.parentNode.style.zIndex = Math.abs(s)
 
-          console.log(`path('${m} ${a1} ${l1} ${a2}')`)
           element.style.transform = `${xKorr} translateZ(${-(
             this.rad + 25
           )}px) rotateX(${ang}deg)`
@@ -252,45 +212,55 @@
         })
         refs.forEach((e, i) => {
           let reelCount = refs.length - 1
-          let w = e.parentNode.offsetWidth
-          let h = e.parentNode.offsetHeight
+          let sceneHeight, sceneWidth
+          try {
+            sceneWidth = e.parentNode.offsetWidth
+            sceneHeight = e.parentNode.offsetHeight
+          } catch {
+            return
+          }
 
-          let start = w * 0.225
-          let max = w * 0.2
-          let clipWidth = w * 0.8
+          let start = sceneWidth * 0.225
+          let max = sceneWidth * 0.2
+          let clipWidth = sceneWidth * 0.78
           let min = max * 0.375
           let m, a1, a2, l1
 
           switch (i) {
             case 0: {
               m = `M ${start} 0`
-              a1 = `a ${max} ${h / 2} 180 0 0 0 ${h}`
+              a1 = `a ${max} ${sceneHeight / 2} 180 0 0 0 ${sceneHeight}`
               l1 = `l ${clipWidth} 0`
-              a2 = `a ${min} ${h / 2} 180 1 1  0 ${-h}`
+              a2 = `a ${min} ${sceneHeight / 2} 180 1 1  0 ${-sceneHeight}`
               break
             }
             case 1: {
-              m = `M ${w * 0.1} 0`
-              a1 = `a ${min} ${h / 2} 180 0 0 0 ${h}`
-              l1 = `l ${clipWidth} 0`
-              a2 = `a ${reelCount == 3 ? 0 : min} ${h / 2} 180 0 0 0 ${-h}`
+              m = `M ${sceneWidth * 0.1} 0`
+              a1 = `a ${min} ${sceneHeight / 2} 180 0 0 0 ${sceneHeight}`
+              l1 = `l ${reelCount == 3 ? clipWidth + min * 0.8 : clipWidth} 0`
+              a2 =
+                reelCount == 3
+                  ? `l 0 -${sceneHeight} z`
+                  : `a ${reelCount == 3 ? 0 : min} ${
+                      sceneHeight / 2
+                    } 180 0 0 0 ${-sceneHeight}`
               break
             }
             case 2: {
               if (reelCount == 3) {
-                m = `M ${w * 0.1} 0`
-                a1 = `a ${0} ${h / 2} 180 0 0 0 ${h}`
-                l1 = `l ${clipWidth} 0`
-                a2 = `a ${min} ${h / 2} 180 0 0 0 ${-h}`
+                m = `M ${sceneWidth * 0.1 - min * 0.8} 0`
+                a1 = `l 0 ${sceneHeight}`
+                l1 = `l ${clipWidth + min * 0.8} 0`
+                a2 = `a ${min} ${sceneHeight / 2} 180 0 0 0 ${-sceneHeight}`
                 break
               }
             }
             // eslint-disable-next-line no-fallthrough
             case 3: {
-              m = `M ${w - (start + clipWidth)} 0`
-              a1 = `a ${min} ${h / 2} 180 0 1 0 ${h}`
+              m = `M ${sceneWidth - (start + clipWidth)} 0`
+              a1 = `a ${min} ${sceneHeight / 2} 180 0 1 0 ${sceneHeight}`
               l1 = `l ${clipWidth} 0`
-              a2 = `a ${max} ${h / 2} 180 1 0 0 ${-h}`
+              a2 = `a ${max} ${sceneHeight / 2} 180 1 0 0 ${-sceneHeight}`
               break
             }
           }
@@ -367,20 +337,14 @@
   .scene-1 {
     perspective-origin: 50% 50%;
     /*clip-path: path( "M20 0 l 164 0 c10 0 10 430 0 430 l-164 0 c-10 0 -10 -430 0 -430");*/
-    outline: 1px solid black;
-    border: 1px solid black;
   }
 
   .scene-2 {
     /*clip-path: path("M-11 0 l 167 0 c40 0 40 430 0 430 l-167 0 c10 0 10 -430 0 -430");*/
-    outline: 1px solid black;
-    border: 1px solid black;
   }
 
   .scene-0 {
     /*clip-path: path("M48 0 l 167 0 c-10 0 -10 430 0 430 l-164 0 c-40 0 -40 -430 0 -430");*/
-    outline: 1px solid black;
-    border: 1px solid black;
   }
 
   div[class*="scene"]:last-child {

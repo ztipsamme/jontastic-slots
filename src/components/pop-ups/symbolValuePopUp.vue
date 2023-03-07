@@ -1,7 +1,10 @@
 <template>
   <h2 class="popup-title">Symbolvärden</h2>
   <div class="symbols">
-    <img v-for="image in icons" :src="image" :key="image" class="symbol" />
+    <div class="symbol-cont" v-for="(img, ind) in icons" :key="ind">
+      <img :src="img" class="symbol" />
+      <span class="val">{{ "x" + (7 - ind) }}</span>
+    </div>
   </div>
   <span :src="icons" />
 </template>
