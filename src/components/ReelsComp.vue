@@ -6,13 +6,13 @@
   import { gsap } from "gsap"
   /* import {
 
-      hsla,
-      rgba,
-      adjustHsl,
-      changeHsl,
-      rgbToHsl,
-      hslToRgb,
-    } from "../utilHsl.js"*/
+        hsla,
+        rgba,
+        adjustHsl,
+        changeHsl,
+        rgbToHsl,
+        hslToRgb,
+      } from "../utilHsl.js"*/
 
   let resize = function (el, binding) {
     const onResizeCallback = binding.value
@@ -143,6 +143,90 @@
       },
       spin(arr) {
         this.startTime = Date.now()
+        let loop = (element, from, to, resolve, index) => {
+          this.time = Date.now()
+          this.elapsed = this.time - this.startTime
+          let x = Math.min(1, this.elapsed / 5000)
+          let len = (to - from) * this.curve.ease(x)
+          let ang = from + len
+          let reelCount =
+            this.spinners.map((e, i) => {
+              return this.$refs["c" + i][0]
+            }).length - 1 // 2
+          let test = reelCount / 2 // 2
+          let n = index - test
+          let s = n / test //2  -1
+          let dir = Math.abs(s) / s
+          let xKorr = "translateX(" + (4 * s).toFixed(2) + "%)"
+          let perspectiveX = 50 + Math.abs(n) * 2 * 50 * -dir
+          element.parentNode.style.perspectiveOrigin = perspectiveX + "% 50%"
+
+          let w = element.parentNode.offsetWidth
+          let h = element.parentNode.offsetHeight
+
+          let start = w * 0.225
+          let max = w * 0.2
+          let width = w * 0.8
+          let min = max * 0.375
+          let m, a1, a2, l1
+
+          switch (index) {
+            case 0: {
+              m = `M ${start} 0`
+              a1 = `a ${max} ${h / 2} 180 0 0 0 ${h}`
+              l1 = `l ${width} 0`
+              a2 = `a ${min} ${h / 2} 180 1 1  0 ${-h}`
+              break
+            }
+            case 1: {
+              m = `M ${w * 0.1} 0`
+              a1 = `a ${min} ${h / 2} 180 0 0 0 ${h}`
+              l1 = `l ${width} 0`
+              a2 = `a ${reelCount == 3 ? 0 : min} ${h / 2} 180 0 0 0 ${-h}`
+              break
+            }
+            case 2: {
+              if (reelCount == 3) {
+                m = `M ${w * 0.1} 0`
+                a1 = `a ${0} ${h / 2} 180 0 0 0 ${h}`
+                l1 = `l ${width} 0`
+                a2 = `a ${min} ${h / 2} 180 0 0 0 ${-h}`
+                break
+              }
+            }
+            // eslint-disable-next-line no-fallthrough
+            case 3: {
+              m = `M ${w - (start + width)} 0`
+              a1 = `a ${min} ${h / 2} 180 0 1 0 ${h}`
+              l1 = `l ${width} 0`
+              a2 = `a ${max} ${h / 2} 180 1 0 0 ${-h}`
+              break
+            }
+          }
+          element.parentNode.style.clipPath = `path('${m} ${a1} ${l1} ${a2}')`
+          element.parentNode.style.zIndex = Math.abs(s)
+
+          /*       console.log(`path('${m} ${a1} ${l1} ${a2}')`) */
+          element.style.transform = `${xKorr} translateZ(${-(
+            this.rad + 25
+          )}px) rotateX(${ang}deg)`
+          element.querySelectorAll(".carousel__cell").forEach((e, i) => {
+            e.style.transform = `rotateX(${this.ang(
+              Number(i),
+            )}deg) translateZ(${this.rad}px) rotacteX(${
+              ((-1 * ang) % 360) - this.ang(i)
+            }deg) `
+          })
+          if (x < 1) {
+            requestAnimationFrame(
+              loop.bind(this, element, from, to, resolve, index),
+            )
+          } else {
+            resolve("done")
+          }
+        }
+        let p = []
+
         let refs = this.spinners.map((e, i) => {
           return this.$refs["c" + i][0]
         })

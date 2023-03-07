@@ -1,6 +1,7 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes.js"
+  import { useScoreStore } from "../stores/scoreStore.js"
   import spinnerComp from "./ReelsComp.vue"
   import TotalBet from "./TotalBet.vue"
   import FlashText from "./animations/FlashingText.vue"
@@ -38,7 +39,9 @@
     setup() {
       const tokens = useTokenStore()
       const theme = useThemeStore()
-      return { tokens, theme }
+      const score = useScoreStore()
+      window.content = score
+      return { tokens, theme, score }
     },
 
     data() {
@@ -51,7 +54,7 @@
         spinnerArr: [],
         reels: 3,
         gameOver: false,
-        winSum: null,
+        winSum: 0,
       }
     },
 
@@ -62,6 +65,7 @@
           .map(() => this.generateSpinner())
       },
     },
+
     computed: {
       mytokens() {
         return this.tokens.tokens.sum
@@ -97,6 +101,7 @@
         array = shuffleArray(array)
         return array
       },
+
       activateBonus(name) {
         let audio = new Audio("../../assets/audio/bonus.mp3")
         audio.play()
@@ -113,7 +118,6 @@
             extraRow.amount--
             extraRow.active = true
             this.extraRowCount = extraRow.count
-            //console.log("extraCount", this.extraRowCount)
             this.reels = 4
             this.spinnerArr = new Array(this.reels)
               .fill(null)
@@ -135,8 +139,8 @@
           }
         }
       },
+
       altGetNumbers() {
-        //console.log("this.num", this.num)
         this.numIndex = []
         this.num = []
         let isWinner = Math.floor(Math.random() * 3) == 2
@@ -216,8 +220,6 @@
       },
       done() {
         this.isSpinning = false
-
-        //console.log(this.num)
         if (!this.extraRowCount && this.reels == 4) {
           let extraRow = this.tokens.bonusTypes.find(
             (i) => i.name === "Extra Row",
@@ -239,6 +241,7 @@
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
           this.winSum = winSum
           this.tokens.winning(winSum)
+
           //console.log("Yay, you won " + winSum + " toekns! =D")
           new Audio("../../assets/audio/win.mp3").play()
         } else if (this.tokens.tokens.sum < 5) {
@@ -257,7 +260,21 @@
           console.log("setBet")
           this.$refs.betComp.setBet(this.tokens.tokens.sum)
         }
+
+        const scoreList = this.score.scores.highScore
+        console.log("Före: " + scoreList)
+        console.log(Array.isArray(this.score.scores.highScore))
+
+        if (!scoreList.includes(this.winSum)) {
+          scoreList.push(this.winSum)
+        }
+        scoreList.sort((a, b) => b - a)
+        this.score.scores.highScore = scoreList.slice(0, 6)
+        console.log(
+          "Uppdaterat: " + JSON.stringify(this.score.scores.highScore),
+        )
       },
+
       gameStart(freeSpin = false) {
         if (this.isSpinning) {
           return

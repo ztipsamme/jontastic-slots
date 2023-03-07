@@ -13,10 +13,15 @@
 
       return { tokens }
     },
+    created() {
+      let audio = new Audio("../../assets/audio/diamant.mp3")
+      audio.play()
+      audio.loop = true
+      audio.volume = 0.5
+    },
     components: {
       PopUp,
       btn: buttonComponent,
-      //icon: iconComponent,
     },
   }
 </script>
@@ -49,6 +54,7 @@
         >
           <i class="bi bi-cart-fill" /> </btn
       ></RouterLink>
+      <RouterLink class="nav-link" to="/score">Score</RouterLink>
     </nav>
     <div class="token-display">
       <div class="token-icon">t</div>
