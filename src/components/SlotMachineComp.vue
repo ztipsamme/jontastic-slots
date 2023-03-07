@@ -277,11 +277,14 @@
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
           this.winSum = winSum
           this.tokens.winning(winSum)
+          //console.log("Yay, you won " + winSum + " toekns! =D")
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
+          new Audio("../assets/audio/game-over.mp3").play()
         } else {
           this.winner = false
+          //console.log("Haha, loser. :P")
         }
         if (
           this.tokens.tokens.bet > this.tokens.tokens.sum &&
