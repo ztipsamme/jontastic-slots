@@ -3,6 +3,7 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes.js"
+  import { useAudioStore } from "../stores/audio"
   import { gsap } from "gsap"
   /* import {
 
@@ -27,7 +28,8 @@
     setup() {
       const tokens = useTokenStore()
       const theme = useThemeStore()
-      return { tokens, theme }
+      const audio = useAudioStore()
+      return { tokens, theme, audio }
     },
     beforeCreate() {},
     directives: {
@@ -171,29 +173,22 @@
 
           tween.push(refTween.play())
         })
-        let audio = this.theme.audio.aud.reels //new Audio("../assets/audio/reels.mp3")
-        try {
-          console.log(this.theme.Themes["diamant"].audio.aud.reels.load())
-          console.log(audio.load())
-        } catch {
-          audio = "BAJD"
-        }
-        audio.playbackRate = 0.4
-        audio.currentTime = 1.5
-        audio.preservesPitch = false
-        let audioTimeLine = gsap.timeline(audio, {})
-        audioTimeLine = gsap.to(audio, {
+        this.audio.reels //new Audio("../assets/audio/reels.mp3")
+
+        this.audio.reels.playbackRate = 0.4
+        this.audio.reels.currentTime = 1.5
+        this.audio.reels.preservesPitch = false
+        let audioTimeLine = gsap.timeline(this.audio.reels, {})
+        audioTimeLine = gsap.to(this.audio.reels, {
           playbackRate: 1,
-          volume: 1,
           duration: 2,
           ease: "power1.in",
         })
 
         audioTimeLine = gsap.to(
-          audio,
+          this.audio.reels,
           {
             playbackRate: 1,
-            volume: 1,
             duration: 1,
             ease: "linear",
           },
@@ -201,17 +196,16 @@
         )
 
         audioTimeLine = gsap.to(
-          audio,
+          this.audio.reels,
           {
             playbackRate: 0.4,
             duration: 2,
-            volume: 1,
             ease: "power1.out",
           },
           ">",
         )
-        audio.play()
-        audioTimeLine.play().then(() => audio.load())
+        this.audio.reels.play()
+        audioTimeLine.play().then(() => this.audio.reels.load())
         return Promise.all(tween)
       },
       onResize({ height }) {

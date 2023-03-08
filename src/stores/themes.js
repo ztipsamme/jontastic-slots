@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import { useStorage } from "@vueuse/core"
-import Themes from "../components/themes/index.js"
+import { useAudioStore } from "./audio.js"
+import { Themes } from "../components/themes/index.js"
 export const useThemeStore = defineStore("themes", {
   strict: true,
   state: () => ({
@@ -10,11 +11,12 @@ export const useThemeStore = defineStore("themes", {
   getters: {
     current: (state) => state.Themes[state.currentTheme],
     icons: (state) => state.current.icons,
-    audio: (state) => state.current.audio,
+    audio: () => useAudioStore(),
     bg: () => window.document.body,
   },
   actions: {
     setTheme(name) {
+      this.audio.setTheme(name)
       this.currentTheme = name
       this.bg.classList.remove(...this.bg.classList)
       this.bg.classList.add(name)

@@ -2,6 +2,7 @@
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes.js"
   import { useScoreStore } from "../stores/scoreStore.js"
+  import { useAudioStore } from "../stores/audio"
   import spinnerComp from "./ReelsComp.vue"
   import TotalBet from "./TotalBet.vue"
   import FlashText from "./animations/FlashingText.vue"
@@ -40,9 +41,10 @@
       const tokens = useTokenStore()
       const theme = useThemeStore()
       const score = useScoreStore()
+      const audio = useAudioStore()
       window.content = score
 
-      return { tokens, theme, score }
+      return { tokens, theme, score, audio }
     },
 
     data() {
@@ -106,8 +108,8 @@
       activateBonus(name) {
         //let audio = new Audio("../../assets/audio/bonus.mp3")
         //audio.play()
-        this.theme.audio.aud.bonus.load()
-        this.theme.audio.aud.bonus.play()
+        this.audio.bonus.load()
+        this.audio.bonus.play()
 
         switch (name) {
           case "extrarow": {
@@ -136,7 +138,7 @@
             )
             extraSpin.amount--
             extraSpin.active = true
-            this.theme.audio.aud.bonus.addEventListener("ended", () => {
+            this.audio.bonus.addEventListener("ended", () => {
               this.gameStart(true)
             })
           }
@@ -243,7 +245,7 @@
           /*  let audioWin = new Audio("../../assets/audio/win.mp3")
           audioWin.play() */
 
-          this.theme.audio.aud.win.play()
+          this.audio.win.play()
 
           let winSum =
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
@@ -256,11 +258,11 @@
           this.winner = false
           this.gameOver = true
           new Audio("../assets/audio/game-over.mp3").play()
-          this.theme.audio.aud.gameOver.play()
+          this.audio.gameOver.play()
         } else {
           this.winner = false
           //console.log("Haha, loser. :P")
-          this.theme.audio.aud.noWin.play()
+          this.audio.noWin.play()
         }
         if (
           this.tokens.tokens.bet > this.tokens.tokens.sum &&
