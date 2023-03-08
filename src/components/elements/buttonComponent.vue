@@ -44,7 +44,7 @@
       },
       audio: {
         type: String,
-        default: "btn.mp3",
+        default: "btn",
       },
     },
     setup() {
@@ -64,7 +64,7 @@
     },
     computed: {
       btnClick() {
-        return this.theme.audio.btn
+        return this.theme.audio[this.audio.replace(".mp3", "")]
       },
       style() {
         let obj = {}

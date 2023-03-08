@@ -1,39 +1,26 @@
-import defaultAudio from "../../Default/audio"
-
-const theme = new Audio("./src/components/themes/ForestTheme/audio/theme.mp3")
-const btn = new Audio("./src/components/themes/ForestTheme/audio/btn.mp3")
-const cashIn = new Audio(
-  "./src/components/themes/ForestTheme/audio/cash-in.mp3",
-)
-const gameOver = new Audio(
-  "./src/components/themes/ForestTheme/audio/game-over.mp3",
-)
-const invalid = new Audio(
-  "./src/components/themes/ForestTheme/audio/invalid.mp3",
-)
-const noWin = new Audio("./src/components/themes/ForestTheme/audio/no-win.mp3")
-const purchase = new Audio(
-  "./src/components/themes/ForestTheme/audio/purchase.mp3",
-)
-const reels = new Audio("./src/components/themes/ForestTheme/audio/reels.mp3")
-const win = new Audio("./src/components/themes/ForestTheme/audio/win.mp3")
-const audio = {
-  theme,
-  btn,
-  cashIn,
-  gameOver,
-  invalid,
-  noWin,
-  purchase,
-  reels,
-  win,
+let audio = {
+  src: {
+    theme: "./src/components/themes/Default/audio/theme.mp3",
+    btn: "./src/components/themes/Default/audio/btn.mp3",
+    cashIn: "./src/components/themes/Default/audio/cash-in.mp3",
+    gameOver: "./src/components/themes/Default/audio/game-over.mp3",
+    invalid: "./src/components/themes/Default/audio/invalid.mp3",
+    noWin: "./src/components/themes/Default/audio/no-win.mp3",
+    purchase: "./src/components/themes/Default/audio/purchase.mp3",
+    reels: "./src/components/themes/Default/audio/reels.mp3",
+    win: "./src/components/themes/Default/audio/win.mp3",
+    bonus: "./src/components/themes/Default/audio/bonus.mp3",
+  },
+  aud: {},
 }
 
-for (let a in audio) {
-  if (isNaN(audio[a].duration)) {
-    audio[a] = defaultAudio[a]
-  }
+for (let a in audio.src) {
+  audio.aud[a] = new Audio(audio.src[a])
+  Object.defineProperty(audio, a, {
+    get() {
+      let aud = new Audio(audio.src[a])
+      return aud
+    },
+  })
 }
-
-console.log("audio", audio)
 export default audio

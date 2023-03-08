@@ -26,8 +26,23 @@
         //this.theme.audio.noWin.load()
         this.themeSong.load()
         this.themeSong = this.theme.audio.aud.theme
-        this.themeSong
+        this.themeSong.volume = this.volume
         this.themeSong.load()
+        this.themeSong.addEventListener(
+          "canplay",
+          () => {
+            document.addEventListener(
+              "mousemove",
+              () => {
+                this.themeSong.load()
+                this.themeSong.loop = true
+                this.themeSong.play()
+              },
+              { once: true },
+            )
+          },
+          { once: true },
+        )
 
         //this.theme.audio.noWin.addEventListener("canplay", () => {})
       },
@@ -40,16 +55,21 @@
 
       this.themeSong.volume = this.volume
       this.themeSong.load()
-      this.themeSong.addEventListener("canplay", () => {
-        document.addEventListener(
-          "click",
-          () => {
-            this.themeSong.loop = true
-            this.themeSong.play()
-          },
-          { once: true },
-        )
-      })
+      this.themeSong.addEventListener(
+        "canplay",
+        () => {
+          document.addEventListener(
+            "mousemove",
+            () => {
+              this.themeSong.load()
+              this.themeSong.loop = true
+              this.themeSong.play()
+            },
+            { once: true },
+          )
+        },
+        { once: true },
+      )
     },
     components: {
       PopUp,

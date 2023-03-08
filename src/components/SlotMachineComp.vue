@@ -40,10 +40,9 @@
       const tokens = useTokenStore()
       const theme = useThemeStore()
       const score = useScoreStore()
-      const audio = theme.audio
       window.content = score
 
-      return { tokens, audio, score }
+      return { tokens, theme, score }
     },
 
     data() {
@@ -107,8 +106,8 @@
       activateBonus(name) {
         //let audio = new Audio("../../assets/audio/bonus.mp3")
         //audio.play()
-        let audio = this.audio
-        audio.bonus.play()
+        this.theme.audio.aud.bonus.load()
+        this.theme.audio.aud.bonus.play()
 
         switch (name) {
           case "extrarow": {
@@ -137,7 +136,7 @@
             )
             extraSpin.amount--
             extraSpin.active = true
-            audio.bonus.addEventListener("ended", () => {
+            this.theme.audio.aud.bonus.addEventListener("ended", () => {
               this.gameStart(true)
             })
           }
@@ -244,7 +243,7 @@
           /*  let audioWin = new Audio("../../assets/audio/win.mp3")
           audioWin.play() */
 
-          this.audio.win.play()
+          this.theme.audio.aud.win.play()
 
           let winSum =
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
@@ -257,11 +256,11 @@
           this.winner = false
           this.gameOver = true
           new Audio("../assets/audio/game-over.mp3").play()
-          this.audio.gameOver.play()
+          this.theme.audio.aud.gameOver.play()
         } else {
           this.winner = false
           //console.log("Haha, loser. :P")
-          this.audio.noWin.play()
+          this.theme.audio.aud.noWin.play()
         }
         if (
           this.tokens.tokens.bet > this.tokens.tokens.sum &&

@@ -9,6 +9,7 @@ const audio = {
     purchase: "./src/components/themes/Default/audio/purchase.mp3",
     reels: "./src/components/themes/Default/audio/reels.mp3",
     win: "./src/components/themes/Default/audio/win.mp3",
+    bonus: "./src/components/themes/Default/audio/bonus.mp3",
   },
   aud: {
     theme: new Audio("./src/components/themes/Default/audio/theme.mp3"),
@@ -20,6 +21,7 @@ const audio = {
     purchase: new Audio("./src/components/themes/Default/audio/purchase.mp3"),
     reels: new Audio("./src/components/themes/Default/audio/reels.mp3"),
     win: new Audio("./src/components/themes/Default/audio/win.mp3"),
+    bonus: "./src/components/themes/Default/audio/bonus.mp3",
   },
 }
 
