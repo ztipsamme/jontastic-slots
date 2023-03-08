@@ -237,13 +237,15 @@
         ).active = false
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
+          let audioWin = new Audio("../../assets/audio/win.mp3")
+          audioWin.play()
           let winSum =
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
           this.winSum = winSum
           this.tokens.winning(winSum)
-
+          let audioCash = new Audio("../../assets/audio/cash-in.mp3")
+          audioCash.play()
           //console.log("Yay, you won " + winSum + " toekns! =D")
-          new Audio("../../assets/audio/win.mp3").play()
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
@@ -381,7 +383,7 @@
     <div class="row-2">
       <TotalBet :ref="'betComp'" />
       <btn
-        :color="'purple'"
+        :color="'green'"
         :height="'13vh'"
         :width="'30vw'"
         @click="gameStart()"
