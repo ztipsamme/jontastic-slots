@@ -42,6 +42,10 @@
         type: String,
         default: null,
       },
+      audio: {
+        type: String,
+        default: "btn.mp3",
+      },
     },
     setup() {
       const theme = useThemeStore()
@@ -52,6 +56,7 @@
     mounted() {},
     data() {
       return {
+        klick: new Audio("../../../assets/audio/" + this.audio),
         newStyle: this.styles,
         val: 0,
       }
@@ -109,6 +114,8 @@
       (selected ? ' selected ' : '') +
       (disabled ? ' disabled' : color)
     "
+    @pointerdown="klick.load()"
+    @pointerup="klick.play()"
   >
     <div class="under" :style="{ borderRadius: borderRadius }" />
     <div

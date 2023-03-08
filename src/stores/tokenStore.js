@@ -82,7 +82,6 @@ export const useTokenStore = defineStore("tokens", {
       this.token += amount
     },
     async takeoutBet(amount) {
-      //console.log("ASDFASDF", amount)
       let val = 0
       let timeout
       let loop = () => {

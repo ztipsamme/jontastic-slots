@@ -1,6 +1,7 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes.js"
+  import { useScoreStore } from "../stores/scoreStore.js"
   import spinnerComp from "./ReelsComp.vue"
   import TotalBet from "./TotalBet.vue"
   import FlashText from "./animations/FlashingText.vue"
@@ -30,11 +31,17 @@
         .fill(null)
         .map(() => this.generateSpinner())
     },
+    mounted() {
+      document.removeEventListener("keydown", this.handleKeyPress)
+      document.addEventListener("keydown", this.handleKeyPress)
+    },
 
     setup() {
       const tokens = useTokenStore()
       const theme = useThemeStore()
-      return { tokens, theme }
+      const score = useScoreStore()
+      window.content = score
+      return { tokens, theme, score }
     },
 
     data() {
@@ -47,7 +54,7 @@
         spinnerArr: [],
         reels: 3,
         gameOver: false,
-        winSum: null,
+        winSum: 0,
       }
     },
 
@@ -58,6 +65,7 @@
           .map(() => this.generateSpinner())
       },
     },
+
     computed: {
       mytokens() {
         return this.tokens.tokens.sum
@@ -72,16 +80,9 @@
 
     methods: {
       handleKeyPress(event) {
+        console.log("press")
         if (event.keyCode === 32) {
           this.gameStart()
-        } else if (event.keyCode === 37) {
-          if (this.betAmount > 1) {
-            this.betAmount--
-          }
-        } else if (event.keyCode === 39) {
-          if (this.betAmount < 10) {
-            this.betAmount++
-          }
         }
       },
       generateSpinner() {
@@ -100,7 +101,11 @@
         array = shuffleArray(array)
         return array
       },
+
       activateBonus(name) {
+        let audio = new Audio("../../assets/audio/bonus.mp3")
+        audio.play()
+
         switch (name) {
           case "extrarow": {
             if (this.extraRowCount) {
@@ -113,7 +118,6 @@
             extraRow.amount--
             extraRow.active = true
             this.extraRowCount = extraRow.count
-            //console.log("extraCount", this.extraRowCount)
             this.reels = 4
             this.spinnerArr = new Array(this.reels)
               .fill(null)
@@ -129,12 +133,14 @@
             )
             extraSpin.amount--
             extraSpin.active = true
-            this.gameStart(true)
+            audio.addEventListener("ended", () => {
+              this.gameStart(true)
+            })
           }
         }
       },
+
       altGetNumbers() {
-        //console.log("this.num", this.num)
         this.numIndex = []
         this.num = []
         let isWinner = Math.floor(Math.random() * 3) == 2
@@ -204,50 +210,7 @@
 
         return { num: this.num, numIndex: this.numIndex }
       },
-      /*getNumbers() {
-        let num = []
-        let n = []
 
-        this.spinnerArr.forEach((e, i) => {
-          n[i] = Math.floor(Math.random() * this.count)
-          num[i] = e[n[i]]
-        })
-
-        if (num[0] == num[1]) {
-          for (let i = 2; i < this.spinnerArr.length; i++) {
-            n[i] = this.spinnerArr[i].indexOf(num[0])
-            num[i] = this.spinnerArr[i][n[i]]
-          }
-        } else {
-          for (let i = 2; i < this.spinnerArr.length; i++) {
-            n[i] = Math.floor(Math.random() * this.count)
-            num[i] = this.spinnerArr[i][n[i]]
-          }
-        }
-        if (this.reels == 4) {
-          let same = false
-          for (let n in num) {
-            let i = Number(n)
-            if (num.filter((e) => e == num[i]).length > 2) {
-              same = num[i]
-              break
-            }
-          }
-          if (same && !num.every((e) => e == same)) {
-            let i = num.findIndex((e) => e != same)
-            let arr = []
-            this.spinnerArr[i].forEach((e, i) => {
-              if (e == same) {
-                arr.push(i)
-              }
-            })
-            n[i] = arr[Math.floor(Math.random() * arr.length)]
-            num[i] = this.spinnerArr[i][n[i]]
-          }
-        }
-
-        return { num: num, n: n }
-      },*/
       checkNumbers() {
         let val = this.altGetNumbers()
         this.num = val.num
@@ -257,8 +220,6 @@
       },
       done() {
         this.isSpinning = false
-
-        //console.log(this.num)
         if (!this.extraRowCount && this.reels == 4) {
           let extraRow = this.tokens.bonusTypes.find(
             (i) => i.name === "Extra Row",
@@ -276,13 +237,15 @@
         ).active = false
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
+          let audioWin = new Audio("../../assets/audio/win.mp3")
+          audioWin.play()
           let winSum =
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
           this.winSum = winSum
-          //console.log("winSum", winSum)
           this.tokens.winning(winSum)
+          let audioCash = new Audio("../../assets/audio/cash-in.mp3")
+          audioCash.play()
           //console.log("Yay, you won " + winSum + " toekns! =D")
-          new Audio("../assets/audio/win.mp3").play()
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
@@ -290,11 +253,30 @@
         } else {
           this.winner = false
           //console.log("Haha, loser. :P")
+          new Audio("../../assets/audio/no-win.mp3").play()
         }
-        if (this.tokens.tokens.bet > this.tokens.tokens.sum) {
+        if (
+          this.tokens.tokens.bet > this.tokens.tokens.sum &&
+          this.tokens.tokens.bet < this.winSum
+        ) {
+          console.log("setBet")
           this.$refs.betComp.setBet(this.tokens.tokens.sum)
         }
+
+        const scoreList = this.score.scores.highScore
+        console.log("Före: " + scoreList)
+        console.log(Array.isArray(this.score.scores.highScore))
+
+        if (!scoreList.includes(this.winSum)) {
+          scoreList.push(this.winSum)
+        }
+        scoreList.sort((a, b) => b - a)
+        this.score.scores.highScore = scoreList.slice(0, 6)
+        console.log(
+          "Uppdaterat: " + JSON.stringify(this.score.scores.highScore),
+        )
       },
+
       gameStart(freeSpin = false) {
         if (this.isSpinning) {
           return
@@ -304,7 +286,6 @@
         if (this.tokens.tokens.sum - this.tokens.tokens.bet < 0) {
           return
         }
-        this.tokens.tokens.sum = this.tokens.tokens.sum - this.tokens.tokens.bet
         console.log("startgame", this.isSpinning)
 
         if (this.extraRowCount) {
@@ -312,7 +293,9 @@
         }
 
         this.winner = false
+        console.log(freeSpin)
         if (!freeSpin) {
+          console.log("WFT")
           this.tokens.takeoutBet(this.tokens.tokens.bet)
         }
 
@@ -329,9 +312,6 @@
           : 100
         this.tokens.tokens.bet = startbet
       },
-    },
-    mounted() {
-      document.addEventListener("keydown", this.handleKeyPress)
     },
   }
 </script>
@@ -403,10 +383,10 @@
     <div class="row-2">
       <TotalBet :ref="'betComp'" />
       <btn
-        :color="'purple'"
+        :color="'green'"
         :height="'13vh'"
         :width="'30vw'"
-        @click="gameStart"
+        @click="gameStart()"
         :disabled="tokens.tokens.bet > tokens.tokens.sum"
         :styles="{ maxHeight: '65px' }"
       >

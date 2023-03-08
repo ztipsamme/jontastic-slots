@@ -3,15 +3,16 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes.js"
+  import { gsap } from "gsap"
   /* import {
 
-      hsla,
-      rgba,
-      adjustHsl,
-      changeHsl,
-      rgbToHsl,
-      hslToRgb,
-    } from "../utilHsl.js"*/
+        hsla,
+        rgba,
+        adjustHsl,
+        changeHsl,
+        rgbToHsl,
+        hslToRgb,
+      } from "../utilHsl.js"*/
 
   let resize = function (el, binding) {
     const onResizeCallback = binding.value
@@ -128,11 +129,8 @@
     },
     methods: {
       start(num = this.numbers) {
-        let audio = new Audio("../assets/audio/reels.mp3")
-        audio.play()
         this.win = false
         this.spin(num).then(() => {
-          audio.pause()
           this.$emit("done")
           let winNum = this.spinners[0][num[0]]
           let test = num.every((e, i) => {
@@ -163,9 +161,52 @@
           let perspectiveX = 50 + Math.abs(n) * 2 * 50 * -dir
           element.parentNode.style.perspectiveOrigin = perspectiveX + "% 50%"
 
-          this.setClipPath()
+          let w = element.parentNode.offsetWidth
+          let h = element.parentNode.offsetHeight
+
+          let start = w * 0.225
+          let max = w * 0.2
+          let width = w * 0.8
+          let min = max * 0.375
+          let m, a1, a2, l1
+
+          switch (index) {
+            case 0: {
+              m = `M ${start} 0`
+              a1 = `a ${max} ${h / 2} 180 0 0 0 ${h}`
+              l1 = `l ${width} 0`
+              a2 = `a ${min} ${h / 2} 180 1 1  0 ${-h}`
+              break
+            }
+            case 1: {
+              m = `M ${w * 0.1} 0`
+              a1 = `a ${min} ${h / 2} 180 0 0 0 ${h}`
+              l1 = `l ${width} 0`
+              a2 = `a ${reelCount == 3 ? 0 : min} ${h / 2} 180 0 0 0 ${-h}`
+              break
+            }
+            case 2: {
+              if (reelCount == 3) {
+                m = `M ${w * 0.1} 0`
+                a1 = `a ${0} ${h / 2} 180 0 0 0 ${h}`
+                l1 = `l ${width} 0`
+                a2 = `a ${min} ${h / 2} 180 0 0 0 ${-h}`
+                break
+              }
+            }
+            // eslint-disable-next-line no-fallthrough
+            case 3: {
+              m = `M ${w - (start + width)} 0`
+              a1 = `a ${min} ${h / 2} 180 0 1 0 ${h}`
+              l1 = `l ${width} 0`
+              a2 = `a ${max} ${h / 2} 180 1 0 0 ${-h}`
+              break
+            }
+          }
+          element.parentNode.style.clipPath = `path('${m} ${a1} ${l1} ${a2}')`
           element.parentNode.style.zIndex = Math.abs(s)
 
+          /*       console.log(`path('${m} ${a1} ${l1} ${a2}')`) */
           element.style.transform = `${xKorr} translateZ(${-(
             this.rad + 25
           )}px) rotateX(${ang}deg)`
@@ -185,25 +226,58 @@
           }
         }
         let p = []
+
         let refs = this.spinners.map((e, i) => {
           return this.$refs["c" + i][0]
         })
-
+        let tween = []
         refs.forEach((e, i) => {
           let startAngle = this.current[i] * (360 / this.count) * -1
-
           let newNumber = arr[i]
           let deg = 1080 + newNumber * (360 / this.count)
           let from = startAngle
           let to = -deg
           this.current[i] = arr[i]
-          p.push(
-            new Promise((resolve) => {
-              requestAnimationFrame(loop.bind(this, e, from, to, resolve, i))
-            }),
+          let refTween = gsap.fromTo(
+            e,
+            {
+              translateZ: -this.rad,
+              rotateX: from,
+              top: console.log(this),
+            },
+            {
+              translateZ: () => -this.rad,
+              rotateX: to,
+              duration: 5,
+              ease: "power1.inOut",
+            },
           )
+
+          tween.push(refTween.play())
         })
-        return Promise.all(p)
+        let audio = new Audio("../assets/audio/reels.mp3")
+        audio.playbackRate = 0.4
+        audio.preservesPitch = true
+        let audioTimeLine = gsap.timeline(audio, {})
+        audioTimeLine = gsap.to(audio, {
+          playbackRate: 1,
+          volume: 1,
+          duration: 2.5,
+          ease: "power1.in",
+        })
+        audioTimeLine = gsap.to(
+          audio,
+          {
+            playbackRate: 0.4,
+            duration: 2.6,
+            volume: 1,
+            ease: "power1.out",
+          },
+          ">",
+        )
+        audio.play()
+        audioTimeLine.play().then(() => audio.pause())
+        return Promise.all(tween)
       },
       onResize({ height }) {
         this.size.height = Math.ceil(height * 0.2)
@@ -213,8 +287,35 @@
         let refs = this.spinners.map((e, i) => {
           return this.$refs["c" + i][0]
         })
+
         refs.forEach((e, i) => {
+          try {
+            e.querySelectorAll(".carousel__cell").forEach((el, i) => {
+              el.style.transform = `rotateX(${this.ang(
+                Number(i),
+              )}deg) translateZ(${this.rad}px)`
+            })
+          } catch {
+            return
+          }
+
           let reelCount = refs.length - 1
+          let n = i - reelCount / 2
+          let s = n / (reelCount / 2) //2  -1
+          let dir = Math.abs(s) / s
+
+          let xKorr = `translate3d(${(4 * s).toFixed(2)}%, 0px, -${
+            this.rad + 25
+          }px) rotateX(${this.current[i] * (360 / this.count) * -1}deg)`
+
+          let perspectiveX = 50 + Math.abs(n) * 2 * 50 * -dir
+
+          e.parentNode.style.perspectiveOrigin = perspectiveX + "% 50%"
+          e.parentNode.style.zIndex = Math.abs(s)
+          e.style.transform = xKorr
+          const height = document.documentElement.clientHeight
+          this.size.height = Math.ceil(height * 0.2)
+
           let sceneHeight, sceneWidth
           try {
             sceneWidth = e.parentNode.offsetWidth
@@ -240,7 +341,9 @@
             case 1: {
               m = `M ${sceneWidth * 0.1} 0`
               a1 = `a ${min} ${sceneHeight / 2} 180 0 0 0 ${sceneHeight}`
-              l1 = `l ${reelCount == 3 ? clipWidth + min * 0.8 : clipWidth} 0`
+              l1 = `l ${
+                reelCount == 3 ? clipWidth + min * 0.8 : clipWidth * 1.03
+              } 0`
               a2 =
                 reelCount == 3
                   ? `l 0 -${sceneHeight} z`
