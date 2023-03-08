@@ -8,40 +8,64 @@
     setup() {
       const tokens = useTokenStore()
       const theme = useThemeStore()
-
       theme.setTheme(theme.currentTheme)
-
-      return { tokens }
+      return { tokens, theme }
     },
     data() {
       return {
         volume: 0.05,
+        tokTween: this.tokens.tokens.sum,
+        themeSong: null,
       }
     },
     watch: {
       volume(newVal) {
-        this.audio.volume = newVal
+        this.themeSong.volume = newVal
+      },
+      "theme.currentTheme": function () {
+        //this.theme.audio.noWin.load()
+        this.themeSong.load()
+        this.themeSong = this.theme.audio.aud.theme
+        this.themeSong
+        this.themeSong.load()
+
+        //this.theme.audio.noWin.addEventListener("canplay", () => {})
       },
     },
     created() {
-      this.audio = new Audio("../../assets/audio/diamant.mp3")
+      /*this.audio = new Audio("../../assets/audio/diamant.mp3")
       this.audio.loop = true
-      this.audio.volume = this.volume
-      document.addEventListener("mouseover", () => {
-        this.audio.play()
-      })
-      document.addEventListener("mouseleave", () => {
-        this.audio.pause()
+      this.audio.volume = this.volume*/
+      this.themeSong = this.theme.audio.aud.theme
+
+      this.themeSong.volume = this.volume
+      this.themeSong.load()
+      this.themeSong.addEventListener("canplay", () => {
+        document.addEventListener(
+          "click",
+          () => {
+            this.themeSong.loop = true
+            this.themeSong.play()
+          },
+          { once: true },
+        )
       })
     },
     components: {
       PopUp,
       btn: buttonComponent,
     },
+    computed: {},
     methods: {
+      newSong() {},
       setVolume(e) {
         this.volume = Number(e.target.value) / 10
         console.log(e.target.value)
+      },
+      test() {
+        console.log(this.$data)
+        console.log(this)
+        console.log(this.themeSong)
       },
     },
   }
@@ -97,6 +121,7 @@
         </btn></RouterLink
       >
     </nav>
+    <btn @click="test"> click </btn>
     <div class="token-display">
       <div class="token-icon">t</div>
       <div class="token-text">

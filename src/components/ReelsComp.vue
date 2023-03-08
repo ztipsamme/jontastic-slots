@@ -171,7 +171,13 @@
 
           tween.push(refTween.play())
         })
-        let audio = new Audio("../assets/audio/reels.mp3")
+        let audio = this.theme.audio.aud.reels //new Audio("../assets/audio/reels.mp3")
+        try {
+          console.log(this.theme.Themes["diamant"].audio.aud.reels.load())
+          console.log(audio.load())
+        } catch {
+          audio = "BAJD"
+        }
         audio.playbackRate = 0.4
         audio.currentTime = 1.5
         audio.preservesPitch = false

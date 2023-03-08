@@ -1,10 +1,11 @@
 import { defineStore } from "pinia"
 import { useStorage } from "@vueuse/core"
-
+import { useThemeStore } from "./themes"
 export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
     tokens: useStorage("tokens", {
+      // Varför ligger bet här igentligen ? menar det är ju bara i spelvyn som det används.
       sum: 900,
       startValue: 900,
       bet: 5,
@@ -28,7 +29,6 @@ export const useTokenStore = defineStore("tokens", {
         src: "./assets/svg/icon-row.svg",
       },
     ]),
-
     themeTypes: useStorage("themeTypes", [
       {
         name: "Diamant",
@@ -68,6 +68,10 @@ export const useTokenStore = defineStore("tokens", {
     ]),
   }),
   getters: {
+    audio: () => {
+      let theme = useThemeStore()
+      return theme.audio
+    },
     getTokensPlusOne: (state) => state.tokens + 1,
     isThemeOwned: (state) => (name) =>
       state.themeTypes.find(
@@ -82,6 +86,9 @@ export const useTokenStore = defineStore("tokens", {
       this.token += amount
     },
     async takeoutBet(amount) {
+      this.tokens.sum -= amount
+
+      /*
       let val = 0
       let timeout
       let loop = () => {
@@ -94,10 +101,13 @@ export const useTokenStore = defineStore("tokens", {
           clearTimeout(timeout)
         }
       }
-      loop()
+      loop() */
     },
     async winning(amount) {
-      let val = amount
+      this.audio.cashIn.play()
+      this.tokens.sum += amount
+
+      /*       let val = amount
       let timeout
       let loop = () => {
         this.tokens.sum++
@@ -106,9 +116,10 @@ export const useTokenStore = defineStore("tokens", {
           timeout = setTimeout(loop, 25)
         } else {
           clearTimeout(timeout)
+          this.audio.cashIn.pause()
         }
       }
-      loop()
+      loop() */
     },
   },
 })

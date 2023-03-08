@@ -10,6 +10,7 @@ export const useThemeStore = defineStore("themes", {
   getters: {
     current: (state) => state.Themes[state.currentTheme],
     icons: (state) => state.current.icons,
+    audio: (state) => state.current.audio,
     bg: () => window.document.body,
   },
   actions: {

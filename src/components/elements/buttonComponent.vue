@@ -56,12 +56,16 @@
     mounted() {},
     data() {
       return {
-        klick: new Audio("../../../assets/audio/" + this.audio),
+        klick2: new Audio("../../../assets/audio/" + this.audio),
+        klick: this.theme.audio.btn,
         newStyle: this.styles,
         val: 0,
       }
     },
     computed: {
+      btnClick() {
+        return this.theme.audio.btn
+      },
       style() {
         let obj = {}
         obj = { ...this.styles, ...this.fontStyle }
@@ -114,8 +118,8 @@
       (selected ? ' selected ' : '') +
       (disabled ? ' disabled' : color)
     "
-    @pointerdown="klick.load()"
-    @pointerup="klick.play()"
+    @pointerdown="btnClick.load()"
+    @pointerup="btnClick.play()"
   >
     <div class="under" :style="{ borderRadius: borderRadius }" />
     <div

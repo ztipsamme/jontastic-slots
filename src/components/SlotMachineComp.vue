@@ -40,8 +40,10 @@
       const tokens = useTokenStore()
       const theme = useThemeStore()
       const score = useScoreStore()
+      const audio = theme.audio
       window.content = score
-      return { tokens, theme, score }
+
+      return { tokens, audio, score }
     },
 
     data() {
@@ -103,8 +105,10 @@
       },
 
       activateBonus(name) {
-        let audio = new Audio("../../assets/audio/bonus.mp3")
-        audio.play()
+        //let audio = new Audio("../../assets/audio/bonus.mp3")
+        //audio.play()
+        let audio = this.audio
+        audio.bonus.play()
 
         switch (name) {
           case "extrarow": {
@@ -133,7 +137,7 @@
             )
             extraSpin.amount--
             extraSpin.active = true
-            audio.addEventListener("ended", () => {
+            audio.bonus.addEventListener("ended", () => {
               this.gameStart(true)
             })
           }
@@ -237,23 +241,27 @@
         ).active = false
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
-          let audioWin = new Audio("../../assets/audio/win.mp3")
-          audioWin.play()
+          /*  let audioWin = new Audio("../../assets/audio/win.mp3")
+          audioWin.play() */
+
+          this.audio.win.play()
+
           let winSum =
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
           this.winSum = winSum
           this.tokens.winning(winSum)
-          let audioCash = new Audio("../../assets/audio/cash-in.mp3")
-          audioCash.play()
+          /*   let audioCash = new Audio("../../assets/audio/cash-in.mp3")
+          audioCash.play() */
           //console.log("Yay, you won " + winSum + " toekns! =D")
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
           new Audio("../assets/audio/game-over.mp3").play()
+          this.audio.gameOver.play()
         } else {
           this.winner = false
           //console.log("Haha, loser. :P")
-          new Audio("../../assets/audio/no-win.mp3").play()
+          this.audio.noWin.play()
         }
         if (
           this.tokens.tokens.bet > this.tokens.tokens.sum &&
