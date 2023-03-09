@@ -130,7 +130,29 @@
       }
     },
     mounted() {
+      console.log("this.tokenStore.tokens.bet:", this.tokenStore.tokens.bet)
       this.setBet(this.tokenStore.tokens.bet)
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") {
+          console.log("VÄNSTER!")
+          this.bet -= this.minBet
+          console.log("New bet value:", this.bet)
+
+          if (this.bet < this.minBet) {
+            this.bet = this.minBet
+          }
+        }
+
+        if (event.key === "ArrowRight") {
+          console.log("HÖGER!")
+          this.bet += this.minBet
+          console.log("New bet value:", this.bet)
+
+          if (this.bet > this.maxBet) {
+            this.bet = this.maxBet
+          }
+        }
+      })
     },
     components: {
       btn,
@@ -154,7 +176,9 @@
         val = val < 5 ? 5 : val
         val =
           val > this.tokenStore.tokens.sum ? this.tokenStore.tokens.sum : val
+        console.log("Old bet value:", this.tokenStore.tokens.bet)
         this.tokenStore.tokens.bet = val
+        console.log("New bet value:", this.tokenStore.tokens.bet)
       },
 
       increaseBet(val) {
