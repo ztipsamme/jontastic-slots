@@ -183,6 +183,7 @@
   .betting-container {
     display: flex;
     flex-flow: column;
+    width: 100%;
   }
 
   .bet-container-wrapper {
@@ -254,7 +255,8 @@
     flex-flow: column;
     align-items: center;
     position: relative;
-    width: 35vw;
+    max-width: 35vw;
+    width: 100%;
     max-height: 65px;
     box-shadow: inset 1px 1px 3px 0px black;
     font-size: clamp(10px, 7vh, 30px);
