@@ -243,7 +243,7 @@
             {
               translateZ: -this.rad,
               rotateX: from,
-              top: console.log(this),
+              // top: console.log(this),
             },
             {
               translateZ: () => -this.rad,
