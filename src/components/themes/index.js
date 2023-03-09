@@ -10,5 +10,12 @@ const Themes = {
   eld: EldTheme,
   midnatt: NightTheme,
 }
+const Sounds = {
+  diamant: _default,
+  katt: CatTheme,
+  skog: ForestTheme,
+  eld: EldTheme,
+  midnatt: NightTheme,
+}
 //console.log(Themes)
-export default Themes
+export { Themes, Sounds }
