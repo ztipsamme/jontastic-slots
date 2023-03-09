@@ -21,6 +21,14 @@ export const useTokenStore = defineStore("tokens", {
         src: "./assets/svg/icon-spin.svg",
       },
       {
+        name: "Extra Dubbel",
+        cost: 500,
+        amount: 0,
+        count: 1,
+        active: false,
+        src: "./assets/svg/icon-spin.svg",
+      },
+      {
         name: "Extra Row",
         cost: 250,
         amount: 0,

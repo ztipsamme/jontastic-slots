@@ -147,6 +147,15 @@
             this.audio.bonus.addEventListener("ended", () => {
               this.gameStart(true)
             })
+            break
+          }
+          case "extradubbel": {
+            let dubbel = this.tokens.bonusTypes.find(
+              (i) => i.name === "Extra Dubbel",
+            )
+            dubbel.amount--
+            dubbel.active = true
+            break
           }
         }
       },
@@ -237,10 +246,6 @@
           this.theme.currentTheme.slice(1)
         let deluxeTheme = theme.find((i) => i.basic === currentTheme)
 
-        /*         console.log(currentTheme)
-        console.log(deluxeTheme)
-        console.log(deluxeTheme.basic) */
-
         this.isSpinning = false
         if (!this.extraRowCount && this.reels == 4) {
           let extraRow = bonus.find((i) => i.name === "Extra Row")
@@ -253,6 +258,7 @@
           // console.log(this.spinnerArr)
         }
         bonus.find((i) => i.name === "Extra Spin").active = false
+
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
           /*  let audioWin = new Audio("../../assets/audio/win.mp3")
@@ -260,11 +266,23 @@
 
           this.audio.win.play()
 
+          let winSum = 0
+
+          if (bonus.find((i) => i.name === "Extra Dubbel").active) {
+            winSum =
+              (this.tokens.tokens.bet +
+                this.tokens.tokens.bet * (7 - this.num[0])) *
+              2
+          } else {
+            winSum =
+              this.tokens.tokens.bet +
+              this.tokens.tokens.bet * (7 - this.num[0])
+          }
           let winSum = this.staticBet + this.staticBet * (7 - this.num[0])
 
           //Types of win
           switch (this.num[0]) {
-            case 6:
+            case 2:
               if (currentTheme === deluxeTheme.basic && !deluxeTheme.owned) {
                 deluxeTheme.owned = true
                 this.winSum = deluxeTheme.name
@@ -292,8 +310,7 @@
               this.winSum = winSum + "t"
               this.tokens.winning(winSum)
               break
-          }
-          //console.log("Yay, you won " + winSum + " toekns! =D")
+          } //console.log("Yay, you won " + winSum + " toekns! =D")
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
@@ -310,6 +327,8 @@
           // console.log("setBet")
           this.$refs.betComp.setBet(this.tokens.tokens.sum)
         }
+
+        bonus.find((i) => i.name === "Extra Dubbel").active = false
 
         // Spara och hantera top scores
         const scoreList = this.score.scores.highScore
