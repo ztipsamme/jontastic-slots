@@ -21,7 +21,7 @@
     emits: { stop: null },
 
     created() {
-      console.log("FUNKA DÅ SKIT!")
+      // console.log("FUNKA DÅ SKIT!")
       if (this.tokens.bonusTypes.find((i) => i.name === "Extra Row").active) {
         this.reels = 4
         this.extraRowCount = this.tokens.bonusTypes.find(
@@ -84,7 +84,7 @@
 
     methods: {
       handleKeyPress(event) {
-        console.log("press")
+        // console.log("press")
         if (event.keyCode === 32) {
           this.gameStart()
         }
@@ -158,7 +158,7 @@
           for (let i = 6; i > 0; i--) {
             winVal = i
             isHigher = Math.floor(Math.random() * 2)
-            console.log("isHigher", isHigher, winVal)
+            // console.log("isHigher", isHigher, winVal)
             if (isHigher) {
               break
             }
@@ -225,22 +225,25 @@
         return this.numIndex
       },
       done() {
+        let bonus = this.tokens.bonusTypes
+        let theme = this.tokens.themeTypes
+        let currentTheme =
+          this.theme.currentTheme.charAt(0).toUpperCase() +
+          this.theme.currentTheme.slice(1)
+        let deluxeTheme = theme.find((i) => i.name === currentTheme + " deluxe")
+
         this.isSpinning = false
         if (!this.extraRowCount && this.reels == 4) {
-          let extraRow = this.tokens.bonusTypes.find(
-            (i) => i.name === "Extra Row",
-          )
+          let extraRow = bonus.find((i) => i.name === "Extra Row")
           extraRow.active = false
           this.reels = 3
           this.spinnerArr = new Array(this.reels)
             .fill(null)
             .map(() => this.generateSpinner())
 
-          console.log(this.spinnerArr)
+          // console.log(this.spinnerArr)
         }
-        this.tokens.bonusTypes.find(
-          (i) => i.name === "Extra Spin",
-        ).active = false
+        bonus.find((i) => i.name === "Extra Spin").active = false
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
           /*  let audioWin = new Audio("../../assets/audio/win.mp3")
@@ -250,10 +253,42 @@
 
           let winSum =
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
-          this.winSum = winSum
-          this.tokens.winning(winSum)
-          /*   let audioCash = new Audio("../../assets/audio/cash-in.mp3")
-          audioCash.play() */
+
+          //Types of win
+          switch (this.num[0]) {
+            case 2:
+              if (
+                currentTheme === deluxeTheme.name.replace(" deluxe", "") &&
+                !deluxeTheme.owned
+              ) {
+                deluxeTheme.owned = true
+                this.winSum = deluxeTheme.name
+              } else {
+                this.winSum = winSum + "t"
+                this.tokens.winning(winSum)
+              }
+              break
+            case 3:
+              if (winSum < bonus.find((i) => i.name === "Extra Spin").cost) {
+                bonus.find((i) => i.name === "Extra Spin").amount++
+                this.winSum =
+                  "1 " + bonus.find((i) => i.name === "Extra Spin").name
+              } else {
+                let x = winSum / bonus.find((i) => i.name === "Extra Spin").cost
+
+                for (let i = 0; i < x; i++) {
+                  bonus.find((i) => i.name === "Extra Spin").amount++
+                }
+                this.winSum =
+                  x + "st " + bonus.find((i) => i.name === "Extra Spin").name
+              }
+              break
+            default:
+              this.winSum = winSum + "t"
+              this.tokens.winning(winSum)
+              break
+          }
+          //console.log("Yay, you won " + winSum + " toekns! =D")
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
@@ -267,24 +302,24 @@
           this.tokens.tokens.bet > this.tokens.tokens.sum &&
           this.tokens.tokens.bet < this.winSum
         ) {
-          console.log("setBet")
+          // console.log("setBet")
           this.$refs.betComp.setBet(this.tokens.tokens.sum)
         }
 
         // Spara och hantera top scores
         const scoreList = this.score.scores.highScore
+        // console.log("Före: " + scoreList)
+        // console.log(Array.isArray(this.score.scores.highScore))
+
         if (!scoreList.includes(this.winSum)) {
           scoreList.push(this.winSum)
         }
 
         scoreList.sort((a, b) => b - a)
         this.score.scores.highScore = scoreList.slice(0, 6)
-
-        console.log(this.winSum, this.score.scores.highScore[0], this.topScore)
-
-        if (this.winSum > this.score.scores.highScore[1]) {
-          this.topScore = true
-        }
+        // console.log(
+        //   "Uppdaterat: " + JSON.stringify(this.score.scores.highScore),
+        // )
       },
 
       gameStart(freeSpin = false) {
@@ -296,16 +331,16 @@
         if (this.tokens.tokens.sum - this.tokens.tokens.bet < 0) {
           return
         }
-        console.log("startgame", this.isSpinning)
+        // console.log("startgame", this.isSpinning)
 
         if (this.extraRowCount) {
           this.extraRowCount--
         }
 
         this.winner = false
-        console.log(freeSpin)
+        // console.log(freeSpin)
         if (!freeSpin) {
-          console.log("WFT")
+          // console.log("WFT")
           this.tokens.takeoutBet(this.tokens.tokens.bet)
         }
 
@@ -355,7 +390,7 @@
       height: '100vh',
       zIndex: '99',
     }"
-    :text="'Vinst: ' + winSum + 't'"
+    :text="'Vinst: ' + winSum"
     @click="winner = !winner"
   />
 
