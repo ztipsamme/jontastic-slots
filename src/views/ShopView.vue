@@ -242,10 +242,16 @@
     margin-top: 20px;
   }
   .popup-container {
+    position: fixed;
+    margin: auto;
+    height: 200px;
+    z-index: 100;
+    inset: 0;
     background-color: white;
     border-radius: 10px;
     padding: 20px;
     display: flex;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     width: 300px; /*
