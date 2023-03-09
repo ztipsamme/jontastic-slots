@@ -114,11 +114,15 @@
         <h2 class="second-heading">Bonusar</h2>
         <p class="desc">Levla upp spänningen med någonting extra.</p>
         <div class="d-inline-flex flex-wrap gap-2">
-          <div class="item" :key="item" v-for="item in bonusTypes">
+          <div
+            class="item"
+            :key="item"
+            v-for="item in bonusTypes"
+            @click="onClick(item)"
+          >
             <icon
               :name="item.name"
               :aria-label="item.name"
-              @click="onClick(item)"
               :size="'68px'"
               :src="item.src"
             />
@@ -138,13 +142,17 @@
         <h2 class="second-heading">Teman</h2>
         <p class="desc">Anpassa ditt spel med ett tema.</p>
         <div class="d-inline-flex flex-wrap gap-2">
-          <div class="item" v-for="item in themeTypes" :key="item.name">
+          <div
+            class="item"
+            v-for="item in themeTypes"
+            :key="item.name"
+            @click="onClick(item)"
+          >
             <template v-if="'theme' + item + 'Bought'">
               <template v-if="theme3Bought">
                 <icon
                   :name="item.name"
                   :aria-label="item.name"
-                  @click="onClick(item)"
                   :size="'68px'"
                   :src="item.src"
                 />
@@ -274,7 +282,7 @@
 
   .item {
     position: relative;
-    margin-left: 15px;
+    margin-right: 15px;
   }
 
   .mini-icon {

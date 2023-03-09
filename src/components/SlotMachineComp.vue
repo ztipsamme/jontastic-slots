@@ -3,6 +3,7 @@
   import { useThemeStore } from "../stores/themes.js"
   import { useScoreStore } from "../stores/scoreStore.js"
   import { useAudioStore } from "../stores/audio"
+  import iconComponent from "../components/elements/iconComponent.vue"
   import spinnerComp from "./ReelsComp.vue"
   import TotalBet from "./TotalBet.vue"
   import FlashText from "./animations/FlashingText.vue"
@@ -15,7 +16,7 @@
       spinner: spinnerComp,
       "flash-text": FlashText,
       btn: Btn,
-      /* icon: iconComponent, */
+      icon: iconComponent,
     },
 
     emits: { stop: null },
@@ -417,20 +418,26 @@
         v-for="b in tokens.bonusTypes.filter((e) => e.amount > 0)"
         :key="b.name"
       >
-        <btn
-          :circle="true"
-          :size="'small'"
-          :width="'50%'"
-          :styles="{ minWidth: '50px', maxWidth: '150px' }"
-          :border-radius="'5px'"
-          :selected="b.active"
+        <div
+          class="item"
           @click="activateBonus(b.name.replace(/[^A-z]/g, '').toLowerCase())"
-          ><p>{{ b.amount }}</p>
-          <img class="icon" :src="b.src" :alt="b.name" />
-        </btn>
-        {{ b.name }}
+        >
+          <icon
+            :name="b.name"
+            :aria-label="b.name"
+            :size="'68px'"
+            :src="b.src"
+          />
+          <div>
+            {{ b.name.substring(b.name.indexOf("Extra") + "extra".length) }}
+          </div>
+          <div class="mini-icon" v-if="b.amount > 0">
+            {{ b.amount }}
+          </div>
+        </div>
       </div>
     </div>
+
     <div class="reels-col col">
       <div class="col-1" />
       <div class="reel-cont">
@@ -535,5 +542,30 @@
     grid-column-start: 2;
     display: grid;
     width: 100%;
+  }
+
+  .item {
+    position: relative;
+    margin-right: 15px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .mini-icon {
+    color: #ffffffcc;
+    box-shadow: 0 2px 3px rgb(0, 0, 0, 0.5);
+    position: absolute;
+    inset: -10px 55px;
+    display: flex;
+    border-radius: 100px;
+    background-image: linear-gradient(#4a65b0, #42c4ec);
+    width: 25px;
+    height: 25px;
+    justify-content: center;
+    align-items: center;
+    img {
+      filter: invert(100%) sepia(0%) saturate(7495%) hue-rotate(280deg)
+        brightness(105%) contrast(101%);
+    }
   }
 </style>
