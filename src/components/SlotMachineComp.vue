@@ -230,7 +230,11 @@
         let currentTheme =
           this.theme.currentTheme.charAt(0).toUpperCase() +
           this.theme.currentTheme.slice(1)
-        let deluxeTheme = theme.find((i) => i.name === currentTheme + " deluxe")
+        let deluxeTheme = theme.find((i) => i.basic === currentTheme)
+
+        console.log(currentTheme)
+        console.log(deluxeTheme)
+        console.log(deluxeTheme.basic)
 
         this.isSpinning = false
         if (!this.extraRowCount && this.reels == 4) {
@@ -256,11 +260,8 @@
 
           //Types of win
           switch (this.num[0]) {
-            case 2:
-              if (
-                currentTheme === deluxeTheme.name.replace(" deluxe", "") &&
-                !deluxeTheme.owned
-              ) {
+            case 6:
+              if (currentTheme === deluxeTheme.basic && !deluxeTheme.owned) {
                 deluxeTheme.owned = true
                 this.winSum = deluxeTheme.name
               } else {
