@@ -23,7 +23,7 @@
   }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
   .popup-title {
     text-align: center;
     font-size: 25px;
