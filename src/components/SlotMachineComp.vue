@@ -2,6 +2,7 @@
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes.js"
   import { useScoreStore } from "../stores/scoreStore.js"
+  import { useAudioStore } from "../stores/audio"
   import spinnerComp from "./ReelsComp.vue"
   import TotalBet from "./TotalBet.vue"
   import FlashText from "./animations/FlashingText.vue"
@@ -40,8 +41,10 @@
       const tokens = useTokenStore()
       const theme = useThemeStore()
       const score = useScoreStore()
+      const audio = useAudioStore()
       window.content = score
-      return { tokens, theme, score }
+
+      return { tokens, theme, score, audio }
     },
 
     data() {
@@ -103,8 +106,10 @@
       },
 
       activateBonus(name) {
-        let audio = new Audio("../../assets/audio/bonus.mp3")
-        audio.play()
+        //let audio = new Audio("../../assets/audio/bonus.mp3")
+        //audio.play()
+        this.audio.bonus.load()
+        this.audio.bonus.play()
 
         switch (name) {
           case "extrarow": {
@@ -133,7 +138,7 @@
             )
             extraSpin.amount--
             extraSpin.active = true
-            audio.addEventListener("ended", () => {
+            this.audio.bonus.addEventListener("ended", () => {
               this.gameStart(true)
             })
           }
@@ -237,23 +242,27 @@
         ).active = false
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
-          let audioWin = new Audio("../../assets/audio/win.mp3")
-          audioWin.play()
+          /*  let audioWin = new Audio("../../assets/audio/win.mp3")
+          audioWin.play() */
+
+          this.audio.win.play()
+
           let winSum =
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
           this.winSum = winSum
           this.tokens.winning(winSum)
-          let audioCash = new Audio("../../assets/audio/cash-in.mp3")
-          audioCash.play()
+          /*   let audioCash = new Audio("../../assets/audio/cash-in.mp3")
+          audioCash.play() */
           //console.log("Yay, you won " + winSum + " toekns! =D")
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
           new Audio("../assets/audio/game-over.mp3").play()
+          this.audio.gameOver.play()
         } else {
           this.winner = false
           //console.log("Haha, loser. :P")
-          new Audio("../../assets/audio/no-win.mp3").play()
+          this.audio.noWin.play()
         }
         if (
           this.tokens.tokens.bet > this.tokens.tokens.sum &&

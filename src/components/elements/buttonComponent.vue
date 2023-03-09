@@ -1,5 +1,6 @@
 <script>
   import { useThemeStore } from "../../stores/themes"
+  import { useAudioStore } from "../../stores/audio"
   export default {
     props: {
       color: {
@@ -44,24 +45,27 @@
       },
       audio: {
         type: String,
-        default: "btn.mp3",
+        default: "btn",
       },
     },
     setup() {
       const theme = useThemeStore()
-      return { theme }
+      const audioStore = useAudioStore()
+      return { theme, audioStore }
     },
     creaeted() {},
     beforeMounted() {},
     mounted() {},
     data() {
       return {
-        klick: new Audio("../../../assets/audio/" + this.audio),
         newStyle: this.styles,
         val: 0,
       }
     },
     computed: {
+      btnClick() {
+        return this.audioStore[this.audio.replace(".mp3", "")]
+      },
       style() {
         let obj = {}
         obj = { ...this.styles, ...this.fontStyle }
@@ -101,7 +105,10 @@
       },
     },
     methods: {
-      getState() {},
+      onClick() {
+        this.btnClick.load()
+        this.btnClick.play()
+      },
     },
   }
 </script>
@@ -114,8 +121,7 @@
       (selected ? ' selected ' : '') +
       (disabled ? ' disabled' : color)
     "
-    @pointerdown="klick.load()"
-    @pointerup="klick.play()"
+    @pointerdown="onClick"
   >
     <div class="under" :style="{ borderRadius: borderRadius }" />
     <div
