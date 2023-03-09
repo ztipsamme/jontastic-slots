@@ -269,16 +269,10 @@
           let winSum = 0
 
           if (bonus.find((i) => i.name === "Extra Dubbel").active) {
-            winSum =
-              (this.tokens.tokens.bet +
-                this.tokens.tokens.bet * (7 - this.num[0])) *
-              2
+            winSum = (this.staticBet + this.staticBet * (7 - this.num[0])) * 2
           } else {
-            winSum =
-              this.tokens.tokens.bet +
-              this.tokens.tokens.bet * (7 - this.num[0])
+            winSum = this.staticBet + this.staticBet * (7 - this.num[0])
           }
-          let winSum = this.staticBet + this.staticBet * (7 - this.num[0])
 
           //Types of win
           switch (this.num[0]) {
