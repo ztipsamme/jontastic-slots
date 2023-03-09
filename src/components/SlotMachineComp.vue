@@ -53,6 +53,7 @@
         num: [],
         numIndex: [],
         winner: false,
+        topScore: false,
         isSpinning: false,
         spinnerArr: [],
         reels: 3,
@@ -253,7 +254,6 @@
           this.tokens.winning(winSum)
           /*   let audioCash = new Audio("../../assets/audio/cash-in.mp3")
           audioCash.play() */
-          //console.log("Yay, you won " + winSum + " toekns! =D")
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
@@ -261,7 +261,6 @@
           this.audio.gameOver.play()
         } else {
           this.winner = false
-          //console.log("Haha, loser. :P")
           this.audio.noWin.play()
         }
         if (
@@ -272,18 +271,20 @@
           this.$refs.betComp.setBet(this.tokens.tokens.sum)
         }
 
+        // Spara och hantera top scores
         const scoreList = this.score.scores.highScore
-        console.log("Före: " + scoreList)
-        console.log(Array.isArray(this.score.scores.highScore))
-
         if (!scoreList.includes(this.winSum)) {
           scoreList.push(this.winSum)
         }
+
         scoreList.sort((a, b) => b - a)
         this.score.scores.highScore = scoreList.slice(0, 6)
-        console.log(
-          "Uppdaterat: " + JSON.stringify(this.score.scores.highScore),
-        )
+
+        console.log(this.winSum, this.score.scores.highScore[0], this.topScore)
+
+        if (this.winSum > this.score.scores.highScore[1]) {
+          this.topScore = true
+        }
       },
 
       gameStart(freeSpin = false) {
@@ -328,7 +329,23 @@
 <template>
   <flash-text
     :h="50"
-    v-if="winner"
+    v-if="topScore"
+    :style="{
+      position: 'absolute',
+      margin: '0',
+      top: '0',
+      left: '0',
+      width: '100vw',
+      height: '100vh',
+      zIndex: '99',
+    }"
+    :text="'Rekord! ' + winSum + 't'"
+    @click="topScore = !topScore"
+  />
+
+  <flash-text
+    :h="50"
+    v-else-if="winner"
     :style="{
       position: 'absolute',
       margin: '0',
@@ -341,6 +358,7 @@
     :text="'Vinst: ' + winSum + 't'"
     @click="winner = !winner"
   />
+
   <flash-text
     :h="0"
     :text="'Game Over'"
