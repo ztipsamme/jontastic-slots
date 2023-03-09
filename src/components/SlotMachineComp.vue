@@ -236,9 +236,9 @@
           this.theme.currentTheme.slice(1)
         let deluxeTheme = theme.find((i) => i.basic === currentTheme)
 
-        console.log(currentTheme)
+        /*         console.log(currentTheme)
         console.log(deluxeTheme)
-        console.log(deluxeTheme.basic)
+        console.log(deluxeTheme.basic) */
 
         this.isSpinning = false
         if (!this.extraRowCount && this.reels == 4) {
