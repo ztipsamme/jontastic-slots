@@ -250,7 +250,7 @@
 
           //Types of win
           switch (this.num[0]) {
-            case 6:
+            case 3:
               if (winSum < bonus.find((i) => i.name === "Extra Spin").cost) {
                 bonus.find((i) => i.name === "Extra Spin").amount++
                 this.winSum =
@@ -263,8 +263,6 @@
                 }
                 this.winSum =
                   x + "st " + bonus.find((i) => i.name === "Extra Spin").name
-
-                console.log(x)
               }
 
               break
