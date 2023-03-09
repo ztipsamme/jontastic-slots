@@ -2,6 +2,7 @@
   import { useTokenStore } from "./stores/tokenStore.js"
   import { useThemeStore } from "./stores/themes"
   import { useAudioStore } from "./stores/audio"
+  import { gsap } from "gsap"
   //import iconComponent from "./components/elements/iconComponent.vue"
   import PopUp from "./components/pop-ups/infoPopUp.vue"
   import buttonComponent from "./components/elements/buttonComponent.vue"
@@ -24,6 +25,10 @@
       volume(newVal) {
         this.audio.theme.volume = newVal
       },
+      "tokens.tokens.sum"(n) {
+        gsap.to(this, { duration: 1.5, tokTween: Number(n) || 0 })
+      },
+
       "theme.currentTheme": function () {
         //this.theme.audio.noWin.load()
         this.audio.theme.load()
@@ -154,12 +159,12 @@
     </div>
     <btn
       :color="'blue'"
-      :size="'medium'"
+      :size="'large'"
       :circle="true"
       :width="'50px'"
       @click="toggleSoundControls"
     >
-      S
+      <i class="bi bi-volume-up-fill" />
     </btn>
 
     <nav class="nav">
@@ -201,7 +206,7 @@
     <div class="token-display">
       <div class="token-icon">t</div>
       <div class="token-text">
-        {{ tokens.tokens.sum }}
+        {{ tokTween.toFixed(0) }}
       </div>
       <!-- <div class="d-inline-flex">
         <div

@@ -8,7 +8,7 @@
   import TotalBet from "./TotalBet.vue"
   import FlashText from "./animations/FlashingText.vue"
   import Btn from "./elements/buttonComponent.vue"
-  import MaxWinning from "./maxWinningComp.vue"
+  import MaxWinning from "./testWinningComp.vue"
   /*  import iconComponent from "./elements/iconComponent.vue" */
 
   export default {
@@ -63,6 +63,7 @@
         reels: 3,
         gameOver: false,
         winSum: 0,
+        staticBet: null,
       }
     },
 
@@ -259,8 +260,7 @@
 
           this.audio.win.play()
 
-          let winSum =
-            this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
+          let winSum = this.staticBet + this.staticBet * (7 - this.num[0])
 
           //Types of win
           switch (this.num[0]) {
@@ -304,8 +304,8 @@
           this.audio.noWin.play()
         }
         if (
-          this.tokens.tokens.bet > this.tokens.tokens.sum &&
-          this.tokens.tokens.bet < this.winSum
+          this.staticBet > this.tokens.tokens.sum &&
+          this.staticBet < this.winSum
         ) {
           // console.log("setBet")
           this.$refs.betComp.setBet(this.tokens.tokens.sum)
@@ -331,9 +331,10 @@
         if (this.isSpinning) {
           return
         }
+        this.staticBet = 0
         this.isSpinning = true
         this.winSum = null
-        if (this.tokens.tokens.sum - this.tokens.tokens.bet < 0) {
+        if (this.tokens.tokens.sum - this.staticBet < 0) {
           return
         }
         // console.log("startgame", this.isSpinning)
@@ -344,9 +345,10 @@
 
         this.winner = false
         // console.log(freeSpin)
+        this.staticBet = this.tokens.tokens.bet
         if (!freeSpin) {
           // console.log("WFT")
-          this.tokens.takeoutBet(this.tokens.tokens.bet)
+          this.tokens.takeoutBet(this.staticBet)
         }
 
         this.checkNumbers()
@@ -360,7 +362,7 @@
         let startbet = this.tokens.tokens.startBet
           ? this.tokens.tokens.startBet
           : 100
-        this.tokens.tokens.bet = startbet
+        this.staticBet = startbet
       },
     },
   }

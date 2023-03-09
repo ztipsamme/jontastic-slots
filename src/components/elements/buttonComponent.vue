@@ -47,6 +47,10 @@
         type: String,
         default: "btn",
       },
+      position: {
+        type: Array,
+        default: () => ["center", "center"],
+      },
     },
     setup() {
       const theme = useThemeStore()
@@ -129,6 +133,8 @@
       :style="{
         fontStyle,
         borderRadius: borderRadius,
+        alignItems: position[0],
+        justifyContent: position[1],
         backgroundImage: bgPath ? 'url(' + bgPath + ')' : '',
       }"
     >

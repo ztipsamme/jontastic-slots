@@ -5,6 +5,8 @@
   import { useThemeStore } from "../stores/themes.js"
   import { useAudioStore } from "../stores/audio"
   import { gsap } from "gsap"
+  import { CustomEase } from "gsap/CustomEase"
+  gsap.registerPlugin(CustomEase)
   /* import {
 
         hsla,
@@ -149,13 +151,15 @@
           return this.$refs["c" + i][0]
         })
         let tween = []
+        let dur = 5
         refs.forEach((e, i) => {
           let startAngle = this.current[i] * (360 / this.count) * -1
           let newNumber = arr[i]
           let deg = 1080 + newNumber * (360 / this.count)
           let from = startAngle
-          let to = -deg
+          let to = -deg - 360 * i
           this.current[i] = arr[i]
+          dur = 5 + 1.5 * i
           let refTween = gsap.fromTo(
             e,
             {
@@ -166,22 +170,24 @@
             {
               translateZ: () => -this.rad,
               rotateX: to,
-              duration: 5,
-              ease: "power1.inOut",
+              duration: dur,
+              ease: CustomEase.create(
+                "custom",
+                "M0,0 C0.158,0 0.276,0.062 0.356,0.2 0.38,0.242 0.49,0.42 0.528,0.498 0.573,0.59 0.656,0.748 0.7,0.822 0.752,0.909 0.864,1.0005 0.999,1.0005 0.999,1.0005 1,1 1,1 ",
+              ),
             },
           )
 
           tween.push(refTween.play())
         })
         this.audio.reels //new Audio("../assets/audio/reels.mp3")
-
         this.audio.reels.playbackRate = 0.4
         this.audio.reels.currentTime = 1.5
         this.audio.reels.preservesPitch = false
         let audioTimeLine = gsap.timeline(this.audio.reels, {})
         audioTimeLine = gsap.to(this.audio.reels, {
           playbackRate: 1,
-          duration: 2,
+          duration: dur * 0.4,
           ease: "power1.in",
         })
 
@@ -189,7 +195,7 @@
           this.audio.reels,
           {
             playbackRate: 1,
-            duration: 1,
+            duration: dur * 0.2,
             ease: "linear",
           },
           ">",
@@ -199,7 +205,7 @@
           this.audio.reels,
           {
             playbackRate: 0.4,
-            duration: 2,
+            duration: dur * 0.4,
             ease: "power1.out",
           },
           ">",

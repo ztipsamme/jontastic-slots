@@ -2,37 +2,124 @@
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes"
 
+  import btn from "./elements/buttonComponent.vue"
+
   export default {
     setup() {
       const tokens = useTokenStore()
       const theme = useThemeStore()
       return { tokens, theme }
     },
-    components: {},
-    creaeted() {},
+    components: {
+      btn,
+    },
+    created() {},
     beforeMounted() {},
-    mounted() {},
+
+    mounted() {
+      document.addEventListener("keydown", this.selectBetVal)
+    },
+    beforeUnmount() {
+      document.removeEventListener("keydown", this.selectBetVal)
+    },
     data() {
       return {
-        imgIndex: 0,
-        open: false,
+        valArray: [5, 10, 30, 50, 100],
+        currentVal: 5,
       }
     },
     computed: {
       max: () => this.tokens.tokens.bet * 7,
     },
     methods: {
-      getState() {},
+      selectBetVal(event) {
+        if (event.key === "ArrowLeft") {
+          let i = this.valArray.indexOf(this.currentVal)
+          this.currentVal = i == 0 ? this.currentVal : this.valArray[i - 1]
+        }
+
+        if (event.key === "ArrowRight") {
+          let i = this.valArray.indexOf(this.currentVal)
+          this.currentVal =
+            i == this.valArray.length - 1
+              ? this.currentVal
+              : this.valArray[i + 1]
+        }
+
+        if (event.key === "ArrowUp") {
+          this.increaseBet(this.currentVal)
+        }
+        if (event.key === "ArrowDown") {
+          this.decreaseBet(this.currentVal)
+        }
+      },
+      increaseBet(bet) {
+        if (this.tokens.tokens.bet + bet < this.tokens.tokens.sum) {
+          this.tokens.tokens.bet += bet
+        } else {
+          this.tokens.tokens.bet = this.tokens.tokens.sum
+        }
+      },
+      decreaseBet(bet) {
+        if (this.tokens.tokens.bet - bet > 4) {
+          this.tokens.tokens.bet -= bet
+        } else {
+          let lowest = this.tokens.tokens.sum > 4 ? 5 : 0
+          this.tokens.tokens.bet = lowest
+        }
+      },
     },
   }
 </script>
 <template>
-  <div class="max-winning-cont">
-    <div class="text-container">
-      <span>MAX VINST!</span>
+  <div class="test-cont">
+    <btn
+      :styles="{ zIndex: 0, alignSelf: 'end', borderRadius: '10px' }"
+      :position="['end', 'start']"
+      :size="'x-large'"
+      :height="'100%'"
+      :width="'400%'"
+      :border-radius="'32px 0px 0px 10px'"
+      @click="decreaseBet(currentVal)"
+    >
+      -
+    </btn>
+    <div class="max-winning-cont">
+      <div class="text-container">
+        <span>MAX VINST:{{ tokens.tokens.bet * 7 }}</span>
+      </div>
+      <div class="winning-cont amount">
+        <p>{{ tokens.tokens.bet }}</p>
+      </div>
     </div>
-    <div class="winning-cont amount">
-      <p>{{ tokens.tokens.bet * 7 }}</p>
+    <btn
+      :styles="{
+        zIndex: 1,
+        justifySelf: 'self-end',
+      }"
+      :position="['end', 'end']"
+      :size="'x-large'"
+      :height="'100%'"
+      :width="'400%'"
+      :border-radius="'0px 32px 10px 0px'"
+      @click="increaseBet(currentVal)"
+    >
+      +
+    </btn>
+    <div class="val-cont">
+      <btn
+        v-for="n in [5, 10, 30, 50, 100]"
+        :key="n"
+        :color="'purple'"
+        :border-radius="'5px'"
+        :selected="currentVal == n"
+        @click="
+          () => {
+            currentVal = n
+          }
+        "
+        >{{ n }}</btn
+      >
     </div>
   </div>
 
@@ -57,6 +144,22 @@
     </div>-->
 </template>
 <style lang="scss" scoped>
+  .val-cont {
+    grid-row: 2;
+    grid-column: span 3;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+    padding: 5px 0px;
+    gap: 10px;
+  }
+  .test-cont {
+    width: 90%;
+    grid-template-columns: 1fr 6fr 1fr;
+    grid-template-rows: 5fr 2fr;
+    display: grid;
+    justify-self: center;
+  }
   p {
     margin: 0;
     padding: 0;
@@ -135,7 +238,7 @@
     position: relative;
     min-height: 100px;
     height: 9vh;
-    width: 60%;
+    width: 100%;
     z-index: 2;
     /* background-image: linear-gradient(-50deg, var(--bs-orange), var(--bs-yellow) 35%, var(--bs-yellow) 70%, var(--bs-orange)); */
     background-image: linear-gradient(
@@ -143,7 +246,7 @@
       hsl(50, 0%, 90%) -20%,
       hsl(55, 0%, 95%) 80%
     );
-    box-shadow: 0px 0px 11px 2px var(--bg-color2);
+    //box-shadow: 0px 0px 11px 2px var(--bg-color2);
     &::after {
       content: "";
       display: block;
