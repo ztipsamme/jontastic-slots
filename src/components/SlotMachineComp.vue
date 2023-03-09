@@ -8,6 +8,7 @@
   import TotalBet from "./TotalBet.vue"
   import FlashText from "./animations/FlashingText.vue"
   import Btn from "./elements/buttonComponent.vue"
+  import MaxWinning from "./maxWinningComp.vue"
   /*  import iconComponent from "./elements/iconComponent.vue" */
 
   export default {
@@ -16,6 +17,8 @@
       spinner: spinnerComp,
       "flash-text": FlashText,
       btn: Btn,
+      MaxWinning,
+      /* icon: iconComponent, */
       icon: iconComponent,
     },
 
@@ -469,6 +472,7 @@
     </div>
     <div class="row-2">
       <TotalBet :ref="'betComp'" />
+      <MaxWinning />
       <btn
         :color="'green'"
         :height="'13vh'"
@@ -549,6 +553,8 @@
     justify-content: center;
     gap: 2vw;
     align-items: center;
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
   }
   .cont {
     width: 80vw;

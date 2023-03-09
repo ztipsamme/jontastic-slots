@@ -91,7 +91,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .popup-overlay {
     position: fixed;
     top: 0;
