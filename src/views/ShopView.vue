@@ -114,11 +114,15 @@
         <h2 class="second-heading">Bonusar</h2>
         <p class="desc">Levla upp spänningen med någonting extra.</p>
         <div class="d-inline-flex flex-wrap gap-2">
-          <div class="item" :key="item" v-for="item in bonusTypes">
+          <div
+            class="item"
+            :key="item"
+            v-for="item in bonusTypes"
+            @click="onClick(item)"
+          >
             <icon
               :name="item.name"
               :aria-label="item.name"
-              @click="onClick(item)"
               :size="'68px'"
               :src="item.src"
             />
@@ -128,6 +132,9 @@
               }}
             </span>
             <span> {{ item.cost }}t </span>
+            <span class="mini-icon" v-if="item.amount > 0">
+              {{ item.amount }}
+            </span>
           </div>
         </div>
       </div>
@@ -135,33 +142,40 @@
         <h2 class="second-heading">Teman</h2>
         <p class="desc">Anpassa ditt spel med ett tema.</p>
         <div class="d-inline-flex flex-wrap gap-2">
-          <div class="item" v-for="item in themeTypes" :key="item.name">
+          <div
+            class="item"
+            v-for="item in themeTypes"
+            :key="item.name"
+            @click="onClick(item)"
+          >
             <template v-if="'theme' + item + 'Bought'">
               <template v-if="theme3Bought">
-                <span> {{ item.name }} </span>
-
                 <icon
                   :name="item.name"
                   :aria-label="item.name"
-                  @click="onClick(item)"
                   :size="'68px'"
                   :src="item.src"
-                  :style="{
-                    border: item.active ? 'solid 5px #ffde68' : '',
-                  }"
                 />
+                <span> {{ item.name }} </span>
 
-                <span v-if="!item.owned">
-                  <ShoppingCartOutlined
-                    :style="{ fontSize: '23px', color: '#08c' }"
-                    @click="onClick(item)"
-                  />
+                <!-- For sale -->
+                <span class="mini-icon" v-if="!item.owned && item.cost > 0">
+                  <img src="../../assets/svg/icon-cart.svg" width="13" />
                 </span>
-                <span v-else>
-                  <CheckCircleTwoTone
-                    :style="{ fontSize: '26px', color: '#08c' }"
-                /></span>
-                <template v-if="!item.owned"> {{ item.cost }}t</template>
+
+                <!-- Active theme -->
+                <span class="mini-icon active" v-if="item.active">
+                  <img src="../../assets/svg/icon-star.svg" width="14" />
+                </span>
+
+                <!-- Locked theme -->
+                <span class="mini-icon" v-if="!item.owned && item.cost < 1">
+                  <img src="../../assets/svg/icon-lock.svg" width="10" />
+                </span>
+
+                <template v-if="!item.owned && item.cost > 0">
+                  {{ item.cost }}t</template
+                >
               </template></template
             >
           </div>
@@ -202,7 +216,6 @@
 <style lang="scss" scoped>
   //Theme standard
   //One line font -> https://hadrysmateusz.com/blog/font-shorthand
-
   p {
     text-align: start;
   }
@@ -237,10 +250,16 @@
     margin-top: 20px;
   }
   .popup-container {
+    position: fixed;
+    margin: auto;
+    height: 200px;
+    z-index: 100;
+    inset: 0;
     background-color: white;
     border-radius: 10px;
     padding: 20px;
     display: flex;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     width: 300px; /*
@@ -259,5 +278,40 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+  }
+
+  .item {
+    position: relative;
+    margin-right: 15px;
+  }
+
+  .mini-icon {
+    color: #ffffffcc;
+    box-shadow: 0 2px 3px rgb(0, 0, 0, 0.5);
+    position: absolute;
+    inset: -10px 55px;
+    display: flex;
+    border-radius: 100px;
+    background-image: linear-gradient(#4a65b0, #42c4ec);
+    width: 25px;
+    height: 25px;
+    justify-content: center;
+    align-items: center;
+    img {
+      filter: invert(100%) sepia(0%) saturate(7495%) hue-rotate(280deg)
+        brightness(105%) contrast(101%);
+    }
+  }
+  .active {
+    background-image: linear-gradient(
+      45deg,
+      hsl(50, 100%, 50%),
+      hsl(55, 100%, 75%)
+    );
+    color: #635823;
+    img {
+      filter: invert(32%) sepia(17%) saturate(1418%) hue-rotate(12deg)
+        brightness(97%) contrast(89%);
+    }
   }
 </style>

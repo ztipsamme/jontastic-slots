@@ -3,6 +3,7 @@
   import { useThemeStore } from "../stores/themes.js"
   import { useScoreStore } from "../stores/scoreStore.js"
   import { useAudioStore } from "../stores/audio"
+  import iconComponent from "../components/elements/iconComponent.vue"
   import spinnerComp from "./ReelsComp.vue"
   import TotalBet from "./TotalBet.vue"
   import FlashText from "./animations/FlashingText.vue"
@@ -18,12 +19,13 @@
       btn: Btn,
       MaxWinning,
       /* icon: iconComponent, */
+      icon: iconComponent,
     },
 
     emits: { stop: null },
 
     created() {
-      console.log("FUNKA DÅ SKIT!")
+      // console.log("FUNKA DÅ SKIT!")
       if (this.tokens.bonusTypes.find((i) => i.name === "Extra Row").active) {
         this.reels = 4
         this.extraRowCount = this.tokens.bonusTypes.find(
@@ -86,7 +88,7 @@
 
     methods: {
       handleKeyPress(event) {
-        console.log("press")
+        // console.log("press")
         if (event.keyCode === 32) {
           this.gameStart()
         }
@@ -160,7 +162,7 @@
           for (let i = 6; i > 0; i--) {
             winVal = i
             isHigher = Math.floor(Math.random() * 2)
-            console.log("isHigher", isHigher, winVal)
+            // console.log("isHigher", isHigher, winVal)
             if (isHigher) {
               break
             }
@@ -227,22 +229,29 @@
         return this.numIndex
       },
       done() {
+        let bonus = this.tokens.bonusTypes
+        let theme = this.tokens.themeTypes
+        let currentTheme =
+          this.theme.currentTheme.charAt(0).toUpperCase() +
+          this.theme.currentTheme.slice(1)
+        let deluxeTheme = theme.find((i) => i.basic === currentTheme)
+
+        console.log(currentTheme)
+        console.log(deluxeTheme)
+        console.log(deluxeTheme.basic)
+
         this.isSpinning = false
         if (!this.extraRowCount && this.reels == 4) {
-          let extraRow = this.tokens.bonusTypes.find(
-            (i) => i.name === "Extra Row",
-          )
+          let extraRow = bonus.find((i) => i.name === "Extra Row")
           extraRow.active = false
           this.reels = 3
           this.spinnerArr = new Array(this.reels)
             .fill(null)
             .map(() => this.generateSpinner())
 
-          console.log(this.spinnerArr)
+          // console.log(this.spinnerArr)
         }
-        this.tokens.bonusTypes.find(
-          (i) => i.name === "Extra Spin",
-        ).active = false
+        bonus.find((i) => i.name === "Extra Spin").active = false
         if (this.num.every((e) => e == this.num[0])) {
           this.winner = true
           /*  let audioWin = new Audio("../../assets/audio/win.mp3")
@@ -252,10 +261,39 @@
 
           let winSum =
             this.tokens.tokens.bet + this.tokens.tokens.bet * (7 - this.num[0])
-          this.winSum = winSum
-          this.tokens.winning(winSum)
-          /*   let audioCash = new Audio("../../assets/audio/cash-in.mp3")
-          audioCash.play() */
+
+          //Types of win
+          switch (this.num[0]) {
+            case 6:
+              if (currentTheme === deluxeTheme.basic && !deluxeTheme.owned) {
+                deluxeTheme.owned = true
+                this.winSum = deluxeTheme.name
+              } else {
+                this.winSum = winSum + "t"
+                this.tokens.winning(winSum)
+              }
+              break
+            case 3:
+              if (winSum < bonus.find((i) => i.name === "Extra Spin").cost) {
+                bonus.find((i) => i.name === "Extra Spin").amount++
+                this.winSum =
+                  "1 " + bonus.find((i) => i.name === "Extra Spin").name
+              } else {
+                let x = winSum / bonus.find((i) => i.name === "Extra Spin").cost
+
+                for (let i = 0; i < x; i++) {
+                  bonus.find((i) => i.name === "Extra Spin").amount++
+                }
+                this.winSum =
+                  x + "st " + bonus.find((i) => i.name === "Extra Spin").name
+              }
+              break
+            default:
+              this.winSum = winSum + "t"
+              this.tokens.winning(winSum)
+              break
+          }
+          //console.log("Yay, you won " + winSum + " toekns! =D")
         } else if (this.tokens.tokens.sum < 5) {
           this.winner = false
           this.gameOver = true
@@ -269,24 +307,24 @@
           this.tokens.tokens.bet > this.tokens.tokens.sum &&
           this.tokens.tokens.bet < this.winSum
         ) {
-          console.log("setBet")
+          // console.log("setBet")
           this.$refs.betComp.setBet(this.tokens.tokens.sum)
         }
 
         // Spara och hantera top scores
         const scoreList = this.score.scores.highScore
+        // console.log("Före: " + scoreList)
+        // console.log(Array.isArray(this.score.scores.highScore))
+
         if (!scoreList.includes(this.winSum)) {
           scoreList.push(this.winSum)
         }
 
         scoreList.sort((a, b) => b - a)
         this.score.scores.highScore = scoreList.slice(0, 6)
-
-        console.log(this.winSum, this.score.scores.highScore[0], this.topScore)
-
-        if (this.winSum > this.score.scores.highScore[1]) {
-          this.topScore = true
-        }
+        // console.log(
+        //   "Uppdaterat: " + JSON.stringify(this.score.scores.highScore),
+        // )
       },
 
       gameStart(freeSpin = false) {
@@ -298,16 +336,16 @@
         if (this.tokens.tokens.sum - this.tokens.tokens.bet < 0) {
           return
         }
-        console.log("startgame", this.isSpinning)
+        // console.log("startgame", this.isSpinning)
 
         if (this.extraRowCount) {
           this.extraRowCount--
         }
 
         this.winner = false
-        console.log(freeSpin)
+        // console.log(freeSpin)
         if (!freeSpin) {
-          console.log("WFT")
+          // console.log("WFT")
           this.tokens.takeoutBet(this.tokens.tokens.bet)
         }
 
@@ -357,7 +395,7 @@
       height: '100vh',
       zIndex: '99',
     }"
-    :text="'Vinst: ' + winSum + 't'"
+    :text="'Vinst: ' + winSum"
     @click="winner = !winner"
   />
 
@@ -383,20 +421,26 @@
         v-for="b in tokens.bonusTypes.filter((e) => e.amount > 0)"
         :key="b.name"
       >
-        <btn
-          :circle="true"
-          :size="'small'"
-          :width="'50%'"
-          :styles="{ minWidth: '50px', maxWidth: '150px' }"
-          :border-radius="'5px'"
-          :selected="b.active"
+        <div
+          class="item"
           @click="activateBonus(b.name.replace(/[^A-z]/g, '').toLowerCase())"
-          ><p>{{ b.amount }}</p>
-          <img class="icon" :src="b.src" :alt="b.name" />
-        </btn>
-        {{ b.name }}
+        >
+          <icon
+            :name="b.name"
+            :aria-label="b.name"
+            :size="'68px'"
+            :src="b.src"
+          />
+          <div>
+            {{ b.name.substring(b.name.indexOf("Extra") + "extra".length) }}
+          </div>
+          <div class="mini-icon" v-if="b.amount > 0">
+            {{ b.amount }}
+          </div>
+        </div>
       </div>
     </div>
+
     <div class="reels-col col">
       <div class="col-1" />
       <div class="reel-cont">
@@ -504,5 +548,30 @@
     grid-column-start: 2;
     display: grid;
     width: 100%;
+  }
+
+  .item {
+    position: relative;
+    margin-right: 15px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .mini-icon {
+    color: #ffffffcc;
+    box-shadow: 0 2px 3px rgb(0, 0, 0, 0.5);
+    position: absolute;
+    inset: -10px 55px;
+    display: flex;
+    border-radius: 100px;
+    background-image: linear-gradient(#4a65b0, #42c4ec);
+    width: 25px;
+    height: 25px;
+    justify-content: center;
+    align-items: center;
+    img {
+      filter: invert(100%) sepia(0%) saturate(7495%) hue-rotate(280deg)
+        brightness(105%) contrast(101%);
+    }
   }
 </style>
