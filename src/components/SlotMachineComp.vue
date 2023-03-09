@@ -251,14 +251,26 @@
           //Types of win
           switch (this.num[0]) {
             case 6:
-              console.log("switch:", "sex")
-              this.winSum = "bonus"
+              if (winSum < bonus.find((i) => i.name === "Extra Spin").cost) {
+                bonus.find((i) => i.name === "Extra Spin").amount++
+                this.winSum =
+                  "1 " + bonus.find((i) => i.name === "Extra Spin").name
+              } else {
+                let x = winSum / bonus.find((i) => i.name === "Extra Spin").cost
+
+                for (let i = 0; i < x; i++) {
+                  bonus.find((i) => i.name === "Extra Spin").amount++
+                }
+                this.winSum =
+                  x + "st " + bonus.find((i) => i.name === "Extra Spin").name
+
+                console.log(x)
+              }
+
               break
             default:
-              console.log("switch:", "default")
               this.winSum = winSum + "t"
               this.tokens.winning(winSum)
-              audioCash.play()
               break
           }
           //console.log("Yay, you won " + winSum + " toekns! =D")
