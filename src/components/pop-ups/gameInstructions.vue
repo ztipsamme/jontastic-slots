@@ -19,7 +19,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
   .popup-title {
     text-align: center;
     font-size: 25px;

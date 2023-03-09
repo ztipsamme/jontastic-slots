@@ -416,6 +416,7 @@
         @click="gameStart()"
         :disabled="tokens.tokens.bet > tokens.tokens.sum"
         :styles="{ maxHeight: '65px' }"
+        :size="'x-large'"
       >
         SPELA
       </btn>
