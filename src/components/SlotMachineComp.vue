@@ -225,6 +225,11 @@
       },
       done() {
         let bonus = this.tokens.bonusTypes
+        let theme = this.tokens.themeTypes
+        let currentTheme =
+          this.theme.currentTheme.charAt(0).toUpperCase() +
+          this.theme.currentTheme.slice(1)
+        let deluxeTheme = theme.find((i) => i.name === currentTheme + " deluxe")
 
         this.isSpinning = false
         if (!this.extraRowCount && this.reels == 4) {
@@ -250,6 +255,18 @@
 
           //Types of win
           switch (this.num[0]) {
+            case 2:
+              if (
+                currentTheme === deluxeTheme.name.replace(" deluxe", "") &&
+                !deluxeTheme.owned
+              ) {
+                deluxeTheme.owned = true
+                this.winSum = deluxeTheme.name
+              } else {
+                this.winSum = winSum + "t"
+                this.tokens.winning(winSum)
+              }
+              break
             case 3:
               if (winSum < bonus.find((i) => i.name === "Extra Spin").cost) {
                 bonus.find((i) => i.name === "Extra Spin").amount++
@@ -264,7 +281,6 @@
                 this.winSum =
                   x + "st " + bonus.find((i) => i.name === "Extra Spin").name
               }
-
               break
             default:
               this.winSum = winSum + "t"

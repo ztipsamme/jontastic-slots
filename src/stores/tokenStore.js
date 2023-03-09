@@ -38,8 +38,22 @@ export const useTokenStore = defineStore("tokens", {
         src: "./src/components/themes/default/ico1.svg",
       },
       {
+        name: "Diamant deluxe",
+        cost: 0,
+        owned: false,
+        active: false,
+        src: "./src/components/themes/default/ico1.svg",
+      },
+      {
         name: "Katt",
         cost: 250,
+        owned: false,
+        active: false,
+        src: "./src/components/themes/CatTheme/ico1.svg",
+      },
+      {
+        name: "Katt deluxe",
+        cost: 0,
         owned: false,
         active: false,
         src: "./src/components/themes/CatTheme/ico1.svg",
