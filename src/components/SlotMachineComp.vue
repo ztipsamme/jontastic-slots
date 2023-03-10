@@ -67,6 +67,7 @@
         isWinner: false,
         winnerType: 0,
         oddsModifier: 0,
+        numMatrix: [],
       }
     },
 
@@ -113,7 +114,7 @@
           this.gameStart()
         }
       },
-      generateSpinner() {
+      generateSpinnerOLD() {
         let array = []
         for (var i = 1; i <= 6; i++) {
           array = new Array(i).fill(i).concat(array)
@@ -129,6 +130,29 @@
         array = shuffleArray(array)
         return array
       },
+      generateSpinner() {
+        let array = []
+        let preval = []
+        for (var i = 0; i < this.count; i++) {
+          let val = Math.floor(Math.random() * 6) + 1
+          while (preval.indexOf(val) != -1) {
+            val = Math.floor(Math.random() * 6) + 1
+          }
+          if (preval.length < 4) {
+            preval.push(val)
+          } else {
+            preval.pop()
+            preval.unshift(val)
+          }
+          array[i] = val
+        }
+        if ([...new Set(array)].length < 6) {
+          console.log(array)
+          array = this.generateSpinner()
+        }
+        return array
+      },
+
       findNumber(winVal, index) {
         let reel = this.spinnerArr[index]
         let arr = []
@@ -202,6 +226,25 @@
           }
         }
       },
+      getMatrix(index) {
+        let i = 0
+        let matrix = []
+        for (let reel of this.spinnerArr) {
+          matrix[0] = []
+          matrix[1] = []
+          matrix[2] = []
+          matrix[0][i] = reel[i][index[i] - 1]
+            ? reel[i][index[i] - 1]
+            : reel[i][reel[i].length - 1]
+          matrix[1][i] = reel[i][index[i]]
+          matrix[2][i] = reel[i][index[i] + 1]
+            ? reel[i][index[i] + 1]
+            : reel[i][0]
+          i++
+        }
+        this.numMatrix = matrix
+        return this.numMatrix
+      },
 
       altGetNumbers() {
         this.numIndex = []
@@ -209,7 +252,7 @@
         // skall detta spel ge en vinst?
         this.isWinner = Math.floor(Math.random() * 4 + this.oddsModifier) >= 3
         // Om det blir vinst
-        if (this.isWinner && false) {
+        if (this.isWinner) {
           this.winnerType = 0
 
           /**TODO
@@ -251,7 +294,7 @@
         } else {
           this.oddsModifier <= -1 ? 0 : this.oddsModifier + 0.001
           let speciall = Math.floor(
-            Math.random() * 6 - 4 * Math.abs(this.oddsModifier),
+            Math.random() * 10 - 4 * Math.abs(this.oddsModifier),
           )
           console.log(speciall)
           this.winnerType = 1 + speciall
@@ -345,6 +388,80 @@
         }
 
         return { num: this.num, numIndex: this.numIndex }
+      },
+      iconCorr() {
+        let winnum = this.spinnerArr[0][this.numIndex[0]]
+        let start, x, y
+        let pattern
+        console.log("ico-koee", this.winnerType)
+        switch (this.winnerType) {
+          case 0: {
+            x = 0
+
+            pattern = [
+              [1, 0],
+              [1, 1],
+              [1, 2],
+            ]
+            break
+          }
+          case 1: {
+            y = -1
+            x = 1
+
+            pattern = [
+              [0, 0],
+              [1, 1],
+              [2, 2],
+            ]
+            break
+          }
+
+          case 2: {
+            x = -1
+            y = 1
+            pattern = [
+              [2, 0],
+              [1, 1],
+              [0, 2],
+            ]
+            break
+          }
+
+          case 3: {
+            x = 1
+            y = 0
+            pattern = [
+              [0, 0],
+              [0, 1],
+              [0, 2],
+            ]
+            break
+          }
+
+          case 4: {
+            x = -1
+            y = 0
+            pattern = [
+              [2, 0],
+              [2, 1],
+              [2, 2],
+            ]
+            break
+          }
+        }
+        start = this.numIndex[0] + x
+        let matrix = this.getMatrix(start)
+        for (let row = 0; row < matrix.length; row++) {
+          for (let col = 0; col < matrix[row].length; col++) {
+            if (pattern.findIndex((e) => e[0] == row && e[1] == col)) {
+              continue
+            }
+            if (matrix[row][col] == winnum) {
+              this.spinnerArr[col][this.numIndex[col] + (x + y * row)] == 1
+            }
+          }
+        }
       },
       getWinnings() {
         let extra = false
@@ -565,6 +682,9 @@
         }
 
         this.altGetNumbers()
+        if (this.isWinner) {
+          this.iconCorr()
+        }
 
         this.$refs.child.start(this.numIndex, this.isWinner, this.winnerType)
       },

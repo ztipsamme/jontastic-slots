@@ -165,13 +165,13 @@
           }
           // top-row
           case 3: {
-            x = -1
+            x = 1
             y = 0
             break
           }
           // bottom-row
           case 4: {
-            x = 1
+            x = -1
             y = 0
             break
           }
