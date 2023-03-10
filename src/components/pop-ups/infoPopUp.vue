@@ -107,13 +107,12 @@
 
   .popup {
     top: 0;
-    position: absolute;
-    width: 600px;
+    position: relative;
+    width: 80vw;
     margin: 0;
     padding: 0;
     .tabs {
       padding: 0;
-      padding-top: calc(48px - 34px);
       display: flex;
       gap: 1px;
       align-items: center;
@@ -137,7 +136,9 @@
           background-color: transparent;
           border: none;
           img {
-            width: 16px;
+            width: 20px;
+            filter: invert(100%) sepia(91%) saturate(38%) hue-rotate(321deg)
+              brightness(110%) contrast(110%);
           }
         }
       }
@@ -154,43 +155,17 @@
     background-color: #fff;
     border: solid 2px #ad98d0;
     border-radius: 10px;
-    padding: 20px;
+    padding: 2rem 4rem;
     margin: 0;
     width: 100%;
-    min-height: 100px;
-    max-height: 300px;
+    min-height: 80vh;
+    max-height: 80vh;
     overflow-y: scroll;
+    h1 {
+      text-align: center;
+    }
+    p {
+      font-size: 1.2rem;
+    }
   }
-
-  // .popup-title {
-  //   margin-top: 0;
-  // }
-
-  // .symbol-values {
-  //   display: flex;
-  //   flex-wrap: wrap;
-  //   justify-content: space-around;
-  // }
-
-  // .symbol-value {
-  //   display: flex;
-  //   flex-direction: column;
-  //   align-items: center;
-  //   margin-bottom: 10px;
-  // }
-
-  // .symbol-image {
-  //   height: 50px;
-  //   width: 50px;
-  //   margin-top: 10px;
-  // }
-
-  // .symbol-name {
-  //   margin-top: 10px;
-  //   font-weight: bold;
-  // }
-
-  // .symbol-points {
-  //   margin-top: 5px;
-  // }
 </style>

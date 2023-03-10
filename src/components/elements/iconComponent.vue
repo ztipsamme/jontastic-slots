@@ -1,5 +1,10 @@
 <script>
+  import miniIcon from "../elements/miniIconComp.vue"
+
   export default {
+    components: {
+      miniIcon,
+    },
     props: {
       name: {
         type: String,
@@ -12,6 +17,15 @@
       size: {
         type: String,
         default: "68px",
+      },
+      item: {
+        type: Object,
+        default: () => ({
+          owned: "",
+          amount: "",
+          cost: "",
+          name: "",
+        }),
       },
     },
     data() {
@@ -41,17 +55,22 @@
   }
 </script>
 <template>
-  <button
-    :style="style"
-    :class="
-      'shop-item ' +
-      (name.startsWith('Extra')
-        ? 'bonus'
-        : name.toLowerCase().replace(/theme/g, '').trim().replace(/\s/g, '-'))
-    "
-  >
-    <img class="icon" :style="imgStyle" :src="src" :alt="name" />
-  </button>
+  <div class="wrapper">
+    <button
+      :style="style"
+      :class="
+        'shop-item ' +
+        (name.startsWith('Extra')
+          ? 'bonus'
+          : name.toLowerCase().replace(/theme/g, '').trim().replace(/\s/g, '-'))
+      "
+    >
+      <img class="icon" :style="imgStyle" :src="src" :alt="name" />
+    </button>
+    <div class="mini">
+      <miniIcon :item="item" />
+    </div>
+  </div>
 </template>
 <style lang="scss" scoped>
   .shop-item {
@@ -82,16 +101,28 @@
     $primary: #b18617;
     $secondary: #ffde68;
     background-color: $secondary;
+    img {
+      filter: invert(44%) sepia(98%) saturate(371%) hue-rotate(5deg)
+        brightness(99%) contrast(95%);
+    }
   }
   .eld {
     $primary: #b32e10;
     $secondary: #820303;
     background-color: $secondary;
   }
+  .wrapper {
+    position: relative;
+  }
+  .mini {
+    position: absolute;
+    inset: -10px 55px;
+  }
 </style>
 
 <style scoped>
   button {
+    position: relative;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
   }
 </style>

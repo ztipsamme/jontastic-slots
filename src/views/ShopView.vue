@@ -3,15 +3,10 @@
   import { useThemeStore } from "../stores/themes.js"
   import iconComponent from "../components/elements/iconComponent.vue"
   import buttonComponent from "../components/elements/buttonComponent.vue"
-  import {
-    ShoppingCartOutlined,
-    CheckCircleTwoTone,
-  } from "@ant-design/icons-vue"
+  import {} from "@ant-design/icons-vue"
 
   export default {
     components: {
-      ShoppingCartOutlined,
-      CheckCircleTwoTone,
       icon: iconComponent,
       btn: buttonComponent,
     },
@@ -19,7 +14,7 @@
       const tokenStore = useTokenStore()
       const theme = useThemeStore()
       window.content = tokenStore
-      return { tokenStore, theme, ShoppingCartOutlined, CheckCircleTwoTone }
+      return { tokenStore, theme }
     },
 
     data() {
@@ -125,6 +120,7 @@
               :aria-label="item.name"
               :size="'68px'"
               :src="item.src"
+              :item="item"
             />
             <span>
               {{
@@ -132,9 +128,6 @@
               }}
             </span>
             <span> {{ item.cost }}t </span>
-            <span class="mini-icon" v-if="item.amount > 0">
-              {{ item.amount }}
-            </span>
           </div>
         </div>
       </div>
@@ -155,23 +148,9 @@
                   :aria-label="item.name"
                   :size="'68px'"
                   :src="item.src"
+                  :item="item"
                 />
                 <span> {{ item.name }} </span>
-
-                <!-- For sale -->
-                <span class="mini-icon" v-if="!item.owned && item.cost > 0">
-                  <img src="../../assets/svg/icon-cart.svg" width="13" />
-                </span>
-
-                <!-- Active theme -->
-                <span class="mini-icon active" v-if="item.active">
-                  <img src="../../assets/svg/icon-star.svg" width="14" />
-                </span>
-
-                <!-- Locked theme -->
-                <span class="mini-icon" v-if="!item.owned && item.cost < 1">
-                  <img src="../../assets/svg/icon-lock.svg" width="10" />
-                </span>
 
                 <template v-if="!item.owned && item.cost > 0">
                   {{ item.cost }}t</template
@@ -281,37 +260,6 @@
   }
 
   .item {
-    position: relative;
     margin-right: 15px;
-  }
-
-  .mini-icon {
-    color: #ffffffcc;
-    box-shadow: 0 2px 3px rgb(0, 0, 0, 0.5);
-    position: absolute;
-    inset: -10px 55px;
-    display: flex;
-    border-radius: 100px;
-    background-image: linear-gradient(#4a65b0, #42c4ec);
-    width: 25px;
-    height: 25px;
-    justify-content: center;
-    align-items: center;
-    img {
-      filter: invert(100%) sepia(0%) saturate(7495%) hue-rotate(280deg)
-        brightness(105%) contrast(101%);
-    }
-  }
-  .active {
-    background-image: linear-gradient(
-      45deg,
-      hsl(50, 100%, 50%),
-      hsl(55, 100%, 75%)
-    );
-    color: #635823;
-    img {
-      filter: invert(32%) sepia(17%) saturate(1418%) hue-rotate(12deg)
-        brightness(97%) contrast(89%);
-    }
   }
 </style>

@@ -199,9 +199,8 @@
           :size="'large'"
           :selected="$route.path == '/score'"
         >
-          Score
-        </btn></RouterLink
-      >
+          <i class="bi bi-trophy-fill" /> </btn
+      ></RouterLink>
     </nav>
     <div class="token-display">
       <div class="token-icon">t</div>

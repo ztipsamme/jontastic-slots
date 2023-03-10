@@ -26,7 +26,7 @@ export const useTokenStore = defineStore("tokens", {
         amount: 0,
         count: 1,
         active: false,
-        src: "./assets/svg/icon-spin.svg",
+        src: "./assets/svg/xmark.svg",
       },
       {
         name: "Extra Row",

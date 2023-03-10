@@ -1,5 +1,5 @@
 <template>
-  <h2 class="popup-title">Symbolvärden</h2>
+  <h1 class="popup-title">Symbolvärden</h1>
   <div class="symbols">
     <div class="symbol-cont" v-for="(img, ind) in icons" :key="ind">
       <img :src="img" class="symbol" />
@@ -24,13 +24,6 @@
 </script>
 
 <style scoped lang="scss">
-  .popup-title {
-    text-align: center;
-    font-size: 25px;
-    font-weight: bold;
-    margin-bottom: 16px;
-  }
-
   .symbols {
     display: flex;
     flex-direction: row;

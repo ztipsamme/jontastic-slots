@@ -433,24 +433,24 @@
     <div class="bonus-container">
       <div
         class="bonus-wrapper"
-        v-for="b in tokens.bonusTypes.filter((e) => e.amount > 0)"
-        :key="b.name"
+        v-for="item in tokens.bonusTypes.filter((e) => e.amount > 0)"
+        :key="item.name"
       >
         <div
           class="item"
-          @click="activateBonus(b.name.replace(/[^A-z]/g, '').toLowerCase())"
+          @click="activateBonus(item.name.replace(/[^A-z]/g, '').toLowerCase())"
         >
           <icon
-            :name="b.name"
-            :aria-label="b.name"
+            :name="item.name"
+            :aria-label="item.name"
             :size="'68px'"
-            :src="b.src"
+            :src="item.src"
+            :item="item"
           />
           <div>
-            {{ b.name.substring(b.name.indexOf("Extra") + "extra".length) }}
-          </div>
-          <div class="mini-icon" v-if="b.amount > 0">
-            {{ b.amount }}
+            {{
+              item.name.substring(item.name.indexOf("Extra") + "extra".length)
+            }}
           </div>
         </div>
       </div>
@@ -566,27 +566,7 @@
   }
 
   .item {
-    position: relative;
-    margin-right: 15px;
     text-align: center;
     cursor: pointer;
-  }
-
-  .mini-icon {
-    color: #ffffffcc;
-    box-shadow: 0 2px 3px rgb(0, 0, 0, 0.5);
-    position: absolute;
-    inset: -10px 55px;
-    display: flex;
-    border-radius: 100px;
-    background-image: linear-gradient(#4a65b0, #42c4ec);
-    width: 25px;
-    height: 25px;
-    justify-content: center;
-    align-items: center;
-    img {
-      filter: invert(100%) sepia(0%) saturate(7495%) hue-rotate(280deg)
-        brightness(105%) contrast(101%);
-    }
   }
 </style>

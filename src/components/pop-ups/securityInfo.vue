@@ -16,19 +16,3 @@
     </p>
   </div>
 </template>
-
-<style scoped>
-  .popup-title {
-    text-align: center;
-    font-size: 25px;
-    font-weight: bold;
-    margin-bottom: 16px;
-  }
-
-  p {
-    text-align: center;
-  }
-  .container {
-    margin-bottom: 20px;
-  }
-</style>
