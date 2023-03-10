@@ -12,6 +12,16 @@
   /*  import iconComponent from "./elements/iconComponent.vue" */
 
   export default {
+    setup() {
+      const tokens = useTokenStore()
+      const theme = useThemeStore()
+      const score = useScoreStore()
+      const audio = useAudioStore()
+      window.content = score
+
+      return { tokens, theme, score, audio }
+    },
+
     components: {
       TotalBet,
       spinner: spinnerComp,
@@ -41,16 +51,6 @@
       document.addEventListener("keydown", this.handleKeyPress)
     },
 
-    setup() {
-      const tokens = useTokenStore()
-      const theme = useThemeStore()
-      const score = useScoreStore()
-      const audio = useAudioStore()
-      window.content = score
-
-      return { tokens, theme, score, audio }
-    },
-
     data() {
       return {
         count: 21,
@@ -64,6 +64,9 @@
         gameOver: false,
         winSum: 0,
         staticBet: null,
+        isWinner: false,
+        winnerType: 0,
+        oddsModifier: 0,
       }
     },
 
@@ -88,6 +91,22 @@
     },
 
     methods: {
+      winNum() {
+        let winVal = 6
+        let isHigher
+
+        // Testa om vinsten skall höjas
+        for (let i = 6; i > 0; i--) {
+          winVal = i
+          isHigher = Math.floor(Math.random() * 2)
+
+          // Så länge som 'isHigher' == 0 fortsätter loopen och vinsten blir bättre
+          if (isHigher) {
+            break
+          }
+        }
+        return winVal
+      },
       handleKeyPress(event) {
         // console.log("press")
         if (event.keyCode === 32) {
@@ -110,7 +129,31 @@
         array = shuffleArray(array)
         return array
       },
+      findNumber(winVal, index) {
+        let reel = this.spinnerArr[index]
+        let arr = []
 
+        // Loopa igenom alla värden för att sortera ut på vilka index vinnande siffra ligger på respektive snurra
+        reel.forEach((e, i) => {
+          if (e == winVal) {
+            arr.push(i)
+          }
+        })
+
+        //Slumpmässigt välja ut ett av de ovan hittade indexen
+        let nIndex = arr[Math.floor(Math.random() * arr.length)]
+
+        //Spara valt index för respektive snurra
+
+        // spara vilket nummer det är som är vinst nummer
+        let num = reel[nIndex]
+
+        // Felhantering om det skulle bli fel nummmer som sparas!
+        if (num != winVal) {
+          throw new Error("FELAKTIGT VIST NUMMER")
+        }
+        return { num: num, index: nIndex }
+      },
       activateBonus(name) {
         //let audio = new Audio("../../assets/audio/bonus.mp3")
         //audio.play()
@@ -163,90 +206,219 @@
       altGetNumbers() {
         this.numIndex = []
         this.num = []
-        let isWinner = Math.floor(Math.random() * 3) == 2
+        // skall detta spel ge en vinst?
+        this.isWinner = Math.floor(Math.random() * 4 + this.oddsModifier) >= 3
+        // Om det blir vinst
+        if (this.isWinner && false) {
+          this.winnerType = 0
 
-        if (isWinner) {
-          let winVal = 6
-          let isHigher
+          /**TODO
+           * Skall ordningen på siffrorna ändras? så att 1 blir lägsta och 6 blir högsta?
+           */
 
-          for (let i = 6; i > 0; i--) {
-            winVal = i
-            isHigher = Math.floor(Math.random() * 2)
-            // console.log("isHigher", isHigher, winVal)
-            if (isHigher) {
+          let winVal = this.winNum()
+
+          this.oddsModifier >= 1 ? 0 : this.oddsModifier - 0.002
+          // spinnerArr innehåller en Array för respektive snurra.
+          this.spinnerArr.forEach((reel, index) => {
+            let info = this.findNumber(winVal, index)
+            this.numIndex[index] = info.index
+            this.num[index] = info.num
+
+            /*             let arr = []
+
+              // Loopa igenom alla värden för att sortera ut på vilka index vinnande siffra ligger på respektive snurra
+              reel.forEach((e, i) => {
+                if (e == winVal) {
+                  arr.push(i)
+                }
+              })
+
+              //Slumpmässigt välja ut ett av de ovan hittade indexen
+              let nIndex = arr[Math.floor(Math.random() * arr.length)]
+
+              //Spara valt index för respektive snurra
+              this.numIndex[index] = nIndex
+
+              // spara vilket nummer det är som är vinst nummer
+              this.num[index] = reel[this.numIndex[index]]
+
+              // Felhantering om det skulle bli fel nummmer som sparas!
+              if (this.num[index] != winVal) {
+                throw new Error("FELAKTIGT VIST NUMMER")
+              } */
+          })
+        } else {
+          this.oddsModifier <= -1 ? 0 : this.oddsModifier + 0.001
+          let speciall = Math.floor(
+            Math.random() * 6 - 4 * Math.abs(this.oddsModifier),
+          )
+          console.log(speciall)
+          this.winnerType = 1 + speciall
+          let indexKorr
+          let y
+
+          console.log("winnerType", this.winnerType)
+          switch (this.winnerType) {
+            // diagonalTopLeft-BotRight
+            case 1: {
+              this.isWinner = true
+              indexKorr = -1
+              y = 1
+              break
+            }
+            // diagonalTopRight-BotLeft
+            case 2: {
+              this.isWinner = true
+              indexKorr = 1
+              y = -1
+              break
+            }
+            // top-row
+            case 3: {
+              this.isWinner = true
+              indexKorr = 1
+              y = 0
+              break
+            }
+            // bottom-row
+            case 4: {
+              this.isWinner = true
+              indexKorr = -1
+              y = 0
+              break
+            }
+            default: {
+              this.isWinner = false
               break
             }
           }
+          if (this.isWinner) {
+            let x = indexKorr
+            let next = y
 
-          //Här är winVal vinst siffran
-          /*
-            6: 1/3 * 1/2 = 1/6
-            5: 1/3 * 1/2 = 1/6
-            4: 1/3 * 1/2 * 1/2 = 1/12
-            3: 1/24
-            2: 1/48
-            1: 1/96
-
-
-           1 5 3 5 5 8 6 4 8 9 3
-           1 4 4 4 8 9 3
-           1 6 7 3 1 8 2 5 5 8 6 4 8 9 3
-
-
-            */
-
-          this.spinnerArr.forEach((reel, index) => {
-            let arr = []
-            reel.forEach((e, i) => {
-              if (e == winVal) {
-                arr.push(i)
-              }
+            let winVal = this.winNum()
+            this.spinnerArr.forEach((e, i) => {
+              let info = this.findNumber(winVal, i)
+              let index =
+                info.index + x >= e.length
+                  ? 0
+                  : info.index + x < 0
+                  ? e.length - 1
+                  : info.index + x
+              console.log("index,", index)
+              this.numIndex[i] = index
+              this.num[i] = winVal
+              x += next
             })
-            let nIndex = arr[Math.floor(Math.random() * arr.length)]
+          } else {
+            this.isWinner = false
+            this.spinnerArr.forEach((e, i) => {
+              //spara index för slumpmässigt index
+              this.numIndex[i] = Math.floor(Math.random() * e.length)
+              //spara nummret för det indexet
+              this.num[i] = e[this.numIndex[i]]
+            })
 
-            this.numIndex[index] = nIndex
-            this.num[index] = reel[this.numIndex[index]]
-          })
-        } else {
-          /** TODO */
-          /** Gör egentligen samma sak som för att hitta vinst nummer, men snurra till index+1 mot siffran som det ska vara */
+            // kolla om det ändå skulle bli 3 lika irad
+            if (this.num.every((e) => e == this.num[0])) {
+              //Sparar det lika nummret
+              let same = this.num[0]
 
-          this.spinnerArr.forEach((e, i) => {
-            this.numIndex[i] = Math.floor(Math.random() * e.length)
-            this.num[i] = e[this.numIndex[i]]
-          })
+              let reel = Math.floor(Math.random() * this.num.length)
 
-          if (this.num.every((e) => e == this.num[0])) {
-            let same = this.num[0]
-            let reel = Math.floor(Math.random() * this.num.length)
-            while (this.num[reel] == same) {
-              this.numIndex[reel] = Math.floor(
-                Math.random() * this.spinnerArr[reel].length,
-              )
-              this.num[reel] = this.spinnerArr[reel][this.numIndex[reel]]
+              // Kör sålänge nummret blir samma
+              while (this.num[reel] == same) {
+                this.numIndex[reel] = Math.floor(
+                  Math.random() * this.spinnerArr[reel].length,
+                )
+                this.num[reel] = this.spinnerArr[reel][this.numIndex[reel]]
+              }
             }
           }
+
+          /** TODO
+           * Gör egentligen samma sak som för att hitta vinst nummer, men snurra till index+1 mot siffran som det ska vara
+           */
+
+          // Loppa igenom varje spinner
         }
 
         return { num: this.num, numIndex: this.numIndex }
       },
+      getWinnings() {
+        let extra = false
+        let winSum = 0
+        let bonus
+        let theme
+        if (this.num[0 < 4] && this.staticBet > 25) {
+          extra = true
+        }
+        console.log("getWinnings")
+        switch (this.winnerType) {
+          case 1: {
+            // falls through
+          }
+          case 2: {
+            bonus =
+              this.tokens.bonusTypes[
+                Math.floor(Math.random() * this.tokens.bonusTypes.length)
+              ]
+            if (!extra) {
+              winSum =
+                this.staticBet +
+                Math.ceil((this.staticBet * (7 - this.num[0])) / 3)
+              while (bonus.name == "Extra Dubbel") {
+                bonus =
+                  this.tokens.bonusTypes[
+                    Math.floor(Math.random() * this.tokens.bonusTypes.length)
+                  ]
+              }
+            }
+            winSum = this.staticBet + 10
+            break
+          }
+          case 3: {
+            //falls through
+          }
+          case 4: {
+            theme =
+              this.tokens.themeTypes[
+                Math.floor(Math.random() * this.tokens.themeTypes.length)
+              ]
 
-      checkNumbers() {
-        let val = this.altGetNumbers()
-        this.num = val.num
-        this.numIndex = val.numIndex
+            if (theme.owneds) {
+              winSum = theme.cost
+            }
 
-        return this.numIndex
+            break
+          }
+        }
+        let name = ""
+        let sum = ""
+        if (bonus) {
+          bonus.amount++
+          name = bonus.name
+        }
+        if (theme) {
+          theme.owned = true
+          name = theme.name
+        }
+        if (winSum) {
+          this.tokens.winning(winSum)
+          sum = winSum + "t"
+        }
+
+        this.winSum = `${name} ${sum ? "+" + sum : ""}`
       },
       done() {
         let bonus = this.tokens.bonusTypes
         let theme = this.tokens.themeTypes
-        let currentTheme =
-          this.theme.currentTheme.charAt(0).toUpperCase() +
-          this.theme.currentTheme.slice(1)
-        let deluxeTheme = theme.find((i) => i.basic === currentTheme)
 
+        //Berätta att hjulen slutat snurra
         this.isSpinning = false
+
+        // kolla om det finns en extra rad, men att den ska bort
         if (!this.extraRowCount && this.reels == 4) {
           let extraRow = bonus.find((i) => i.name === "Extra Row")
           extraRow.active = false
@@ -254,18 +426,24 @@
           this.spinnerArr = new Array(this.reels)
             .fill(null)
             .map(() => this.generateSpinner())
-
-          // console.log(this.spinnerArr)
         }
+
+        //Återställ freeSpiinn
         bonus.find((i) => i.name === "Extra Spin").active = false
 
-        if (this.num.every((e) => e == this.num[0])) {
-          this.winner = true
-          /*  let audioWin = new Audio("../../assets/audio/win.mp3")
-          audioWin.play() */
+        //Kolla om alla nummer är samma
+        /**TODO
+           * Kanske bör denna variabel sättas redan i altGetNumbers när det
+             bestömms huruvida det är vinst eller inte ?
+          */
 
+        if (this.isWinner) {
+          let currentTheme =
+            this.theme.currentTheme.charAt(0).toUpperCase() +
+            this.theme.currentTheme.slice(1)
+
+          let deluxeTheme = theme.find((i) => i.basic === currentTheme)
           this.audio.win.play()
-
           let winSum = 0
 
           if (bonus.find((i) => i.name === "Extra Dubbel").active) {
@@ -274,41 +452,57 @@
             winSum = this.staticBet + this.staticBet * (7 - this.num[0])
           }
 
-          //Types of win
-          switch (this.num[0]) {
-            case 2:
-              if (currentTheme === deluxeTheme.basic && !deluxeTheme.owned) {
-                deluxeTheme.owned = true
-                this.winSum = deluxeTheme.name
-              } else {
+          if (this.winnerType != 0) {
+            this.getWinnings()
+          } else {
+            console.log("NORMAL VINST")
+            switch (this.num[0]) {
+              case 2:
+                if (currentTheme === deluxeTheme.basic && !deluxeTheme.owned) {
+                  deluxeTheme.owned = true
+                  this.winSum = deluxeTheme.name
+                } else {
+                  this.winSum = winSum
+                  this.tokens.winning(winSum)
+                }
+                break
+              case 3:
+                if (winSum < bonus.find((i) => i.name === "Extra Spin").cost) {
+                  bonus.find((i) => i.name === "Extra Spin").amount++
+                  this.winSum =
+                    "1 " + bonus.find((i) => i.name === "Extra Spin").name
+                } else {
+                  let x =
+                    winSum / bonus.find((i) => i.name === "Extra Spin").cost
+
+                  for (let i = 0; i < x; i++) {
+                    bonus.find((i) => i.name === "Extra Spin").amount++
+                  }
+                  this.winSum =
+                    x + "st " + bonus.find((i) => i.name === "Extra Spin").name
+                }
+                break
+              default:
+                winSum = this.staticBet + this.staticBet * (7 - this.num[0])
                 this.winSum = winSum + "t"
                 this.tokens.winning(winSum)
-              }
-              break
-            case 3:
-              if (winSum < bonus.find((i) => i.name === "Extra Spin").cost) {
-                bonus.find((i) => i.name === "Extra Spin").amount++
-                this.winSum =
-                  "1 " + bonus.find((i) => i.name === "Extra Spin").name
-              } else {
-                let x = winSum / bonus.find((i) => i.name === "Extra Spin").cost
+                break
+            }
+          }
 
-                for (let i = 0; i < x; i++) {
-                  bonus.find((i) => i.name === "Extra Spin").amount++
-                }
-                this.winSum =
-                  x + "st " + bonus.find((i) => i.name === "Extra Spin").name
-              }
-              break
-            default:
-              this.winSum = winSum + "t"
-              this.tokens.winning(winSum)
-              break
-          } //console.log("Yay, you won " + winSum + " toekns! =D")
+          console.log("Winner", winSum)
+
+          // this.winner är gör att vinst texten visas.
+          this.winner = this.isWinner
         } else if (this.tokens.tokens.sum < 5) {
+          //Återställ variabler
           this.winner = false
+          this.isWinner = false
+          //Berätta att det är Game Over
           this.gameOver = true
-          new Audio("../assets/audio/game-over.mp3").play()
+
+          //new Audio("../assets/audio/game-over.mp3").play()
+
           this.audio.gameOver.play()
         } else {
           this.winner = false
@@ -344,8 +538,13 @@
         if (this.isSpinning) {
           return
         }
+
+        // Ny lokal variabel för bet - detta för att du inte skall kunna satsa, börja spela och om du höjer medan hjulet snurrar skall vinsten inte baseras på tokens.bet utan på det lokala värdet istället
         this.staticBet = 0
+
+        // Berätta att hjulen snurrar
         this.isSpinning = true
+        this.winnerType = null
         this.winSum = null
         if (this.tokens.tokens.sum - this.staticBet < 0) {
           return
@@ -357,6 +556,7 @@
         }
 
         this.winner = false
+        this.isWinner = false
         // console.log(freeSpin)
         this.staticBet = this.tokens.tokens.bet
         if (!freeSpin) {
@@ -364,9 +564,9 @@
           this.tokens.takeoutBet(this.staticBet)
         }
 
-        this.checkNumbers()
+        this.altGetNumbers()
 
-        this.$refs.child.start(this.numIndex)
+        this.$refs.child.start(this.numIndex, this.isWinner, this.winnerType)
       },
 
       newGame() {
@@ -410,7 +610,7 @@
       height: '100vh',
       zIndex: '99',
     }"
-    :text="'Vinst: ' + winSum"
+    :text="'Vinst: ' + winSum + 't'"
     @click="winner = !winner"
   />
 
@@ -460,6 +660,7 @@
       <div class="col-1" />
       <div class="reel-cont">
         <spinner
+          :win="isWinner"
           :ref="'child'"
           :spinners="spinnerArr"
           :numbers="numIndex"
