@@ -142,6 +142,12 @@ export const useTokenStore = defineStore("tokens", {
           e.name.toLowerCase().replace(/\s/, "") ==
           name.toLowerCase().replace(/\s/, ""),
       ).owned,
+    getBonus: (state) => (name) =>
+      state.bonusTypes.find(
+        (e) =>
+          e.name.toLowerCase().replace(/\s/, "") ==
+          name.toLowerCase().replace(/\s/, ""),
+      ),
   },
 
   actions: {

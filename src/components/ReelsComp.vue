@@ -38,6 +38,10 @@
       resize,
     },
     props: {
+      win: {
+        type: Boolean,
+        default: false,
+      },
       numbers: {
         type: Array,
         default: () => [1, 2, 3],
@@ -68,15 +72,22 @@
       return {
         width: 250,
         size: { height: 150 },
-        win: false,
         current: new Array(4).fill(0),
         currentTheme: "default",
+        winBlink: false,
+        tmpWin: false,
+        blinkIndex: [1, 2, 2],
       }
     },
     watch: {
       play(oldVal, newVal) {
         if (newVal) {
           this.start()
+        }
+      },
+      win(newVal) {
+        if (newVal) {
+          this.tmpWin = this.win
         }
       },
     },
@@ -132,16 +143,61 @@
       },
     },
     methods: {
-      start(num = this.numbers) {
-        this.win = false
+      getBlinking(type) {
+        let x, y
+        switch (type) {
+          case 0: {
+            x = 0
+            y = 0
+            break
+          }
+          // diagonalTopLeft-BotRight
+          case 1: {
+            x = 1
+            y = -1
+            break
+          }
+          // diagonalTopRight-BotLeft
+          case 2: {
+            x = -1
+            y = 1
+            break
+          }
+          // top-row
+          case 3: {
+            x = 1
+            y = 0
+            break
+          }
+          // bottom-row
+          case 4: {
+            x = -1
+            y = 0
+            break
+          }
+        }
+
+        this.blinkIndex = [...this.numbers]
+        this.blinkIndex = this.blinkIndex.map((e) => {
+          let newIndex = e + x
+          x += y
+          return newIndex
+        })
+      },
+      start(num = this.numbers, win, type) {
+        this.blinkIndex = []
+        this.winBlink = false
         this.spin(num).then(() => {
           this.$emit("done")
-          let winNum = this.spinners[0][num[0]]
-          let test = num.every((e, i) => {
+          // let winNum = this.spinners[0][num[0]]
+          // let test = this.tmpWin
+
+          /* num.every((e, i) => {
             return this.spinners[i][e] == winNum
-          })
-          if (test) {
-            this.win = true
+          }) */
+          if (win) {
+            this.winBlink = win
+            this.getBlinking(type)
           }
         })
       },
@@ -324,7 +380,10 @@
         <template v-for="(val, ind) in spinner" :key="ind">
           <Transition>
             <div
-              :class="{ carousel__cell: true, blink: win && numbers[i] == ind }"
+              :class="{
+                carousel__cell: true,
+                blink: winBlink && blinkIndex[i] == ind,
+              }"
               :data-id="ind"
               :style="{
                 width: '100%',
@@ -349,7 +408,7 @@
                 alt=""
                 :class="{
                   'slot-ico': true,
-                  'win-scale': win && numbers[i] == ind,
+                  'win-scale': winBlink && blinkIndex[i] == ind,
                 }"
               />
             </div>

@@ -24,8 +24,19 @@ export const useAudioStore = defineStore("audio", {
   }),
   getters: {
     themeStore: () => useThemeStore(),
+    newAudio: (state) => (audio) =>
+      new Audio(Sounds[state.themeStore.currentTheme].audio.src[audio]),
   },
   actions: {
+    stopAll() {
+      for (let a in this.$state) {
+        console.log(a)
+        if (a == "volume") {
+          continue
+        }
+        this.$state[a].load()
+      }
+    },
     setTheme(name) {
       for (let a in this.$state) {
         console.log(a)
