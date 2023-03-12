@@ -42,7 +42,7 @@
         type: Boolean,
         default: false,
       },
-      numbers: {
+      nums: {
         type: Array,
         default: () => [1, 2, 3],
       },
@@ -57,6 +57,10 @@
       spinners: {
         type: Array,
         default: () => null,
+      },
+      matrix: {
+        type: Array,
+        default: (p) => [[], p.numbers, []],
       },
     },
     mounted() {
@@ -77,6 +81,8 @@
         winBlink: false,
         tmpWin: false,
         blinkIndex: [1, 2, 2],
+        reels: this.spinners,
+        mIndex: this.matrix,
       }
     },
     watch: {
@@ -89,6 +95,9 @@
         if (newVal) {
           this.tmpWin = this.win
         }
+      },
+      spinners(newVal) {
+        this.reels = newVal
       },
     },
     computed: {
@@ -141,8 +150,83 @@
       winner() {
         return this.win
       },
+      numbers() {
+        return this.mIndex[1]
+      },
     },
     methods: {
+      iconCorr(type) {
+        let pattern, x, y
+        console.log("ico-koee", type)
+        switch (type) {
+          case 0: {
+            x = 0
+            y = 0
+            pattern = [
+              [0, 0, 0],
+              [1, 1, 1],
+              [0, 0, 0],
+            ]
+            break
+          }
+          case 1: {
+            y = -1
+            x = 1
+            pattern = [
+              [1, 0, 0],
+              [0, 1, 0],
+              [0, 0, 1],
+            ]
+            break
+          }
+
+          case 2: {
+            x = 1
+            y = -1
+            pattern = [
+              [0, 0, 1],
+              [0, 1, 0],
+              [1, 0, 0],
+            ]
+            break
+          }
+
+          case 3: {
+            x = 1
+            y = 0
+            pattern = [
+              [1, 1, 1],
+              [0, 0, 0],
+              [0, 0, 0],
+            ]
+            break
+          }
+
+          case 4: {
+            x = 1
+            y = 0
+            pattern = [
+              [0, 0, 0],
+              [0, 0, 0],
+              [1, 1, 1],
+            ]
+            break
+          }
+        }
+        pattern.reverse()
+        let mi = this.mIndex
+        for (let row = 0; row < mi.length; row++) {
+          for (let col = 0; col < mi[row].length; col++) {
+            if (pattern[row][col] == 1) {
+              this.reels[col][mi[row][col]] = 2
+              continue
+            }
+            console.log(this.reels[col][row])
+            this.reels[col][mi[row][col]] = 1
+          }
+        }
+      },
+
       getBlinking(type) {
         let x, y
         switch (type) {
@@ -183,27 +267,41 @@
           x += y
           return newIndex
         })
+
+        let arr = [[], [], []]
       },
-      start(num = this.numbers, win, type) {
+      start(matrix, win, type) {
+        this.mIndex = matrix
         this.blinkIndex = []
         this.winBlink = false
-        this.spin(num).then(() => {
+
+        if (win) {
+          console.log("start:matrix", matrix)
+          console.log("start:type", type)
+          this.iconCorr(type)
+          this.getBlinking(type)
+        }
+
+        this.spin(this.mIndex[1]).then(() => {
           this.$emit("done")
-          // let winNum = this.spinners[0][num[0]]
+          // let winNum = this.reels[0][num[0]]
           // let test = this.tmpWin
 
           /* num.every((e, i) => {
-            return this.spinners[i][e] == winNum
+            return this.reels[i][e] == winNum
           }) */
           if (win) {
             this.winBlink = win
-            this.getBlinking(type)
+            console.log(this.nums)
+            console.log(this.mIndex)
+            console.log(this.blinkIndex)
           }
         })
       },
       spin(arr) {
+        console.log(arr)
         this.startTime = Date.now()
-        let refs = this.spinners.map((e, i) => {
+        let refs = this.reels.map((e, i) => {
           return this.$refs["c" + i][0]
         })
         let tween = []
@@ -275,7 +373,7 @@
         this.setClipPath()
       },
       setClipPath() {
-        let refs = this.spinners.map((e, i) => {
+        let refs = this.reels.map((e, i) => {
           return this.$refs["c" + i][0]
         })
 

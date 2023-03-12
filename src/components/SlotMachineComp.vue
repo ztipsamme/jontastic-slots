@@ -89,6 +89,30 @@
           (i) => i.name === "Extra Row" && i.amount > 0,
         )
       },
+      getMatrix() {
+        let matrix = new Array(this.spinnerArr.length).fill(
+          new Array(1).fill(null),
+        )
+        let mIndex = []
+
+        for (let row of [0, 1, 2]) {
+          let r = []
+          mIndex.push(r)
+          matrix[row] = []
+          this.spinnerArr.forEach((e, i) => {
+            let top =
+              this.numIndex[i] == 0 ? e.length - 1 : this.numIndex[i] - 1
+            let bottom =
+              this.numIndex[i] == e.length - 1 ? 0 : this.numIndex[i] + 1
+            let val = row == 0 ? top : row == 2 ? bottom : this.numIndex[i]
+            mIndex[row].push(val)
+
+            matrix[row][i] =
+              row == 0 ? e[top] : row == 2 ? e[bottom] : e[this.numIndex[i]]
+          })
+        }
+        return mIndex
+      },
     },
 
     methods: {
@@ -226,24 +250,34 @@
           }
         }
       },
-      getMatrix(index) {
-        let i = 0
+      getMatrix2() {
         let matrix = []
-        for (let reel of this.spinnerArr) {
-          matrix[0] = []
-          matrix[1] = []
-          matrix[2] = []
-          matrix[0][i] = reel[i][index[i] - 1]
-            ? reel[i][index[i] - 1]
-            : reel[i][reel[i].length - 1]
-          matrix[1][i] = reel[i][index[i]]
-          matrix[2][i] = reel[i][index[i] + 1]
-            ? reel[i][index[i] + 1]
-            : reel[i][0]
-          i++
-        }
+        let mIndex = []
+        this.spinnerArr.forEach((reel, col) => {
+          console.log("c:", col)
+          for (let row = 0; row < 3; row++) {
+            let top =
+              this.numIndex[col] == 0 ? reel.length - 1 : this.numIndex[col] - 1
+            let bottom =
+              this.numIndex[col] == reel.length - 1 ? 0 : this.numIndex[col] + 1
+            if (col == 0) {
+              mIndex[row] = []
+              matrix[row] = []
+            }
+            console.log("r:", row)
+            console.log("RC:", row, col)
+            mIndex[row][col] = top
+            mIndex[row][col] = this.numIndex[col]
+            mIndex[row][col] = bottom
+
+            matrix[row][col] = reel[top]
+            matrix[row][col] = reel[this.numIndex[col]]
+            matrix[row][col] = reel[bottom]
+          }
+        })
+
         this.numMatrix = matrix
-        return this.numMatrix
+        return mIndex
       },
 
       altGetNumbers() {
@@ -389,80 +423,7 @@
 
         return { num: this.num, numIndex: this.numIndex }
       },
-      iconCorr() {
-        let winnum = this.spinnerArr[0][this.numIndex[0]]
-        let start, x, y
-        let pattern
-        console.log("ico-koee", this.winnerType)
-        switch (this.winnerType) {
-          case 0: {
-            x = 0
 
-            pattern = [
-              [1, 0],
-              [1, 1],
-              [1, 2],
-            ]
-            break
-          }
-          case 1: {
-            y = -1
-            x = 1
-
-            pattern = [
-              [0, 0],
-              [1, 1],
-              [2, 2],
-            ]
-            break
-          }
-
-          case 2: {
-            x = -1
-            y = 1
-            pattern = [
-              [2, 0],
-              [1, 1],
-              [0, 2],
-            ]
-            break
-          }
-
-          case 3: {
-            x = 1
-            y = 0
-            pattern = [
-              [0, 0],
-              [0, 1],
-              [0, 2],
-            ]
-            break
-          }
-
-          case 4: {
-            x = -1
-            y = 0
-            pattern = [
-              [2, 0],
-              [2, 1],
-              [2, 2],
-            ]
-            break
-          }
-        }
-        start = this.numIndex[0] + x
-        let matrix = this.getMatrix(start)
-        for (let row = 0; row < matrix.length; row++) {
-          for (let col = 0; col < matrix[row].length; col++) {
-            if (pattern.findIndex((e) => e[0] == row && e[1] == col)) {
-              continue
-            }
-            if (matrix[row][col] == winnum) {
-              this.spinnerArr[col][this.numIndex[col] + (x + y * row)] == 1
-            }
-          }
-        }
-      },
       getWinnings() {
         let extra = false
         let winSum = 0
@@ -683,10 +644,9 @@
 
         this.altGetNumbers()
         if (this.isWinner) {
-          this.iconCorr()
         }
-
-        this.$refs.child.start(this.numIndex, this.isWinner, this.winnerType)
+        this.numMatrix = this.getMatrix
+        this.$refs.child.start(this.numMatrix, this.isWinner, this.winnerType)
       },
 
       newGame() {
@@ -783,8 +743,9 @@
           :win="isWinner"
           :ref="'child'"
           :spinners="spinnerArr"
-          :numbers="numIndex"
+          :nums="numIndex"
           :count="count"
+          :matrix="numMatrix"
           @done="done"
         />
       </div>
