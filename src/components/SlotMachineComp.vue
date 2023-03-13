@@ -249,29 +249,31 @@
       altGetNumbers() {
         this.numIndex = []
         this.num = []
+        let odds = JSON.parse(JSON.stringify(this.oddsModifier))
 
         // skall detta spel ge en vinst?
 
         // Om det blir vinst
-        let random = Math.floor(Math.random() * 5 + this.oddsModifier)
-        console.log("random", random)
+        let random = Math.floor(Math.random() * 5 - odds)
         this.winnerType = random >= 5 ? 0 : 99
 
         if (this.winnerType == 0) {
-          this.oddsModifier >= 1 ? 0 : this.oddsModifier - 0.04
+          this.oddsModifier = this.oddsModifier >= 1 ? 0 : odds - 0.04
         } else {
-          this.oddsModifier <= -1 ? 0 : this.oddsModifier + 0.05
+          this.oddsModifier = this.oddsModifier <= -1 ? 0 : odds + 0.05
           let speciall = Math.floor(
             Math.random() * (15 - 4 * Math.abs(this.oddsModifier)),
           )
           this.winnerType = 1 + speciall
         }
         console.log("winnerType", this.winnerType)
+        console.log("oddsmod", 15 - 4 * Math.abs(this.oddsModifier))
         console.log("oddas", this.oddsModifier)
         let winRow
         let winVal
         let changedNumbers = []
         if (this.winnerType < this.winTypes.length - 1) {
+          console.log("WINNER")
           this.isWinner = true
           winRow = this.winTypes[this.winnerType]
           winVal = this.winNum()
@@ -320,7 +322,7 @@
 
         let mIndex = []
         console.log("Arr:", arr)
-        this.reelArr = this.spinnerArr.map((e, i) => {
+        let tmpReel = this.spinnerArr.map((e, i) => {
           let val = arr[i][1]
           mIndex[i] = []
           this.num[i] = val
@@ -330,6 +332,10 @@
           e.splice(start, 3, ...arr[i])
           return e
         })
+        setTimeout(() => {
+          this.reelArr = tmpReel
+        }, 500)
+
         console.log("MATRIX", this.num, mIndex)
         this.mIndex = mIndex
 
