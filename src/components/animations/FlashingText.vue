@@ -13,6 +13,10 @@
         type: Object,
         default: () => ({}),
       },
+      rows: {
+        type: Array,
+        default: (props) => [props.text],
+      },
     },
 
     methods: {
@@ -25,35 +29,53 @@
 
 <template>
   <svg viewBox="0 0 1000 400" :style="style">
-    <g class="scale">
-      <text
-        text-anchor="middle"
-        x="500"
-        y="150"
-        dominant-baseline="middle"
-        class="text back"
-        :style="'fill: ' + clr(h, 100, 50)"
+    <g
+      :style="{
+        transform: `translateY(-${(120 * (rows.length - 1)) / 2.1}px)`,
+      }"
+    >
+      <g
+        class="scale"
+        v-for="(str, i) in rows"
+        :key="i"
+        :style="{ transform: `translateY(${120 * i}px)` }"
       >
-        {{ text }}
-      </text>
-      <text
-        text-anchor="middle"
-        x="500"
-        y="150"
-        dominant-baseline="middle"
-        class="text neon flicker"
-        :style="`
-        fill: ${clr(h, 100, 95)};
-        text-shadow:
-        hsl(${h}deg 95% 50%) 0px 0px 0.05em,
-        hsl(${h}deg 95% 50% / 50%) 0px 0px 0.8em,
-        hsl(${h}deg 95% 50%) 1px 0px 0.09em,
-        hsl(${h}deg 95% 85%) 2px 0px 0.2em,
-        hsl(${h}deg 95% 50% / 50%)0em 0px 0.1em,
-        hsl(${h}deg 96% 90% / 50%) 0em 0px 0.5em`"
-      >
-        {{ text }}
-      </text>
+        <text
+          text-anchor="middle"
+          x="500"
+          y="150"
+          dominant-baseline="middle"
+          class="text back"
+          :style="{
+            fontSize: (i == 0 ? 125 : 95) + 'px',
+            fill: clr(h - (i == 0 ? 10 : 0), 100, 50),
+            transform: `translateY(${120 * i}px)`,
+          }"
+        >
+          {{ str }}
+        </text>
+        <text
+          text-anchor="middle"
+          x="500"
+          y="150"
+          dominant-baseline="middle"
+          class="text neon flicker"
+          :style="{
+            fontSize: (i == 0 ? 125 : 95) + 'px',
+            fill: clr(h - (i == 0 ? 10 : 0), 100, 95),
+            textShadow: `
+        hsl(${h - (i == 0 ? 10 : 0)}deg 95% 50%) 0px 0px 0.05em,
+        hsl(${h - (i == 0 ? 10 : 0)}deg 95% 50% / 50%) 0px 0px 0.8em,
+        hsl(${h - (i == 0 ? 10 : 0)}deg 95% 50%) 1px 0px 0.09em,
+        hsl(${h - (i == 0 ? 10 : 0)}deg 95% 85%) 2px 0px 0.2em,
+        hsl(${h - (i == 0 ? 10 : 0)}deg 95% 50% / 50%)0em 0px 0.1em,
+        hsl(${h - (i == 0 ? 10 : 0)}deg 96% 90% / 50%) 0em 0px 0.5em`,
+            transform: `translateY(${120 * i}px)`,
+          }"
+        >
+          {{ str }}
+        </text>
+      </g>
     </g>
   </svg>
 </template>

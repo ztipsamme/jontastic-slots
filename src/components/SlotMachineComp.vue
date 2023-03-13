@@ -64,6 +64,11 @@
         winnerType: 0,
         oddsModifier: 0,
         numMatrix: [],
+        prizeType: {
+          tokens: false,
+          bonus: false,
+          theme: false,
+        },
         winTypes: [
           [1, 4, 7], // mitten raden
           [0, 3, 6], // översta raden
@@ -118,6 +123,19 @@
     },
 
     methods: {
+      getWinnerText({ tokens, bonus, themes }) {
+        let arr = ["Vinst!"]
+        if (tokens) {
+          arr.push("tok: " + tokens)
+        }
+        if (bonus) {
+          arr.push("Bonus: " + bonus)
+        }
+        if (themes) {
+          arr.push("Tema: " + themes)
+        }
+        return arr
+      },
       check(array, a, b, c) {
         return array[a] == array[b] && array[b] == array[c]
       },
@@ -143,7 +161,6 @@
           this.gameStart()
         }
       },
-
       generateSpinner() {
         let array = []
         let preval = []
@@ -166,7 +183,6 @@
         }
         return array
       },
-
       findNumber(winVal, index) {
         let reel = this.spinnerArr[index]
         let arr = []
@@ -240,7 +256,6 @@
           }
         }
       },
-
       altGetNumbers() {
         this.numIndex = []
         this.num = []
@@ -249,7 +264,7 @@
         // skall detta spel ge en vinst?
 
         // Om det blir vinst
-        let random = Math.floor(Math.random() * 5 - odds)
+        let random = Math.floor(Math.random() * 4 - odds)
         this.winnerType = random >= 5 ? 0 : 99
 
         if (this.winnerType == 0) {
@@ -261,14 +276,11 @@
           )
           this.winnerType = 1 + speciall
         }
-        console.log("winnerType", this.winnerType)
-        console.log("oddsmod", 15 - 4 * Math.abs(this.oddsModifier))
-        console.log("oddas", this.oddsModifier)
         let winRow
+        this.winnerType = 1
         let winVal
         let changedNumbers = []
         if (this.winnerType < this.winTypes.length - 1) {
-          console.log("WINNER")
           this.isWinner = true
           winRow = this.winTypes[this.winnerType]
           winVal = this.winNum()
@@ -306,8 +318,6 @@
             wrong = false
           }
         }
-
-        console.log(x)
         for (let i = 0; i < x.length; i++) {
           if (i % 3 == 0) {
             arr[Math.floor(i / 3)] = []
@@ -339,15 +349,15 @@
         /*
 
 
-          check(array,a,b,c){
-            return array[a] == array[b] && array[b] == array[c]
-          }
+            check(array,a,b,c){
+              return array[a] == array[b] && array[b] == array[c]
+            }
 
 
 
 
 
-          */
+            */
 
         switch (this.winnerType) {
           // diagonalTopLeft-BotRight
@@ -436,71 +446,148 @@
 
         return { num: this.num, numIndex: this.numIndex }
       },
-
       getWinnings() {
         let extra = false
         let winSum = 0
-        let bonus
-        let theme
-        if (this.num[0 < 4] && this.staticBet > 25) {
-          extra = true
-        }
+        let bonus = this.tokens.bonusTypes.find((i) => i.name === "Extra Spin")
+        let bonusWin
+        let themeWin
+        let tokenWin
+        let bonusCount = 1
+
         console.log("getWinnings")
         switch (this.winnerType) {
-          case 1: {
-            // falls through
+          case 0: {
+            /*  let currentTheme = this.theme.current
+              let deluxeTheme = this.theme.findDelux
+              console.log("NORMAL VINST")
+              switch (this.num[0]) {
+                case 2:
+                  if (currentTheme === deluxeTheme.basic && !deluxeTheme.owned) {
+                    deluxeTheme.owned = true
+                    this.winSum = deluxeTheme.name
+                  } else {
+                    this.winSum = winSum
+                    this.tokens.winning(winSum)
+                  }
+                  break
+                case 3:
+                  if (winSum < bonus.find((i) => i.name === "Extra Spin").cost) {
+                    bonus.find((i) => i.name === "Extra Spin").amount++
+                    this.winSum =
+                      "1 " + bonus.find((i) => i.name === "Extra Spin").name
+                  } else {
+                    let x =
+                      winSum / bonus.find((i) => i.name === "Extra Spin").cost
+
+                    for (let i = 0; i < x; i++) {
+                      bonus.find((i) => i.name === "Extra Spin").amount++
+                    }
+                    this.winSum =
+                      x + "st " + bonus.find((i) => i.name === "Extra Spin").name
+                  }
+                  break
+                default:
+                  winSum = this.staticBet + this.staticBet * (7 - this.num[0])
+                  this.winSum = winSum + "t"
+                  this.tokens.winning(winSum)
+                  break
+              }
+
+              break */
+            tokenWin = this.staticBet + this.staticBet * (7 - this.num[0])
+            break
           }
-          case 2: {
-            bonus =
-              this.tokens.bonusTypes[
-                Math.floor(Math.random() * this.tokens.bonusTypes.length)
-              ]
-            if (!extra) {
-              winSum =
-                this.staticBet +
-                Math.ceil((this.staticBet * (7 - this.num[0])) / 3)
-              while (bonus.name == "Extra Dubbel") {
-                bonus =
-                  this.tokens.bonusTypes[
-                    Math.floor(Math.random() * this.tokens.bonusTypes.length)
-                  ]
+          case 1: {
+            //TEMAN!
+            let currentTheme = this.theme.current
+            let deluxeTheme = this.theme.findDelux
+            console.log("NORMAL VINST")
+            switch (this.num[0]) {
+              case 4: {
+                //falls through
+              }
+              case 2: {
+                if (currentTheme === deluxeTheme.basic && !deluxeTheme.owned) {
+                  deluxeTheme.owned = true
+                  themeWin = deluxeTheme.name
+                } else {
+                  tokenWin = this.staticBet + this.staticBet * (7 - this.num[0])
+                }
+                break
+              }
+              default: {
+                tokenWin = this.staticBet + this.staticBet * 1.2
+                break
               }
             }
-            winSum = this.staticBet + 10
+            break
+          }
+          case 2: {
+            //BONUSAR
+            switch (this.num[0]) {
+              case 4: {
+                let bonus = this.tokens.bonusTypes.find(
+                  (i) => i.name === "Extra Dubbel",
+                )
+                bonus.amount++
+                bonusWin = bonus.name
+                break
+              }
+
+              case 5: {
+                bonus = this.tokens.bonusTypes.find(
+                  (i) => i.name === "Extra Row",
+                )
+                //falls through
+              }
+              case 3: {
+                let tw = this.staticBet + this.staticBet * (7 - this.num[0])
+                if (tw < bonus.cost) {
+                  bonus.amount++
+                  bonusWin = bonus.name
+                } else {
+                  let x = Math.ceil(tw / bonus.cost)
+                  bonus.amount += x
+                  bonusWin = bonus.name
+                  bonusCount = x
+                }
+                break
+              }
+              default: {
+                let bName = ["extrarow", "extraspin"]
+                bName = bName[Math.floor(Math.random() * 2)]
+                let bonus = this.tokens.bonusTypes.find(
+                  (e) =>
+                    e.name.toLowerCase().replace(/\s/, "") ==
+                    bName.toLowerCase().replace(/\s/, ""),
+                )
+
+                bonus.amoumt++
+                bonusWin = bonus.name
+                break
+              }
+            }
             break
           }
           case 3: {
             //falls through
           }
           case 4: {
-            theme =
-              this.tokens.themeTypes[
-                Math.floor(Math.random() * this.tokens.themeTypes.length)
-              ]
-
-            if (theme.owneds) {
-              winSum = theme.cost
-            }
-
-            break
+            //falls through
+          }
+          default: {
+            tokenWin =
+              this.staticBet +
+              Math.ceil((this.staticBet * (7 - this.num[0])) / 2 / 5) * 5
           }
         }
-        let name = ""
-        let sum = ""
-        if (bonus) {
-          bonus.amount++
-          name = bonus.name
-        }
-        if (theme) {
-          theme.owned = true
-          name = theme.name
-        }
-        if (winSum) {
-          this.tokens.winning(winSum)
-          sum = winSum + "t"
-        }
-
-        this.winSum = `${name} ${sum ? "+" + sum : ""}`
+        bonusWin = bonusCount > 1 ? bonusCount + "x " + bonusWin : bonusWin
+        this.winSum = this.getWinnerText({
+          tokens: tokenWin,
+          bonus: bonusWin,
+          themes: themeWin,
+        })
       },
       done() {
         let bonus = this.tokens.bonusTypes
@@ -524,9 +611,9 @@
 
         //Kolla om alla nummer är samma
         /**TODO
-           * Kanske bör denna variabel sättas redan i altGetNumbers när det
-             bestömms huruvida det är vinst eller inte ?
-          */
+             * Kanske bör denna variabel sättas redan i altGetNumbers när det
+               bestömms huruvida det är vinst eller inte ?
+            */
 
         if (this.isWinner) {
           let currentTheme =
@@ -546,39 +633,6 @@
           if (this.winnerType != 0) {
             this.getWinnings()
           } else {
-            console.log("NORMAL VINST")
-            switch (this.num[0]) {
-              case 2:
-                if (currentTheme === deluxeTheme.basic && !deluxeTheme.owned) {
-                  deluxeTheme.owned = true
-                  this.winSum = deluxeTheme.name
-                } else {
-                  this.winSum = winSum
-                  this.tokens.winning(winSum)
-                }
-                break
-              case 3:
-                if (winSum < bonus.find((i) => i.name === "Extra Spin").cost) {
-                  bonus.find((i) => i.name === "Extra Spin").amount++
-                  this.winSum =
-                    "1 " + bonus.find((i) => i.name === "Extra Spin").name
-                } else {
-                  let x =
-                    winSum / bonus.find((i) => i.name === "Extra Spin").cost
-
-                  for (let i = 0; i < x; i++) {
-                    bonus.find((i) => i.name === "Extra Spin").amount++
-                  }
-                  this.winSum =
-                    x + "st " + bonus.find((i) => i.name === "Extra Spin").name
-                }
-                break
-              default:
-                winSum = this.staticBet + this.staticBet * (7 - this.num[0])
-                this.winSum = winSum + "t"
-                this.tokens.winning(winSum)
-                break
-            }
           }
 
           console.log("Winner", winSum)
@@ -620,7 +674,6 @@
         scoreList.sort((a, b) => b - a)
         this.score.scores.highScore = scoreList.slice(0, 6) */
       },
-
       gameStart(freeSpin = false) {
         if (this.isSpinning) {
           return
@@ -636,7 +689,6 @@
         if (this.tokens.tokens.sum - this.staticBet < 0) {
           return
         }
-        // console.log("startgame", this.isSpinning)
 
         if (this.extraRowCount) {
           this.extraRowCount--
@@ -644,10 +696,8 @@
 
         this.winner = false
         this.isWinner = false
-        // console.log(freeSpin)
         this.staticBet = this.tokens.tokens.bet
         if (!freeSpin) {
-          // console.log("WFT")
           this.tokens.takeoutBet(this.staticBet)
         }
 
@@ -655,10 +705,8 @@
 
         if (this.isWinner) {
         }
-        console.log(this.mIndex)
         this.$refs.child.start(this.mIndex, this.isWinner, this.winnerType)
       },
-
       newGame() {
         this.gameOver = false
         this.tokens.tokens.sum = this.tokens.tokens.startValue
@@ -700,7 +748,7 @@
       height: '100vh',
       zIndex: '99',
     }"
-    :text="'Vinst: ' + winSum + 't'"
+    :rows="winSum"
     @click="winner = !winner"
   />
 
