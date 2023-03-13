@@ -258,15 +258,16 @@
         this.winnerType = random >= 5 ? 0 : 99
 
         if (this.winnerType == 0) {
-          this.oddsModifier >= 1 ? 0 : this.oddsModifier - 0.002
+          this.oddsModifier >= 1 ? 0 : this.oddsModifier - 0.04
         } else {
-          this.oddsModifier <= -1 ? 0 : this.oddsModifier + 0.001
+          this.oddsModifier <= -1 ? 0 : this.oddsModifier + 0.05
           let speciall = Math.floor(
-            Math.random() * 15 - 4 * Math.abs(this.oddsModifier),
+            Math.random() * (15 - 4 * Math.abs(this.oddsModifier)),
           )
           this.winnerType = 1 + speciall
         }
-
+        console.log("winnerType", this.winnerType)
+        console.log("oddas", this.oddsModifier)
         let winRow
         let winVal
         let changedNumbers = []
@@ -276,7 +277,7 @@
           winVal = this.winNum()
           changedNumbers = [...winRow]
         }
-        let x = new Array(9).fill(0).map((e, i) => {
+        let x = new Array(this.reels * 3).fill(0).map((e, i) => {
           if (winRow && winRow.indexOf(i) != -1) {
             return winVal
           } else {
@@ -286,6 +287,7 @@
         })
 
         let wrong = true
+        let arr = []
         while (wrong) {
           for (let type of this.winTypes) {
             if (winRow && type.every((e) => winRow.indexOf(e) != -1)) {
@@ -308,20 +310,16 @@
           }
         }
 
-        let arr = []
-        let reel = 0
-
+        console.log(x)
         for (let i = 0; i < x.length; i++) {
-          let index = i % 3
-          reel = Math.floor(i / 3)
-          if (index == 0) {
-            arr[reel] = []
+          if (i % 3 == 0) {
+            arr[Math.floor(i / 3)] = []
           }
-          arr[reel][index] = x[i]
+          arr[Math.floor(i / 3)][i % 3] = x[i]
         }
 
         let mIndex = []
-
+        console.log("Arr:", arr)
         this.reelArr = this.spinnerArr.map((e, i) => {
           let val = arr[i][1]
           mIndex[i] = []
