@@ -343,106 +343,6 @@
         this.mIndex = mIndex
 
         return this.mIndex
-
-        /*
-
-
-            check(array,a,b,c){
-              return array[a] == array[b] && array[b] == array[c]
-            }
-
-
-
-
-
-            */
-
-        switch (this.winnerType) {
-          // diagonalTopLeft-BotRight
-          case 1: {
-            this.isWinner = true
-            indexKorr = -1
-            y = 1
-            break
-          }
-          // diagonalTopRight-BotLeft
-          case 2: {
-            this.isWinner = true
-            indexKorr = 1
-            y = -1
-            break
-          }
-          // top-row
-          case 3: {
-            this.isWinner = true
-            indexKorr = 1
-            y = 0
-            break
-          }
-          // bottom-row
-          case 4: {
-            this.isWinner = true
-            indexKorr = -1
-            y = 0
-            break
-          }
-          default: {
-            this.isWinner = false
-            break
-          }
-        }
-
-        if (this.isWinner) {
-          let x = indexKorr
-          let next = y
-
-          let winVal = this.winNum()
-          this.spinnerArr.forEach((e, i) => {
-            let info = this.findNumber(winVal, i)
-            let index =
-              info.index + x >= e.length
-                ? 0
-                : info.index + x < 0
-                ? e.length - 1
-                : info.index + x
-            console.log("index,", index)
-            this.numIndex[i] = index
-            this.num[i] = winVal
-            x += next
-          })
-        } else {
-          this.isWinner = false
-          this.spinnerArr.forEach((e, i) => {
-            //spara index för slumpmässigt index
-            this.numIndex[i] = Math.floor(Math.random() * e.length)
-            //spara nummret för det indexet
-            this.num[i] = e[this.numIndex[i]]
-          })
-
-          // kolla om det ändå skulle bli 3 lika irad
-          if (this.num.every((e) => e == this.num[0])) {
-            //Sparar det lika nummret
-            let same = this.num[0]
-
-            let reel = Math.floor(Math.random() * this.num.length)
-
-            // Kör sålänge nummret blir samma
-            while (this.num[reel] == same) {
-              this.numIndex[reel] = Math.floor(
-                Math.random() * this.spinnerArr[reel].length,
-              )
-              this.num[reel] = this.spinnerArr[reel][this.numIndex[reel]]
-            }
-          }
-        }
-
-        /** TODO
-         * Gör egentligen samma sak som för att hitta vinst nummer, men snurra till index+1 mot siffran som det ska vara
-         */
-
-        // Loppa igenom varje spinner
-
-        return { num: this.num, numIndex: this.numIndex }
       },
       getWinnings() {
         let extra = false
@@ -795,7 +695,6 @@
       </div>
     </div>
     <div class="row-2">
-      <TotalBet :ref="'betComp'" />
       <MaxWinning />
       <btn
         :color="'green'"
