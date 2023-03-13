@@ -155,78 +155,6 @@
       },
     },
     methods: {
-      iconCorr(type) {
-        let pattern, x, y
-        console.log("ico-koee", type)
-        switch (type) {
-          case 0: {
-            x = 0
-            y = 0
-            pattern = [
-              [0, 0, 0],
-              [1, 1, 1],
-              [0, 0, 0],
-            ]
-            break
-          }
-          case 1: {
-            y = -1
-            x = 1
-            pattern = [
-              [1, 0, 0],
-              [0, 1, 0],
-              [0, 0, 1],
-            ]
-            break
-          }
-
-          case 2: {
-            x = 1
-            y = -1
-            pattern = [
-              [0, 0, 1],
-              [0, 1, 0],
-              [1, 0, 0],
-            ]
-            break
-          }
-
-          case 3: {
-            x = 1
-            y = 0
-            pattern = [
-              [1, 1, 1],
-              [0, 0, 0],
-              [0, 0, 0],
-            ]
-            break
-          }
-
-          case 4: {
-            x = 1
-            y = 0
-            pattern = [
-              [0, 0, 0],
-              [0, 0, 0],
-              [1, 1, 1],
-            ]
-            break
-          }
-        }
-        pattern.reverse()
-        let mi = this.mIndex
-        for (let row = 0; row < mi.length; row++) {
-          for (let col = 0; col < mi[row].length; col++) {
-            if (pattern[row][col] == 1) {
-              this.reels[col][mi[row][col]] = 2
-              continue
-            }
-            console.log(this.reels[col][row])
-            this.reels[col][mi[row][col]] = 1
-          }
-        }
-      },
-
       getBlinking(type) {
         let x, y
         switch (type) {
@@ -237,38 +165,36 @@
           }
           // diagonalTopLeft-BotRight
           case 1: {
-            x = 1
-            y = -1
+            x = -1
+            y = 0
             break
           }
           // diagonalTopRight-BotLeft
           case 2: {
-            x = -1
-            y = 1
-            break
-          }
-          // top-row
-          case 3: {
             x = 1
             y = 0
             break
           }
+          // top-row
+          case 3: {
+            x = -1
+            y = 1
+            break
+          }
           // bottom-row
           case 4: {
-            x = -1
-            y = 0
+            x = 1
+            y = -1
             break
           }
         }
 
-        this.blinkIndex = [...this.numbers]
+        this.blinkIndex = [...this.mIndex]
         this.blinkIndex = this.blinkIndex.map((e) => {
           let newIndex = e + x
           x += y
           return newIndex
         })
-
-        let arr = [[], [], []]
       },
       start(matrix, win, type) {
         this.mIndex = matrix
@@ -278,11 +204,13 @@
         if (win) {
           console.log("start:matrix", matrix)
           console.log("start:type", type)
-          this.iconCorr(type)
+
           this.getBlinking(type)
         }
 
-        this.spin(this.mIndex[1]).then(() => {
+        console.log(this.mIndex, matrix)
+
+        this.spin(this.mIndex).then(() => {
           this.$emit("done")
           // let winNum = this.reels[0][num[0]]
           // let test = this.tmpWin
@@ -292,9 +220,6 @@
           }) */
           if (win) {
             this.winBlink = win
-            console.log(this.nums)
-            console.log(this.mIndex)
-            console.log(this.blinkIndex)
           }
         })
       },

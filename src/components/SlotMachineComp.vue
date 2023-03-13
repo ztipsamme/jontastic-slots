@@ -53,13 +53,14 @@
 
     data() {
       return {
-        count: 21,
+        count: 45,
         num: [],
         numIndex: [],
         winner: false,
         topScore: false,
         isSpinning: false,
         spinnerArr: [],
+        reelArr: [],
         reels: 3,
         gameOver: false,
         winSum: 0,
@@ -68,6 +69,13 @@
         winnerType: 0,
         oddsModifier: 0,
         numMatrix: [],
+        winTypes: [
+          [1, 4, 7], // mitten raden
+          [0, 3, 6], // översta raden
+          [2, 5, 8], // sista raden
+          [0, 4, 8], // diagonalt upp-ner
+          [2, 4, 6], // diagonalt ner-upp
+        ],
       }
     },
 
@@ -90,9 +98,7 @@
         )
       },
       getMatrix() {
-        let matrix = new Array(this.spinnerArr.length).fill(
-          new Array(1).fill(null),
-        )
+        let matrix = []
         let mIndex = []
 
         for (let row of [0, 1, 2]) {
@@ -111,11 +117,15 @@
               row == 0 ? e[top] : row == 2 ? e[bottom] : e[this.numIndex[i]]
           })
         }
+
         return mIndex
       },
     },
 
     methods: {
+      check(array, a, b, c) {
+        return array[a] == array[b] && array[b] == array[c]
+      },
       winNum() {
         let winVal = 6
         let isHigher
@@ -138,22 +148,7 @@
           this.gameStart()
         }
       },
-      generateSpinnerOLD() {
-        let array = []
-        for (var i = 1; i <= 6; i++) {
-          array = new Array(i).fill(i).concat(array)
-        }
 
-        function shuffleArray(arr) {
-          for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1))
-            ;[arr[i], arr[j]] = [arr[j], arr[i]]
-          }
-          return array
-        }
-        array = shuffleArray(array)
-        return array
-      },
       generateSpinner() {
         let array = []
         let preval = []
@@ -250,176 +245,195 @@
           }
         }
       },
-      getMatrix2() {
-        let matrix = []
-        let mIndex = []
-        this.spinnerArr.forEach((reel, col) => {
-          console.log("c:", col)
-          for (let row = 0; row < 3; row++) {
-            let top =
-              this.numIndex[col] == 0 ? reel.length - 1 : this.numIndex[col] - 1
-            let bottom =
-              this.numIndex[col] == reel.length - 1 ? 0 : this.numIndex[col] + 1
-            if (col == 0) {
-              mIndex[row] = []
-              matrix[row] = []
-            }
-            console.log("r:", row)
-            console.log("RC:", row, col)
-            mIndex[row][col] = top
-            mIndex[row][col] = this.numIndex[col]
-            mIndex[row][col] = bottom
-
-            matrix[row][col] = reel[top]
-            matrix[row][col] = reel[this.numIndex[col]]
-            matrix[row][col] = reel[bottom]
-          }
-        })
-
-        this.numMatrix = matrix
-        return mIndex
-      },
 
       altGetNumbers() {
         this.numIndex = []
         this.num = []
+
         // skall detta spel ge en vinst?
-        this.isWinner = Math.floor(Math.random() * 4 + this.oddsModifier) >= 3
+
         // Om det blir vinst
-        if (this.isWinner) {
-          this.winnerType = 0
+        let random = Math.floor(Math.random() * 5 + this.oddsModifier)
+        console.log("random", random)
+        this.winnerType = random >= 5 ? 0 : 99
 
-          /**TODO
-           * Skall ordningen på siffrorna ändras? så att 1 blir lägsta och 6 blir högsta?
-           */
-
-          let winVal = this.winNum()
-
+        if (this.winnerType == 0) {
           this.oddsModifier >= 1 ? 0 : this.oddsModifier - 0.002
-          // spinnerArr innehåller en Array för respektive snurra.
-          this.spinnerArr.forEach((reel, index) => {
-            let info = this.findNumber(winVal, index)
-            this.numIndex[index] = info.index
-            this.num[index] = info.num
-
-            /*             let arr = []
-
-              // Loopa igenom alla värden för att sortera ut på vilka index vinnande siffra ligger på respektive snurra
-              reel.forEach((e, i) => {
-                if (e == winVal) {
-                  arr.push(i)
-                }
-              })
-
-              //Slumpmässigt välja ut ett av de ovan hittade indexen
-              let nIndex = arr[Math.floor(Math.random() * arr.length)]
-
-              //Spara valt index för respektive snurra
-              this.numIndex[index] = nIndex
-
-              // spara vilket nummer det är som är vinst nummer
-              this.num[index] = reel[this.numIndex[index]]
-
-              // Felhantering om det skulle bli fel nummmer som sparas!
-              if (this.num[index] != winVal) {
-                throw new Error("FELAKTIGT VIST NUMMER")
-              } */
-          })
         } else {
           this.oddsModifier <= -1 ? 0 : this.oddsModifier + 0.001
           let speciall = Math.floor(
-            Math.random() * 10 - 4 * Math.abs(this.oddsModifier),
+            Math.random() * 15 - 4 * Math.abs(this.oddsModifier),
           )
-          console.log(speciall)
           this.winnerType = 1 + speciall
-          let indexKorr
-          let y
+        }
 
-          console.log("winnerType", this.winnerType)
-          switch (this.winnerType) {
-            // diagonalTopLeft-BotRight
-            case 1: {
-              this.isWinner = true
-              indexKorr = -1
-              y = 1
-              break
-            }
-            // diagonalTopRight-BotLeft
-            case 2: {
-              this.isWinner = true
-              indexKorr = 1
-              y = -1
-              break
-            }
-            // top-row
-            case 3: {
-              this.isWinner = true
-              indexKorr = 1
-              y = 0
-              break
-            }
-            // bottom-row
-            case 4: {
-              this.isWinner = true
-              indexKorr = -1
-              y = 0
-              break
-            }
-            default: {
-              this.isWinner = false
-              break
-            }
-          }
-          if (this.isWinner) {
-            let x = indexKorr
-            let next = y
-
-            let winVal = this.winNum()
-            this.spinnerArr.forEach((e, i) => {
-              let info = this.findNumber(winVal, i)
-              let index =
-                info.index + x >= e.length
-                  ? 0
-                  : info.index + x < 0
-                  ? e.length - 1
-                  : info.index + x
-              console.log("index,", index)
-              this.numIndex[i] = index
-              this.num[i] = winVal
-              x += next
-            })
+        let winRow
+        let winVal
+        let changedNumbers = []
+        if (this.winnerType < this.winTypes.length - 1) {
+          this.isWinner = true
+          winRow = this.winTypes[this.winnerType]
+          winVal = this.winNum()
+          changedNumbers = [...winRow]
+        }
+        let x = new Array(9).fill(0).map((e, i) => {
+          if (winRow && winRow.indexOf(i) != -1) {
+            return winVal
           } else {
-            this.isWinner = false
-            this.spinnerArr.forEach((e, i) => {
-              //spara index för slumpmässigt index
-              this.numIndex[i] = Math.floor(Math.random() * e.length)
-              //spara nummret för det indexet
-              this.num[i] = e[this.numIndex[i]]
-            })
+            let val = Math.floor(Math.random() * 6) + 1
+            return val
+          }
+        })
 
-            // kolla om det ändå skulle bli 3 lika irad
-            if (this.num.every((e) => e == this.num[0])) {
-              //Sparar det lika nummret
-              let same = this.num[0]
-
-              let reel = Math.floor(Math.random() * this.num.length)
-
-              // Kör sålänge nummret blir samma
-              while (this.num[reel] == same) {
-                this.numIndex[reel] = Math.floor(
-                  Math.random() * this.spinnerArr[reel].length,
-                )
-                this.num[reel] = this.spinnerArr[reel][this.numIndex[reel]]
+        let wrong = true
+        while (wrong) {
+          for (let type of this.winTypes) {
+            if (winRow && type.every((e) => winRow.indexOf(e) != -1)) {
+              continue
+            } else {
+              if (this.check(x, ...type)) {
+                let fakeVal = x[type[0]]
+                let n = type.filter((ei) => changedNumbers.indexOf(ei) == -1)
+                n = n[Math.floor(Math.random() * n.length)]
+                changedNumbers.push(n)
+                let newVal
+                do {
+                  newVal = Math.floor(Math.random() * 6) + 1
+                } while (newVal == fakeVal)
+                x[n] = newVal
+                break
               }
             }
+            wrong = false
+          }
+        }
+
+        let arr = []
+        let reel = 0
+
+        for (let i = 0; i < x.length; i++) {
+          let index = i % 3
+          reel = Math.floor(i / 3)
+          if (index == 0) {
+            arr[reel] = []
+          }
+          arr[reel][index] = x[i]
+        }
+
+        let mIndex = []
+
+        this.reelArr = this.spinnerArr.map((e, i) => {
+          let val = arr[i][1]
+          mIndex[i] = []
+          this.num[i] = val
+          let info = this.findNumber(val, i)
+          let start = info.index == 0 ? e.length - 1 : info.index - 1
+          mIndex[i] = info.index
+          e.splice(start, 3, ...arr[i])
+          return e
+        })
+        console.log("MATRIX", this.num, mIndex)
+        this.mIndex = mIndex
+
+        return this.mIndex
+
+        /*
+
+
+          check(array,a,b,c){
+            return array[a] == array[b] && array[b] == array[c]
           }
 
-          /** TODO
-           * Gör egentligen samma sak som för att hitta vinst nummer, men snurra till index+1 mot siffran som det ska vara
-           */
 
-          // Loppa igenom varje spinner
+
+
+
+          */
+
+        switch (this.winnerType) {
+          // diagonalTopLeft-BotRight
+          case 1: {
+            this.isWinner = true
+            indexKorr = -1
+            y = 1
+            break
+          }
+          // diagonalTopRight-BotLeft
+          case 2: {
+            this.isWinner = true
+            indexKorr = 1
+            y = -1
+            break
+          }
+          // top-row
+          case 3: {
+            this.isWinner = true
+            indexKorr = 1
+            y = 0
+            break
+          }
+          // bottom-row
+          case 4: {
+            this.isWinner = true
+            indexKorr = -1
+            y = 0
+            break
+          }
+          default: {
+            this.isWinner = false
+            break
+          }
         }
+
+        if (this.isWinner) {
+          let x = indexKorr
+          let next = y
+
+          let winVal = this.winNum()
+          this.spinnerArr.forEach((e, i) => {
+            let info = this.findNumber(winVal, i)
+            let index =
+              info.index + x >= e.length
+                ? 0
+                : info.index + x < 0
+                ? e.length - 1
+                : info.index + x
+            console.log("index,", index)
+            this.numIndex[i] = index
+            this.num[i] = winVal
+            x += next
+          })
+        } else {
+          this.isWinner = false
+          this.spinnerArr.forEach((e, i) => {
+            //spara index för slumpmässigt index
+            this.numIndex[i] = Math.floor(Math.random() * e.length)
+            //spara nummret för det indexet
+            this.num[i] = e[this.numIndex[i]]
+          })
+
+          // kolla om det ändå skulle bli 3 lika irad
+          if (this.num.every((e) => e == this.num[0])) {
+            //Sparar det lika nummret
+            let same = this.num[0]
+
+            let reel = Math.floor(Math.random() * this.num.length)
+
+            // Kör sålänge nummret blir samma
+            while (this.num[reel] == same) {
+              this.numIndex[reel] = Math.floor(
+                Math.random() * this.spinnerArr[reel].length,
+              )
+              this.num[reel] = this.spinnerArr[reel][this.numIndex[reel]]
+            }
+          }
+        }
+
+        /** TODO
+         * Gör egentligen samma sak som för att hitta vinst nummer, men snurra till index+1 mot siffran som det ska vara
+         */
+
+        // Loppa igenom varje spinner
 
         return { num: this.num, numIndex: this.numIndex }
       },
@@ -643,10 +657,11 @@
         }
 
         this.altGetNumbers()
+
         if (this.isWinner) {
         }
-        this.numMatrix = this.getMatrix
-        this.$refs.child.start(this.numMatrix, this.isWinner, this.winnerType)
+        console.log(this.mIndex)
+        this.$refs.child.start(this.mIndex, this.isWinner, this.winnerType)
       },
 
       newGame() {
@@ -747,6 +762,7 @@
           :count="count"
           :matrix="numMatrix"
           @done="done"
+          :key="spinnerArr"
         />
       </div>
     </div>
