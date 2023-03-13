@@ -4,7 +4,8 @@
     :color="'red'"
     :size="'medium'"
     :circle="true"
-    :width="'50px'"
+    :width="'10vh'"
+    :styles="{ maxWidth: '50px', minWidth: '40px' }"
     @click="Popup()"
   >
     i

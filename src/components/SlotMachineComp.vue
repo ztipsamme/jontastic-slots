@@ -17,7 +17,6 @@
       const theme = useThemeStore()
       const score = useScoreStore()
       const audio = useAudioStore()
-      window.content = score
 
       return { tokens, theme, score, audio }
     },
@@ -282,7 +281,6 @@
           this.winnerType = 1 + speciall
         }
         let winRow
-        this.winnerType = 1
         let winVal
         let changedNumbers = []
         if (this.winnerType < this.winTypes.length - 1) {
@@ -588,6 +586,16 @@
           }
         }
         bonusWin = bonusCount > 1 ? bonusCount + "x " + bonusWin : bonusWin
+        if (
+          this.tokens.bonusTypes.find((i) => i.name === "Extra Dubbel").active
+        ) {
+          tokenWin = tokenWin * 2
+          bonusCount = bonusCount * 2
+        }
+
+        if (tokenWin) {
+          this.tokens.winning(tokenWin)
+        }
         this.winSum = this.getWinnerText({
           tokens: tokenWin,
           bonus: bonusWin,
@@ -621,28 +629,9 @@
             */
 
         if (this.isWinner) {
-          let currentTheme =
-            this.theme.currentTheme.charAt(0).toUpperCase() +
-            this.theme.currentTheme.slice(1)
-
-          let deluxeTheme = theme.find((i) => i.basic === currentTheme)
           this.audio.win.play()
-          let winSum = 0
-
-          if (bonus.find((i) => i.name === "Extra Dubbel").active) {
-            winSum = (this.staticBet + this.staticBet * (7 - this.num[0])) * 2
-          } else {
-            winSum = this.staticBet + this.staticBet * (7 - this.num[0])
-          }
-
-          if (this.winnerType != 0) {
-            this.getWinnings()
-          } else {
-          }
-
-          console.log("Winner", winSum)
-
-          // this.winner är gör att vinst texten visas.
+          this.getWinnings()
+          this.score.updateScore(this.winSum.tokens)
           this.winner = this.isWinner
         } else if (this.tokens.tokens.sum < 5) {
           //Återställ variabler
@@ -667,8 +656,6 @@
         }
 
         bonus.find((i) => i.name === "Extra Dubbel").active = false
-
-        useScoreStore().updateScore(this.winSum)
 
         /* const scoreList = this.score.scores.highScore
 
@@ -740,7 +727,6 @@
     :text="'Rekord! ' + winSum + 't'"
     @click="topScore = !topScore"
   />
-
   <flash-text
     :h="50"
     v-else-if="winner"
@@ -756,7 +742,6 @@
     :rows="winSum"
     @click="winner = !winner"
   />
-
   <flash-text
     :h="0"
     :text="'Game Over'"
@@ -815,15 +800,14 @@
       </div>
     </div>
     <div class="row-2">
-      <TotalBet :ref="'betComp'" />
-      <MaxWinning />
+      <MaxWinning :style="{ height: '100%', width: '80%' }" />
       <btn
         :color="'green'"
-        :height="'13vh'"
-        :width="'30vw'"
+        :height="'85%'"
+        :width="'60%'"
         @click="gameStart()"
         :disabled="tokens.tokens.bet > tokens.tokens.sum"
-        :styles="{ maxHeight: '65px' }"
+        :styles="{ maxHeight: '100%', justifySelf: 'center' }"
         :size="'x-large'"
       >
         SPELA
@@ -837,8 +821,9 @@
   .main-machine.cont {
     display: grid;
     height: calc(100vh - 75px);
-    grid-template-rows: 60vh auto;
+    grid-template-rows: 54vh 25vh;
     grid-template-columns: 15vw auto 15vw;
+    gap: 2vh;
     width: 100%;
   }
   .winner-row {
@@ -893,12 +878,14 @@
   .row-2 {
     grid-row: 2;
     grid-column: span 3;
-    display: flex;
+    height: 100%;
     justify-content: center;
     gap: 2vw;
     align-items: center;
     display: grid;
-    grid-template-columns: 30% 40% 30%;
+    grid-template-columns: 50% 50%;
+    width: 80vw;
+    justify-self: center;
   }
   .cont {
     width: 80vw;

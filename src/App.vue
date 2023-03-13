@@ -161,7 +161,8 @@
       :color="'blue'"
       :size="'large'"
       :circle="true"
-      :width="'50px'"
+      :width="'10vh'"
+      :styles="{ maxWidth: '50px', minWidth: '40px' }"
       @click="toggleSoundControls"
     >
       <i class="bi bi-volume-up-fill" />
@@ -172,8 +173,14 @@
         <btn
           :circle="false"
           :selected="$route.path == '/'"
-          :width="'10vw'"
-          :height="'50px'"
+          :width="'10vh'"
+          :height="'8vh'"
+          :styles="{
+            maxWidth: '66px',
+            minWidth: '53px',
+            maxHeight: '50px',
+            minHeight: '40px',
+          }"
           :size="'large'"
         >
           <i class="bi bi-house-fill" />
@@ -183,8 +190,14 @@
         <btn
           :color="'purple'"
           :circle="false"
-          :width="'10vw'"
-          :height="'50px'"
+          :width="'10vh'"
+          :height="'8vh'"
+          :styles="{
+            maxWidth: '66px',
+            minWidth: '53px',
+            maxHeight: '50px',
+            minHeight: '40px',
+          }"
           :size="'large'"
           :selected="$route.path == '/shop'"
         >
@@ -194,8 +207,14 @@
         <btn
           :color="'green'"
           :circle="false"
-          :width="'10vw'"
-          :height="'50px'"
+          :width="'10vh'"
+          :height="'8vh'"
+          :styles="{
+            maxWidth: '66px',
+            minWidth: '53px',
+            maxHeight: '50px',
+            minHeight: '40px',
+          }"
           :size="'large'"
           :selected="$route.path == '/score'"
         >
@@ -264,10 +283,10 @@
   }
   header {
     display: grid;
-    grid-template-columns: 8% 22% 50% 20%;
+    grid-template-columns: 8% 12% 60% 20%;
     height: 100%;
-    padding: 10px 0px;
-    align-items: center;
+    padding: 2vh 0px;
+    align-items: start;
     margin-bottom: 3vh;
     width: 100%;
     .info {
@@ -279,7 +298,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
     > * {
       text-align: center;
       color: #000;
@@ -300,7 +318,10 @@
     padding: 15px 0px;
     padding-right: 30px;
     display: flex;
-    height: 50px;
+    height: 10vh;
+    max-height: 50px;
+    min-height: 35px;
+
     align-items: center;
     justify-self: end;
     background-image: linear-gradient(
@@ -314,8 +335,12 @@
     flex-shrink: 0;
     justify-self: start;
     display: flex;
-    width: 44px;
-    height: 44px;
+    width: 9vh;
+    height: 9vh;
+    max-width: 44px;
+    min-width: 31px;
+    max-height: 44px;
+    min-height: 31px;
     background-image: linear-gradient(
       45deg,
       hsla(50deg, 100%, 50%),
