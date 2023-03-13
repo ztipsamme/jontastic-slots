@@ -97,6 +97,7 @@
       },
       toggleSoundControls() {
         this.showSoundControls = !this.showSoundControls
+        console.log('hej')
       },
     },
   }
