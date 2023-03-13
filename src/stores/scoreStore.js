@@ -11,7 +11,7 @@ export const useScoreStore = defineStore("scores", {
   actions: {
     updateScore(winSum) {
       const newValue = Number(winSum.replace(/\D/g, ""))
-      if (typeof newValue === "number") {
+      if (typeof newValue === "number" && newValue > 0) {
         const scoreList = this.scores.highScore
         if (!scoreList.includes(newValue)) {
           scoreList.push(newValue)
@@ -20,14 +20,5 @@ export const useScoreStore = defineStore("scores", {
         this.scores.highScore = scoreList.slice(0, 6)
       }
     },
-    /*   updateScore(newScore) {
-      const scoreList = this.scores.highScore
-      if (!scoreList.includes(newScore) && typeof newScore === "number") {
-        scoreList.push(newScore)
-      }
-
-      scoreList.sort((a, b) => b - a)
-      this.scores.highScore = scoreList.slice(0, 6)
-    }, */
   },
 })
