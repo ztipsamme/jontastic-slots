@@ -5,11 +5,9 @@
   import { useAudioStore } from "../stores/audio"
   import iconComponent from "../components/elements/iconComponent.vue"
   import spinnerComp from "./ReelsComp.vue"
-  import TotalBet from "./TotalBet.vue"
   import FlashText from "./animations/FlashingText.vue"
   import Btn from "./elements/buttonComponent.vue"
   import MaxWinning from "./testWinningComp.vue"
-  /*  import iconComponent from "./elements/iconComponent.vue" */
 
   export default {
     setup() {
@@ -23,19 +21,16 @@
     },
 
     components: {
-      TotalBet,
       spinner: spinnerComp,
       "flash-text": FlashText,
       btn: Btn,
       MaxWinning,
-      /* icon: iconComponent, */
       icon: iconComponent,
     },
 
     emits: { stop: null },
 
     created() {
-      // console.log("FUNKA DÅ SKIT!")
       if (this.tokens.bonusTypes.find((i) => i.name === "Extra Row").active) {
         this.reels = 4
         this.extraRowCount = this.tokens.bonusTypes.find(
@@ -767,7 +762,7 @@
       </div>
     </div>
     <div class="row-2">
-      <TotalBet :ref="'betComp'" />
+      <!--    <TotalBet :ref="'betComp'" /> -->
       <MaxWinning />
       <btn
         :color="'green'"
