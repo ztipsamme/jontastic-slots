@@ -345,8 +345,6 @@
         return this.mIndex
       },
       getWinnings() {
-        let extra = false
-        let winSum = 0
         let bonus = this.tokens.bonusTypes.find((i) => i.name === "Extra Spin")
         let bonusWin
         let themeWin
@@ -499,7 +497,6 @@
       },
       done() {
         let bonus = this.tokens.bonusTypes
-        let theme = this.tokens.themeTypes
 
         //Berätta att hjulen slutat snurra
         this.isSpinning = false
@@ -587,11 +584,8 @@
         if (!freeSpin) {
           this.tokens.takeoutBet(this.staticBet)
         }
-
         this.altGetNumbers()
 
-        if (this.isWinner) {
-        }
         this.$refs.child.start(this.mIndex, this.isWinner, this.winnerType)
       },
       newGame() {
