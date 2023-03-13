@@ -614,20 +614,16 @@
 
         bonus.find((i) => i.name === "Extra Dubbel").active = false
 
-        // Spara och hantera top scores
-        const scoreList = this.score.scores.highScore
-        // console.log("Före: " + scoreList)
-        // console.log(Array.isArray(this.score.scores.highScore))
+        useScoreStore().updateScore(this.winSum)
+
+        /* const scoreList = this.score.scores.highScore
 
         if (!scoreList.includes(this.winSum)) {
           scoreList.push(this.winSum)
         }
 
         scoreList.sort((a, b) => b - a)
-        this.score.scores.highScore = scoreList.slice(0, 6)
-        // console.log(
-        //   "Uppdaterat: " + JSON.stringify(this.score.scores.highScore),
-        // )
+        this.score.scores.highScore = scoreList.slice(0, 6) */
       },
 
       gameStart(freeSpin = false) {
