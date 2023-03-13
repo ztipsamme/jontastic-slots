@@ -289,6 +289,394 @@ body {
     --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
     --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
   }
+  &.hav,
+  &.hav * {
+    $bg-color1: #136f75;
+    $bg-color2: #3741a0;
+    $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
+
+    $btn-blue: #633616;
+    $btn-blue2: #b37549;
+
+    $btn-green: #136f75;
+    $btn-green2: #96be38;
+
+    $btn-red: #EF4967;
+    $btn-red2: #efaa49;
+
+    $btn-purple: #EF4967;
+    $btn-purple2: #efaa49;
+
+    $btn-disabled: #5d5d5d;
+    $btn-disabled2: #929292;
+
+    --bg-color1: #{$bg-color1};
+    --bg-color2: #{$bg-color2};
+    --bg-color3: #{$bg-color3};
+    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
+
+    --btn-blue: #{$btn-blue};
+    --btn-blue2: #{$btn-blue2};
+    --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
+    --btn-blue4: #{color.adjust($btn-blue, $lightness: 5%)};
+    --btn-blue5: #{color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-green: #{$btn-green};
+    --btn-green2: #{$btn-green2};
+    --btn-green3: #{color.adjust($btn-green, $lightness: -20%)};
+    --btn-green4: #{color.adjust($btn-green, $lightness: 5%)};
+    --btn-green5: #{color.adjust($btn-green2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-red: #{$btn-red};
+    --btn-red2: #{$btn-red2};
+    --btn-red3: #{color.adjust($btn-red, $lightness: -20%)};
+    --btn-red4: #{color.adjust($btn-red, $lightness: 5%)};
+    --btn-red5: #{color.adjust($btn-red2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-purple: #{$btn-purple};
+    --btn-purple2: #{$btn-purple2};
+    --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
+    --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-disabled: #{$btn-disabled};
+    --btn-disabled2: #{$btn-disabled2};
+    --btn-disabled3: #{color.adjust($btn-disabled, $lightness: -20%)};
+    --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
+    --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
+  }
+  &.brilliant,
+  &.brilliant * {
+    $bg-color1: #46a2b6;
+    $bg-color2: #e5f9fe;
+    $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
+
+    $btn-blue: #4a65b0;
+    $btn-blue2: #42c4ec;
+
+    $btn-green: #5e9f48;
+    $btn-green2: #96be38;
+
+    $btn-red: #8e1c4f;
+    $btn-red2: #d84145;
+
+    $btn-purple: #b04aa4;
+    $btn-purple2: #d89ced;
+
+    $btn-disabled: #5d5d5d;
+    $btn-disabled2: #929292;
+
+    --bg-color1: #{$bg-color1};
+    --bg-color2: #{$bg-color2};
+    --bg-color3: #{$bg-color3};
+    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
+
+    --btn-blue: #{$btn-blue};
+    --btn-blue2: #{$btn-blue2};
+    --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
+    --btn-blue4: #{color.adjust($btn-blue, $lightness: 5%)};
+    --btn-blue5: #{color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-green: #{$btn-green};
+    --btn-green2: #{$btn-green2};
+    --btn-green3: #{color.adjust($btn-green, $lightness: -20%)};
+    --btn-green4: #{color.adjust($btn-green, $lightness: 5%)};
+    --btn-green5: #{color.adjust($btn-green2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-red: #{$btn-red};
+    --btn-red2: #{$btn-red2};
+    --btn-red3: #{color.adjust($btn-red, $lightness: -20%)};
+    --btn-red4: #{color.adjust($btn-red, $lightness: 5%)};
+    --btn-red5: #{color.adjust($btn-red2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-purple: #{$btn-purple};
+    --btn-purple2: #{$btn-purple2};
+    --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
+    --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-disabled: #{$btn-disabled};
+    --btn-disabled2: #{$btn-disabled2};
+    --btn-disabled3: #{color.adjust($btn-disabled, $lightness: -20%)};
+    --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
+    --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
+  }
+  &.vildmark,
+  &.vildmark * {
+    $bg-color1: #0a561b;
+    $bg-color2: lightgreen;
+    $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
+
+    $btn-blue: #40a442;
+    $btn-blue2: #6ce16e;
+
+    $btn-green: #16812d;
+    $btn-green2: lightgreen;
+
+    $btn-red: #62502e;
+    $btn-red2: #8f784e;
+
+    $btn-purple: #aa4b69;
+    $btn-purple2: #ce708d;
+
+    $btn-disabled: #5d5d5d;
+    $btn-disabled2: #929292;
+    --btn-disabled: #{$btn-disabled};
+    --btn-disabled2: #{$btn-disabled2};
+    --btn-disabled3: #{color.adjust($btn-disabled, $lightness: -20%)};
+    --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
+    --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
+
+    --bg-color1: #{$bg-color1};
+    --bg-color2: #{$bg-color2};
+    --bg-color3: #{$bg-color3};
+    --bg-image: url("../src/components/themes/ForestTheme/bg.png");
+
+    --btn-blue: #{$btn-blue};
+    --btn-blue2: #{$btn-blue2};
+    --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
+    --btn-blue4: #{color.adjust($btn-blue, $lightness: 5%)};
+    --btn-blue5: #{color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-green: #{$btn-green};
+    --btn-green2: #{$btn-green2};
+    --btn-green3: #{color.adjust($btn-green, $lightness: -20%)};
+    --btn-green4: #{color.adjust($btn-green, $lightness: 5%)};
+    --btn-green5: #{color.adjust($btn-green2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-red: #{$btn-red};
+    --btn-red2: #{$btn-red2};
+    --btn-red3: #{color.adjust($btn-red, $lightness: -20%)};
+    --btn-red4: #{color.adjust($btn-red, $lightness: 5%)};
+    --btn-red5: #{color.adjust($btn-red2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-purple: #{$btn-purple};
+    --btn-purple2: #{$btn-purple2};
+    --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
+    --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
+  }
+  &.rawr,
+  &.rawr * {
+    $bg-color1: #ffb800;
+    $bg-color2: #ffdde2;
+    $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
+    $btn-blue: #fb8b02;
+    $btn-blue2: #ffb800;
+
+    $btn-green: #A1B9DE;
+    $btn-green2: #72C7E8;
+
+    $btn-red: #8e1c4f;
+    $btn-red2: #d84145;
+
+    $btn-purple: #ff8cc6;
+    $btn-purple2: #ffdde2;
+
+    $btn-disabled: #5d5d5d;
+    $btn-disabled2: #929292;
+    --btn-disabled: #{$btn-disabled};
+    --btn-disabled2: #{$btn-disabled2};
+    --btn-disabled3: #{color.adjust($btn-disabled, $lightness: -20%)};
+    --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
+    --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
+
+    --bg-color1: #{$bg-color1};
+    --bg-color2: #{$bg-color2};
+    --bg-color3: #{$bg-color3};
+    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
+
+    --btn-blue: #{$btn-blue};
+    --btn-blue2: #{$btn-blue2};
+    --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
+    --btn-blue4: #{color.adjust($btn-blue, $lightness: 5%)};
+    --btn-blue5: #{color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-green: #{$btn-green};
+    --btn-green2: #{$btn-green2};
+    --btn-green3: #{color.adjust($btn-green, $lightness: -20%)};
+    --btn-green4: #{color.adjust($btn-green, $lightness: 5%)};
+    --btn-green5: #{color.adjust($btn-green2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-red: #{$btn-red};
+    --btn-red2: #{$btn-red2};
+    --btn-red3: #{color.adjust($btn-red, $lightness: -20%)};
+    --btn-red4: #{color.adjust($btn-red, $lightness: 5%)};
+    --btn-red5: #{color.adjust($btn-red2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-purple: #{$btn-purple};
+    --btn-purple2: #{$btn-purple2};
+    --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
+    --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
+  }
+  &.stadsljus,
+  &.stadsljus * {
+    $bg-color1: #160054;
+    $bg-color2: #4400ff;
+    $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
+
+    $btn-blue: #4979ff;
+    $btn-blue2: #00c3ff;
+
+    $btn-green: #2db500;
+    $btn-green2: #c1ff32;
+
+    $btn-red: #a9004c;
+    $btn-red2: #f40008;
+
+    $btn-purple: #ff45e9;
+    $btn-purple2: #eebfff;
+
+    $btn-disabled: #5d5d5d;
+    $btn-disabled2: #929292;
+    --btn-disabled: #{$btn-disabled};
+    --btn-disabled2: #{$btn-disabled2};
+    --btn-disabled3: #{color.adjust($btn-disabled, $lightness: -20%)};
+    --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
+    --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
+
+    --text-color: white;
+    --bg-color1: #{$bg-color1};
+    --bg-color2: #{$bg-color2};
+    --bg-color3: #{$bg-color3};
+    --bg-image: url("../src/components/themes/StadsljusTheme/bg4.png");
+    --btn-blue: #{$btn-blue};
+    --btn-blue2: #{$btn-blue2};
+    --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
+    --btn-blue4: #{color.adjust($btn-blue, $lightness: 5%)};
+    --btn-blue5: #{color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-green: #{$btn-green};
+    --btn-green2: #{$btn-green2};
+    --btn-green3: #{color.adjust($btn-green, $lightness: -20%)};
+    --btn-green4: #{color.adjust($btn-green, $lightness: 5%)};
+    --btn-green5: #{color.adjust($btn-green2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-red: #{$btn-red};
+    --btn-red2: #{$btn-red2};
+    --btn-red3: #{color.adjust($btn-red, $lightness: -20%)};
+    --btn-red4: #{color.adjust($btn-red, $lightness: 5%)};
+    --btn-red5: #{color.adjust($btn-red2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-purple: #{$btn-purple};
+    --btn-purple2: #{$btn-purple2};
+    --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
+    --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
+  }
+  &.inferno,
+  &.inferno * {
+    $bg-color1: #b32e10;
+    $bg-color2: #820303;
+    $bg-color3: rgba(color.adjust($bg-color2, $lightness: -10%, $saturation: 100%), 0.8);
+
+    $btn-blue: #dacd0e;
+    $btn-blue2: #eb7405;
+
+    $btn-green: #dacd0e;
+    $btn-green2: #eb7405;
+
+    $btn-red: #dacd0e;
+    $btn-red2: #d84145;
+
+    $btn-purple: #dacd0e;
+    $btn-purple2: #eb7405;
+
+    $btn-disabled: #5d5d5d;
+    $btn-disabled2: #929292;
+    --btn-disabled: #{$btn-disabled};
+    --btn-disabled2: #{$btn-disabled2};
+    --btn-disabled3: #{color.adjust($btn-disabled, $lightness: -20%)};
+    --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
+    --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
+
+    --text-color: white;
+    --bg-color1: #{$bg-color1};
+    --bg-color2: #{$bg-color2};
+    --bg-color3: #{$bg-color3};
+    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
+
+    --btn-blue: #{$btn-blue};
+    --btn-blue2: #{$btn-blue2};
+    --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
+    --btn-blue4: #{color.adjust($btn-blue, $lightness: 5%)};
+    --btn-blue5: #{color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-green: #{$btn-green};
+    --btn-green2: #{$btn-green2};
+    --btn-green3: #{color.adjust($btn-green, $lightness: -20%)};
+    --btn-green4: #{color.adjust($btn-green, $lightness: 5%)};
+    --btn-green5: #{color.adjust($btn-green2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-red: #{$btn-red};
+    --btn-red2: #{$btn-red2};
+    --btn-red3: #{color.adjust($btn-red, $lightness: -20%)};
+    --btn-red4: #{color.adjust($btn-red, $lightness: 5%)};
+    --btn-red5: #{color.adjust($btn-red2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-purple: #{$btn-purple};
+    --btn-purple2: #{$btn-purple2};
+    --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
+    --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
+  }
+  &.sjuhaven,
+  &.sjuhaven * {
+    $bg-color1: #136f75;
+    $bg-color2: #3741a0;
+    $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
+
+    $btn-blue: #633616;
+    $btn-blue2: #b37549;
+
+    $btn-green: #136f75;
+    $btn-green2: #96be38;
+
+    $btn-red: #EF4967;
+    $btn-red2: #efaa49;
+
+    $btn-purple: #EF4967;
+    $btn-purple2: #efaa49;
+
+    $btn-disabled: #5d5d5d;
+    $btn-disabled2: #929292;
+
+    --bg-color1: #{$bg-color1};
+    --bg-color2: #{$bg-color2};
+    --bg-color3: #{$bg-color3};
+    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
+
+    --btn-blue: #{$btn-blue};
+    --btn-blue2: #{$btn-blue2};
+    --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
+    --btn-blue4: #{color.adjust($btn-blue, $lightness: 5%)};
+    --btn-blue5: #{color.adjust($btn-blue2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-green: #{$btn-green};
+    --btn-green2: #{$btn-green2};
+    --btn-green3: #{color.adjust($btn-green, $lightness: -20%)};
+    --btn-green4: #{color.adjust($btn-green, $lightness: 5%)};
+    --btn-green5: #{color.adjust($btn-green2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-red: #{$btn-red};
+    --btn-red2: #{$btn-red2};
+    --btn-red3: #{color.adjust($btn-red, $lightness: -20%)};
+    --btn-red4: #{color.adjust($btn-red, $lightness: 5%)};
+    --btn-red5: #{color.adjust($btn-red2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-purple: #{$btn-purple};
+    --btn-purple2: #{$btn-purple2};
+    --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
+    --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
+    --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
+
+    --btn-disabled: #{$btn-disabled};
+    --btn-disabled2: #{$btn-disabled2};
+    --btn-disabled3: #{color.adjust($btn-disabled, $lightness: -20%)};
+    --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
+    --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
+  }
   background-image: var(--bg-image);
   background-size: cover;
   background-position: 75%;

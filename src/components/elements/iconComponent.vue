@@ -97,6 +97,47 @@
     $secondary: #283a24;
     background-color: $secondary;
   }
+
+  .eld {
+    $primary: #b32e10;
+    $secondary: #820303;
+    background-color: $secondary;
+  }
+  .hav {
+    $primary: #136f75;
+    $secondary: #3741a0;
+    background-color: $secondary;
+  }
+  .brilliant {
+    $primary: #c5f4ff;
+    $secondary: #c5f4ff;
+    background-color: $secondary;
+  }
+  .rawr {
+    $primary: #ffdde2;
+    $secondary: #de369d;
+    background-color: $secondary;
+  }
+  .stadsljus {
+    $primary: #231251;
+    $secondary: #bca8f2;
+    background-color: $secondary;
+  }
+  .vildmark {
+    $primary: #283a24;
+    $secondary: #7dbe91;
+    background-color: $secondary;
+  }
+  .inferno {
+    $primary: #820303;
+    $secondary: #b32e10;
+    background-color: $secondary;
+  }
+  .sjuhaven {
+    $primary: #3741a0;
+    $secondary: #136f75;
+    background-color: $secondary;
+  }
   .bonus {
     $primary: #b18617;
     $secondary: #ffde68;
@@ -105,11 +146,6 @@
       filter: invert(44%) sepia(98%) saturate(371%) hue-rotate(5deg)
         brightness(99%) contrast(95%);
     }
-  }
-  .eld {
-    $primary: #b32e10;
-    $secondary: #820303;
-    background-color: $secondary;
   }
   .wrapper {
     position: relative;
