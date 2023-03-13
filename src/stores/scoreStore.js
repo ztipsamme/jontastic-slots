@@ -8,4 +8,17 @@ export const useScoreStore = defineStore("scores", {
       highScore: [],
     }),
   }),
+  actions: {
+    updateScore(winSum) {
+      const newValue = Number(winSum.replace(/\D/g, ""))
+      if (typeof newValue === "number" && newValue > 0) {
+        const scoreList = this.scores.highScore
+        if (!scoreList.includes(newValue)) {
+          scoreList.push(newValue)
+        }
+        scoreList.sort((a, b) => b - a)
+        this.scores.highScore = scoreList.slice(0, 6)
+      }
+    },
+  },
 })
