@@ -192,6 +192,12 @@
         this.blinkIndex = [...this.mIndex]
         this.blinkIndex = this.blinkIndex.map((e) => {
           let newIndex = e + x
+          if (e == 0) {
+            console.log("e: ", e)
+            console.log("x: ", x)
+            console.log("newIndex: ", newIndex)
+            console.log("y: ", y)
+          }
           x += y
           return newIndex
         })
