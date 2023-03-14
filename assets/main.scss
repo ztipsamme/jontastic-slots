@@ -63,6 +63,11 @@ body {
     --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
     --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
   }
+  &.skog .carousel__cell, &.vildmark .carousel__cell {
+    background-color: #c9b58e !important;
+    background-image: linear-gradient(0deg, #3d2d11 -25%, transparent 25%, transparent 75%, #3d2d11 125%) !important;
+    box-shadow: black 0px 0px 0px 0px inset !important;
+  }
   &.skog,
   &.skog * {
     $bg-color1: #0a561b;
@@ -92,7 +97,7 @@ body {
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
-    --bg-image: url("../src/components/themes/ForestTheme/bg.png");
+    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
 
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
@@ -118,8 +123,14 @@ body {
     --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
     --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
   }
+  &.katt .carousel__cell, &.rawr .carousel__cell {
+    background-color: #ffdde2 !important;
+    background-image: linear-gradient(0deg, #ff8cc6 -25%, transparent 25%, transparent 75%, #72C7E8 125%) !important;
+    box-shadow: black 0px 0px 0px 0px inset !important;
+  }
   &.katt,
   &.katt * {
+
     $bg-color1: #ffb800;
     $bg-color2: #ffdde2;
     $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
@@ -172,7 +183,7 @@ body {
     --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
     --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
   }
-  &.midnatt .carousel__cell {
+  &.midnatt .carousel__cell ,  &.stadsljus .carousel__cell {
     background-color: hsl(180, 50%, 10%) !important;
     background-image: linear-gradient(0deg, black -25%, transparent 25%, transparent 75%, black 125%) !important;
     box-shadow: black 0px 0px 0px 0px inset !important;
@@ -180,7 +191,7 @@ body {
   &.midnatt,
   &.midnatt * {
     $bg-color1: #160054;
-    $bg-color2: #4400ff;
+    $bg-color2: #3d2a6f;
     $bg-color3: rgba(color.adjust($bg-color1, $lightness: -10%, $saturation: 100%), 0.8);
 
     $btn-blue: #4979ff;
@@ -207,7 +218,7 @@ body {
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
-    --bg-image: url("../src/components/themes/NightTheme/bg4.png");
+    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
 
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
@@ -232,6 +243,11 @@ body {
     --btn-purple3: #{color.adjust($btn-purple, $lightness: -20%)};
     --btn-purple4: #{color.adjust($btn-purple, $lightness: 5%)};
     --btn-purple5: #{color.adjust($btn-purple2, $lightness: 5%, $saturation: 10%)};
+  }
+  &.eld .carousel__cell, &.inferno .carousel__cell {
+    background-color: #152332 !important;
+    background-image: linear-gradient(0deg, black -25%, transparent 25%, transparent 75%, black 125%) !important;
+    box-shadow: black 0px 0px 0px 0px inset !important;
   }
   &.eld,
   &.eld * {
@@ -264,6 +280,12 @@ body {
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
     --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
+
+    .carousel__cell {
+      background-color: #152332 !important;
+      background-image: linear-gradient(0deg, black -25%, transparent 25%, transparent 75%, black 125%) !important;
+      box-shadow: black 0px 0px 0px 0px inset !important;
+    }
 
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
@@ -430,7 +452,7 @@ body {
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
-    --bg-image: url("../src/components/themes/ForestTheme/bg.png");
+    --bg-image: url("../src/components/themes/VildmarkTheme/bg.png");
 
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
@@ -484,7 +506,8 @@ body {
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
-    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
+    --bg-image: url("../src/components/themes/RawrTheme/bg.png");
+
 
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
@@ -645,7 +668,8 @@ body {
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
-    --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
+    --bg-image: url("../src/components/themes/SjuhavenTheme/bg.png");
+
 
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};

@@ -109,34 +109,31 @@
     background-color: $secondary;
   }
   .brilliant {
-    $primary: #c5f4ff;
-    $secondary: #c5f4ff;
-    background-color: $secondary;
+    background-image: url("src/components/themes/Brilliant/bg.png");
+    background-size: cover;
   }
   .rawr {
-    $primary: #ffdde2;
-    $secondary: #de369d;
-    background-color: $secondary;
+    background-image: url("src/components/themes/RawrTheme/bg.png");
+    background-size: cover;
+    background-position: center;
   }
   .stadsljus {
-    $primary: #231251;
-    $secondary: #bca8f2;
-    background-color: $secondary;
+    background-image: url("src/components/themes/StadsljusTheme/bg.png");
+    background-size: cover;
   }
   .vildmark {
-    $primary: #283a24;
-    $secondary: #7dbe91;
-    background-color: $secondary;
+    background-image: url("src/components/themes/VildmarkTheme/bg.png");
+    background-size: cover;
+    background-position: center;
   }
   .inferno {
-    $primary: #820303;
-    $secondary: #b32e10;
-    background-color: $secondary;
+    background-image: url("src/components/themes/Inferno/bg.png");
+    background-size: cover;
   }
   .sjuhaven {
-    $primary: #3741a0;
-    $secondary: #136f75;
-    background-color: $secondary;
+    background-image: url("src/components/themes/SjuhavenTheme/bg.png");
+    background-size: cover;
+    background-position: center;
   }
   .bonus {
     $primary: #b18617;
