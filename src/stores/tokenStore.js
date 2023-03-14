@@ -139,15 +139,16 @@ export const useTokenStore = defineStore("tokens", {
     isThemeOwned: (state) => (name) =>
       state.themeTypes.find(
         (e) =>
-          e.name.toLowerCase().replace(/\s/, "") ==
-          name.toLowerCase().replace(/\s/, ""),
+          e.name.toLowerCase().replace(/\s/g, "") ==
+          name.toLowerCase().replace(/\s/g, ""),
       ).owned,
-    getBonus: (state) => (name) =>
-      state.bonusTypes.find(
-        (e) =>
-          e.name.toLowerCase().replace(/\s/, "") ==
-          name.toLowerCase().replace(/\s/, ""),
-      ),
+    getBonus: (state) => (name) => (e) => {
+      let i = state.bonusTypes.findIndex(
+        e.name.toLowerCase().replace(/\s/g, "") ==
+          name.toLowerCase().replace(/\s/g, ""),
+      )
+      return state.bonusTypes[i]
+    },
   },
 
   actions: {

@@ -30,14 +30,7 @@
     emits: { stop: null },
 
     created() {
-      if (this.tokens.bonusTypes.find((i) => i.name === "Extra Row").active) {
-        this.reels = 4
-        this.extraRowCount = this.tokens.bonusTypes.find(
-          (i) => i.name === "Extra Row",
-        ).count
-      }
-
-      this.tokens.bonusTypes.find((i) => i.name === "Extra Spin").active = false
+      this.reset(true)
 
       this.spinnerArr = new Array(this.reels)
         .fill(null)
@@ -97,6 +90,12 @@
       hasExtraRow() {
         return this.tokens.bonusTypes.some(
           (i) => i.name === "Extra Row" && i.amount > 0,
+        )
+      },
+      disableSpinn() {
+        return (
+          this.tokens.tokens.bet > this.tokens.tokens.sum ||
+          this.tokens.tokens.sum < 1
         )
       },
       getMatrix() {
@@ -521,7 +520,6 @@
         }
 
         //Återställ freeSpinn
-        bonus.find((i) => i.name === "Extra Spin").active = false
 
         //Kolla om alla nummer är samma
         /**TODO
@@ -552,53 +550,85 @@
           this.staticBet > this.tokens.tokens.sum &&
           this.staticBet < this.winSum
         ) {
-          // console.log("setBet")
           this.$refs.betComp.setBet(this.tokens.tokens.sum)
         }
 
-        bonus.find((i) => i.name === "Extra Dubbel").active = false
+        this.reset()
+      },
+      reset(all = false) {
+        this.isSpinning = false
+        this.isWinner = false
+        this.winnerType = null
+        this.winSum = []
+        this.gameOver = false
+        this.staticBet = 0
 
-        /* const scoreList = this.score.scores.highScore
-
-        if (!scoreList.includes(this.winSum)) {
-          scoreList.push(this.winSum)
+        if (this.tokens.tokens.sum < this.tokens.tokens.bet) {
+          this.tokens.tokens.bet = this.tokens.tokens.sum
+        }
+        for (let bonus of this.tokens.bonusTypes) {
+          if (bonus.name.replace(/\s/, "").toLowerCase() == "extrarow") {
+            if (bonus.active && bonus.uses) {
+              this.reels = 4
+            } else if (!bonus.uses) {
+              bonus.active = false
+              bonus.uses = 4
+              if (this.reels == 4) {
+                this.reels = 3
+              }
+            } else if (!bonus.active) {
+              bonus.uses = 4
+              if (this.reels == 4) {
+                this.reels = 3
+              }
+            }
+          } else {
+            bonus.active = false
+          }
         }
 
-        scoreList.sort((a, b) => b - a)
-        this.score.scores.highScore = scoreList.slice(0, 6) */
+        if (all) {
+          this.winner = false
+        }
       },
+
       gameStart(freeSpin = false) {
         if (this.isSpinning) {
           return
         }
-
-        // Ny lokal variabel för bet - detta för att du inte skall kunna satsa, börja spela och om du höjer medan hjulet snurrar skall vinsten inte baseras på tokens.bet utan på det lokala värdet istället
-        this.staticBet = 0
-
-        // Berätta att hjulen snurrar
-        this.isSpinning = true
-        this.winnerType = null
-        this.winSum = null
-        if (this.tokens.tokens.sum - this.staticBet < 0) {
+        if (this.tokens.tokens.sum < 1) {
+          this.gameOver = true
           return
         }
+        this.reset(true)
+        this.isSpinning = true
 
-        if (this.extraRowCount) {
-          this.extraRowCount--
+        // Ny lokal variabel för bet - detta för att du inte skall kunna satsa, börja spela och om du höjer medan hjulet snurrar skall vinsten inte baseras på tokens.bet utan på det lokala värdet istället
+
+        this.staticBet = this.tokens.tokens.bet
+        // Berätta att hjulen snurrar
+
+        if (this.tokens.tokens.sum - this.staticBet < 1) {
+          this.staticBet = this.tokens.tokens.sum
+          this.tokens.tokens.bet = this.staticBet
         }
 
-        this.winner = false
-        this.isWinner = false
-        this.staticBet = this.tokens.tokens.bet
         if (!freeSpin) {
           this.tokens.takeoutBet(this.staticBet)
         }
+        // console.log("startgame", this.isSpinning)
+
+        if (this.tokens.getBonus("extrarow").active) {
+          this.tokens.getBonus("extrarow").uses--
+        }
+
         this.altGetNumbers()
 
         this.$refs.child.start(this.mIndex, this.isWinner, this.winnerType)
       },
+
       newGame() {
-        this.gameOver = false
+        this.reset(true)
         this.tokens.tokens.sum = this.tokens.tokens.startValue
         let startbet = this.tokens.tokens.startBet
           ? this.tokens.tokens.startBet
