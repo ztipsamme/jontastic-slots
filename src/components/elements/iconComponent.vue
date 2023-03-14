@@ -109,8 +109,9 @@
     background-color: $secondary;
   }
   .brilliant {
-    background-image: url("src/components/themes/Brilliant/bg.png");
+    background-image: url("src/components/themes/BrilliantTheme/bg.png");
     background-size: cover;
+    background-position: center;
   }
   .rawr {
     background-image: url("src/components/themes/RawrTheme/bg.png");
@@ -127,7 +128,7 @@
     background-position: center;
   }
   .inferno {
-    background-image: url("src/components/themes/Inferno/bg.png");
+    background-image: url("src/components/themes/InfernoTheme/bg.png");
     background-size: cover;
   }
   .sjuhaven {
