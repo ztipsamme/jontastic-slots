@@ -435,12 +435,14 @@
                 )
                 bonus.amount++
                 bonusWin = bonus.name
+                console.log("Bonus Extra Dubbel")
                 break
               }
 
               case 5: {
                 bonus = this.tokens.bonusTypes.find(
                   (i) => i.name === "Extra Row",
+                  console.log("Bonus Extra Row"),
                 )
                 //falls through
               }
@@ -465,8 +467,8 @@
                     e.name.toLowerCase().replace(/\s/, "") ==
                     bName.toLowerCase().replace(/\s/, ""),
                 )
-
-                bonus.amoumt++
+                console.log("Bonus Extra Spin")
+                bonus.amount++
                 bonusWin = bonus.name
                 break
               }
