@@ -575,6 +575,14 @@
       },
 
       gameStart(freeSpin = false) {
+        if (this.$route.name === "Shop") {
+          return
+        }
+
+        if (this.$route.name === "Score") {
+          return
+        }
+
         if (this.isSpinning) {
           return
         }

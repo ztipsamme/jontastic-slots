@@ -13,10 +13,12 @@ export default createRouter({
     },
     {
       component: ShopView,
+      name: "Shop",
       path: "/shop",
     },
     {
       component: ScoreView,
+      name: "Score",
       path: "/score",
     },
   ],
