@@ -263,7 +263,7 @@
         // skall detta spel ge en vinst?
 
         // Om det blir vinst
-        let random = Math.floor(Math.random() * 4 - odds)
+        let random = Math.floor(Math.random() * 6 + odds)
         this.winnerType = random >= 5 ? 0 : 99
 
         if (this.winnerType == 0) {
@@ -278,7 +278,7 @@
         let winRow
         let winVal
         let changedNumbers = []
-        if (this.winnerType < this.winTypes.length - 1) {
+        if (this.winnerType < this.winTypes.length) {
           this.isWinner = true
           winRow = this.winTypes[this.winnerType]
           winVal = this.winNum()
@@ -344,6 +344,7 @@
 
         return this.mIndex
       },
+
       getWinnings() {
         let bonus = this.tokens.bonusTypes.find((i) => i.name === "Extra Spin")
         let bonusWin
@@ -488,7 +489,9 @@
 
         if (tokenWin) {
           this.tokens.winning(tokenWin)
+          this.score.updateScore(tokenWin)
         }
+
         this.winSum = this.getWinnerText({
           tokens: tokenWin,
           bonus: bonusWin,
@@ -523,7 +526,7 @@
         if (this.isWinner) {
           this.audio.win.play()
           this.getWinnings()
-          this.score.updateScore(this.winSum.tokens)
+
           this.winner = this.isWinner
         } else if (this.tokens.tokens.sum < 5) {
           //Återställ variabler
