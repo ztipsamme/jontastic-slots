@@ -102,60 +102,60 @@
 
 <template>
   <main class="shop container">
-    <section class="row">
-      <div class="col category">
+    <section class="category-container">
+      <div class="category-header" id="bonus">
         <h2 class="second-heading">Bonusar</h2>
         <p class="desc">Levla upp spänningen med någonting extra.</p>
-        <div class="d-inline-flex flex-wrap gap-2">
-          <div
-            class="item"
-            :key="item"
-            v-for="item in bonusTypes"
-            @click="onClick(item)"
-          >
-            <icon
-              :name="item.name"
-              :aria-label="item.name"
-              :size="'68px'"
-              :src="item.src"
-              :item="item"
-            />
-            <span>
-              {{
-                item.name.substring(item.name.indexOf("Extra") + "extra".length)
-              }}
-            </span>
-            <span> {{ item.cost }}t </span>
-          </div>
+      </div>
+      <div class="item-container" id="bonus-items">
+        <div
+          class="item"
+          :key="item"
+          v-for="item in bonusTypes"
+          @click="onClick(item)"
+        >
+          <icon
+            :name="item.name"
+            :aria-label="item.name"
+            :size="'68px'"
+            :src="item.src"
+            :item="item"
+          />
+          <span>
+            {{
+              item.name.substring(item.name.indexOf("Extra") + "extra".length)
+            }}
+          </span>
+          <span> {{ item.cost }}t </span>
         </div>
       </div>
-      <div class="col category">
+      <div class="category-header" id="theme">
         <h2 class="second-heading">Teman</h2>
         <p class="desc">Anpassa ditt spel med ett tema.</p>
-        <div class="d-inline-flex flex-wrap gap-2">
-          <div
-            class="item"
-            v-for="item in themeTypes"
-            :key="item.name"
-            @click="onClick(item)"
-          >
-            <template v-if="'theme' + item + 'Bought'">
-              <template v-if="theme3Bought">
-                <icon
-                  :name="item.name"
-                  :aria-label="item.name"
-                  :size="'68px'"
-                  :src="item.src"
-                  :item="item"
-                />
-                <span> {{ item.name }} </span>
+      </div>
+      <div class="item-container" id="theme-items">
+        <div
+          class="item"
+          v-for="item in themeTypes"
+          :key="item.name"
+          @click="onClick(item)"
+        >
+          <template v-if="'theme' + item + 'Bought'">
+            <template v-if="theme3Bought">
+              <icon
+                :name="item.name"
+                :aria-label="item.name"
+                :size="'68px'"
+                :src="item.src"
+                :item="item"
+              />
+              <span> {{ item.name }} </span>
 
-                <template v-if="!item.owned && item.cost > 0">
-                  {{ item.cost }}t</template
-                >
-              </template></template
-            >
-          </div>
+              <template v-if="!item.owned && item.cost > 0">
+                {{ item.cost }}t</template
+              >
+            </template></template
+          >
         </div>
       </div>
     </section>
@@ -213,17 +213,6 @@
   p {
     text-align: start;
   }
-
-  .category {
-    .item {
-      display: flex;
-      flex-direction: column;
-      width: min-content;
-      font-weight: normal;
-      text-align: center;
-    }
-  }
-
   .desc {
     font-size: 14px;
     font-weight: normal;
@@ -240,9 +229,37 @@
     color: white;
   }
 
-  .container {
-    margin-top: 20px;
+  .category-container {
+    display: grid;
+    gap: 0 15px;
+    grid-template-columns: 1fr 1fr;
+    #bonus {
+      grid-column: 1/2;
+    }
+    #bonus-items {
+      grid-column: 1/2;
+    }
+    #theme {
+      grid-column: 2 /3;
+      grid-row: 1/2;
+    }
+    #theme-items {
+      grid-column: 2/3;
+    }
+    .item-container {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .item {
+      display: flex;
+      flex-direction: column;
+      width: min-content;
+      font-weight: normal;
+      text-align: center;
+    }
   }
+
   .popup-container {
     position: fixed;
     margin: auto;

@@ -97,6 +97,45 @@
     $secondary: #283a24;
     background-color: $secondary;
   }
+
+  .eld {
+    $primary: #b32e10;
+    $secondary: #820303;
+    background-color: $secondary;
+  }
+  .hav {
+    $primary: #136f75;
+    $secondary: #3741a0;
+    background-color: $secondary;
+  }
+  .brilliant {
+    background-image: url("src/components/themes/BrilliantTheme/bg.png");
+    background-size: cover;
+    background-position: center;
+  }
+  .rawr {
+    background-image: url("src/components/themes/RawrTheme/bg.png");
+    background-size: cover;
+    background-position: center;
+  }
+  .stadsljus {
+    background-image: url("src/components/themes/StadsljusTheme/bg.png");
+    background-size: cover;
+  }
+  .vildmark {
+    background-image: url("src/components/themes/VildmarkTheme/bg.png");
+    background-size: cover;
+    background-position: center;
+  }
+  .inferno {
+    background-image: url("src/components/themes/InfernoTheme/bg.jpg");
+    background-size: cover;
+  }
+  .sjuhaven {
+    background-image: url("src/components/themes/SjuhavenTheme/bg.png");
+    background-size: cover;
+    background-position: center;
+  }
   .bonus {
     $primary: #b18617;
     $secondary: #ffde68;
@@ -105,11 +144,6 @@
       filter: invert(44%) sepia(98%) saturate(371%) hue-rotate(5deg)
         brightness(99%) contrast(95%);
     }
-  }
-  .eld {
-    $primary: #b32e10;
-    $secondary: #820303;
-    background-color: $secondary;
   }
   .wrapper {
     position: relative;
