@@ -1,6 +1,6 @@
 <template>
   <btn
-    aria-label="infomration"
+    aria-label="information"
     :color="'red'"
     :size="'medium'"
     :circle="true"
@@ -73,6 +73,28 @@
         },
       }
     },
+    mounted() {
+      this.activeTab = Object.keys(this.tabs)[0];
+
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") {
+          const tabKeys = Object.keys(this.tabs);
+          const activeTabIndex = tabKeys.indexOf(this.activeTab);
+          const nextTabIndex = activeTabIndex - 1 >= 0 ? activeTabIndex - 1 : tabKeys.length - 1;
+          this.activeTab = tabKeys[nextTabIndex];
+        }
+
+        if (event.key === "ArrowRight") {
+          const tabKeys = Object.keys(this.tabs);
+          const activeTabIndex = tabKeys.indexOf(this.activeTab);
+          const nextTabIndex = activeTabIndex + 1 < tabKeys.length ? activeTabIndex + 1 : 0;
+          this.activeTab = tabKeys[nextTabIndex];
+        }
+      });
+    },
+
+
     methods: {
       Popup() {
         this.popUpState = true
