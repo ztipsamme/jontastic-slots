@@ -57,7 +57,8 @@
       const audioStore = useAudioStore()
       return { theme, audioStore }
     },
-    creaeted() {},
+
+    created() {},
     beforeMounted() {},
     mounted() {},
     data() {
@@ -66,10 +67,12 @@
         val: 0,
       }
     },
+
     computed: {
       btnClick() {
         return this.audioStore[this.audio.replace(".mp3", "")]
       },
+
       style() {
         let obj = {}
         obj = { ...this.styles, ...this.fontStyle }
@@ -86,6 +89,7 @@
 
         return obj
       },
+
       fontStyle() {
         let fs = "clamp(14px,5vh,20px)"
 
@@ -108,6 +112,7 @@
         return { fontSize: fs }
       },
     },
+
     methods: {
       onClick() {
         this.btnClick.load()
@@ -144,16 +149,6 @@
 </template>
 <style lang="scss" scoped>
   @use "sass:color";
-  /* --btn-blue: #4a65b0;
-  --btn-blue2: #42c4ec;
-
-  --btn-green: #5e9f48;
-  --btn-green2: #96be38;
-
-  --btn-red: #8e1c4f;
-  --btn-red2: #d84145;
-  --btn-purple: #774ab0;
-  --btn-purple2: #d89ced; */
 
   .btn-container {
     padding: 0px;

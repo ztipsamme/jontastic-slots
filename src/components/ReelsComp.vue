@@ -1,5 +1,3 @@
-<!-- eslint-disable vue/attribute-hyphenation -->
-<!-- eslint-disable vue/attribute-hyphenation -->
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes.js"
@@ -7,15 +5,6 @@
   import { gsap } from "gsap"
   import { CustomEase } from "gsap/CustomEase"
   gsap.registerPlugin(CustomEase)
-  /* import {
-
-        hsla,
-        rgba,
-        adjustHsl,
-        changeHsl,
-        rgbToHsl,
-        hslToRgb,
-      } from "../utilHsl.js"*/
 
   let resize = function (el, binding) {
     const onResizeCallback = binding.value
@@ -218,17 +207,13 @@
 
         this.spin(this.mIndex).then(() => {
           this.$emit("done")
-          // let winNum = this.reels[0][num[0]]
-          // let test = this.tmpWin
 
-          /* num.every((e, i) => {
-            return this.reels[i][e] == winNum
-          }) */
           if (win) {
             this.winBlink = win
           }
         })
       },
+
       spin(arr) {
         console.log(arr)
         this.startTime = Date.now()
@@ -250,7 +235,6 @@
             {
               translateZ: -this.rad,
               rotateX: from,
-              // top: console.log(this),
             },
             {
               translateZ: () => -this.rad,
@@ -265,7 +249,7 @@
 
           tween.push(refTween.play())
         })
-        this.audio.reels //new Audio("../assets/audio/reels.mp3")
+        this.audio.reels
         this.audio.reels.playbackRate = 0.4
         this.audio.reels.currentTime = 1.5
         this.audio.reels.preservesPitch = false
