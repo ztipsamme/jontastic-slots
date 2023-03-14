@@ -220,20 +220,15 @@
         let dubbel = this.tokens.bonusTypes.find(
           (i) => i.name === "Extra Dubbel",
         )
-        if (this.extraRowCount || extraRow.active) {
-          return
-        }
-        if (this.isSpinning || extraSpin.active) {
-          console.log("Return bajs")
-          console.log(this.isSpinning, extraSpin.active)
-          return
-        }
 
         this.audio.bonus.load()
         this.audio.bonus.play()
 
         switch (name) {
           case "extrarow": {
+            if (this.extraRowCount || extraRow.active) {
+              return
+            }
             extraRow.amount--
             extraRow.active = true
             this.extraRowCount = extraRow.count
@@ -244,6 +239,12 @@
             break
           }
           case "extraspin": {
+            if (this.isSpinning || extraSpin.active) {
+              console.log("Inte aktiv")
+              console.log(this.isSpinning, extraSpin.active)
+              return
+            }
+            console.log(name)
             console.log("Active extra spin")
 
             extraSpin.amount--
