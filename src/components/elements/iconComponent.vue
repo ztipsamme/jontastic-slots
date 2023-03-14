@@ -128,7 +128,7 @@
     background-position: center;
   }
   .inferno {
-    background-image: url("src/components/themes/InfernoTheme/bg.png");
+    background-image: url("src/components/themes/InfernoTheme/bg.jpg");
     background-size: cover;
   }
   .sjuhaven {
