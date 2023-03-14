@@ -523,14 +523,6 @@
             .map(() => this.generateSpinner())
         }
 
-        //Återställ freeSpinn
-
-        //Kolla om alla nummer är samma
-        /**TODO
-             * Kanske bör denna variabel sättas redan i altGetNumbers när det
-               bestömms huruvida det är vinst eller inte ?
-            */
-
         if (this.isWinner) {
           this.audio.win.play()
           this.getWinnings()
@@ -593,8 +585,6 @@
         this.reset(true)
         this.isSpinning = true
 
-        // Ny lokal variabel för bet - detta för att du inte skall kunna satsa, börja spela och om du höjer medan hjulet snurrar skall vinsten inte baseras på tokens.bet utan på det lokala värdet istället
-
         this.staticBet = this.tokens.tokens.bet
         // Berätta att hjulen snurrar
 
@@ -606,7 +596,6 @@
         if (!freeSpin) {
           this.tokens.takeoutBet(this.staticBet)
         }
-        // console.log("startgame", this.isSpinning)
 
         if (this.tokens.getBonus("extrarow").active) {
           this.tokens.getBonus("extrarow").uses--
@@ -731,7 +720,6 @@
         SPELA
       </btn>
     </div>
-    <!--If player doesn't have tokens, button is disabeld-->
   </div>
 </template>
 
