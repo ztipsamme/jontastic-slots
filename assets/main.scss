@@ -259,7 +259,7 @@ body {
     --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
     --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
 
-    --text-color: white;
+    --text-color: black;
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
