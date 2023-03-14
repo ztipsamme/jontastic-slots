@@ -73,7 +73,7 @@
           (theme &&
             !theme.owned &&
             theme.cost < this.tokenStore.tokens.sum &&
-            theme.cost != 0) ||
+            theme.cost > 0) ||
           (bonus && bonus.cost < this.tokenStore.tokens.sum)
         ) {
           this.popUp = true
@@ -90,28 +90,15 @@
           event.preventDefault()
         }
       },
-    },
-    buyBonus() {
-      let bonus = this.tokenStore.bonusTypes.find(
-        (type) => type.name === this.selectedItem.name,
-      )
-      let theme = this.themeTypes.find(
-        (type) => type.name === this.selectedItem.name,
-      )
-
-      if (
-        theme &&
-        this.tokenStore.tokens.sum >= theme.cost &&
-        theme.owned != true
-      ) {
-        theme.owned = true
-        this.tokenStore.tokens.sum -= theme.cost
-      }
-      if (bonus && this.tokenStore.tokens.sum >= bonus.cost) {
-        bonus.amount += 1
-        this.tokenStore.tokens.sum -= bonus.cost
-      }
-      this.popUp = false
+      buyBonus(item) {
+        if (item.name.startsWith("Extra")) {
+          item.amount++
+        } else {
+          item.owned = true
+        }
+        this.tokenStore.tokens.sum -= item.cost
+        this.popUp = false
+      },
     },
   }
 </script>
@@ -196,7 +183,7 @@
           :styles="{ height: '50px', marginLeft: '1%' }"
           :width="'80px'"
           :type="'small'"
-          @click="buyBonus()"
+          @click="buyBonus(selectedItem)"
           :audio="'purchase.mp3'"
           class="buy-btn"
           >Köp</btn
