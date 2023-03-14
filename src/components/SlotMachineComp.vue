@@ -208,20 +208,30 @@
         return { num: num, index: nIndex }
       },
       activateBonus(name) {
-        //let audio = new Audio("../../assets/audio/bonus.mp3")
-        //audio.play()
+        let extraSpin = this.tokens.bonusTypes.find(
+          (i) => i.name === "Extra Spin",
+        )
+
+        let extraRow = this.tokens.bonusTypes.find(
+          (i) => i.name === "Extra Row",
+        )
+        let dubbel = this.tokens.bonusTypes.find(
+          (i) => i.name === "Extra Dubbel",
+        )
+        if (this.extraRowCount || extraRow.active) {
+          return
+        }
+        if (this.isSpinning || extraSpin.active) {
+          console.log("Return bajs")
+          console.log(this.isSpinning, this.extraSpin)
+          return
+        }
+
         this.audio.bonus.load()
         this.audio.bonus.play()
 
         switch (name) {
           case "extrarow": {
-            if (this.extraRowCount) {
-              return
-            }
-
-            let extraRow = this.tokens.bonusTypes.find(
-              (i) => i.name === "Extra Row",
-            )
             extraRow.amount--
             extraRow.active = true
             this.extraRowCount = extraRow.count
@@ -232,12 +242,8 @@
             break
           }
           case "extraspin": {
-            if (this.isSpinning) {
-              return
-            }
-            let extraSpin = this.tokens.bonusTypes.find(
-              (i) => i.name === "Extra Spin",
-            )
+            console.log("Active extra spin")
+
             extraSpin.amount--
             extraSpin.active = true
             this.audio.bonus.addEventListener("ended", () => {
@@ -246,9 +252,6 @@
             break
           }
           case "extradubbel": {
-            let dubbel = this.tokens.bonusTypes.find(
-              (i) => i.name === "Extra Dubbel",
-            )
             dubbel.amount--
             dubbel.active = true
             break
