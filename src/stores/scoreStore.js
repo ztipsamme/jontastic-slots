@@ -10,7 +10,7 @@ export const useScoreStore = defineStore("scores", {
   }),
   actions: {
     updateScore(winSum) {
-      const newValue = Number(winSum.replace(/\D/g, ""))
+      const newValue = Number(winSum)
       if (typeof newValue === "number" && newValue > 0) {
         const scoreList = this.scores.highScore
         if (!scoreList.includes(newValue)) {

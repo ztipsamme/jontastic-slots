@@ -68,6 +68,11 @@
           this.tokens.tokens.bet = lowest
         }
       },
+      setBet(val) {
+        val = val < 5 ? 5 : val
+        val = val > this.tokens.tokens.sum ? this.tokens.tokens.sum : val
+        this.tokens.tokens.bet = val
+      },
     },
   }
 </script>

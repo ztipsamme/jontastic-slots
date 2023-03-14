@@ -30,12 +30,8 @@
     emits: { stop: null },
 
     created() {
-      if (this.tokens.bonusTypes.find((i) => i.name === "Extra Row").active) {
-        this.reels = 4
-        this.extraRowCount = this.tokens.bonusTypes.find(
-          (i) => i.name === "Extra Row",
-        ).count
-      }
+      this.reset(true)
+
       this.spinnerArr = new Array(this.reels)
         .fill(null)
         .map(() => this.generateSpinner())
@@ -60,6 +56,7 @@
         winSum: 0,
         staticBet: null,
         isWinner: false,
+        spacePressed: false,
         winnerType: 0,
         oddsModifier: 0,
         numMatrix: [],
@@ -94,6 +91,12 @@
       hasExtraRow() {
         return this.tokens.bonusTypes.some(
           (i) => i.name === "Extra Row" && i.amount > 0,
+        )
+      },
+      disableSpinn() {
+        return (
+          this.tokens.tokens.bet > this.tokens.tokens.sum ||
+          this.tokens.tokens.sum < 1
         )
       },
       getMatrix() {
@@ -208,20 +211,25 @@
         return { num: num, index: nIndex }
       },
       activateBonus(name) {
-        //let audio = new Audio("../../assets/audio/bonus.mp3")
-        //audio.play()
+        let extraSpin = this.tokens.bonusTypes.find(
+          (i) => i.name === "Extra Spin",
+        )
+
+        let extraRow = this.tokens.bonusTypes.find(
+          (i) => i.name === "Extra Row",
+        )
+        let dubbel = this.tokens.bonusTypes.find(
+          (i) => i.name === "Extra Dubbel",
+        )
+
         this.audio.bonus.load()
         this.audio.bonus.play()
 
         switch (name) {
           case "extrarow": {
-            if (this.extraRowCount) {
+            if (this.extraRowCount || extraRow.active) {
               return
             }
-
-            let extraRow = this.tokens.bonusTypes.find(
-              (i) => i.name === "Extra Row",
-            )
             extraRow.amount--
             extraRow.active = true
             this.extraRowCount = extraRow.count
@@ -232,12 +240,14 @@
             break
           }
           case "extraspin": {
-            if (this.isSpinning) {
+            if (this.isSpinning || extraSpin.active) {
+              console.log("Inte aktiv")
+              console.log(this.isSpinning, extraSpin.active)
               return
             }
-            let extraSpin = this.tokens.bonusTypes.find(
-              (i) => i.name === "Extra Spin",
-            )
+            console.log(name)
+            console.log("Active extra spin")
+
             extraSpin.amount--
             extraSpin.active = true
             this.audio.bonus.addEventListener("ended", () => {
@@ -246,9 +256,6 @@
             break
           }
           case "extradubbel": {
-            let dubbel = this.tokens.bonusTypes.find(
-              (i) => i.name === "Extra Dubbel",
-            )
             dubbel.amount--
             dubbel.active = true
             break
@@ -263,7 +270,7 @@
         // skall detta spel ge en vinst?
 
         // Om det blir vinst
-        let random = Math.floor(Math.random() * 4 - odds)
+        let random = Math.floor(Math.random() * 6 + odds)
         this.winnerType = random >= 5 ? 0 : 99
 
         if (this.winnerType == 0) {
@@ -278,7 +285,7 @@
         let winRow
         let winVal
         let changedNumbers = []
-        if (this.winnerType < this.winTypes.length - 1) {
+        if (this.winnerType < this.winTypes.length) {
           this.isWinner = true
           winRow = this.winTypes[this.winnerType]
           winVal = this.winNum()
@@ -344,6 +351,7 @@
 
         return this.mIndex
       },
+
       getWinnings() {
         let bonus = this.tokens.bonusTypes.find((i) => i.name === "Extra Spin")
         let bonusWin
@@ -488,7 +496,9 @@
 
         if (tokenWin) {
           this.tokens.winning(tokenWin)
+          this.score.updateScore(tokenWin)
         }
+
         this.winSum = this.getWinnerText({
           tokens: tokenWin,
           bonus: bonusWin,
@@ -511,8 +521,7 @@
             .map(() => this.generateSpinner())
         }
 
-        //Återställ freeSpiinn
-        bonus.find((i) => i.name === "Extra Spin").active = false
+        //Återställ freeSpinn
 
         //Kolla om alla nummer är samma
         /**TODO
@@ -523,73 +532,91 @@
         if (this.isWinner) {
           this.audio.win.play()
           this.getWinnings()
-          this.score.updateScore(this.winSum.tokens)
-          this.winner = this.isWinner
-        } else if (this.tokens.tokens.sum < 5) {
-          //Återställ variabler
-          this.winner = false
-          this.isWinner = false
-          //Berätta att det är Game Over
+          this.winner = true
+          this.reset()
+        } else if (this.tokens.tokens.sum < 1) {
           this.gameOver = true
-
-          //new Audio("../assets/audio/game-over.mp3").play()
-
           this.audio.gameOver.play()
         } else {
-          this.winner = false
+          this.reset(true)
           this.audio.noWin.play()
         }
-        if (
-          this.staticBet > this.tokens.tokens.sum &&
-          this.staticBet < this.winSum
-        ) {
-          // console.log("setBet")
+      },
+      reset(all = false) {
+        this.isSpinning = false
+        this.isWinner = false
+        this.winnerType = null
+
+        this.staticBet = 0
+
+        if (this.tokens.tokens.sum < this.tokens.tokens.bet) {
           this.$refs.betComp.setBet(this.tokens.tokens.sum)
         }
 
-        bonus.find((i) => i.name === "Extra Dubbel").active = false
-
-        /* const scoreList = this.score.scores.highScore
-
-        if (!scoreList.includes(this.winSum)) {
-          scoreList.push(this.winSum)
+        for (let bonus of this.tokens.bonusTypes) {
+          if (bonus.name.replace(/\s/, "").toLowerCase() == "extrarow") {
+            if (bonus.active && bonus.uses) {
+              this.reels = 4
+            } else if (!bonus.uses) {
+              bonus.active = false
+              bonus.uses = 4
+              if (this.reels == 4) {
+                this.reels = 3
+              }
+            } else if (!bonus.active) {
+              bonus.uses = 4
+              if (this.reels == 4) {
+                this.reels = 3
+              }
+            }
+          } else {
+            bonus.active = false
+          }
         }
 
-        scoreList.sort((a, b) => b - a)
-        this.score.scores.highScore = scoreList.slice(0, 6) */
+        if (all) {
+          this.gameOver = false
+          this.winner = false
+        }
       },
+
       gameStart(freeSpin = false) {
         if (this.isSpinning) {
           return
         }
-
-        // Ny lokal variabel för bet - detta för att du inte skall kunna satsa, börja spela och om du höjer medan hjulet snurrar skall vinsten inte baseras på tokens.bet utan på det lokala värdet istället
-        this.staticBet = 0
-
-        // Berätta att hjulen snurrar
-        this.isSpinning = true
-        this.winnerType = null
-        this.winSum = null
-        if (this.tokens.tokens.sum - this.staticBet < 0) {
+        if (this.tokens.tokens.sum < 1) {
+          this.gameOver = true
           return
         }
+        this.reset(true)
+        this.isSpinning = true
 
-        if (this.extraRowCount) {
-          this.extraRowCount--
+        // Ny lokal variabel för bet - detta för att du inte skall kunna satsa, börja spela och om du höjer medan hjulet snurrar skall vinsten inte baseras på tokens.bet utan på det lokala värdet istället
+
+        this.staticBet = this.tokens.tokens.bet
+        // Berätta att hjulen snurrar
+
+        if (this.tokens.tokens.sum - this.staticBet < 1) {
+          this.staticBet = this.tokens.tokens.sum
+          this.tokens.tokens.bet = this.staticBet
         }
 
-        this.winner = false
-        this.isWinner = false
-        this.staticBet = this.tokens.tokens.bet
         if (!freeSpin) {
           this.tokens.takeoutBet(this.staticBet)
         }
+        // console.log("startgame", this.isSpinning)
+
+        if (this.tokens.getBonus("extrarow").active) {
+          this.tokens.getBonus("extrarow").uses--
+        }
+
         this.altGetNumbers()
 
         this.$refs.child.start(this.mIndex, this.isWinner, this.winnerType)
       },
+
       newGame() {
-        this.gameOver = false
+        this.reset(true)
         this.tokens.tokens.sum = this.tokens.tokens.startValue
         let startbet = this.tokens.tokens.startBet
           ? this.tokens.tokens.startBet
@@ -689,7 +716,7 @@
       </div>
     </div>
     <div class="row-2">
-      <MaxWinning />
+      <MaxWinning :ref="'betComp'" />
       <btn
         :color="'green'"
         :height="'85%'"
