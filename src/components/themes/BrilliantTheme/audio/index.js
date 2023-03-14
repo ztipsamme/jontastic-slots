@@ -1,6 +1,6 @@
 let audio = {
   src: {
-    theme: "./src/components/themes/Default/audio/theme.mp3",
+    theme: "./src/components/themes/BrilliantTheme/audio/theme.mp3",
     btn: "./src/components/themes/Default/audio/btn.mp3",
     cashIn: "./src/components/themes/Default/audio/cash-in.mp3",
     gameOver: "./src/components/themes/Default/audio/game-over.mp3",
