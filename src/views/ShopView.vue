@@ -17,13 +17,6 @@
     beforeUnmount() {
       window.removeEventListener("keydown", this.handleKeyDown)
     },
-    methods: {
-      handleKeyDown(event) {
-        if (event.key === " " || event.keyCode === 32) {
-          event.preventDefault()
-        }
-      },
-    },
     setup() {
       const tokenStore = useTokenStore()
       const theme = useThemeStore()
@@ -42,7 +35,6 @@
         theme4Bought: true,
       }
     },
-
     computed: {
       tokens() {
         return this.tokenStore.tokens
@@ -57,7 +49,6 @@
         return this.tokenStore.themeTypes.owned
       },
     },
-
     methods: {
       onClick(item) {
         if (!item.owned) {
@@ -79,37 +70,48 @@
         this.selectedItem = item
 
         if (
-          (theme && !theme.owned && theme.cost < this.tokenStore.tokens.sum) ||
+          (theme &&
+            !theme.owned &&
+            theme.cost < this.tokenStore.tokens.sum &&
+            theme.cost != 0) ||
           (bonus && bonus.cost < this.tokenStore.tokens.sum)
         ) {
           this.popUp = true
         } else {
-          this.errorMessage = true
+          if (theme && theme.cost === 0) {
+            this.errorMessage = "locked"
+          } else {
+            this.errorMessage = "sum < cost"
+          }
         }
       },
-
-      buyBonus() {
-        let bonus = this.tokenStore.bonusTypes.find(
-          (type) => type.name === this.selectedItem.name,
-        )
-        let theme = this.themeTypes.find(
-          (type) => type.name === this.selectedItem.name,
-        )
-
-        if (
-          theme &&
-          this.tokenStore.tokens.sum >= theme.cost &&
-          theme.owned != true
-        ) {
-          theme.owned = true
-          this.tokenStore.tokens.sum -= theme.cost
+      handleKeyDown(event) {
+        if (event.key === " " || event.keyCode === 32) {
+          event.preventDefault()
         }
-        if (bonus && this.tokenStore.tokens.sum >= bonus.cost) {
-          bonus.amount += 1
-          this.tokenStore.tokens.sum -= bonus.cost
-        }
-        this.popUp = false
       },
+    },
+    buyBonus() {
+      let bonus = this.tokenStore.bonusTypes.find(
+        (type) => type.name === this.selectedItem.name,
+      )
+      let theme = this.themeTypes.find(
+        (type) => type.name === this.selectedItem.name,
+      )
+
+      if (
+        theme &&
+        this.tokenStore.tokens.sum >= theme.cost &&
+        theme.owned != true
+      ) {
+        theme.owned = true
+        this.tokenStore.tokens.sum -= theme.cost
+      }
+      if (bonus && this.tokenStore.tokens.sum >= bonus.cost) {
+        bonus.amount += 1
+        this.tokenStore.tokens.sum -= bonus.cost
+      }
+      this.popUp = false
     },
   }
 </script>
@@ -202,7 +204,11 @@
       </div>
     </div>
   </div>
-  <div v-if="errorMessage" @close="popUp = false" class="popup-overlay">
+  <div
+    v-if="errorMessage === 'sum < cost'"
+    @close="popUp = false"
+    class="popup-overlay"
+  >
     <div class="popup-container">
       <p class="buy">Du har ej råd att köpa {{ selectedItem.name }}!</p>
       <div id="btn-row" class="row gap-1 mx-3">
@@ -214,7 +220,31 @@
           @click="errorMessage = false"
           class="buy-btn"
         >
-          Avbryt
+          Tillbaka
+        </btn>
+      </div>
+    </div>
+  </div>
+  <div
+    v-if="errorMessage === 'locked'"
+    @close="popUp = false"
+    class="popup-overlay"
+  >
+    <div class="popup-container">
+      <p class="buy">
+        Temat {{ selectedItem.name }} är låst. Spela med
+        {{ selectedItem.basic }} temat för att vinna detta tema.
+      </p>
+      <div id="btn-row" class="row gap-1 mx-3">
+        <btn
+          :color="'red'"
+          :styles="{ height: '50px', marginLeft: '1%' }"
+          :width="'80px'"
+          :type="'small'"
+          @click="errorMessage = false"
+          class="buy-btn"
+        >
+          Tillbaka
         </btn>
       </div>
     </div>
