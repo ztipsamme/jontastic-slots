@@ -10,6 +10,20 @@
       icon: iconComponent,
       btn: buttonComponent,
     },
+
+    mounted() {
+      window.addEventListener("keydown", this.handleKeyDown)
+    },
+    beforeUnmount() {
+      window.removeEventListener("keydown", this.handleKeyDown)
+    },
+    methods: {
+      handleKeyDown(event) {
+        if (event.key === " " || event.keyCode === 32) {
+          event.preventDefault()
+        }
+      },
+    },
     setup() {
       const tokenStore = useTokenStore()
       const theme = useThemeStore()
