@@ -113,6 +113,7 @@
         :color="'purple'"
         :border-radius="'5px'"
         :selected="currentVal == n"
+        :width="'100%'"
         @click="
           () => {
             currentVal = n
@@ -236,8 +237,7 @@
     min-width: 125px;
     max-height: 160px;
     position: relative;
-    min-height: 100px;
-    height: 9vh;
+    height: 100%;
     width: 100%;
     z-index: 2;
     /* background-image: linear-gradient(-50deg, var(--bs-orange), var(--bs-yellow) 35%, var(--bs-yellow) 70%, var(--bs-orange)); */

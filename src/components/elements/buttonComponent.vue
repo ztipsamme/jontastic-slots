@@ -87,7 +87,7 @@
         return obj
       },
       fontStyle() {
-        let fs = "20px"
+        let fs = "clamp(14px,5vh,20px)"
 
         switch (this.size) {
           case "x-small":
