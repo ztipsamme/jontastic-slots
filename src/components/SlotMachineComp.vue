@@ -545,7 +545,9 @@
 
         this.staticBet = 0
 
-        if (this.tokens.tokens.sum < this.tokens.tokens.bet) {
+        if (this.tokens.tokens.sum === 0) {
+          this.tokens.tokens.bet = this.tokens.tokens.startBet
+        } else if (this.tokens.tokens.sum < this.tokens.tokens.bet) {
           this.tokens.tokens.bet = this.tokens.tokens.sum
         }
 
@@ -728,7 +730,7 @@
 <style lang="scss">
   .main-machine {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr) 249px;
     grid-template-rows: repeat(3, 1fr);
     gap: 5vw;
     width: 100%;
