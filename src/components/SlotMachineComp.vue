@@ -36,6 +36,9 @@
           (i) => i.name === "Extra Row",
         ).count
       }
+
+      this.tokens.bonusTypes.find((i) => i.name === "Extra Spin").active = false
+
       this.spinnerArr = new Array(this.reels)
         .fill(null)
         .map(() => this.generateSpinner())
@@ -223,7 +226,7 @@
         }
         if (this.isSpinning || extraSpin.active) {
           console.log("Return bajs")
-          console.log(this.isSpinning, this.extraSpin)
+          console.log(this.isSpinning, extraSpin.active)
           return
         }
 
@@ -517,7 +520,7 @@
             .map(() => this.generateSpinner())
         }
 
-        //Återställ freeSpiinn
+        //Återställ freeSpinn
         bonus.find((i) => i.name === "Extra Spin").active = false
 
         //Kolla om alla nummer är samma
