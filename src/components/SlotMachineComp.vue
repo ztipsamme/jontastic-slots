@@ -531,42 +531,27 @@
         if (this.isWinner) {
           this.audio.win.play()
           this.getWinnings()
-
           this.winner = this.isWinner
-        } else if (this.tokens.tokens.sum < 5) {
-          //Återställ variabler
-          this.winner = false
-          this.isWinner = false
-          //Berätta att det är Game Over
+          this.reset()
+        } else if (this.tokens.tokens.sum < 1) {
           this.gameOver = true
-
-          //new Audio("../assets/audio/game-over.mp3").play()
-
           this.audio.gameOver.play()
         } else {
-          this.winner = false
+          this.reset(true)
           this.audio.noWin.play()
         }
-        if (
-          this.staticBet > this.tokens.tokens.sum &&
-          this.staticBet < this.winSum
-        ) {
-          this.$refs.betComp.setBet(this.tokens.tokens.sum)
-        }
-
-        this.reset()
       },
       reset(all = false) {
         this.isSpinning = false
         this.isWinner = false
         this.winnerType = null
         this.winSum = []
-        this.gameOver = false
         this.staticBet = 0
 
         if (this.tokens.tokens.sum < this.tokens.tokens.bet) {
-          this.tokens.tokens.bet = this.tokens.tokens.sum
+          this.$refs.betComp.setBet(this.tokens.tokens.sum)
         }
+
         for (let bonus of this.tokens.bonusTypes) {
           if (bonus.name.replace(/\s/, "").toLowerCase() == "extrarow") {
             if (bonus.active && bonus.uses) {
@@ -589,6 +574,7 @@
         }
 
         if (all) {
+          this.gameOver = false
           this.winner = false
         }
       },
@@ -729,7 +715,7 @@
       </div>
     </div>
     <div class="row-2">
-      <MaxWinning />
+      <MaxWinning :ref="'betComp'" />
       <btn
         :color="'green'"
         :height="'85%'"
