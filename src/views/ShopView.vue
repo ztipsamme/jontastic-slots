@@ -94,6 +94,7 @@
           bonus.amount += 1
           this.tokenStore.tokens.sum -= bonus.cost
         }
+        this.popUp = false
       },
     },
   }
