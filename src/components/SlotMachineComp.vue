@@ -56,6 +56,7 @@
         winSum: 0,
         staticBet: null,
         isWinner: false,
+        spacePressed: false,
         winnerType: 0,
         oddsModifier: 0,
         numMatrix: [],
