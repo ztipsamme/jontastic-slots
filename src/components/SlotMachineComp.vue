@@ -531,7 +531,7 @@
         if (this.isWinner) {
           this.audio.win.play()
           this.getWinnings()
-          this.winner = this.isWinner
+          this.winner = true
           this.reset()
         } else if (this.tokens.tokens.sum < 1) {
           this.gameOver = true
@@ -545,7 +545,7 @@
         this.isSpinning = false
         this.isWinner = false
         this.winnerType = null
-        this.winSum = []
+
         this.staticBet = 0
 
         if (this.tokens.tokens.sum < this.tokens.tokens.bet) {
