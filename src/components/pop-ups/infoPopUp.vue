@@ -1,6 +1,6 @@
 <template>
   <btn
-    aria-label="infomration"
+    aria-label="information"
     :color="'red'"
     :size="'medium'"
     :circle="true"
@@ -93,6 +93,7 @@
         }
       });
     },
+
 
     methods: {
       Popup() {
