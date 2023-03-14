@@ -20,7 +20,6 @@
     data() {
       return {
         errorMessage: false,
-        verification: false,
         popUp: false,
         selectedItem: "",
         theme1Bought: true,
@@ -57,6 +56,7 @@
           this.theme.setTheme(item.name.replace(/\s/g, "").toLowerCase())
         }
       },
+
       popUpAction(item) {
         let theme = this.themeTypes.find((type) => type.name === item.name)
         let bonus = this.tokenStore.bonusTypes.find(
@@ -64,17 +64,17 @@
         )
         this.selectedItem = item
 
-        if ((theme && !theme.owned) || bonus) {
+        if (
+          (theme && !theme.owned && theme.cost < this.tokenStore.tokens.sum) ||
+          (bonus && bonus.cost < this.tokenStore.tokens.sum)
+        ) {
           this.popUp = true
         } else {
-          this.popUp = false
+          this.errorMessage = true
         }
       },
 
       buyBonus() {
-        this.theme1Bought = false
-        // console.log("hej " + this.theme1Bought)
-
         let bonus = this.tokenStore.bonusTypes.find(
           (type) => type.name === this.selectedItem.name,
         )
@@ -93,10 +93,7 @@
         if (bonus && this.tokenStore.tokens.sum >= bonus.cost) {
           bonus.amount += 1
           this.tokenStore.tokens.sum -= bonus.cost
-        } else {
-          this.errorMessage = true
         }
-        this.popUp = false
       },
     },
   }
@@ -187,6 +184,23 @@
           class="buy-btn"
           >Köp</btn
         >
+      </div>
+    </div>
+  </div>
+  <div v-if="errorMessage" @close="popUp = false" class="popup-overlay">
+    <div class="popup-container">
+      <p class="buy">Du har ej råd att köpa {{ selectedItem.name }}!</p>
+      <div id="btn-row" class="row gap-1 mx-3">
+        <btn
+          :color="'red'"
+          :styles="{ height: '50px', marginLeft: '1%' }"
+          :width="'80px'"
+          :type="'small'"
+          @click="errorMessage = false"
+          class="buy-btn"
+        >
+          Avbryt
+        </btn>
       </div>
     </div>
   </div>
