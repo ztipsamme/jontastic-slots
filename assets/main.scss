@@ -259,11 +259,11 @@ body {
     --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
     --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
 
-    --text-color: black;
+    --text-color: #000000;
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
-    --bg-image: url("../src/components/themes/EldTheme/eld.jpg");
+    --bg-image: url("../src/components/themes/EldTheme/eld2.jpg");
 
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
