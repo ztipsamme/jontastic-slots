@@ -436,12 +436,14 @@
                 )
                 bonus.amount++
                 bonusWin = bonus.name
+                console.log("Bonus Extra Dubbel")
                 break
               }
 
               case 5: {
                 bonus = this.tokens.bonusTypes.find(
                   (i) => i.name === "Extra Row",
+                  console.log("Bonus Extra Row"),
                 )
                 //falls through
               }
@@ -466,8 +468,8 @@
                     e.name.toLowerCase().replace(/\s/, "") ==
                     bName.toLowerCase().replace(/\s/, ""),
                 )
-
-                bonus.amoumt++
+                console.log("Bonus Extra Spin")
+                bonus.amount++
                 bonusWin = bonus.name
                 break
               }
@@ -521,14 +523,6 @@
             .map(() => this.generateSpinner())
         }
 
-        //Återställ freeSpinn
-
-        //Kolla om alla nummer är samma
-        /**TODO
-             * Kanske bör denna variabel sättas redan i altGetNumbers när det
-               bestömms huruvida det är vinst eller inte ?
-            */
-
         if (this.isWinner) {
           this.audio.win.play()
           this.getWinnings()
@@ -581,6 +575,14 @@
       },
 
       gameStart(freeSpin = false) {
+        if (this.$route.name === "Shop") {
+          return
+        }
+
+        if (this.$route.name === "Score") {
+          return
+        }
+
         if (this.isSpinning) {
           return
         }
@@ -590,8 +592,6 @@
         }
         this.reset(true)
         this.isSpinning = true
-
-        // Ny lokal variabel för bet - detta för att du inte skall kunna satsa, börja spela och om du höjer medan hjulet snurrar skall vinsten inte baseras på tokens.bet utan på det lokala värdet istället
 
         this.staticBet = this.tokens.tokens.bet
         // Berätta att hjulen snurrar
@@ -604,7 +604,6 @@
         if (!freeSpin) {
           this.tokens.takeoutBet(this.staticBet)
         }
-        // console.log("startgame", this.isSpinning)
 
         if (this.tokens.getBonus("extrarow").active) {
           this.tokens.getBonus("extrarow").uses--
@@ -728,7 +727,6 @@
         SPELA
       </btn>
     </div>
-    <!--If player doesn't have tokens, button is disabeld-->
   </div>
 </template>
 

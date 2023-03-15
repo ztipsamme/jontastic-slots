@@ -128,27 +128,8 @@
       >
     </div>
   </div>
-
-  <!--
-        <div class="winning-cont symbols">
-      <div :class="{ 'symbol-container': true, open: open }">
-        <template v-for="(img, i) in theme.icons" :key="i">
-          <img
-            v-if="i == imgIndex || open"
-            class="winning-img"
-            @click="
-              () => {
-                imgIndex = i
-                open = !open
-              }
-            "
-            :src="img"
-            alt=""
-          />
-        </template>
-      </div>
-    </div>-->
 </template>
+
 <style lang="scss" scoped>
   .val-cont {
     grid-row: 2;

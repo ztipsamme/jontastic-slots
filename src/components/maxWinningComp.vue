@@ -8,6 +8,7 @@
       const theme = useThemeStore()
       return { tokens, theme }
     },
+
     components: {},
     creaeted() {},
     beforeMounted() {},
@@ -18,9 +19,11 @@
         open: false,
       }
     },
+
     computed: {
       max: () => this.tokens.tokens.bet * 7,
     },
+
     methods: {
       getState() {},
     },
@@ -35,26 +38,6 @@
       <p>{{ tokens.tokens.bet * 7 }}</p>
     </div>
   </div>
-
-  <!--
-        <div class="winning-cont symbols">
-      <div :class="{ 'symbol-container': true, open: open }">
-        <template v-for="(img, i) in theme.icons" :key="i">
-          <img
-            v-if="i == imgIndex || open"
-            class="winning-img"
-            @click="
-              () => {
-                imgIndex = i
-                open = !open
-              }
-            "
-            :src="img"
-            alt=""
-          />
-        </template>
-      </div>
-    </div>-->
 </template>
 <style lang="scss" scoped>
   p {
