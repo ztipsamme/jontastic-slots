@@ -78,13 +78,9 @@
   }
 </script>
 <template>
-<<<<<<< HEAD
-  <div class="control-cont">
-=======
   <div
     :class="{ 'test-cont': true, landscape: landscape, standing: !landscape }"
   >
->>>>>>> clean-up
     <btn
       class="bet-btn"
       :styles="{ zIndex: 0, alignSelf: 'end', borderRadius: '10px' }"
@@ -140,25 +136,6 @@
 </template>
 
 <style lang="scss" scoped>
-<<<<<<< HEAD
-  .val-cont {
-    grid-row: 2;
-    grid-column: span 3;
-    display: flex;
-    justify-content: space-between;
-    z-index: 2;
-    padding: 5px 0px;
-    gap: 10px;
-  }
-  .control-cont {
-    width: 90%;
-    grid-template-columns: 1fr 6fr 1fr;
-    grid-template-rows: 5fr 2fr;
-    display: grid;
-    justify-self: center;
-  }
-=======
->>>>>>> clean-up
   p {
     margin: 0;
     padding: 0;

@@ -676,13 +676,8 @@
     }"
     @click="newGame()"
   />
-<<<<<<< HEAD
-  <div class="main-machine cont">
-    <div class="reels-col col">
-=======
   <div class="main-machine">
     <div class="reels-col">
->>>>>>> clean-up
       <div class="reel-cont">
         <spinner
           :win="isWinner"
@@ -696,10 +691,6 @@
         />
       </div>
     </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> clean-up
     <div class="bonus-container">
       <div
         class="bonus-wrapper"
@@ -726,22 +717,6 @@
       </div>
     </div>
 
-<<<<<<< HEAD
-    <div class="row-2">
-      <MaxWinning :ref="'betComp'" />
-      <btn
-        :color="'green'"
-        :height="'85%'"
-        :width="'60%'"
-        @click="gameStart()"
-        :disabled="tokens.tokens.bet > tokens.tokens.sum"
-        :styles="{ maxHeight: '100%', justifySelf: 'center' }"
-        :size="'x-large'"
-      >
-        SPELA
-      </btn>
-    </div>
-=======
     <MaxWinning id="bet" :ref="'betComp'" />
 
     <btn
@@ -756,23 +731,15 @@
     >
       SPELA
     </btn>
->>>>>>> clean-up
   </div>
 </template>
 
 <style lang="scss">
   .main-machine {
     display: grid;
-<<<<<<< HEAD
-    height: calc(100vh - 75px);
-    grid-template-rows: 100%;
-    grid-template-columns: auto 15vw;
-    gap: 2vh;
-=======
     grid-template-columns: repeat(2, 1fr) 249px;
     grid-template-rows: repeat(3, 1fr);
     gap: 5vw;
->>>>>>> clean-up
     width: 100%;
     height: 100%;
   }
@@ -806,35 +773,12 @@
     height: 100%;
     overflow: hidden;
   }
-<<<<<<< HEAD
-  .row-2 {
-    height: 100%;
-    justify-content: center;
-    gap: 2vw;
-    align-items: center;
-    display: grid;
-    grid-template-columns: 50% 50%;
-    width: 80vw;
-    justify-self: center;
-  }
-  .cont {
-    width: 80vw;
-    display: flex;
-    flex-direction: column;
-  }
-  .reels-col {
-    grid-column-start: 1;
-    display: grid;
-    width: 76%;
-    height: 100%;
-=======
 
   .reels-col {
     display: grid;
     width: 100%;
     grid-column: 1/3;
     grid-row: 1/4;
->>>>>>> clean-up
   }
 
   .item {

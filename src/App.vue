@@ -277,34 +277,16 @@
       grid-template-columns: 25% auto;
     }
   }
-<<<<<<< HEAD
 
-  #app {
-    display: grid;
-    grid-template-rows: auto auto;
-    height: 100vh;
-    max-width: 900px;
-    width: 99vw;
-    padding: 1vw;
-  }
-=======
->>>>>>> clean-up
   header {
     width: 100%;
     z-index: 1000;
     display: grid;
     grid-template-columns: 8% 12% 60% 20%;
-<<<<<<< HEAD
-    height: 100%;
-    padding: 1vh 0px 1vh 0px;
-    align-items: start;
-    width: 100%;
-=======
     height: min-content;
     padding: 2vh 0px;
     align-items: start;
     margin-bottom: 2vh;
->>>>>>> clean-up
     .info {
       justify-self: end;
       width: 100%;
