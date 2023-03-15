@@ -31,7 +31,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: 90%;
     background-image: linear-gradient(
       45deg,
       hsla(50deg, 0%, 90%) -20%,

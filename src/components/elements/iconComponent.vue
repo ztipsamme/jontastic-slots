@@ -159,12 +159,11 @@
   }
   .mini {
     position: absolute;
-    inset: -25% 70%;
+    top: -10px;
+    right: -10px;
     z-index: 2;
   }
-</style>
 
-<style scoped>
   button {
     box-sizing: border-box;
     position: absolute;

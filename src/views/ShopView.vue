@@ -105,11 +105,11 @@
 
 <template>
   <section class="category-container">
+    <div class="category-header" id="bonus">
+      <h2>Bonusar</h2>
+    </div>
+
     <div class="item-container" id="bonus-items">
-      <div class="category-header" id="bonus">
-        <h2>Bonusar</h2>
-        <p class="desc">Levla upp spänningen med någonting extra.</p>
-      </div>
       <div
         class="item"
         :key="item"
@@ -117,9 +117,10 @@
         @click="onClick(item)"
       >
         <icon
+          class="icon"
           :name="item.name"
           :aria-label="item.name"
-          :size="'68px'"
+          :size="'clamp(50px,7vw,100px)'"
           :src="item.src"
           :item="item"
         />
@@ -130,33 +131,57 @@
       </div>
     </div>
 
-    <div class="item-container" id="theme-items">
-      <div class="category-header" id="theme">
-        <h2>Teman</h2>
-        <p class="desc">Anpassa ditt spel med ett tema.</p>
-      </div>
+    <div class="category-header" id="basic">
+      <h2>Basic Teman</h2>
+    </div>
+
+    <div class="item-container" id="basic-items">
       <div
         class="item"
-        v-for="item in themeTypes"
+        v-for="(item, index) in themeTypes"
         :key="item.name"
         @click="onClick(item)"
       >
-        <template v-if="'theme' + item + 'Bought'">
-          <template v-if="theme3Bought">
-            <icon
-              :name="item.name"
-              :aria-label="item.name"
-              :size="'68px'"
-              :src="item.src"
-              :item="item"
-            />
-            <span> {{ item.name }} </span>
+        <template v-if="index < 6">
+          <icon
+            class="icon"
+            :name="item.name"
+            :aria-label="item.name"
+            :size="'clamp(50px,7vw,100px)'"
+            :src="item.src"
+            :item="item"
+          />
+          <span> {{ item.name }} </span>
 
-            <template v-if="!item.owned && item.cost > 0">
-              {{ item.cost }}t</template
-            >
-          </template></template
-        >
+          <template v-if="!item.owned && item.cost > 0">
+            {{ item.cost }}t
+          </template>
+        </template>
+      </div>
+    </div>
+
+    <div class="category-header" id="deluxe">
+      <h2>Deluxe Teman</h2>
+    </div>
+
+    <div class="item-container" id="deluxe-items">
+      <div
+        class="item"
+        v-for="(item, index) in themeTypes"
+        :key="item.name"
+        @click="onClick(item)"
+      >
+        <template v-if="index > 6">
+          <icon
+            class="icon"
+            :name="item.name"
+            :aria-label="item.name"
+            :size="'clamp(50px,7vw,100px)'"
+            :src="item.src"
+            :item="item"
+          />
+          <span> {{ item.name }} </span>
+        </template>
       </div>
     </div>
   </section>
@@ -237,11 +262,12 @@
 
 <style lang="scss" scoped>
   .category-container {
-    gap: 0 15px;
-    width: 100%;
-    height: 100%;
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    column-gap: 20px;
+    grid-row: min-content;
     .category-header {
-      display: flex;
+      height: min-content;
       align-items: baseline;
       gap: 10px;
       flex-basis: 100%;
@@ -255,30 +281,48 @@
       }
       .desc {
         font-size: 14px;
-        &::before {
-          content: "-";
-          padding-right: 10px;
-        }
-        &::after {
-          content: "-";
-          padding-left: 10px;
-        }
       }
     }
+    #bonus {
+      grid-column: 1/2;
+      grid-row: 1/2;
+    }
+    #basic {
+      grid-column: 1/2;
+      grid-row: 2/3;
+    }
+    #basic-items {
+      grid-column: 2/3;
+      grid-row: 2/3;
+    }
+    #deluxe {
+      grid-column: 1/2;
+      grid-row: 3/4;
+    }
+    #deluxe-items {
+      grid-column: 2/3;
+      grid-row: 3/4;
+    }
     .item-container {
-      margin-bottom: 5vh;
       width: 100%;
       display: flex;
       align-items: baseline;
       justify-content: baseline;
       flex-flow: row wrap;
-      gap: 0 20px;
       overflow-y: scroll;
       .item {
         text-align: center;
-        margin-right: 15px 15px 0 0;
+        display: flex;
+        flex-direction: column;
+        margin: 15px 0 0 0;
+        .icon {
+          margin: 0 15px;
+        }
       }
     }
+  }
+  #bonus-items {
+    gap: 30px;
   }
 
   .popup-container {
