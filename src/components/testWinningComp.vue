@@ -77,7 +77,7 @@
   }
 </script>
 <template>
-  <div class="test-cont">
+  <div class="control-cont">
     <btn
       :styles="{ zIndex: 0, alignSelf: 'end', borderRadius: '10px' }"
       :position="['end', 'start']"
@@ -159,7 +159,7 @@
     padding: 5px 0px;
     gap: 10px;
   }
-  .test-cont {
+  .control-cont {
     width: 90%;
     grid-template-columns: 1fr 6fr 1fr;
     grid-template-rows: 5fr 2fr;

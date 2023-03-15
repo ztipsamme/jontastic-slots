@@ -343,10 +343,10 @@
           } catch {
             return
           }
-
-          let start = sceneWidth * 0.225
-          let max = sceneWidth * 0.2
-          let clipWidth = sceneWidth * 0.78
+          let offset = 0.15
+          let start = sceneWidth * 0.15
+          let max = start * 0.885
+          let clipWidth = sceneWidth * 0.84
           let min = max * 0.375
           let m, a1, a2, l1
 
@@ -359,11 +359,9 @@
               break
             }
             case 1: {
-              m = `M ${sceneWidth * 0.1} 0`
+              m = `M ${(sceneWidth - clipWidth) / 2} 0`
               a1 = `a ${min} ${sceneHeight / 2} 180 0 0 0 ${sceneHeight}`
-              l1 = `l ${
-                reelCount == 3 ? clipWidth + min * 0.8 : clipWidth * 1.03
-              } 0`
+              l1 = `l ${reelCount == 3 ? clipWidth + min * 0.8 : clipWidth} 0`
               a2 =
                 reelCount == 3
                   ? `l 0 -${sceneHeight} z`
@@ -380,8 +378,8 @@
                 a2 = `a ${min} ${sceneHeight / 2} 180 0 0 0 ${-sceneHeight}`
                 break
               }
+              //falls through
             }
-            // eslint-disable-next-line no-fallthrough
             case 3: {
               m = `M ${sceneWidth - (start + clipWidth)} 0`
               a1 = `a ${min} ${sceneHeight / 2} 180 0 1 0 ${sceneHeight}`

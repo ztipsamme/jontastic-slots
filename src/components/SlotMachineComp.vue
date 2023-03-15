@@ -674,6 +674,20 @@
     @click="newGame()"
   />
   <div class="main-machine cont">
+    <div class="reels-col col">
+      <div class="reel-cont">
+        <spinner
+          :win="isWinner"
+          :ref="'child'"
+          :spinners="spinnerArr"
+          :nums="numIndex"
+          :count="count"
+          :matrix="numMatrix"
+          @done="done"
+          :key="spinnerArr"
+        />
+      </div>
+    </div>
     <div class="bonus-container">
       <div
         class="bonus-wrapper"
@@ -700,21 +714,6 @@
       </div>
     </div>
 
-    <div class="reels-col col">
-      <div class="col-1" />
-      <div class="reel-cont">
-        <spinner
-          :win="isWinner"
-          :ref="'child'"
-          :spinners="spinnerArr"
-          :nums="numIndex"
-          :count="count"
-          :matrix="numMatrix"
-          @done="done"
-          :key="spinnerArr"
-        />
-      </div>
-    </div>
     <div class="row-2">
       <MaxWinning :ref="'betComp'" />
       <btn
@@ -737,8 +736,8 @@
   .main-machine.cont {
     display: grid;
     height: calc(100vh - 75px);
-    grid-template-rows: 54vh 25vh;
-    grid-template-columns: 15vw auto 15vw;
+    grid-template-rows: 100%;
+    grid-template-columns: auto 15vw;
     gap: 2vh;
     width: 100%;
   }
@@ -792,8 +791,6 @@
     overflow: hidden;
   }
   .row-2 {
-    grid-row: 2;
-    grid-column: span 3;
     height: 100%;
     justify-content: center;
     gap: 2vw;
@@ -809,9 +806,10 @@
     flex-direction: column;
   }
   .reels-col {
-    grid-column-start: 2;
+    grid-column-start: 1;
     display: grid;
-    width: 100%;
+    width: 76%;
+    height: 100%;
   }
 
   .item {

@@ -277,17 +277,18 @@
 
   #app {
     display: grid;
-    grid-template-rows: 75px auto;
+    grid-template-rows: auto auto;
     height: 100vh;
-    width: 90vw;
+    max-width: 900px;
+    width: 99vw;
+    padding: 1vw;
   }
   header {
     display: grid;
     grid-template-columns: 8% 12% 60% 20%;
     height: 100%;
-    padding: 2vh 0px;
+    padding: 1vh 0px 1vh 0px;
     align-items: start;
-    margin-bottom: 3vh;
     width: 100%;
     .info {
       justify-self: end;
