@@ -742,6 +742,9 @@
 </template>
 
 <style lang="scss">
+  body {
+    overflow: hidden;
+  }
   .main-machine {
     display: grid;
     height: 90%;

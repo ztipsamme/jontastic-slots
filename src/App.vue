@@ -65,7 +65,7 @@
         "canplay",
         () => {
           document.addEventListener(
-            "mousemove",
+            "click",
             () => {
               this.audio.theme.load()
               this.audio.theme.loop = true
@@ -246,6 +246,7 @@
   }
 
   main {
+    display: grid;
     width: 100%;
     height: 100%;
   }

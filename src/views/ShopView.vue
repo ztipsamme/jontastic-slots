@@ -105,11 +105,11 @@
 
 <template>
   <section class="category-container">
-    <div class="category-header" id="bonus">
-      <h2>Bonusar</h2>
-      <p class="desc">Levla upp spänningen med någonting extra.</p>
-    </div>
     <div class="item-container" id="bonus-items">
+      <div class="category-header" id="bonus">
+        <h2>Bonusar</h2>
+        <p class="desc">Levla upp spänningen med någonting extra.</p>
+      </div>
       <div
         class="item"
         :key="item"
@@ -129,11 +129,12 @@
         <span> {{ item.cost }}t </span>
       </div>
     </div>
-    <div class="category-header" id="theme">
-      <h2>Teman</h2>
-      <p class="desc">Anpassa ditt spel med ett tema.</p>
-    </div>
+
     <div class="item-container" id="theme-items">
+      <div class="category-header" id="theme">
+        <h2>Teman</h2>
+        <p class="desc">Anpassa ditt spel med ett tema.</p>
+      </div>
       <div
         class="item"
         v-for="item in themeTypes"
@@ -243,6 +244,7 @@
       display: flex;
       align-items: baseline;
       gap: 10px;
+      flex-basis: 100%;
 
       > * {
         margin: 0;
@@ -264,10 +266,12 @@
       }
     }
     .item-container {
+      margin-bottom: 5vh;
       width: 100%;
       display: flex;
       align-items: baseline;
       justify-content: baseline;
+      flex-flow: row wrap;
       gap: 0 20px;
       overflow-y: scroll;
       .item {
