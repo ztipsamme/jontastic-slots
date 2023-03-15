@@ -18,6 +18,7 @@ export const useTokenStore = defineStore("tokens", {
         amount: 0,
         count: 1,
         active: false,
+        uses: 1,
         src: "./assets/svg/icon-spin.svg",
       },
       {
@@ -26,6 +27,7 @@ export const useTokenStore = defineStore("tokens", {
         amount: 0,
         count: 1,
         active: false,
+        uses: 1,
         src: "./assets/svg/xmark.svg",
       },
       {
@@ -34,6 +36,7 @@ export const useTokenStore = defineStore("tokens", {
         amount: 0,
         count: 4,
         active: false,
+        uses: 4,
         src: "./assets/svg/icon-row.svg",
       },
     ]),

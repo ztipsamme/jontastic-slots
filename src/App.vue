@@ -87,7 +87,6 @@
       newSong() {},
 
       toggleSoundControls(close = false) {
-        console.log("btn", close)
         if (close) {
           this.showSoundControls = false
           return
@@ -218,7 +217,7 @@
     width: 100%;
     z-index: 1000;
     display: grid;
-    grid-template-columns: 8% 12% 60% 20%;
+    grid-template-columns: 8% 12% 56% 24%;
     height: min-content;
     align-items: start;
     // margin-bottom: 2vh;
@@ -271,6 +270,7 @@
       hsla(55deg, 0%, 95%) 80%
     );
     box-shadow: inset -2px 2px 5px 0px hsla(50deg, 0%, 0%, 0.5);
+    overflow: hidden;
   }
   .token-icon {
     flex-shrink: 0;
