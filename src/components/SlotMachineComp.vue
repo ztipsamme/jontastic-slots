@@ -213,9 +213,7 @@
         let num = reel[nIndex]
 
         // Felhantering om det skulle bli fel nummmer som sparas!
-        if (num != winVal) {
-          throw new Error("FELAKTIGT VIST NUMMER")
-        }
+
         return { num: num, index: nIndex }
       },
       activateBonus(name) {
@@ -277,17 +275,18 @@
         // skall detta spel ge en vinst?
 
         // Om det blir vinst
-        let random = Math.floor(Math.random() * 6 + odds)
-        this.winnerType = random >= 5 ? 0 : 99
+        let random = Math.floor(Math.random() * 7 + odds)
+        this.winnerType = random >= 7 ? 0 : 99
 
         if (this.winnerType == 0) {
           this.oddsModifier = this.oddsModifier >= 1 ? 0 : odds - 0.04
         } else {
           this.oddsModifier = this.oddsModifier <= -1 ? 0 : odds + 0.05
           let speciall = Math.floor(
-            Math.random() * (15 - 4 * Math.abs(this.oddsModifier)),
+            Math.random() * (17 - 4 * Math.abs(this.oddsModifier)) + 1,
           )
-          this.winnerType = 1 + speciall
+          console.log(speciall, this.oddsModifier)
+          this.winnerType = speciall
         }
         let winRow
         let winVal
@@ -403,12 +402,12 @@
                   deluxeTheme.owned = true
                   themeWin = deluxeTheme.name
                 } else {
-                  tokenWin = this.staticBet + this.staticBet * (7 - this.num[0])
+                  tokenWin = this.staticBet + this.staticBet / 5
                 }
                 break
               }
               default: {
-                tokenWin = this.staticBet + this.staticBet * 2
+                tokenWin = this.staticBet + this.staticBet / 5
                 break
               }
             }
@@ -416,7 +415,7 @@
           }
           case 2: {
             //BONUSAR
-            switch (this.num[0]) {
+            switch (this.winVal) {
               case 4: {
                 let bonus = this.tokens.bonusTypes.find(
                   (i) => i.name === "Extra Dubbel",
@@ -439,7 +438,7 @@
                   bonus.amount++
                   bonusWin = bonus.name
                 } else {
-                  let x = Math.ceil(tw / bonus.cost)
+                  let x = Math.ceil(tw / (bonus.cost * 2))
                   bonus.amount += x
                   bonusWin = bonus.name
                   bonusCount = x
@@ -469,9 +468,7 @@
             //falls through
           }
           default: {
-            tokenWin =
-              this.staticBet +
-              Math.ceil((this.staticBet * (7 - this.num[0])) / 2 / 5) * 5
+            tokenWin = this.staticBet + Math.ceil(this.staticBet / 5)
           }
         }
         bonusWin = bonusCount > 1 ? bonusCount + "x " + bonusWin : bonusWin
