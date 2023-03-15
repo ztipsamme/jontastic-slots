@@ -31,6 +31,7 @@ body {
     --bg-color3: #{$bg-color3};
     --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
 
+    --text-color: white;
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
     --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
@@ -92,6 +93,7 @@ body {
     --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
     --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
 
+    --text-color: white;
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
@@ -152,6 +154,7 @@ body {
     --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
     --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
 
+    --text-color: white;
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
@@ -335,6 +338,7 @@ body {
     --bg-color3: #{$bg-color3};
     --bg-image: linear-gradient(var(--bg-color1), var(--bg-color2));
 
+    --text-color: white;
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
     --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
@@ -391,7 +395,7 @@ body {
     --bg-color3: #{$bg-color3};
     --bg-image: url("../src/components/themes/BrilliantTheme/bg.png");
 
-
+    --text-color: white;
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
     --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
@@ -448,6 +452,7 @@ body {
     --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
     --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
 
+    --text-color: white;
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};
@@ -507,7 +512,7 @@ body {
     --bg-color3: #{$bg-color3};
     --bg-image: url("../src/components/themes/RawrTheme/bg.png");
 
-
+    --text-color: white;
     --btn-blue: #{$btn-blue};
     --btn-blue2: #{$btn-blue2};
     --btn-blue3: #{color.adjust($btn-blue, $lightness: -20%)};
@@ -613,7 +618,7 @@ body {
     --btn-disabled4: #{color.adjust($btn-disabled, $lightness: 5%)};
     --btn-disabled5: #{color.adjust($btn-disabled2, $lightness: 5%, $saturation: 10%)};
 
-    --text-color: #000000;
+    --text-color: black;
     --bg-color1: #{$bg-color1};
     --bg-color2: #{$bg-color2};
     --bg-color3: #{$bg-color3};

@@ -204,12 +204,13 @@
 
 <style lang="scss">
   #app {
+    padding: 0;
+    margin: 0;
     display: grid;
     gap: 2vh;
     grid-template-rows: max-content auto;
     height: 100vh;
-    max-width: 1250px;
-    width: 99vw;
+    width: 90%;
     padding: 1vw;
   }
   header {
@@ -218,9 +219,9 @@
     display: grid;
     grid-template-columns: 8% 12% 56% 24%;
     height: min-content;
-    padding: 2vh 0px;
     align-items: start;
-    margin-bottom: 2vh;
+    // margin-bottom: 2vh;
+    margin: 0;
     .info {
       justify-self: end;
       width: 100%;

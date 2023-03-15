@@ -12,7 +12,7 @@
 <template>
   <div class="scores">
     <h1>Best Scores</h1>
-    <div class="grid">
+    <div>
       <ol class="scorelist">
         <li v-for="(score, index) in this.highScore" :key="index">
           {{ score }}
@@ -25,6 +25,11 @@
 
 <style lang="scss" scoped>
   .scores {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
     background-image: linear-gradient(
@@ -38,14 +43,15 @@
     box-shadow: inset -2px 2px 5px 0px hsla(50deg, 0%, 0%, 0.5);
     padding: 40px;
     div {
+      width: 100%;
       display: flex;
       justify-content: space-between;
-      height: 100%;
       #trophy {
-        height: 50vh;
+        width: 50vh;
       }
       .scorelist {
-        height: 90%;
+        width: min-content;
+        max-height: 50vh;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
@@ -76,5 +82,13 @@
   h1 {
     text-align: center;
     margin-bottom: 20px;
+  }
+  @media screen and (min-width: 1000px) {
+    .scores {
+      div {
+        display: flex;
+        justify-content: center;
+      }
+    }
   }
 </style>
