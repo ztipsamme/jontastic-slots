@@ -51,17 +51,23 @@
         flex-wrap: wrap;
         column-gap: 60px;
         font-size: 24px;
-        &:nth-child(-n + 4) {
-          font-size: 24px;
+        > *:nth-child(1) {
+          font-size: 36px;
+          &::marker {
+            color: gold;
+          }
         }
-        > *:nth-child(1)::marker {
-          color: gold;
+        > *:nth-child(2) {
+          font-size: 32px;
+          &::marker {
+            color: silver;
+          }
         }
-        > *:nth-child(2)::marker {
-          color: silver;
-        }
-        > *:nth-child(3)::marker {
-          color: #cd7f32;
+        > *:nth-child(3) {
+          font-size: 28px;
+          &::marker {
+            color: #cd7f32;
+          }
         }
       }
     }
