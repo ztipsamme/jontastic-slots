@@ -27,10 +27,21 @@ export const useThemeStore = defineStore("themes", {
     },
 
     findDelux: (state) => {
-      if (state.isDelux) {
-        return state.tokens.themeTypes.find(
-          (e) => e.basic == state.currentTheme,
-        )
+      console.log("FD", state.isDelux)
+      if (!state.isDelux) {
+        return state.tokens.themeTypes.find((e) => {
+          console.log("CT", state.currentTheme)
+          console.log("BASIC", e.basic)
+          if (
+            e.basic &&
+            e.basic.toLowerCase() == state.currentTheme.toLowerCase()
+          ) {
+            console.log("HHMM")
+            console.log("BASIC", e.basic)
+            return true
+          }
+          return false
+        })
       } else {
         return false
       }

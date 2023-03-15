@@ -39,8 +39,10 @@
         .map(() => this.generateSpinner())
     },
     mounted() {
-      document.removeEventListener("keydown", this.handleKeyPress)
       document.addEventListener("keydown", this.handleKeyPress)
+    },
+    beforeUnmount() {
+      document.removeEventListener("keydown", this.handleKeyPress)
     },
 
     data() {
@@ -67,6 +69,7 @@
           bonus: false,
           theme: false,
         },
+        winVal: 99,
         winTypes: [
           [1, 4, 7], // mitten raden
           [0, 3, 6], // översta raden
@@ -162,6 +165,7 @@
       handleKeyPress(event) {
         //
         if (event.keyCode === 32) {
+          this.winner = false
           this.gameStart()
         }
       },
@@ -289,11 +293,12 @@
         let winRow
         let winVal
         let changedNumbers = []
-        this.winnerType = 2
+
         if (this.winnerType < this.winTypes.length) {
           this.isWinner = true
           winRow = this.winTypes[this.winnerType]
           winVal = this.winNum()
+          this.winVal = winVal
           changedNumbers = [...winRow]
         }
         let x = new Array(this.reels * 3).fill(0).map((e, i) => {
@@ -377,57 +382,25 @@
 
         switch (this.winnerType) {
           case 0: {
-            /*  let currentTheme = this.theme.current
-              let deluxeTheme = this.theme.findDelux
-
-              switch (this.num[0]) {
-                case 2:
-                  if (currentTheme === deluxeTheme.basic && !deluxeTheme.owned) {
-                    deluxeTheme.owned = true
-                    this.winSum = deluxeTheme.name
-                  } else {
-                    this.winSum = winSum
-                    this.tokens.winning(winSum)
-                  }
-                  break
-                case 3:
-                  if (winSum < bonus.find((i) => i.name === "Extra Spin").cost) {
-                    bonus.find((i) => i.name === "Extra Spin").amount++
-                    this.winSum =
-                      "1 " + bonus.find((i) => i.name === "Extra Spin").name
-                  } else {
-                    let x =
-                      winSum / bonus.find((i) => i.name === "Extra Spin").cost
-
-                    for (let i = 0; i < x; i++) {
-                      bonus.find((i) => i.name === "Extra Spin").amount++
-                    }
-                    this.winSum =
-                      x + "st " + bonus.find((i) => i.name === "Extra Spin").name
-                  }
-                  break
-                default:
-                  winSum = this.staticBet + this.staticBet * (7 - this.num[0])
-                  this.winSum = winSum + "t"
-                  this.tokens.winning(winSum)
-                  break
-              }
-
-              break */
             tokenWin = this.staticBet + this.staticBet * (7 - this.num[0])
             break
           }
           case 1: {
             //TEMAN!
-            let currentTheme = this.theme.current
+            let currentTheme = this.theme.currentTheme
             let deluxeTheme = this.theme.findDelux
-
-            switch (this.num[0]) {
-              case 4: {
+            console.log("TEMA", this.num[0])
+            switch (this.winVal) {
+              case 5: {
+                console.log("TEMA5: ", this.num)
                 //falls through
               }
               case 2: {
-                if (currentTheme === deluxeTheme.basic && !deluxeTheme.owned) {
+                if (
+                  deluxeTheme &&
+                  currentTheme === deluxeTheme.basic.toLowerCase() &&
+                  !deluxeTheme.owned
+                ) {
                   deluxeTheme.owned = true
                   themeWin = deluxeTheme.name
                 } else {
@@ -436,7 +409,7 @@
                 break
               }
               default: {
-                tokenWin = this.staticBet + this.staticBet * 1.2
+                tokenWin = this.staticBet + this.staticBet * 2
                 break
               }
             }
@@ -645,6 +618,7 @@
 
       newGame() {
         this.reset(true)
+        this.gameOver = false
         this.tokens.tokens.sum = this.tokens.tokens.startValue
         let startbet = this.tokens.tokens.startBet
           ? this.tokens.tokens.startBet

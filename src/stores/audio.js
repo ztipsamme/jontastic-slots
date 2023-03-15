@@ -18,7 +18,7 @@ export const useAudioStore = defineStore("audio", {
     volume: useStorage("volume", {
       music: 0.05,
       btn: 0.05,
-      fx: 0.05,
+      fx: 0.15,
       info: 0.05,
     }),
   }),

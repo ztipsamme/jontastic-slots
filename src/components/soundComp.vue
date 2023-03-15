@@ -10,12 +10,15 @@
       Btn,
     },
     data() {
-      return {
-        vol: {
+      return {}
+    },
+    computed: {
+      vol() {
+        return {
           music: this.audio.volume.music,
           fx: this.audio.volume.fx,
-        },
-      }
+        }
+      },
     },
     emits: {
       close: null,
@@ -24,12 +27,11 @@
       setMusicVolume(e) {
         let val = Number(e.target.value)
 
-        this.vol.music = val
         this.audio.setMusicVolume(val)
       },
       setFxVolume(e) {
         let val = Number(e.target.value)
-        this.vol.fx = val
+
         this.audio.setFxVolume(val)
       },
       getState() {},
@@ -63,7 +65,7 @@
         type="range"
         min="0"
         max="1"
-        :value="vol.music"
+        v-model="audio.volume.music"
         step="0.01"
         @input="setMusicVolume"
       />
@@ -76,7 +78,7 @@
         type="range"
         min="0"
         max="1"
-        :value="vol.fx"
+        v-model="audio.volume.fx"
         step="0.01"
         @input="setFxVolume"
       />
