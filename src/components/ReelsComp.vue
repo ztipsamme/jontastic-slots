@@ -52,9 +52,8 @@
       },
     },
     mounted() {
-      console.log("SPINNERS", this.spinners)
       const height = this.$refs.scene0.offsetHeight
-      console.log("SET SIZE")
+
       this.size.height = Math.ceil(height * (1 / 3))
       this.setClipPath()
     },
@@ -128,7 +127,6 @@
         return this.mIndex[1]
       },
       soldize() {
-        console.log("this.size", this.$refs)
         let height = this.$refs.scene0 ? this.$refs.scene0.offsetHeight : 150
         return { height: height }
       },
@@ -171,17 +169,11 @@
         this.blinkIndex = [...this.mIndex]
         this.blinkIndex = this.blinkIndex.map((e) => {
           let newIndex = e + x
-          if (e == 0) {
-            console.log("e: ", e)
-            console.log("x: ", x)
-            console.log("newIndex: ", newIndex)
-            console.log("y: ", y)
-          }
+          newIndex = newIndex == -1 ? 20 : newIndex
+
           x += y
           return newIndex
         })
-
-        console.log(this.blinkIndex)
       },
       start(matrix, win, type) {
         this.mIndex = matrix
@@ -189,13 +181,8 @@
         this.winBlink = false
 
         if (win) {
-          console.log("start:matrix", matrix)
-          console.log("start:type", type)
-
           this.getBlinking(type)
         }
-
-        console.log(this.mIndex, matrix)
 
         this.spin(this.mIndex).then(() => {
           this.$emit("done")
@@ -207,7 +194,6 @@
       },
 
       spin(arr) {
-        console.log(arr)
         this.startTime = Date.now()
         let refs = this.reels.map((e, i) => {
           return this.$refs["c" + i][0]

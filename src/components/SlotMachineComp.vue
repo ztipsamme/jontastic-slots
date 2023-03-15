@@ -160,7 +160,7 @@
         return winVal
       },
       handleKeyPress(event) {
-        // console.log("press")
+        //
         if (event.keyCode === 32) {
           this.gameStart()
         }
@@ -182,13 +182,12 @@
           array[i] = val
         }
         if ([...new Set(array)].length < 6) {
-          console.log(array)
           array = this.generateSpinner()
         }
         if (array.length > this.count + 1) {
           array.splice(this.count - 1)
         }
-        console.log(array.length)
+
         return array
       },
       findNumber(winVal, index) {
@@ -217,6 +216,7 @@
         return { num: num, index: nIndex }
       },
       activateBonus(name) {
+        if (this.isSpinning) return
         let extraSpin = this.tokens.bonusTypes.find(
           (i) => i.name === "Extra Spin",
         )
@@ -247,12 +247,8 @@
           }
           case "extraspin": {
             if (this.isSpinning || extraSpin.active) {
-              console.log("Inte aktiv")
-              console.log(this.isSpinning, extraSpin.active)
               return
             }
-            console.log(name)
-            console.log("Active extra spin")
 
             extraSpin.amount--
             extraSpin.active = true
@@ -291,6 +287,7 @@
         let winRow
         let winVal
         let changedNumbers = []
+        this.winnerType = 2
         if (this.winnerType < this.winTypes.length) {
           this.isWinner = true
           winRow = this.winTypes[this.winnerType]
@@ -337,7 +334,7 @@
         }
 
         let mIndex = []
-        console.log("Arr:", arr)
+
         let tmpReel = this.spinnerArr.map((e, i) => {
           let val = arr[i][1]
           mIndex[i] = []
@@ -352,7 +349,14 @@
           this.reelArr = tmpReel
         }, 500)
 
-        console.log("MATRIX", this.num, mIndex)
+        /*         this.spinnerArr = this.spinnerArr.map((e) => {
+          let a = [...e]
+          if (e.length > this.count) {
+            a.splice(21)
+          }
+          return a
+        }) */
+
         this.mIndex = mIndex
 
         return this.mIndex
@@ -369,12 +373,11 @@
         let tokenWin
         let bonusCount = 1
 
-        console.log("getWinnings")
         switch (this.winnerType) {
           case 0: {
             /*  let currentTheme = this.theme.current
               let deluxeTheme = this.theme.findDelux
-              console.log("NORMAL VINST")
+
               switch (this.num[0]) {
                 case 2:
                   if (currentTheme === deluxeTheme.basic && !deluxeTheme.owned) {
@@ -416,7 +419,7 @@
             //TEMAN!
             let currentTheme = this.theme.current
             let deluxeTheme = this.theme.findDelux
-            console.log("NORMAL VINST")
+
             switch (this.num[0]) {
               case 4: {
                 //falls through
@@ -446,14 +449,13 @@
                 )
                 bonus.amount++
                 bonusWin = bonus.name
-                console.log("Bonus Extra Dubbel")
+
                 break
               }
 
               case 5: {
                 bonus = this.tokens.bonusTypes.find(
                   (i) => i.name === "Extra Row",
-                  console.log("Bonus Extra Row"),
                 )
                 //falls through
               }
@@ -478,7 +480,7 @@
                     e.name.toLowerCase().replace(/\s/, "") ==
                     bName.toLowerCase().replace(/\s/, ""),
                 )
-                console.log("Bonus Extra Spin")
+
                 bonus.amount++
                 bonusWin = bonus.name
                 break
@@ -524,10 +526,11 @@
         this.isSpinning = false
 
         // kolla om det finns en extra rad, men att den ska bort
-        if (!this.extraRowCount && this.reels == 4) {
+        if (this.tokens.getBonus("extrarow").uses == 0 && this.reels == 4) {
           let extraRow = bonus.find((i) => i.name === "Extra Row")
           extraRow.active = false
           this.reels = 3
+          this.tokens.getBonus("extrarow").uses = 4
           this.spinnerArr = new Array(this.reels)
             .fill(null)
             .map(() => this.generateSpinner())
@@ -565,22 +568,17 @@
 
         for (let bonus of this.tokens.bonusTypes) {
           if (bonus.name.replace(/\s/, "").toLowerCase() == "extrarow") {
+            console.log(bonus.name, bonus.uses)
             if (bonus.active && bonus.uses) {
-              this.reels = 4
-            } else if (!bonus.uses) {
-              bonus.active = false
-              bonus.uses = 4
-              if (this.reels == 4) {
-                this.reels = 3
-              }
-            } else if (!bonus.active) {
-              bonus.uses = 4
-              if (this.reels == 4) {
-                this.reels = 3
-              }
+              return
             }
           } else {
             bonus.active = false
+            this.reels = 3
+
+            this.spinnerArr = new Array(this.reels)
+              .fill(null)
+              .map(() => this.generateSpinner())
           }
         }
 
@@ -591,18 +589,26 @@
       },
 
       gameStart(freeSpin = false) {
+        console.log("gameStart")
+        this.spinnerArr.forEach((e) => {
+          e.splice(21)
+        })
         if (this.$route.name === "Shop") {
+          console.log("Shop Rouyt")
           return
         }
 
         if (this.$route.name === "Score") {
+          console.log("Score Rount")
           return
         }
 
         if (this.isSpinning) {
+          console.log("isSpinning")
           return
         }
         if (this.tokens.tokens.sum < 1) {
+          console.log("tokends")
           this.gameOver = true
           return
         }
@@ -621,8 +627,15 @@
           this.tokens.takeoutBet(this.staticBet)
         }
 
-        if (this.tokens.getBonus("extrarow").active) {
-          this.tokens.getBonus("extrarow").uses--
+        if (
+          this.tokens.bonusTypes.find(
+            (e) => e.name.replace(/\s/g, "").toLowerCase() == "extrarow",
+          ).active
+        ) {
+          console.log("extra Actove")
+          this.tokens.bonusTypes.find(
+            (e) => e.name.replace(/\s/g, "").toLowerCase() == "extrarow",
+          ).uses--
         }
 
         this.altGetNumbers()

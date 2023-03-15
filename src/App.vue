@@ -87,7 +87,6 @@
       newSong() {},
 
       toggleSoundControls(close = false) {
-        console.log("btn", close)
         if (close) {
           this.showSoundControls = false
           return
