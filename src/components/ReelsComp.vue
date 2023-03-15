@@ -52,6 +52,7 @@
       },
     },
     mounted() {
+      console.log("SPINNERS", this.spinners)
       const height = this.$refs.scene0.offsetHeight
       console.log("SET SIZE")
       this.size.height = Math.ceil(height * (1 / 3))
@@ -179,6 +180,8 @@
           x += y
           return newIndex
         })
+
+        console.log(this.blinkIndex)
       },
       start(matrix, win, type) {
         this.mIndex = matrix
@@ -380,9 +383,9 @@
             <div
               :class="{
                 carousel__cell: true,
-                blink: winBlink && blinkIndex[i] == ind,
+                blink: winBlink && blinkIndex[i] == ind % count,
               }"
-              :data-id="ind"
+              :data-id="ind % 21"
               :style="{
                 width: '100%',
                 height: size.height + 'px',

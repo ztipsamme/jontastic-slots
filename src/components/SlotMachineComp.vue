@@ -45,7 +45,7 @@
 
     data() {
       return {
-        count: 45,
+        count: 21,
         num: [],
         numIndex: [],
         winner: false,
@@ -185,6 +185,10 @@
           console.log(array)
           array = this.generateSpinner()
         }
+        if (array.length > this.count + 1) {
+          array.splice(this.count - 1)
+        }
+        console.log(array.length)
         return array
       },
       findNumber(winVal, index) {
