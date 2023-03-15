@@ -16,8 +16,6 @@
     setup() {
       const theme = useThemeStore()
       const icons = theme.icons
-      //
-
       return { theme, icons }
     },
   }

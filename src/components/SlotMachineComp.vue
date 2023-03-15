@@ -160,7 +160,6 @@
         return winVal
       },
       handleKeyPress(event) {
-        //
         if (event.keyCode === 32) {
           this.gameStart()
         }

@@ -39,5 +39,4 @@ const Sounds = {
   inferno: InfernoTheme,
   sjuhaven: SjuhavenTheme,
 }
-//console.log(Themes)
 export { Themes, Sounds }
