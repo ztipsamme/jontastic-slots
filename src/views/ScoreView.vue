@@ -18,7 +18,7 @@
           {{ score }}
         </li>
       </ol>
-      <img id="trophy" src="assets/svg/trophy.svg" alt="Trofé" />
+      <img id="trophy" src="/assets/svg/trophy.svg" alt="Trofé" />
     </div>
   </div>
 </template>
