@@ -40,11 +40,11 @@
 </template>
 
 <script>
-  import SymbolsValue from "./symbolValuePopUp.vue"
-  import gameInstructions from "./gameInstructions.vue"
-  import ShopPopUp from "./shopPopUp.vue"
-  import securityInfo from "./securityInfo.vue"
-  import buttonComponent from "../elements/buttonComponent.vue"
+  import SymbolsValue from "../pop-ups/symbolValuePopUp.vue"
+  import gameInstructions from "../pop-ups/gameInstructions.vue"
+  import ShopPopUp from "../pop-ups/shopPopUp.vue"
+  import securityInfo from "../pop-ups/securityInfo.vue"
+  import buttonComponent from "./buttonComponent.vue"
   export default {
     components: {
       btn: buttonComponent,
@@ -74,26 +74,26 @@
       }
     },
     mounted() {
-      this.activeTab = Object.keys(this.tabs)[0];
-
+      this.activeTab = Object.keys(this.tabs)[0]
 
       document.addEventListener("keydown", (event) => {
         if (event.key === "ArrowLeft") {
-          const tabKeys = Object.keys(this.tabs);
-          const activeTabIndex = tabKeys.indexOf(this.activeTab);
-          const nextTabIndex = activeTabIndex - 1 >= 0 ? activeTabIndex - 1 : tabKeys.length - 1;
-          this.activeTab = tabKeys[nextTabIndex];
+          const tabKeys = Object.keys(this.tabs)
+          const activeTabIndex = tabKeys.indexOf(this.activeTab)
+          const nextTabIndex =
+            activeTabIndex - 1 >= 0 ? activeTabIndex - 1 : tabKeys.length - 1
+          this.activeTab = tabKeys[nextTabIndex]
         }
 
         if (event.key === "ArrowRight") {
-          const tabKeys = Object.keys(this.tabs);
-          const activeTabIndex = tabKeys.indexOf(this.activeTab);
-          const nextTabIndex = activeTabIndex + 1 < tabKeys.length ? activeTabIndex + 1 : 0;
-          this.activeTab = tabKeys[nextTabIndex];
+          const tabKeys = Object.keys(this.tabs)
+          const activeTabIndex = tabKeys.indexOf(this.activeTab)
+          const nextTabIndex =
+            activeTabIndex + 1 < tabKeys.length ? activeTabIndex + 1 : 0
+          this.activeTab = tabKeys[nextTabIndex]
         }
-      });
+      })
     },
-
 
     methods: {
       Popup() {

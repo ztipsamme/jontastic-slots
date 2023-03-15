@@ -104,67 +104,63 @@
 </script>
 
 <template>
-  <main class="shop container">
-    <section class="category-container">
-      <div class="category-header" id="bonus">
-        <h2 class="second-heading">Bonusar</h2>
-        <p class="desc">Levla upp spänningen med någonting extra.</p>
+  <section class="category-container">
+    <div class="category-header" id="bonus">
+      <h2>Bonusar</h2>
+      <p class="desc">Levla upp spänningen med någonting extra.</p>
+    </div>
+    <div class="item-container" id="bonus-items">
+      <div
+        class="item"
+        :key="item"
+        v-for="item in bonusTypes"
+        @click="onClick(item)"
+      >
+        <icon
+          :name="item.name"
+          :aria-label="item.name"
+          :size="'68px'"
+          :src="item.src"
+          :item="item"
+        />
+        <span>
+          {{ item.name.substring(item.name.indexOf("Extra") + "extra".length) }}
+        </span>
+        <span> {{ item.cost }}t </span>
       </div>
-      <div class="item-container" id="bonus-items">
-        <div
-          class="item"
-          :key="item"
-          v-for="item in bonusTypes"
-          @click="onClick(item)"
-        >
-          <icon
-            :name="item.name"
-            :aria-label="item.name"
-            :size="'68px'"
-            :src="item.src"
-            :item="item"
-          />
-          <span>
-            {{
-              item.name.substring(item.name.indexOf("Extra") + "extra".length)
-            }}
-          </span>
-          <span> {{ item.cost }}t </span>
-        </div>
-      </div>
-      <div class="category-header" id="theme">
-        <h2 class="second-heading">Teman</h2>
-        <p class="desc">Anpassa ditt spel med ett tema.</p>
-      </div>
-      <div class="item-container" id="theme-items">
-        <div
-          class="item"
-          v-for="item in themeTypes"
-          :key="item.name"
-          @click="onClick(item)"
-        >
-          <template v-if="'theme' + item + 'Bought'">
-            <template v-if="theme3Bought">
-              <icon
-                :name="item.name"
-                :aria-label="item.name"
-                :size="'68px'"
-                :src="item.src"
-                :item="item"
-              />
-              <span> {{ item.name }} </span>
+    </div>
+    <div class="category-header" id="theme">
+      <h2>Teman</h2>
+      <p class="desc">Anpassa ditt spel med ett tema.</p>
+    </div>
+    <div class="item-container" id="theme-items">
+      <div
+        class="item"
+        v-for="item in themeTypes"
+        :key="item.name"
+        @click="onClick(item)"
+      >
+        <template v-if="'theme' + item + 'Bought'">
+          <template v-if="theme3Bought">
+            <icon
+              :name="item.name"
+              :aria-label="item.name"
+              :size="'68px'"
+              :src="item.src"
+              :item="item"
+            />
+            <span> {{ item.name }} </span>
 
-              <template v-if="!item.owned && item.cost > 0">
-                {{ item.cost }}t</template
-              >
-            </template></template
-          >
-        </div>
+            <template v-if="!item.owned && item.cost > 0">
+              {{ item.cost }}t</template
+            >
+          </template></template
+        >
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <div v-if="popUp" @close="popUp = false" class="popup-overlay">
+  <div v-if="popUp" class="popup-overlay" @click="popUp = false">
     <div class="popup-container">
       <p class="buy">Vill du köpa temat {{ selectedItem.name }}?</p>
       <div id="btn-row" class="row gap-1 mx-3">
@@ -239,55 +235,45 @@
 </template>
 
 <style lang="scss" scoped>
-  //Theme standard
-  //One line font -> https://hadrysmateusz.com/blog/font-shorthand
-  p {
-    text-align: start;
-  }
-  .desc {
-    font-size: 14px;
-    font-weight: normal;
-  }
-
-  .second-heading {
-    font-size: 20px;
-    font-weight: normal;
-  }
-
-  .first-heading,
-  .second-heading,
-  .desc {
-    color: white;
-  }
-
   .category-container {
-    display: grid;
     gap: 0 15px;
-    grid-template-columns: 1fr 1fr;
-    #bonus {
-      grid-column: 1/2;
-    }
-    #bonus-items {
-      grid-column: 1/2;
-    }
-    #theme {
-      grid-column: 2 /3;
-      grid-row: 1/2;
-    }
-    #theme-items {
-      grid-column: 2/3;
+    width: 100%;
+    height: 100%;
+    .category-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+
+      > * {
+        margin: 0;
+      }
+      color: white;
+      h2 {
+        font-size: 20px;
+      }
+      .desc {
+        font-size: 14px;
+        &::before {
+          content: "-";
+          padding-right: 10px;
+        }
+        &::after {
+          content: "-";
+          padding-left: 10px;
+        }
+      }
     }
     .item-container {
       width: 100%;
       display: flex;
-      flex-wrap: wrap;
-    }
-    .item {
-      display: flex;
-      flex-direction: column;
-      width: min-content;
-      font-weight: normal;
-      text-align: center;
+      align-items: baseline;
+      justify-content: baseline;
+      gap: 0 20px;
+      overflow-y: scroll;
+      .item {
+        text-align: center;
+        margin-right: 15px 15px 0 0;
+      }
     }
   }
 
@@ -312,17 +298,12 @@
         font-size: 16px;
       }
     }
-  }
-
-  #btn-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .item {
-    margin-right: 15px;
+    #btn-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
   }
 </style>

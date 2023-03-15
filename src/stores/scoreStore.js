@@ -17,7 +17,7 @@ export const useScoreStore = defineStore("scores", {
           scoreList.push(newValue)
         }
         scoreList.sort((a, b) => b - a)
-        this.scores.highScore = scoreList.slice(0, 6)
+        this.scores.highScore = scoreList.slice(0, 10)
       }
     },
   },

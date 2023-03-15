@@ -4,50 +4,29 @@
   export default {
     setup() {
       const scoreStore = useScoreStore()
-      window.content = scoreStore
-      return { scoreStore }
+      return { highScore: scoreStore.scores.highScore }
     },
   }
 </script>
+
 <template>
-  <div class="score-container">
-    <div class="score-header">
-      <h1 class="header-text">Best Scores</h1>
-      <!--   <div class="token-icon">t</div> -->
+  <div class="scores">
+    <h1>Best Scores</h1>
+    <div class="grid">
+      <ol class="scorelist">
+        <li v-for="(score, index) in this.highScore" :key="index">
+          {{ score }}
+        </li>
+      </ol>
+      <img id="trophy" src="assets/svg/trophy.svg" alt="Trofé" />
     </div>
-    <ol class="score-list">
-      <li class="score-item">
-        <div class="score-position score-gold">1.</div>
-        <div class="score-value">{{ scoreStore.scores.highScore[0] }}</div>
-      </li>
-      <li class="score-item">
-        <div class="score-position score-silver">2.</div>
-        <div class="score-value">{{ scoreStore.scores.highScore[1] }}</div>
-      </li>
-      <li class="score-item">
-        <div class="score-position score-bronze">3.</div>
-        <div class="score-value">{{ scoreStore.scores.highScore[2] }}</div>
-      </li>
-      <li class="score-item">
-        <div class="score-position">4.</div>
-        <div class="score-value">{{ scoreStore.scores.highScore[3] }}</div>
-      </li>
-      <li class="score-item">
-        <div class="score-position">5.</div>
-        <div class="score-value">{{ scoreStore.scores.highScore[4] }}</div>
-      </li>
-    </ol>
   </div>
 </template>
 
 <style lang="scss" scoped>
-  .score-position,
-  .score-value {
-    font-weight: normal;
-  }
-  .score-container {
-    width: 400px;
-    margin: auto;
+  .scores {
+    width: 100%;
+    height: 100%;
     background-image: linear-gradient(
       45deg,
       hsla(50deg, 0%, 90%) -20%,
@@ -57,60 +36,39 @@
     border: 3px solid hsla(50deg, 100%, 50%);
 
     box-shadow: inset -2px 2px 5px 0px hsla(50deg, 0%, 0%, 0.5);
-    padding: 20px;
-    margin-top: 40px;
-    margin-bottom: 20px;
+    padding: 40px;
+    div {
+      display: flex;
+      justify-content: space-between;
+      height: 100%;
+      #trophy {
+        height: 50vh;
+      }
+      .scorelist {
+        height: 90%;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        column-gap: 60px;
+        font-size: 24px;
+        &:nth-child(-n + 4) {
+          font-size: 24px;
+        }
+        > *:nth-child(1)::marker {
+          color: gold;
+        }
+        > *:nth-child(2)::marker {
+          color: silver;
+        }
+        > *:nth-child(3)::marker {
+          color: #cd7f32;
+        }
+      }
+    }
   }
 
-  .score-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    font-size: 22px;
-  }
-
-  .header-text {
-    font-size: 22px;
-    margin-right: 10px;
-  }
-  .score-list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .score-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    font-size: 20px;
-  }
-
-  .score-position {
-    font-size: 24px;
-    font-weight: bold;
-    color: #999;
-    margin-right: 10px;
-    width: 30px;
+  h1 {
     text-align: center;
-  }
-
-  .score-gold {
-    color: gold;
-  }
-
-  .score-silver {
-    color: silver;
-  }
-
-  .score-bronze {
-    color: #cd7f32;
-  }
-
-  .score-value {
-    font-size: 24px;
-    font-weight: bold;
-    margin-right: 10px;
+    margin-bottom: 20px;
   }
 </style>

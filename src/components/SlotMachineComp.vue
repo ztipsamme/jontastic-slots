@@ -3,6 +3,7 @@
   import { useThemeStore } from "../stores/themes.js"
   import { useScoreStore } from "../stores/scoreStore.js"
   import { useAudioStore } from "../stores/audio"
+  import { useBetStore } from "../stores/bet.js"
   import iconComponent from "../components/elements/iconComponent.vue"
   import spinnerComp from "./ReelsComp.vue"
   import FlashText from "./animations/FlashingText.vue"
@@ -15,8 +16,9 @@
       const theme = useThemeStore()
       const score = useScoreStore()
       const audio = useAudioStore()
+      const bet = useBetStore()
 
-      return { tokens, theme, score, audio }
+      return { tokens, theme, score, audio, bet }
     },
 
     components: {
@@ -543,8 +545,10 @@
 
         this.staticBet = 0
 
-        if (this.tokens.tokens.sum < this.tokens.tokens.bet) {
-          this.$refs.betComp.setBet(this.tokens.tokens.sum)
+        if (this.tokens.tokens.sum === 0) {
+          this.tokens.tokens.bet = this.tokens.tokens.startBet
+        } else if (this.tokens.tokens.sum < this.tokens.tokens.bet) {
+          this.tokens.tokens.bet = this.tokens.tokens.sum
         }
 
         for (let bonus of this.tokens.bonusTypes) {
@@ -672,8 +676,13 @@
     }"
     @click="newGame()"
   />
+<<<<<<< HEAD
   <div class="main-machine cont">
     <div class="reels-col col">
+=======
+  <div class="main-machine">
+    <div class="reels-col">
+>>>>>>> clean-up
       <div class="reel-cont">
         <spinner
           :win="isWinner"
@@ -687,6 +696,10 @@
         />
       </div>
     </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> clean-up
     <div class="bonus-container">
       <div
         class="bonus-wrapper"
@@ -713,6 +726,7 @@
       </div>
     </div>
 
+<<<<<<< HEAD
     <div class="row-2">
       <MaxWinning :ref="'betComp'" />
       <btn
@@ -727,58 +741,62 @@
         SPELA
       </btn>
     </div>
+=======
+    <MaxWinning id="bet" :ref="'betComp'" />
+
+    <btn
+      id="play"
+      :color="'green'"
+      :height="'85%'"
+      :width="'60%'"
+      @click="gameStart()"
+      :disabled="tokens.tokens.bet > tokens.tokens.sum"
+      :styles="{ maxHeight: '100%', justifySelf: 'center' }"
+      :size="'x-large'"
+    >
+      SPELA
+    </btn>
+>>>>>>> clean-up
   </div>
 </template>
 
 <style lang="scss">
-  .main-machine.cont {
+  .main-machine {
     display: grid;
+<<<<<<< HEAD
     height: calc(100vh - 75px);
     grid-template-rows: 100%;
     grid-template-columns: auto 15vw;
     gap: 2vh;
+=======
+    grid-template-columns: repeat(2, 1fr) 249px;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5vw;
+>>>>>>> clean-up
     width: 100%;
-  }
-  .winner-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .bonus-container {
-    grid-column: 1;
-    grid-row: span 1;
-    display: flex;
-    flex-direction: column;
-
     height: 100%;
-    width: 100%;
-    & .bonus-wrapper {
-      flex-shrink: 1;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      p {
-        margin: 0;
-        padding: 0;
-        border: 1px solid black;
-        width: 2em;
-        height: 2em;
-        line-height: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        left: calc(100% - 1em - 2px);
-        top: calc(-1em + 2px);
-        border-radius: 200px;
-        background-color: var(--btn-purple);
-      }
-    }
   }
+
+  .bonus-container {
+    grid-column: 3/4;
+    grid-row: 1/2;
+    display: flex;
+    justify-content: space-between;
+    height: max-content;
+    width: 100%;
+  }
+
+  #bet {
+    grid-column: 3/4;
+    grid-row: 2/3;
+  }
+
+  #play {
+    grid-column: 3/4;
+    grid-row: 3/4;
+    display: flex;
+  }
+
   .reel-cont {
     display: flex;
     position: relative;
@@ -788,6 +806,7 @@
     height: 100%;
     overflow: hidden;
   }
+<<<<<<< HEAD
   .row-2 {
     height: 100%;
     justify-content: center;
@@ -808,10 +827,19 @@
     display: grid;
     width: 76%;
     height: 100%;
+=======
+
+  .reels-col {
+    display: grid;
+    width: 100%;
+    grid-column: 1/3;
+    grid-row: 1/4;
+>>>>>>> clean-up
   }
 
   .item {
     text-align: center;
     cursor: pointer;
+    margin: 15px 15px 0 0;
   }
 </style>
