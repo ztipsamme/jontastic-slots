@@ -88,7 +88,7 @@
       :size="'x-large'"
       :height="'100%'"
       :width="'100%'"
-      :border-radius="landscape ? '0px 32px 10px 0px' : '10px 10px 10px 10px'"
+      :border-radius="landscape ? '32px 0px 10px 10px' : '10px 10px 10px 10px'"
       @click="decreaseBet(currentVal)"
     >
       -
