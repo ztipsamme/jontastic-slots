@@ -4,7 +4,7 @@
   import { useAudioStore } from "./stores/audio"
   import { gsap } from "gsap"
   //import iconComponent from "./components/elements/iconComponent.vue"
-  import PopUp from "./components/pop-ups/infoPopUp.vue"
+  import PopUp from "./components/elements/popUpComp.vue"
   import buttonComponent from "./components/elements/buttonComponent.vue"
   import soundControl from "./components/soundComp.vue"
   export default {
@@ -204,29 +204,24 @@
 </template>
 
 <style lang="scss">
-  main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-
   #app {
     display: grid;
     gap: 2vh;
     grid-template-rows: max-content auto;
     height: 100vh;
-    max-width: 1000px;
+    max-width: 1250px;
     width: 99vw;
     padding: 1vw;
   }
   header {
+    width: 100%;
+    z-index: 1000;
     display: grid;
     grid-template-columns: 8% 12% 60% 20%;
-    height: 100%;
-    padding: 1vh 0px 1vh 0px;
+    height: min-content;
+    padding: 2vh 0px;
     align-items: start;
-    width: 100%;
+    margin-bottom: 2vh;
     .info {
       justify-self: end;
       width: 100%;
@@ -249,6 +244,12 @@
       }
     }
   }
+
+  main {
+    width: 100%;
+    height: 100%;
+  }
+
   .token-display {
     border: 3px solid hsla(50deg, 100%, 50%);
     border-radius: 1000px;

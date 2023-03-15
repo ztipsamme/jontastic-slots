@@ -26,6 +26,7 @@
       return {
         valArray: [5, 10, 30, 50, 100],
         currentVal: 5,
+        landscape: true,
       }
     },
     computed: {

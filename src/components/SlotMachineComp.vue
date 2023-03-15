@@ -3,6 +3,7 @@
   import { useThemeStore } from "../stores/themes.js"
   import { useScoreStore } from "../stores/scoreStore.js"
   import { useAudioStore } from "../stores/audio"
+  import { useBetStore } from "../stores/bet.js"
   import iconComponent from "../components/elements/iconComponent.vue"
   import spinnerComp from "./ReelsComp.vue"
   import FlashText from "./animations/FlashingText.vue"
@@ -15,8 +16,9 @@
       const theme = useThemeStore()
       const score = useScoreStore()
       const audio = useAudioStore()
+      const bet = useBetStore()
 
-      return { tokens, theme, score, audio }
+      return { tokens, theme, score, audio, bet }
     },
 
     components: {
@@ -547,9 +549,11 @@
 
         this.staticBet = 0
 
-        if (this.tokens.tokens.sum < this.tokens.tokens.bet) {
+        if (this.tokens.tokens.sum === 0) {
+          this.tokens.tokens.bet = this.tokens.tokens.startBet
+        } else if (this.tokens.tokens.sum < this.tokens.tokens.bet) {
           try {
-            this.$refs.betComp.setBet(this.tokens.tokens.sum)
+            this.tokens.tokens.bet = this.tokens.tokens.sum
           } catch {
             this.setBet(this.tokens.tokens.sum)
           }
@@ -680,7 +684,7 @@
     }"
     @click="newGame()"
   />
-  <div class="main-machine cont">
+  <div class="main-machine">
     <div class="reel-cont">
       <spinner
         :win="isWinner"
@@ -738,7 +742,7 @@
 </template>
 
 <style lang="scss">
-  .main-machine.cont {
+  .main-machine {
     display: grid;
     height: 90%;
     grid-template-rows: 100%;
@@ -746,6 +750,7 @@
     gap: 7vh;
     width: 100%;
   }
+
   .winner-row {
     display: flex;
     justify-content: center;
@@ -758,7 +763,7 @@
     flex-direction: row;
 
     height: 100%;
-    width: 100%;
+    width: 27vw;
     & .bonus-wrapper {
       flex-shrink: 1;
       width: 33%;
@@ -784,6 +789,33 @@
       }
     }
   }
+
+  /* .bonus-container {
+    grid-column: 3/4;
+    grid-row: 1/2;
+    display: flex;
+    flex-direction: row;
+
+    height: 100%;
+    width: 100%;
+    & .bonus-wrapper {
+      flex-shrink: 1;
+      width: 33%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  #bet {
+    grid-column: 3/4;
+    grid-row: 2/3;
+  }
+
+  #play {
+    grid-column: 3/4;
+    grid-row: 3/4;
+    display: flex;
+  }
+ */
   .reel-cont {
     display: flex;
     position: relative;
@@ -818,5 +850,6 @@
   .item {
     text-align: center;
     cursor: pointer;
+    margin: 15px 15px 0 0;
   }
 </style>
