@@ -56,35 +56,25 @@ export const useAudioStore = defineStore("audio", {
       this.win = new Audio(Sounds[name].audio.src["win"])
       this.bonus = new Audio(Sounds[name].audio.src["bonus"])
 
-      this.setBtnVolume(this.volume.btn)
       this.setMusicVolume(this.volume.music)
-      this.setInfoVolume(this.volume.info)
       this.setFxVolume(this.volume.fx)
     },
-    setBtnVolume(val) {
-      this.volume.btn = Number(val)
-      this.btn.volume = Number(val)
-    },
     setMusicVolume(val) {
-      console.log(val)
       this.volume.music = Number(val)
       this.theme.volume = Number(val)
     },
-    setInfoVolume(val) {
-      console.log(val)
+    setFxVolume(val) {
       this.volume.info = Number(val)
+
       this.cashIn.volume = Number(val)
       this.invalid.volume = Number(val)
       this.purchase.volume = Number(val)
       this.bonus.volume = Number(val)
-    },
-    setFxVolume(val) {
-      console.log(val)
-      this.volume.fx = Number(val)
       this.gameOver.volume = Number(val)
       this.noWin.volume = Number(val)
       this.reels.volume = Number(val)
       this.win.volume = Number(val)
+      this.btn.volume = Number(val)
     },
   },
 })

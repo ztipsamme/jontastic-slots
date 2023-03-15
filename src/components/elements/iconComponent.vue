@@ -40,11 +40,17 @@
         return { width: w }
       },
       style() {
-        let size = Number(this.size.replace(/[^\d.]/g, ""))
+        let size
+        if (this.size.indexOf("clamp") != -1) {
+          size = this.size
+            .split(",")
+            .map((e) => Number(e.replace(/[^\d.]/g, "")))
+            .sort()[0]
+        } else {
+          size = Number(this.size.replace(/[^\d.]/g, ""))
+        }
 
         return {
-          width: this.size,
-          height: this.size,
           borderRadius: size / 6.8 + "px",
         }
       },
@@ -55,7 +61,7 @@
   }
 </script>
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :style="{ width: size }">
     <button
       :style="style"
       :class="
@@ -147,16 +153,34 @@
   }
   .wrapper {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .mini {
     position: absolute;
-    inset: -10px 55px;
+    inset: -25% 70%;
+    z-index: 2;
   }
 </style>
 
 <style scoped>
   button {
-    position: relative;
+    box-sizing: border-box;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  }
+  .wrapper::after {
+    content: "";
+    display: block;
+    position: relative;
+    padding-top: 100%;
+    width: 100%;
   }
 </style>

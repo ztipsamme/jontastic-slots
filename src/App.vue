@@ -6,6 +6,7 @@
   //import iconComponent from "./components/elements/iconComponent.vue"
   import PopUp from "./components/pop-ups/infoPopUp.vue"
   import buttonComponent from "./components/elements/buttonComponent.vue"
+  import soundControl from "./components/soundComp.vue"
   export default {
     setup() {
       const tokens = useTokenStore()
@@ -79,23 +80,19 @@
     components: {
       PopUp,
       btn: buttonComponent,
+      soundControl,
     },
     computed: {},
     methods: {
       newSong() {},
-      setBtnVolume(e) {
-        this.audio.setBtnVolume(Number(e.target.value))
-      },
-      setMusicVolume(e) {
-        this.audio.setMusicVolume(Number(e.target.value))
-      },
-      setInfoVolume(e) {
-        this.audio.setInfoVolume(Number(e.target.value))
-      },
-      setFxVolume(e) {
-        this.audio.setFxVolume(Number(e.target.value))
-      },
-      toggleSoundControls() {
+
+      toggleSoundControls(close = false) {
+        console.log("btn", close)
+        if (close) {
+          this.showSoundControls = false
+          return
+        }
+
         this.showSoundControls = !this.showSoundControls
       },
     },
@@ -106,64 +103,17 @@
     <div class="info">
       <PopUp />
     </div>
-    <div class="sound-control" v-if="showSoundControls">
-      <label>
-        <span class="sound-text">MUSIC:</span>
-        <input
-          style="display: inline"
-          type="range"
-          min="0"
-          max="1"
-          :value="audio.volume.music"
-          step="0.01"
-          @input="setMusicVolume"
-        />
-      </label>
-
-      <label>
-        <span class="sound-text">Btn:</span>
-        <input
-          style="display: inline"
-          type="range"
-          min="0"
-          max="1"
-          :value="audio.volume.btn"
-          step="0.01"
-          @input="setBtnVolume"
-        />
-      </label>
-      <label>
-        <span class="sound-text">Fx:</span>
-        <input
-          style="display: inline"
-          type="range"
-          min="0"
-          max="1"
-          :value="audio.volume.fx"
-          step="0.01"
-          @input="setFxVolume"
-        />
-      </label>
-      <label>
-        <span class="sound-text">info:</span>
-        <input
-          style="display: inline"
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          @input="setInfoVolume"
-          :value="audio.volume.info"
-        />
-      </label>
-    </div>
+    <soundControl
+      v-if="showSoundControls"
+      @close="toggleSoundControls(false)"
+    />
     <btn
       :color="'blue'"
       :size="'large'"
       :circle="true"
       :width="'10vh'"
       :styles="{ maxWidth: '50px', minWidth: '40px' }"
-      @click="toggleSoundControls"
+      @click="toggleSoundControls(false)"
     >
       <i class="bi bi-volume-up-fill" />
     </btn>
@@ -248,38 +198,25 @@
     </div>
   </header>
 
-  <main>
+  <main @click="toggleSoundControls(true)">
     <RouterView />
   </main>
 </template>
 
 <style lang="scss">
-  .sound-control {
-    position: absolute;
+  main {
     display: flex;
-
-    /* height: 31vh; */
-    top: 25px;
-    left: 15%;
-    width: 30vw;
-    z-index: 99;
-    border-radius: 15px;
-    border: 5px solid var(--bg-color2);
-    box-shadow: 4px 4px 6px 0px var(--btn-disabled4), 1px 1px 2px black inset;
-    background-image: var(--bg-image);
-    flex-flow: column;
-    padding: 15px;
-    & label {
-      display: grid;
-      grid-template-columns: 25% auto;
-    }
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
 
   #app {
     display: grid;
-    grid-template-rows: auto auto;
+    gap: 2vh;
+    grid-template-rows: max-content auto;
     height: 100vh;
-    max-width: 900px;
+    max-width: 1000px;
     width: 99vw;
     padding: 1vw;
   }

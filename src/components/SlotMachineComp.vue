@@ -351,7 +351,11 @@
 
         return this.mIndex
       },
-
+      setBet(val) {
+        val = val < 5 ? 5 : val
+        val = val > this.tokens.tokens.sum ? this.tokens.tokens.sum : val
+        this.tokens.tokens.bet = val
+      },
       getWinnings() {
         let bonus = this.tokens.bonusTypes.find((i) => i.name === "Extra Spin")
         let bonusWin
@@ -544,7 +548,11 @@
         this.staticBet = 0
 
         if (this.tokens.tokens.sum < this.tokens.tokens.bet) {
-          this.$refs.betComp.setBet(this.tokens.tokens.sum)
+          try {
+            this.$refs.betComp.setBet(this.tokens.tokens.sum)
+          } catch {
+            this.setBet(this.tokens.tokens.sum)
+          }
         }
 
         for (let bonus of this.tokens.bonusTypes) {
@@ -673,55 +681,54 @@
     @click="newGame()"
   />
   <div class="main-machine cont">
-    <div class="reels-col col">
-      <div class="reel-cont">
-        <spinner
-          :win="isWinner"
-          :ref="'child'"
-          :spinners="spinnerArr"
-          :nums="numIndex"
-          :count="count"
-          :matrix="numMatrix"
-          @done="done"
-          :key="spinnerArr"
-        />
-      </div>
+    <div class="reel-cont">
+      <spinner
+        :win="isWinner"
+        :ref="'child'"
+        :spinners="spinnerArr"
+        :nums="numIndex"
+        :count="count"
+        :matrix="numMatrix"
+        @done="done"
+        :key="spinnerArr"
+      />
     </div>
-    <div class="bonus-container">
-      <div
-        class="bonus-wrapper"
-        v-for="item in tokens.bonusTypes.filter((e) => e.amount > 0)"
-        :key="item.name"
-      >
+    <div class="side">
+      <div class="bonus-container">
         <div
-          class="item"
-          @click="activateBonus(item.name.replace(/[^A-z]/g, '').toLowerCase())"
+          class="bonus-wrapper"
+          v-for="item in tokens.bonusTypes.filter((e) => e.amount > 0)"
+          :key="item.name"
         >
-          <icon
-            :name="item.name"
-            :aria-label="item.name"
-            :size="'68px'"
-            :src="item.src"
-            :item="item"
-          />
-          <div>
-            {{
-              item.name.substring(item.name.indexOf("Extra") + "extra".length)
-            }}
+          <div
+            class="item"
+            @click="
+              activateBonus(item.name.replace(/[^A-z]/g, '').toLowerCase())
+            "
+          >
+            <icon
+              :name="item.name"
+              :aria-label="item.name"
+              :size="'clamp(50px,7vw,64px)'"
+              :src="item.src"
+              :item="item"
+            />
+            <div>
+              {{
+                item.name.substring(item.name.indexOf("Extra") + "extra".length)
+              }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="row-2">
       <MaxWinning :ref="'betComp'" />
       <btn
         :color="'green'"
-        :height="'85%'"
-        :width="'60%'"
+        :height="'80%'"
+        :width="'85%'"
         @click="gameStart()"
         :disabled="tokens.tokens.bet > tokens.tokens.sum"
-        :styles="{ maxHeight: '100%', justifySelf: 'center' }"
+        :styles="{ maxHeight: '100%', alignSelf: 'end', justifySelf: 'center' }"
         :size="'x-large'"
       >
         SPELA
@@ -733,10 +740,10 @@
 <style lang="scss">
   .main-machine.cont {
     display: grid;
-    height: calc(100vh - 75px);
+    height: 90%;
     grid-template-rows: 100%;
-    grid-template-columns: auto 15vw;
-    gap: 2vh;
+    grid-template-columns: auto 27vw;
+    gap: 7vh;
     width: 100%;
   }
   .winner-row {
@@ -748,18 +755,16 @@
     grid-column: 1;
     grid-row: span 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
     height: 100%;
     width: 100%;
     & .bonus-wrapper {
       flex-shrink: 1;
-      width: 100%;
-      height: 100%;
+      width: 33%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
 
       p {
         margin: 0;
@@ -788,6 +793,12 @@
     height: 100%;
     overflow: hidden;
   }
+  .side {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 2fr 3fr 2fr;
+  }
   .row-2 {
     height: 100%;
     justify-content: center;
@@ -795,19 +806,13 @@
     align-items: center;
     display: grid;
     grid-template-columns: 50% 50%;
-    width: 80vw;
+    //width: 80vw;
     justify-self: center;
   }
   .cont {
     width: 80vw;
     display: flex;
     flex-direction: column;
-  }
-  .reels-col {
-    grid-column-start: 1;
-    display: grid;
-    width: 76%;
-    height: 100%;
   }
 
   .item {

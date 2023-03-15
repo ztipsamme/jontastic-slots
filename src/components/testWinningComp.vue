@@ -78,39 +78,42 @@
 </script>
 <template>
   <div class="control-cont">
-    <btn
-      :styles="{ zIndex: 0, alignSelf: 'end', borderRadius: '10px' }"
-      :position="['end', 'start']"
-      :size="'x-large'"
-      :height="'100%'"
-      :width="'400%'"
-      :border-radius="'32px 0px 0px 10px'"
-      @click="decreaseBet(currentVal)"
-    >
-      -
-    </btn>
-    <div class="max-winning-cont">
-      <div class="text-container">
-        <span>MAX VINST:{{ tokens.tokens.bet * 7 }}</span>
+    <div class="bet-wrapper">
+      <btn
+        :styles="{ zIndex: 0, alignSelf: 'end', borderRadius: '10px' }"
+        :position="['end', 'start']"
+        :size="'x-large'"
+        :height="'100%'"
+        :width="'100%'"
+        :border-radius="'32px 0px 0px 10px'"
+        @click="decreaseBet(currentVal)"
+      >
+        -
+      </btn>
+      <div class="max-winning-cont">
+        <div class="text-container">
+          <span>MAX VINST:{{ tokens.tokens.bet * 7 }}</span>
+        </div>
+        <div class="winning-cont amount">
+          <p>{{ tokens.tokens.bet }}</p>
+        </div>
       </div>
-      <div class="winning-cont amount">
-        <p>{{ tokens.tokens.bet }}</p>
-      </div>
+      <btn
+        :styles="{
+          zIndex: 1,
+          justifySelf: 'self-end',
+        }"
+        :position="['end', 'end']"
+        :size="'x-large'"
+        :height="'100%'"
+        :width="'100%'"
+        :border-radius="'0px 32px 10px 0px'"
+        @click="increaseBet(currentVal)"
+      >
+        +
+      </btn>
     </div>
-    <btn
-      :styles="{
-        zIndex: 1,
-        justifySelf: 'self-end',
-      }"
-      :position="['end', 'end']"
-      :size="'x-large'"
-      :height="'100%'"
-      :width="'400%'"
-      :border-radius="'0px 32px 10px 0px'"
-      @click="increaseBet(currentVal)"
-    >
-      +
-    </btn>
+
     <div class="val-cont">
       <btn
         v-for="n in [5, 10, 30, 50, 100]"
@@ -141,11 +144,21 @@
     gap: 10px;
   }
   .control-cont {
-    width: 90%;
-    grid-template-columns: 1fr 6fr 1fr;
-    grid-template-rows: 5fr 2fr;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-height: 200px;
+    grid-template-rows: 4fr 2fr;
+    grid-template-columns: 1fr;
     display: grid;
     justify-self: center;
+  }
+  .bet-wrapper {
+    position: relative;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100%;
+    height: 100%;
   }
   p {
     margin: 0;
@@ -181,6 +194,9 @@
     color: hsl(0, 100%, 100%);
     text-shadow: 1px 1px 1px #00000044;
     box-shadow: 0px 0px 4px 1px var(--btn-blue4);
+    line-height: 1;
+    text-align: center;
+    padding: 0px 15px;
   }
 
   .amount {
@@ -208,23 +224,15 @@
     display: grid;
     grid-template-rows: 40% 60%;
     grid-template-columns: 100%;
-    /* border: 3px solid hsl(50, 100%, 50%); */
-    /* box-shadow: inset 1px 1px 4px 0px hsl(354deg 63% 34%); */
     justify-content: center;
     align-items: center;
     align-self: center;
     justify-self: center;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
     border-radius: 10px 10px 60px 60px;
-    max-width: 380px;
-    min-width: 125px;
-    max-height: 160px;
-    position: relative;
+    position: absolute;
+
     height: 100%;
-    width: 100%;
+    width: 50%;
     z-index: 2;
     /* background-image: linear-gradient(-50deg, var(--bs-orange), var(--bs-yellow) 35%, var(--bs-yellow) 70%, var(--bs-orange)); */
     background-image: linear-gradient(

@@ -9,9 +9,8 @@
   let resize = function (el, binding) {
     const onResizeCallback = binding.value
     window.addEventListener("resize", () => {
-      const width = document.documentElement.clientWidth
-      const height = document.documentElement.clientHeight
-      onResizeCallback({ width, height })
+      const height = el.offsetHeight
+      onResizeCallback({ height, el })
     })
   }
 
@@ -53,8 +52,9 @@
       },
     },
     mounted() {
-      const height = document.documentElement.clientHeight
-      this.size.height = Math.ceil(height * 0.2)
+      const height = this.$refs.scene0.offsetHeight
+      console.log("SET SIZE")
+      this.size.height = Math.ceil(height * (1 / 3))
       this.setClipPath()
     },
     updated() {
@@ -90,7 +90,7 @@
       },
     },
     computed: {
-      curve() {
+      /*       curve() {
         return {
           linear: (x) => x,
           ease: (x, pow = 1) =>
@@ -106,29 +106,13 @@
             Number(Math.pow(Math.pow(x, 2), pow).toFixed(4)),
           easeInOut: (x) => Number((Math.tanh(6 * x - 3) / 2 + 0.5).toFixed(3)),
         }
-      },
+      }, */
       ang() {
         let c = this.count
         return (x) => (360 / c) * x
       },
       rad() {
         return Math.floor(this.size.height / 2 / Math.tan(Math.PI / this.count))
-      },
-      opt() {
-        return (i) => ({
-          duration: 5000,
-          fill: "forwards",
-          easing: "cubic-bezier(0.42, 0, 0.58, 1)",
-          delay: 100 * i,
-        })
-      },
-      rotation() {
-        return (from, to) => {
-          return [
-            { transform: "rotateX(" + from + "deg)" },
-            { transform: "rotateX(" + to + "deg)" },
-          ]
-        }
       },
       icoRotation() {
         return (ind) => {
@@ -141,6 +125,11 @@
       },
       numbers() {
         return this.mIndex[1]
+      },
+      soldize() {
+        console.log("this.size", this.$refs)
+        let height = this.$refs.scene0 ? this.$refs.scene0.offsetHeight : 150
+        return { height: height }
       },
     },
     methods: {
@@ -283,15 +272,18 @@
         audioTimeLine.play().then(() => this.audio.reels.load())
         return Promise.all(tween)
       },
-      onResize({ height }) {
-        this.size.height = Math.ceil(height * 0.2)
+      onResize({ el }) {
+        this.size.height = el.offsetHeight * (1 / 3)
         this.setClipPath()
       },
       setClipPath() {
         let refs = this.reels.map((e, i) => {
           return this.$refs["c" + i][0]
         })
-
+        if (!refs[0]) {
+          return
+        }
+        this.size.height = refs[0].parentNode.offsetHeight / 3
         refs.forEach((e, i) => {
           try {
             e.querySelectorAll(".carousel__cell").forEach((el, i) => {
@@ -317,9 +309,6 @@
           e.parentNode.style.perspectiveOrigin = perspectiveX + "% 50%"
           e.parentNode.style.zIndex = Math.abs(s)
           e.style.transform = xKorr
-          const height = document.documentElement.clientHeight
-          this.size.height = Math.ceil(height * 0.2)
-
           let sceneHeight, sceneWidth
           try {
             sceneWidth = e.parentNode.offsetWidth
@@ -327,7 +316,6 @@
           } catch {
             return
           }
-          let offset = 0.15
           let start = sceneWidth * 0.15
           let max = start * 0.885
           let clipWidth = sceneWidth * 0.84
@@ -378,7 +366,6 @@
     },
   }
 </script>
-
 <template>
   <template v-for="(spinner, i) in spinners" :key="i">
     <div :class="'scene-' + i" v-resize="onResize" :ref="'scene' + i">
@@ -450,14 +437,6 @@
     /*clip-path: path( "M20 0 l 164 0 c10 0 10 430 0 430 l-164 0 c-10 0 -10 -430 0 -430");*/
   }
 
-  .scene-2 {
-    /*clip-path: path("M-11 0 l 167 0 c40 0 40 430 0 430 l-167 0 c10 0 10 -430 0 -430");*/
-  }
-
-  .scene-0 {
-    /*clip-path: path("M48 0 l 167 0 c-10 0 -10 430 0 430 l-164 0 c-40 0 -40 -430 0 -430");*/
-  }
-
   div[class*="scene"]:last-child {
     perspective-origin: -100% 50%;
     /*     overflow-y: hidden;
@@ -473,7 +452,7 @@
     position: relative;
     min-width: 10vmin;
     width: 100%;
-    height: 60vh;
+    height: 100%;
     perspective: 900px;
     overflow: visible;
     border-radius: 5px;
