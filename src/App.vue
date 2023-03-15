@@ -20,6 +20,7 @@
         tokTween: this.tokens.tokens.sum,
         themeSong: null,
         showSoundControls: false,
+        fullLogo: false,
       }
     },
     watch: {
@@ -82,7 +83,11 @@
       btn: buttonComponent,
       soundControl,
     },
-    computed: {},
+    computed: {
+      logoSize() {
+        return this.fullLogo ? "75vw" : "100px"
+      },
+    },
     methods: {
       newSong() {},
 
@@ -98,6 +103,32 @@
   }
 </script>
 <template>
+  <div
+    v-if="fullLogo"
+    :style="{
+      position: 'absolute',
+      width: '100vw',
+      height: '100vh',
+      top: 0,
+      left: 0,
+      backgroundColor: 'hsla(0deg,0%,0%,0.5)',
+      zIndex: '9998',
+    }"
+  />
+  <img
+    src="../assets/svg/logov1.svg"
+    alt=""
+    :style="{
+      width: logoSize,
+      position: 'absolute',
+      zIndex: '9999',
+      bottom: fullLogo ? '' : '10px',
+      left: '5px',
+      top: fullLogo ? '0' : '',
+      transition: '0.5s',
+    }"
+    @click="(e) => (fullLogo = !fullLogo)"
+  />
   <header>
     <div class="info">
       <PopUp />
