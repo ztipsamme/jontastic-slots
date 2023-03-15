@@ -1,5 +1,4 @@
 <template>
-  <!-- Vad är detta?-->
   <slotgroup />
 </template>
 

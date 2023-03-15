@@ -163,7 +163,6 @@
         return winVal
       },
       handleKeyPress(event) {
-        //
         if (event.keyCode === 32) {
           this.winner = false
           this.gameStart()
