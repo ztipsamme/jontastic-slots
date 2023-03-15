@@ -395,7 +395,7 @@
                 alt=""
                 :class="{
                   'slot-ico': true,
-                  'win-scale': winBlink && blinkIndex[i] == ind,
+                  'win-scale': winBlink && blinkIndex[i] == ind % count,
                 }"
               />
             </div>

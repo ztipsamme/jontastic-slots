@@ -243,6 +243,7 @@
             this.spinnerArr = new Array(this.reels)
               .fill(null)
               .map(() => this.generateSpinner())
+            extraRow.uses = 4
             break
           }
           case "extraspin": {
@@ -265,6 +266,7 @@
         }
       },
       altGetNumbers() {
+        console.log("altGetNumbers")
         this.numIndex = []
         this.num = []
         let odds = JSON.parse(JSON.stringify(this.oddsModifier))
@@ -520,17 +522,21 @@
         })
       },
       done() {
+        console.log("done")
         let bonus = this.tokens.bonusTypes
 
         //Berätta att hjulen slutat snurra
         this.isSpinning = false
 
         // kolla om det finns en extra rad, men att den ska bort
-        if (this.tokens.getBonus("extrarow").uses == 0 && this.reels == 4) {
+        if (
+          bonus.find((i) => i.name === "Extra Row").uses == 0 &&
+          this.reels == 4
+        ) {
+          console.log("0uses")
           let extraRow = bonus.find((i) => i.name === "Extra Row")
           extraRow.active = false
           this.reels = 3
-          this.tokens.getBonus("extrarow").uses = 4
           this.spinnerArr = new Array(this.reels)
             .fill(null)
             .map(() => this.generateSpinner())
@@ -568,18 +574,12 @@
 
         for (let bonus of this.tokens.bonusTypes) {
           if (bonus.name.replace(/\s/, "").toLowerCase() == "extrarow") {
-            console.log(bonus.name, bonus.uses)
-            if (bonus.active && bonus.uses) {
-              return
-            }
-          } else {
-            bonus.active = false
-            this.reels = 3
-
-            this.spinnerArr = new Array(this.reels)
-              .fill(null)
-              .map(() => this.generateSpinner())
+            return
           }
+          if (bonus.uses == 0) {
+            bonus.uses = bonus.count
+          }
+          bonus.active = false
         }
 
         if (all) {
