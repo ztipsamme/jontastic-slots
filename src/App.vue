@@ -111,7 +111,7 @@
       height: '100vh',
       top: 0,
       left: 0,
-      backgroundColor: 'hsla(0deg,0%,0%,0.5)',
+      backgroundColor: 'hsla(0deg,0%,100%,0.5)',
       zIndex: '9998',
     }"
   />
