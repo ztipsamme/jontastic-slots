@@ -700,7 +700,7 @@
             <icon
               :name="item.name"
               :aria-label="item.name"
-              :size="'clamp(50px,7vw,64px)'"
+              :size="'50px'"
               :src="item.src"
               :item="item"
             />
@@ -729,9 +729,9 @@
 </template>
 
 <style lang="scss">
-  body {
-    overflow: hidden;
-  }
+  // body {
+  //   overflow: hidden;
+  // }
   .main-machine {
     display: grid;
     height: 90%;
