@@ -276,14 +276,14 @@
 
         // Om det blir vinst
         let random = Math.floor(Math.random() * 7 + odds)
-        this.winnerType = random >= 7 ? 0 : 99
+        this.winnerType = random >= 5 ? 0 : 99
 
         if (this.winnerType == 0) {
           this.oddsModifier = this.oddsModifier >= 1 ? 0 : odds - 0.04
         } else {
           this.oddsModifier = this.oddsModifier <= -1 ? 0 : odds + 0.05
           let speciall = Math.floor(
-            Math.random() * (17 - 4 * Math.abs(this.oddsModifier)) + 1,
+            Math.random() * (15 - 4 * Math.abs(this.oddsModifier)) + 1,
           )
           console.log(speciall, this.oddsModifier)
           this.winnerType = speciall
