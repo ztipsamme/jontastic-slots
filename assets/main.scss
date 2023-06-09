@@ -726,6 +726,17 @@ body {
     background-image: radial-gradient(transparent 60%, var(--bg-color3) 130%);
     z-index: -99;
   }
+  .btn-all-in {
+    background-color: var(--btn-purple);
+    color: var(--text-color);
+    border-color: var(--btn-purple);
+  }
+
+  .btn-all-in:hover {
+    background-color: var(--btn-purple2);
+    border-color: var(--btn-purple2);
+  }
+
 }
 .popup-overlay *:not(.btn-comp) {
   color: black !important;

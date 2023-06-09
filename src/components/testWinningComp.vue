@@ -1,6 +1,7 @@
 <script>
   import { useTokenStore } from "../stores/tokenStore.js"
   import { useThemeStore } from "../stores/themes"
+  import AllInButton from "./AllInButton.vue"
 
   import btn from "./elements/buttonComponent.vue"
 
@@ -12,6 +13,7 @@
     },
     components: {
       btn,
+      AllInButton,
     },
     created() {},
     beforeMounted() {},
@@ -114,6 +116,17 @@
         +
       </btn>
     </div>
+
+    <AllInButton
+      class="btn btn-all-in"
+      :styles="{ zIndex: 2 }"
+      :circle="false"
+      :width="betBtnWidth"
+      :size="'large'"
+      @click="setBet(tokenStore.tokens.sum)"
+    >
+      All In
+    </AllInButton>
 
     <div class="val-cont">
       <btn
