@@ -9,7 +9,7 @@
 
     <ConfirmationDialog
       v-if="showConfirmationDialog"
-      message="Are you sure you want to go All In?"
+      message="Är du säker på att du vill gå All In?"
       :on-confirm="confirmAllIn"
       :on-cancel="cancelAllIn"
     />

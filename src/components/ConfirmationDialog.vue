@@ -1,8 +1,8 @@
 <template>
   <div class="confirmation-dialog">
     <p>{{ message }}</p>
-    <button @click="confirm">Confirm</button>
-    <button @click="cancel">Cancel</button>
+    <button @click="confirm">Ja</button>
+    <button @click="cancel">Avbryt</button>
   </div>
 </template>
 
