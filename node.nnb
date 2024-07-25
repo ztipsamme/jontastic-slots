@@ -1,0 +1,50 @@
+{
+    "cells": [
+        {
+            "language": "typescript",
+            "source": [
+                "let oddsModifier = 0.05\r\nlet num = ()=> Math.floor(\r\n  Math.random() * (15 - 4 * Math.abs(0)) + 1,\r\n)\r\nlet numbers = []\r\nlet mod = []\r\nfor (let index = 0; index < 50; index++) {\r\n  let n = num()\r\n  oddsModifier = n > 5 ?  oddsModifier+0.05 : oddsModifier - 0.05\r\n  oddsModifier = Number(Math.max(0,Math.min(1,oddsModifier)).toFixed(2))\r\n  numbers.push(n)\r\n  mod.push(oddsModifier)\r\n}\r\nlet count = {sum:0};\r\n[...new Set(numbers)].map(e=>{\r\n  let c = numbers.filter(el=> el == e).length\r\n\r\n  count[e.toString()] = c\r\n  count.sum+=c\r\n})\r\nconsole.log(mod)\r\nconsole.log(count)"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "[",
+                                "   0.1, 0.05,    0,   0, 0.05, 0.1, 0.05,   0,",
+                                "  0.05,    0, 0.05,   0,    0,   0, 0.05,   0,",
+                                "  0.05,  0.1, 0.15, 0.2, 0.25, 0.3, 0.25, 0.3,",
+                                "  0.25,  0.3, 0.35, 0.4, 0.35, 0.3, 0.35, 0.4,",
+                                "  0.45,  0.5, 0.55, 0.5, 0.55, 0.6, 0.65, 0.7,",
+                                "  0.75,  0.8, 0.85, 0.9, 0.85, 0.8, 0.85, 0.9,",
+                                "  0.95,  0.9",
+                                "]",
+                                "{",
+                                "  '1': 2,",
+                                "  '2': 2,",
+                                "  '3': 3,",
+                                "  '4': 3,",
+                                "  '5': 8,",
+                                "  '6': 4,",
+                                "  '7': 5,",
+                                "  '8': 1,",
+                                "  '9': 1,",
+                                "  '10': 4,",
+                                "  '11': 5,",
+                                "  '12': 3,",
+                                "  '13': 5,",
+                                "  '14': 3,",
+                                "  '15': 1,",
+                                "  sum: 50",
+                                "}",
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,9 +1,12 @@
 import { defineStore } from "pinia"
 import { useStorage } from "@vueuse/core"
 import { useThemeStore } from "./themes"
+import { Themes } from "../components/themes/index.js"
+import { iconRow, iconSpin, xMark } from "../svg/index.js"
 export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
+    themeStore: useThemeStore(),
     tokens: useStorage("tokens", {
       sum: 900,
       startValue: 900,
@@ -18,7 +21,7 @@ export const useTokenStore = defineStore("tokens", {
         count: 1,
         active: false,
         uses: 1,
-        src: "./assets/svg/icon-spin.svg",
+        src: iconSpin,
       },
       {
         name: "Extra Dubbel",
@@ -27,7 +30,7 @@ export const useTokenStore = defineStore("tokens", {
         count: 1,
         active: false,
         uses: 1,
-        src: "./assets/svg/xmark.svg",
+        src: xMark,
       },
       {
         name: "Extra Row",
@@ -36,7 +39,7 @@ export const useTokenStore = defineStore("tokens", {
         count: 4,
         active: false,
         uses: 4,
-        src: "./assets/svg/icon-row.svg",
+        src: iconRow,
       },
     ]),
     themeTypes: useStorage("themeTypes", [
@@ -45,42 +48,42 @@ export const useTokenStore = defineStore("tokens", {
         cost: 0,
         owned: true,
         active: true,
-        src: "./src/components/themes/default/ico1.svg",
+        src: Themes.diamant.icons[0],
       },
       {
         name: "Katt",
         cost: 250,
         owned: false,
         active: false,
-        src: "./src/components/themes/CatTheme/icons/ico1.svg",
+        src: Themes.katt.icons[0],
       },
       {
         name: "Midnatt",
         cost: 200,
         owned: false,
         active: false,
-        src: "./src/components/themes/NightTheme/icons/ico1.svg",
+        src: Themes.midnatt.icons[0],
       },
       {
         name: "Skog",
         cost: 150,
         owned: false,
         active: false,
-        src: "./src/components/themes/ForestTheme/icons/ico1.svg",
+        src: Themes.skog.icons[0],
       },
       {
         name: "Eld",
         cost: 200,
         owned: false,
         active: false,
-        src: "./src/components/themes/EldTheme/icons/ico1.svg",
+        src: Themes.eld.icons[0],
       },
       {
         name: "Hav",
         cost: 200,
         owned: false,
         active: false,
-        src: "./src/components/themes/HavTheme/icons/ico1.svg",
+        src: Themes.hav.icons[0],
       },
       {
         name: "Brilliant",
@@ -88,7 +91,7 @@ export const useTokenStore = defineStore("tokens", {
         cost: 0,
         owned: false,
         active: false,
-        src: "./src/components/themes/default/ico1.svg",
+        src: Themes.diamant.icons[0],
       },
       {
         name: "Rawr",
@@ -96,7 +99,7 @@ export const useTokenStore = defineStore("tokens", {
         cost: 0,
         owned: false,
         active: false,
-        src: "./src/components/themes/CatTheme/icons/ico1.svg",
+        src: Themes.katt.icons[0],
       },
       {
         name: "Stadsljus",
@@ -104,7 +107,7 @@ export const useTokenStore = defineStore("tokens", {
         cost: 0,
         owned: false,
         active: false,
-        src: "./src/components/themes/NightTheme/icons/ico1.svg",
+        src: Themes.midnatt.icons[0],
       },
       {
         name: "Vildmark",
@@ -112,7 +115,7 @@ export const useTokenStore = defineStore("tokens", {
         cost: 0,
         owned: false,
         active: false,
-        src: "./src/components/themes/ForestTheme/icons/ico1.svg",
+        src: Themes.skog.icons[0],
       },
       {
         name: "Inferno",
@@ -120,7 +123,7 @@ export const useTokenStore = defineStore("tokens", {
         cost: 0,
         owned: false,
         active: false,
-        src: "./src/components/themes/EldTheme/icons/ico1.svg",
+        src: Themes.eld.icons[0],
       },
       {
         name: "Sjuhaven",
@@ -128,7 +131,7 @@ export const useTokenStore = defineStore("tokens", {
         cost: 0,
         owned: false,
         active: false,
-        src: "./src/components/themes/HavTheme/icons/ico1.svg",
+        src: Themes.hav.icons[0],
       },
     ]),
   }),
@@ -161,7 +164,8 @@ export const useTokenStore = defineStore("tokens", {
       this.tokens.sum -= amount
     },
     async winning(amount) {
-      this.audio.cashIn.play()
+      console.log(this.audio.cashIn)
+      this.audio.promises.cashIn = this.audio.cashIn.play()
       this.tokens.sum += amount
     },
   },

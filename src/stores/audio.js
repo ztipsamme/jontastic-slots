@@ -5,22 +5,23 @@ import { Sounds } from "../components/themes/index.js"
 export const useAudioStore = defineStore("audio", {
   strict: true,
   state: () => ({
-    theme: new Audio(Sounds.diamant.audio.src.theme),
-    btn: new Audio(Sounds.diamant.audio.src.btn),
-    cashIn: new Audio(Sounds.diamant.audio.src.cashIn),
-    gameOver: new Audio(Sounds.diamant.audio.src.gameOver),
-    invalid: new Audio(Sounds.diamant.audio.src.invalid),
-    noWin: new Audio(Sounds.diamant.audio.src.noWin),
-    purchase: new Audio(Sounds.diamant.audio.src.purchase),
-    reels: new Audio(Sounds.diamant.audio.src.reels),
-    win: new Audio(Sounds.diamant.audio.src.win),
-    bonus: new Audio(Sounds.diamant.audio.src.bonus),
+    theme: {},
+    btn: {},
+    cashIn: {},
+    gameOver: {},
+    invalid: {},
+    noWin: {},
+    purchase: {},
+    reels: {},
+    win: {},
+    bonus: {},
     volume: useStorage("volume", {
       music: 0.05,
       btn: 0.05,
       fx: 0.15,
       info: 0.05,
     }),
+    promises: {},
   }),
   getters: {
     themeStore: () => useThemeStore(),
@@ -31,19 +32,38 @@ export const useAudioStore = defineStore("audio", {
     stopAll() {
       for (let a in this.$state) {
         console.log(a)
-        if (a == "volume") {
+        if (a == "volume" || a == "promises") {
           continue
         }
-        this.$state[a].load()
+        try {
+          this.$state[a].load()
+        } catch {
+          if (this.$state.promises[a]) {
+            this.$state.promises[a]
+              .then(() => {
+                this.$state[a].load()
+                delete this.$state.promises[a]
+              })
+              .catch(() => {
+                this.$state[a].load()
+                delete this.$state.promises[a]
+              })
+          }
+        }
       }
     },
     setTheme(name) {
       for (let a in this.$state) {
         console.log(a)
-        if (a == "volume") {
+        if (a == "volume" || a == "promises") {
           continue
         }
-        this.$state[a].load()
+        try {
+          this.$state[a].load()
+        } catch (e) {
+          this[a] = new Audio(Sounds[name].audio.src[a])
+          this.$state[a].load()
+        }
       }
       this.theme = new Audio(Sounds[name].audio.src["theme"])
       this.btn = new Audio(Sounds[name].audio.src["btn"])
@@ -65,7 +85,6 @@ export const useAudioStore = defineStore("audio", {
     },
     setFxVolume(val) {
       this.volume.info = Number(val)
-
       this.cashIn.volume = Number(val)
       this.invalid.volume = Number(val)
       this.purchase.volume = Number(val)

@@ -257,8 +257,17 @@
           },
           ">",
         )
-        this.audio.reels.play()
-        audioTimeLine.play().then(() => this.audio.reels.load())
+        this.audio.promises.reels = this.audio.reels.play()
+        audioTimeLine.play().then(() => {
+          try {
+            this.audio.reels.load()
+          } catch (e) {
+            this.audio.promises.reels.then(() => {
+              this.audio.reels.load()
+              this.audio.promises.reels = null
+            })
+          }
+        })
         return Promise.all(tween)
       },
       onResize({ el }) {
