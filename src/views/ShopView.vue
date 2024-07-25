@@ -121,7 +121,7 @@
           :name="item.name"
           :aria-label="item.name"
           :size="'clamp(50px,7vw,100px)'"
-          :src="item.src"
+          :src="`${item.src}`"
           :item="item"
         />
         <span>

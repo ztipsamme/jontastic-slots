@@ -2,7 +2,9 @@ import { defineStore } from "pinia"
 import { useStorage } from "@vueuse/core"
 import { useThemeStore } from "./themes"
 import { Themes } from "../components/themes/index.js"
-import { iconRow, iconSpin, xMark } from "../svg/index.js"
+import { iconSpin, xMark } from "../svg/index.js"
+import iconRow2 from "../svg/icon-row.svg"
+console.log(iconSpin, iconRow2)
 export const useTokenStore = defineStore("tokens", {
   strict: true,
   state: () => ({
@@ -39,7 +41,7 @@ export const useTokenStore = defineStore("tokens", {
         count: 4,
         active: false,
         uses: 4,
-        src: iconRow,
+        src: iconRow2,
       },
     ]),
     themeTypes: useStorage("themeTypes", [
@@ -97,7 +99,7 @@ export const useTokenStore = defineStore("tokens", {
         name: "Rawr",
         basic: "Katt",
         cost: 0,
-        owned: false,
+        owned: true,
         active: false,
         src: Themes.katt.icons[0],
       },
@@ -105,7 +107,7 @@ export const useTokenStore = defineStore("tokens", {
         name: "Stadsljus",
         basic: "Midnatt",
         cost: 0,
-        owned: false,
+        owned: true,
         active: false,
         src: Themes.midnatt.icons[0],
       },
@@ -113,7 +115,7 @@ export const useTokenStore = defineStore("tokens", {
         name: "Vildmark",
         basic: "Skog",
         cost: 0,
-        owned: false,
+        owned: true,
         active: false,
         src: Themes.skog.icons[0],
       },
@@ -121,7 +123,7 @@ export const useTokenStore = defineStore("tokens", {
         name: "Inferno",
         basic: "Eld",
         cost: 0,
-        owned: false,
+        owned: true,
         active: false,
         src: Themes.eld.icons[0],
       },
@@ -129,7 +131,7 @@ export const useTokenStore = defineStore("tokens", {
         name: "Sjuhaven",
         basic: "Hav",
         cost: 0,
-        owned: false,
+        owned: true,
         active: false,
         src: Themes.hav.icons[0],
       },

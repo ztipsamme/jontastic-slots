@@ -13,10 +13,10 @@ import SjuhavenTheme from "./SjuhavenTheme"
 
 const Themes = {
   diamant: _default,
-  katt: CatTheme,
+  katt: RawrTheme,
   skog: ForestTheme,
-  eld: EldTheme,
-  midnatt: NightTheme,
+  eld: InfernoTheme,
+  midnatt: StadsljusTheme,
   hav: HavTheme,
   brilliant: BilliantTheme,
   rawr: RawrTheme,
