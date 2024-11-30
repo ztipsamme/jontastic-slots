@@ -158,7 +158,7 @@
     .btn-comp {
       border: 0;
       outline: 0;
-      color: hsla(0deg, 0, 100%, 0.8);
+      color: hsla(0deg, 0%, 100%, 0.8);
       top: 0;
       left: 0;
       user-select: none;
