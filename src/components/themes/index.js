@@ -1,4 +1,4 @@
-import _default from "./Default"
+import DefaultTheme from "./DefaultTheme"
 import CatTheme from "./CatTheme"
 import ForestTheme from "./ForestTheme"
 import EldTheme from "./EldTheme"
@@ -12,7 +12,7 @@ import InfernoTheme from "./InfernoTheme"
 import SjuhavenTheme from "./SjuhavenTheme"
 
 const Themes = {
-  diamant: _default,
+  diamant: DefaultTheme,
   katt: CatTheme,
   skog: ForestTheme,
   eld: EldTheme,
@@ -26,7 +26,7 @@ const Themes = {
   sjuhaven: SjuhavenTheme,
 }
 const Sounds = {
-  diamant: _default,
+  diamant: DefaultTheme,
   katt: CatTheme,
   skog: ForestTheme,
   eld: EldTheme,

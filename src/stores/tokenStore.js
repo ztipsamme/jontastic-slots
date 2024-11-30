@@ -45,7 +45,7 @@ export const useTokenStore = defineStore("tokens", {
         cost: 0,
         owned: true,
         active: true,
-        src: "./src/components/themes/default/ico1.svg",
+        src: "./src/components/themes/DefaultTheme/ico1.svg",
       },
       {
         name: "Katt",
@@ -88,7 +88,7 @@ export const useTokenStore = defineStore("tokens", {
         cost: 0,
         owned: false,
         active: false,
-        src: "./src/components/themes/default/ico1.svg",
+        src: "./src/components/themes/DefaultTheme/ico1.svg",
       },
       {
         name: "Rawr",
